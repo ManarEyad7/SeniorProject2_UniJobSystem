@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Student Page </title>
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
+    <!-- endinject -->
+
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
+
+    <!-- Website icon -->
+    <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+
+</head>
+
+<body>
+    <div class="container-scroller ">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <div class="navbar-brand brand-logo mr-5"><img src="static/images/logo1d.svg" class="mr-2" alt="logo" /></div>
+                <div class="navbar-brand brand-logo-mini"><img src="static/images/U.svg" alt="logo" /></div>
+            </div>
+
+            <div class="dropdown" style="margin-right: 2.5em; ">
+                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Student
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                    <li> {% for row in rows %}
+
+                        <p style="border-bottom: 1px solid;"> {{row["email"]}}</p>
+                        
+                    {% endfor %}
+                    </li>
+                    <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
+                </div>
+            </div>
+        </nav>
+    
+        <div class="container-fluid page-body-wrapper w-100 ">
+            <div class="content-wrapper" style="min-height: inherit;">
+                <div class="container">
+                    <div class="row mt-5">
+
+                        <div class="col-lg-6" style="float:none;margin:auto;">
+                            <div class="left-sidebar">
+                                <div class="sidenav horizontal_center "> 
+                                    <h3 class="font-weight-bold left-margin" style="margin-top: 3.5rem;">Welcome</h3>
+                                    {% for row in rows %}
+                                                <h3 class="left-margin bordered-text" style="margin-bottom: 3rem;">{{row["name"]}}</h3>             
+                                    {% endfor %}
+                                    <button class="secondarybtn left-margin" type="button" id="seekForJob" onclick="showReview()" style="margin-bottom: 2rem;">
+                                        Home
+                                    </button>
+                                    <button class="secondarybtn left-margin" type="button" id="seekForJob" onclick="showForm()" style="margin-bottom: 2rem;">
+                                        Find Jobs
+                                    </button>
+                                    <button class="secondarybtn left-margin" type="button" id="seekForJob" onclick="showSchedule()" style="margin-bottom: 3.5rem;">
+                                        View Schedule
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6" style="float:none;margin:auto;">
+                            <div class="right-content text-center">
+                                <div class="container ">
+                                    <div class="row mt-5">
+                                        <div class="col-12 col-xl-12 mb-4 mb-xl-0">
+
+                                            <!-- Right content - Form -->
+                                            <div class="form-content text-left">
+                                                <h3 class="text-center font-weight-bold">Seek For Jobs</h3><br>
+                                                <form>
+                                                <!-- Your form fields go here -->
+                                                <label class="font-weight-bold" for="name">Name:</label>
+                                                <input class="text-center" type="text" id="name" name="name" value="{% for row in rows %}{{ row['name'] }}{% endfor %}"  readonly> 
+                                                
+                                                <label class="font-weight-bold" for="email">Email:</label>
+                                                <input class="text-center" type="email" id="email" name="email" value="{% for row in rows %}{{row['email']}} {% endfor %}"  readonly> <br><br> 
+
+                                                <label class="font-weight-bold" for="name">Phone Number:</label>
+                                                <input class="text-center" type="text" id="phoneNumber" name="phoneNumber" pattern="[0-9]+" title="Please enter only numbers" minlength="10" maxlength="10" required> <br><br>
+                                                  
+                                                
+                                                <label class="font-weight-bold" for="name">Major:</label>
+                                                <select id="major" name="major" class="select-button">
+                                                    <option value="">Select a major</option>
+                                                    <option value="ComputerScience">Computer Science</option>
+                                                    <option value="ArtificialIntelligence">Artificial Intelligence</option>
+                                                    <option value="DataScience">Data Science</option>
+                                                    <option value="CyberSecurity">Cyber Security</option>
+                                                    <option value="SoftwareEngineering">Software Engineering</option>
+                                                    <option value="NetworkEngineering">Network Engineering</option>
+
+                                                     
+                                                    <!-- Add more options here -->
+                                                </select><br><br>
+
+                                                
+                                                <label class="font-weight-bold" for="Skills">Skills:</label>
+                                                <div class="dropdown2">
+                                                    <button disabled>Select Skills</button>
+                                                    <div class="dropdown-content2">
+                                                      <label><input type="checkbox" value="Programming"> Programming</label><br>
+                                                      <label><input type="checkbox" value="teamwork"> teamwork</label><br>
+                                                      <label><input type="checkbox" value="data science"> data science</label><br>
+                                                    
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-center" style="margin-top: 30px;">
+                                                    <input type="submit" value="Submit">
+                                                </div>
+                                                </form>
+                                            </div>
+                                            
+                                              
+                                              <!-- Right content - Review -->
+                                            <div class="review-content text-center">
+                                                <p>There are no current activities.</p>
+                                            </div>
+
+
+                                              <!-- Right content - Schedule -->
+                                            <div class="schedule-content text-center">
+                                                <h2>Schedule Content</h2>
+                                                <p>Sample scheduling table goes here.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- plugins:js -->
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+    <!-- endinject -->
+</body>
+
+
+<script>
+    // Function to show the form content
+    function showForm() {
+        var formContent = document.querySelector(".form-content");
+        var reviewContent = document.querySelector(".review-content");
+        var scheduleContent = document.querySelector(".schedule-content");
+      
+        // Display the form content and hide the review and schedule content
+        formContent.style.display = "block";
+        reviewContent.style.display = "none";
+        scheduleContent.style.display = "none";
+    }
+    
+    // Function to show the review content
+    function showReview() {
+        var formContent = document.querySelector(".form-content");
+        var reviewContent = document.querySelector(".review-content");
+        var scheduleContent = document.querySelector(".schedule-content");
+      
+        // Display the review content and hide the form and schedule content
+        formContent.style.display = "none";
+        reviewContent.style.display = "block";
+        scheduleContent.style.display = "none";
+    }
+
+    // Function to show the schedule content
+    function showSchedule() {
+        var formContent = document.querySelector(".form-content");
+        var reviewContent = document.querySelector(".review-content");
+        var scheduleContent = document.querySelector(".schedule-content");
+      
+        // Display the schedule content and hide the form and review content
+        formContent.style.display = "none";
+        reviewContent.style.display = "none";
+        scheduleContent.style.display = "block";
+    }
+
+
+
+
+    // Get the button and dropdown content elements
+    var button = document.querySelector('.dropdown2 button');
+    var dropdownContent = document.querySelector('.dropdown-content2');
+
+    // Event listener to update selected options
+    dropdownContent.addEventListener('change', function () {
+      var selectedOptions = Array.from(dropdownContent.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(function (checkbox) {
+          return checkbox.value;
+        });
+
+      button.textContent = selectedOptions.length > 0 ? selectedOptions.join(', ') : 'Options';
+    });
+</script>
+
+</html>
+
