@@ -32,20 +32,22 @@
                 </div>
                 <div class="navbar-brand brand-logo-mini"><img src="static/images/U.svg" alt="logo" /></div>
             </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
 
-            <div class="dropdown" style="margin-right: 2.5em; ">
-                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Employee
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                    <li> {% for row in rows %}
+                <div class="dropdown" style="margin-right: 2.5em; ">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Employee
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <li> {% for row in rows %}
 
-                        {{row["email"]}}
+                            {{row["email"]}}
 
-                        {% endfor %}
-                    </li>
-                    <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
+                            {% endfor %}
+                        </li>
+                        <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
+                    </div>
                 </div>
             </div>
         </nav>

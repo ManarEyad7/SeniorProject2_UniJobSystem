@@ -17,13 +17,15 @@
 <body>
     <div class="container-scroller ">
         <!-- partial:partials/_navbar.html -->
-        <nav class="navbar col-md-12 col-lg-12 col-12 p-0 fixed-top  flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center fixed-top  justify-content-center fixed-top  flex-row">
-                
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="navbar-brand brand-logo mr-5 " href="{{url_for('index')}}"><img src="static/images/logo1d.svg"
                         class="mr-2" alt="logo" /></a>
                 <div class="navbar-brand brand-logo-mini" href="{{url_for('index')}}"><img src="static/images/U.svg"
                         alt="logo" /></div>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+
             </div>
         </nav>
 
@@ -35,7 +37,8 @@
                             <h1 style="margin-bottom: 2rem;     font-size: 60px;">UniJob System</h1>
                         </div>
                         <div class="col-lg-6" style="float:none;margin:auto;">
-                            <div class="auth-form-light text-left py-5 px-4 px-sm-5 rounded" style="background-color: white;">
+                            <div class="auth-form-light text-left py-5 px-4 px-sm-5 rounded"
+                                style="background-color: white;">
                                 <h3>Hello! let's get started</h4>
                                     <h4 style="margin-top: 0.8rem; " class="font-weight-light">Log in to continue.</h6>
                                         <form class="pt-3" method="POST">
@@ -72,7 +75,7 @@
 
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
