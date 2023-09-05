@@ -30595,6 +30595,22 @@ div.tagsinput span.tag a {
     display: none;
   }
 }
+/*-------------------- ma ------------------*/
+
+.custom-input[readonly] {
+  background-color: inherit;
+  color: inherit;
+}
+
+.availability-container{
+  border: 1px solid rgb(207, 212, 217);
+  border-radius: 4px;
+}
+.day{
+  margin: 15px 0 15px 30px;
+}
+
+
 /*-------------------- rrrrrrrrrrrrr ------------------*/
 /* Styles for the left sidebar */
 

@@ -64,5 +64,9 @@ if __name__ == "__main__":
 def post_job():
     return render_template('post_job.html')
 
+@app.route('/find_job')
+def find_job():
+    return render_template('find_job.html')
+
 if __name__ == "__main__":
    app.run(debug = True)

@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Employee</title>
+    <title>Student</title>
 
     <!-- Website icon -->
     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
@@ -21,6 +21,7 @@
 
     <!-- JS files -->
     <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+
 </head>
 
 <body>
@@ -62,17 +63,26 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Post Job</h4>
                                     <p class="card-description">
-                                        Fill out this form to gain the best candidates for your opportunity
+                                        Fill out this form  to search for a Part Time job
                                     </p>
                                     <form class="forms-sample">
-                                        <div class="form-group">
-                                            <label for="exampleInputName1">Write a title for your job post
+                                        <div class="form-group"> <!-- Name -->
+                                            <label for="studentName">Name:
                                             </label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
-                                                placeholder="Job title">
+                                            <input type="text" class="form-control custom-input" id="name" value="name" readonly>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Required Major</label>
+
+                                        <div class="form-group"> <!-- Languages -->
+                                            <label>Languages:</label>
+                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
+                                                required>
+                                                <option value="Arabic">Arabic</option>
+                                                <option value="English">English</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Major -->
+                                            <label>Required Major:</label>
                                             <select class="js-example-basic-single w-100" required>
                                                 <option value="" disabled selected hidden>Select a Major</option>
                                                 <option value="ComputerScience">Computer Science</option>
@@ -83,10 +93,11 @@
                                                 <option value="NetworkEngineering">Network Engineering</option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Minimum GPA</label>
+
+                                        <div class="form-group"> <!-- GPA -->
+                                            <label>GPA:</label>
                                             <select class="js-example-basic-single w-100">
-                                                <option value="" disabled selected>Select Minimum GPA</option>
+                                                <option value="" disabled selected>Enter Your GPA</option>
                                                 <option value="5.0">5.0</option>
                                                 <option value="4.0">4.0</option>
                                                 <option value="3.0">3.0</option>
@@ -95,45 +106,77 @@
                                                 <option value="0.0">0.0</option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Skills</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                required>
+
+                                        <div class="form-group"> <!-- Skills -->
+                                            <label>Skills:</label>
+                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
                                                 <option value="Programming">Programming</option>
-                                                <option value="teamwork">Team work</option>
+                                                <option value="WebDevelopment">Web Development</option>
+                                                <option value="DatabaseManagement">Database Management</option>
                                                 <option value="dataScience">Data science</option>
                                                 <option value="graphicDesign">Graphic design</option>
                                                 <option value="writingContests">Writing contests</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputHours" class="col-sm-3 col-form-label">Working Hours
-                                                (per week)</label>
-                                            <div class="col-sm-12">
-                                                <input type="number" class="form-control" id="exampleInputHours"
-                                                    placeholder="Working Hours" pattern="\d*" min="0" max="15">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Duration of the Job</label>
-                                            <select class="js-example-basic-single w-100">
-                                                <option value="" disabled selected>Select Duration</option>
-                                                <option value="SI">Summer Internship</option>
-                                                <option value="OS">One Semester</option>
-                                                <option value="FA">Full Academic Year</option>
-                                                <option value="Ind">Indefinite</option>
+                                                <option value="Communication">Communication</option>
+                                                <option value="teamwork">Team work</option>
+                                                <option value="TimeManagement">Time Management</option>
+                                                <option value="Adaptability">Adaptability</option>
                                             </select>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="exampleInputNoPA" class="col-sm-6 col-form-label">Number of
-                                                Positions Available (per week)</label>
-                                            <div class="col-sm-12">
-                                                <input type="number" class="form-control" id="exampleInputNoPA"
-                                                    placeholder="Number of Positions Available" pattern="\d*" min="1"
-                                                    max="100">
+                                        <div class="form-group"> <!-- Availability -->
+                                            <label for="exampleInputHours" class="col-sm-3 col-form-label">Availability:</label>
+                                            <div class="availability-container">
+                                                <div class="day" style="margin-left: 20px;">
+                                                    <p> Please choose the days you are available and the corresponding times</p>
+                                                </div>
+                                                <div class="day">
+                                                    <label for="sunday">Sundjay:</label>
+                                                    <input type="checkbox" id="sunday" name="availability" value="Sunday">
+                                                    <input type="text" class="time-pickable" placeholder="Start Time" 
+                                                        style="border: 1px solid rgb(207, 212, 217);  border-radius: 4px;" readonly>
+                                                    <input type="text" class="time-pickable" placeholder="End Time" 
+                                                        style="border: 1px solid rgb(207, 212, 217);  border-radius: 4px;" readonly>
+
+                                                </div>
+                                                <div class="day">
+                                                    <label for="monday">Monday:</label>
+                                                    <input type="checkbox" id="monday" name="availability" value="Monday" onchange="toggleTimeInputs('monday')">
+                                                    <input type="time" id="monday-start" name="monday-start" placeholder="Start Time" disabled>
+                                                    <input type="time" id="monday-end" name="monday-end" placeholder="End Time" disabled>
+                                                </div>
+                                                <div class="day">
+                                                    <label for="tuesday">Tuesday:</label>
+                                                    <input type="checkbox" id="tuesday" name="availability" value="Tuesday" onchange="toggleTimeInputs('tuesday')">
+                                                    <input type="time" id="tuesday-start" name="tuesday-start" placeholder="Start Time" disabled>
+                                                    <input type="time" id="tuesday-end" name="tuesday-end" placeholder="End Time" disabled>
+                                                </div>
+                                                <div class="day">
+                                                    <label for="wednesday">Wednesday:</label>
+                                                    <input type="checkbox" id="wednesday" name="availability" value="Wednesday" onchange="toggleTimeInputs('wednesday')">
+                                                    <input type="time" id="wednesday-start" name="wednesday-start" placeholder="Start Time" disabled>
+                                                    <input type="time" id="wednesday-end" name="wednesday-end" placeholder="End Time" disabled>
+                                                </div>
+                                                <div class="day">
+                                                    <label for="thursday">Thursday:</label>
+                                                    <input type="checkbox" id="thursday" name="availability" value="Thursday" onchange="toggleTimeInputs('thursday')">
+                                                    <input type="time" id="thursday-start" name="thursday-start" placeholder="Start Time" disabled>
+                                                    <input type="time" id="thursday-end" name="thursday-end" placeholder="End Time" disabled>
+                                                </div>
+                                                  
                                             </div>
+                                            
                                         </div>
+
+                                        <div class="form-group"> <!-- Experience -->
+                                            <label>Do you have previous work experience?</label>
+                                            <select class="js-example-basic-single w-100" required>
+                                                <option value="" disabled selected hidden>Choose One</option>
+                                                <option value="ComputerScience">Yes</option>
+                                                <option value="ArtificialIntelligence">No</option>
+                                            </select>
+                                        </div>
+                                        
+
                                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
                                         <button class="btn btn-light">Cancel</button>
                                     </form>
@@ -169,3 +212,149 @@
 <script src="../../static/js/select2.js"></script>
 
 </html>
+
+<script>
+    function toggleTimeInputs(day) {
+      const checkbox = document.getElementById(day);
+      const startTimeInput = document.getElementById(day + '-start');
+      const endTimeInput = document.getElementById(day + '-end');
+      
+      startTimeInput.disabled = !checkbox.checked;
+      endTimeInput.disabled = !checkbox.checked;
+    }
+</script>
+<script>
+
+    function activate() {
+        document.head.insertAdjacentHTML("beforeend", `
+            <style>
+                .time-picker {
+                    position: absolute;
+                    display: inline-block;
+                    padding: 10px;
+                    background: #eeeeee;
+                    border-radius: 6px;
+                }
+    
+                .time-picker__select {
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    outline: none;
+                    text-align: center;
+                    border: 1px solid #dddddd;
+                    border-radius: 6px;
+                    padding: 6px 10px;
+                    background: #ffffff;
+                    cursor: pointer;
+                    font-family: 'Heebo', sans-serif;
+                }
+            </style>
+        `);
+    
+        document.querySelectorAll(".time-pickable").forEach(timePickable => {
+            let activePicker = null;
+    
+            timePickable.addEventListener("focus", () => {
+                if (activePicker) return;
+    
+                activePicker = show(timePickable);
+    
+                const onClickAway = ({ target }) => {
+                    if (
+                        target === activePicker
+                        || target === timePickable
+                        || activePicker.contains(target)
+                    ) {
+                        return;
+                    }
+    
+                    document.removeEventListener("mousedown", onClickAway);
+                    document.body.removeChild(activePicker);
+                    activePicker = null;
+                };
+    
+                document.addEventListener("mousedown", onClickAway);
+            });
+        });
+    }
+    
+    function show(timePickable) {
+        const picker = buildPicker(timePickable);
+        const { bottom: top, left } = timePickable.getBoundingClientRect();
+    
+        picker.style.top = `${top}px`;
+        picker.style.left = `${left}px`;
+    
+        document.body.appendChild(picker);
+    
+        return picker;
+    }
+    
+    function buildPicker(timePickable) {
+        const picker = document.createElement("div");
+        const hourOptions = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map(numberToOption);
+        const minuteOptions = [0, 10, 20, 30, 40, 50].map(numberToOption);
+    
+        
+    
+        picker.classList.add("time-picker");
+        picker.innerHTML = `
+            <select class="time-picker__select">
+                ${hourOptions.join("")}
+            </select>
+            :
+            <select class="time-picker__select">
+                ${minuteOptions.join("")}
+            </select>
+        `;
+    
+        const selects = getSelectsFromPicker(picker);
+    
+        selects.hour.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
+        selects.minute.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
+    
+        if (timePickable.value) {
+            const { hour, minute } = getTimePartsFromPickable(timePickable);
+    
+            selects.hour.value = hour;
+            selects.minute.value = minute;
+        }
+    
+        return picker;
+    }
+    
+    function getTimePartsFromPickable(timePickable) {
+        const pattern = /^(\d+):(\d+) $/;
+        const [hour, minute] = Array.from(timePickable.value.match(pattern)).splice(1);
+    
+        return {
+            hour,
+            minute
+        };
+    }
+    
+    function getSelectsFromPicker(timePicker) {
+        const [hour, minute] = timePicker.querySelectorAll(".time-picker__select");
+    
+        return {
+            hour,
+            minute
+        };
+    }
+    
+    function getTimeStringFromPicker(timePicker) {
+        const selects = getSelectsFromPicker(timePicker);
+    
+        return `${selects.hour.value}:${selects.minute.value} `;
+    }
+    
+    function numberToOption(number) {
+        const padded = number.toString().padStart(2, "0");
+    
+        return `<option value="${padded}">${padded}</option>`;
+    }
+    
+    activate();
+    </script>
+    
