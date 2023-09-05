@@ -55,6 +55,7 @@ def login():
 
 @app.route('/seekforjob')
 def seekforjob():
+    
     return render_template('seekforjob.html')
 
 if __name__ == "__main__":
