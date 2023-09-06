@@ -122,45 +122,47 @@
                                                 <option value="Adaptability">Adaptability</option>
                                             </select>
                                         </div>
-
+                                    
                                         <div class="form-group"> <!-- Availability -->
                                             <label for="exampleInputHours" class="col-sm-3 col-form-label">Availability:</label>
                                             <div class="availability-container">
                                                 <div class="day" style="margin-left: 20px;">
                                                     <p> Please choose the days you are available and the corresponding times</p>
                                                 </div>
-                                                <div class="day">
-                                                    <label for="sunday">Sundjay:</label>
-                                                    <input type="checkbox" id="sunday" name="availability" value="Sunday">
-                                                    <input type="text" class="time-pickable" placeholder="Start Time" 
-                                                        style="border: 1px solid rgb(207, 212, 217);  border-radius: 4px;" readonly>
-                                                    <input type="text" class="time-pickable" placeholder="End Time" 
-                                                        style="border: 1px solid rgb(207, 212, 217);  border-radius: 4px;" readonly>
+                                                <hr>
+                                                
+                                                <div class="day"> <!-- Sunday availability -->
+                                                    <label for="sunday">Sunday:</label>
+                                                    <input type="number" class="interval" id="sunday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="sunday-periods"></div>
+                                                </div>
+                                                <hr>
 
-                                                </div>
-                                                <div class="day">
+                                                <div class="day"> <!-- Monday availability -->
                                                     <label for="monday">Monday:</label>
-                                                    <input type="checkbox" id="monday" name="availability" value="Monday" onchange="toggleTimeInputs('monday')">
-                                                    <input type="time" id="monday-start" name="monday-start" placeholder="Start Time" disabled>
-                                                    <input type="time" id="monday-end" name="monday-end" placeholder="End Time" disabled>
+                                                    <input type="number" class="interval" id="monday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="monday-periods"></div>
                                                 </div>
-                                                <div class="day">
+                                                <hr>
+
+                                                <div class="day"> <!-- Tuesday availability -->
                                                     <label for="tuesday">Tuesday:</label>
-                                                    <input type="checkbox" id="tuesday" name="availability" value="Tuesday" onchange="toggleTimeInputs('tuesday')">
-                                                    <input type="time" id="tuesday-start" name="tuesday-start" placeholder="Start Time" disabled>
-                                                    <input type="time" id="tuesday-end" name="tuesday-end" placeholder="End Time" disabled>
+                                                    <input type="number" class="interval" id="tuesday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="tuesday-periods"></div>
                                                 </div>
-                                                <div class="day">
+                                                <hr>
+
+                                                <div class="day"> <!-- Wednesday availability -->
                                                     <label for="wednesday">Wednesday:</label>
-                                                    <input type="checkbox" id="wednesday" name="availability" value="Wednesday" onchange="toggleTimeInputs('wednesday')">
-                                                    <input type="time" id="wednesday-start" name="wednesday-start" placeholder="Start Time" disabled>
-                                                    <input type="time" id="wednesday-end" name="wednesday-end" placeholder="End Time" disabled>
+                                                    <input type="number" class="interval" id="wednesday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="wednesday-periods"></div>
                                                 </div>
-                                                <div class="day">
+                                                <hr>
+                                                   
+                                                <div class="day"> <!-- Thursday availability -->
                                                     <label for="thursday">Thursday:</label>
-                                                    <input type="checkbox" id="thursday" name="availability" value="Thursday" onchange="toggleTimeInputs('thursday')">
-                                                    <input type="time" id="thursday-start" name="thursday-start" placeholder="Start Time" disabled>
-                                                    <input type="time" id="thursday-end" name="thursday-end" placeholder="End Time" disabled>
+                                                    <input type="number" class="interval" id="thursday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="thursday-periods"></div>
                                                 </div>
                                                   
                                             </div>
@@ -184,12 +186,7 @@
                             </div>
                         </div>
 
-
                     </div>
-
-
-
-
                 </div>
             </div>
 
@@ -213,17 +210,52 @@
 
 </html>
 
-<script>
-    function toggleTimeInputs(day) {
-      const checkbox = document.getElementById(day);
-      const startTimeInput = document.getElementById(day + '-start');
-      const endTimeInput = document.getElementById(day + '-end');
-      
-      startTimeInput.disabled = !checkbox.checked;
-      endTimeInput.disabled = !checkbox.checked;
+<script>/* delete it */
+    
+    function toggleTimeInputs(checkbox) {
+      const periodsCountInput = document.getElementById("periods-count");
+      const container = document.getElementById("time-inputs-container");
+  
+      if (checkbox.checked) {
+        periodsCountInput.disabled = false;
+        periodsCountInput.addEventListener("input", handlePeriodsCountChange);
+      } else {
+        periodsCountInput.disabled = true;
+        periodsCountInput.removeEventListener("input", handlePeriodsCountChange);
+        container.innerHTML = "";
+      }
     }
-</script>
-<script>
+  
+    function handlePeriodsCountChange() {
+      const periodsCountInput = document.getElementById("periods-count");
+      const container = document.getElementById("time-inputs-container");
+      const count = parseInt(periodsCountInput.value);
+  
+      if (isNaN(count) || count <= 0) {
+        container.innerHTML = "";
+        return;
+      }
+  
+      let html = "";
+  
+      for (let i = 1; i <= count; i++) {
+        html += `
+          <div>
+            <label>Period ${i}:</label>
+            <input type="text" class="time-pickable" placeholder="Start Time (hour:minute)" 
+              style="border: 1px solid rgb(207, 212, 217); border-radius: 4px;" readonly>
+            <input type="text" class="time-pickable" placeholder="End Time (hour:minute)" 
+              style="border: 1px solid rgb(207, 212, 217); border-radius: 4px;" readonly>
+          </div>
+        `;
+      }
+  
+      container.innerHTML = html;
+    }
+  </script>
+
+
+<script> /*-- script for time picker  --*/
 
     function activate() {
         document.head.insertAdjacentHTML("beforeend", `
@@ -252,42 +284,90 @@
             </style>
         `);
     
-        document.querySelectorAll(".time-pickable").forEach(timePickable => {
+        document.querySelectorAll(".time-pickable").forEach((timePickable) => {
             let activePicker = null;
-    
             timePickable.addEventListener("focus", () => {
                 if (activePicker) return;
-    
                 activePicker = show(timePickable);
-    
                 const onClickAway = ({ target }) => {
                     if (
-                        target === activePicker
-                        || target === timePickable
-                        || activePicker.contains(target)
-                    ) {
-                        return;
-                    }
-    
-                    document.removeEventListener("mousedown", onClickAway);
-                    document.body.removeChild(activePicker);
-                    activePicker = null;
+                        target === activePicker ||
+                        target === timePickable ||
+                        activePicker.contains(target)
+                        ) {
+                            return;
+                        }
+                        document.removeEventListener("mousedown", onClickAway);
+                        document.body.removeChild(activePicker);
+                        activePicker = null;
                 };
-    
                 document.addEventListener("mousedown", onClickAway);
             });
         });
+            
+            const intervalInputs = document.querySelectorAll("[id$='-interval']");
+            intervalInputs.forEach((intervalInput) => {
+                intervalInput.addEventListener("change", () => {
+                    const containerId = intervalInput.id.replace("-interval", "-periods");
+                    const container = document.getElementById(containerId);
+                    const numPeriods = parseInt(intervalInput.value);
+
+                    // Clear existing period containers
+                    container.innerHTML = "";
+
+                    // Generate period containers with start and end time inputs
+                    for (let i = 0; i < numPeriods; i++) {
+                        const periodContainer = document.createElement("div");
+                        periodContainer.classList.add("period");
+
+                        const periodLabel = document.createElement("label");
+                        periodLabel.textContent = `Period ${i + 1}:`;
+                        periodLabel.style.margin = "8px 5px 5px 5px";
+
+                        const startInput = document.createElement("input");
+                        startInput.type = "text";
+                        startInput.classList.add("time-pickable");
+                        startInput.placeholder = "Start Time (hour:minute)";
+                        startInput.style.border = "1px solid rgb(207, 212, 217)";
+                        startInput.style.margin = "5px 5px 5px 5px";
+                        startInput.style.borderRadius = "4px";
+                        startInput.required = true;
+
+                        const endInput = document.createElement("input");
+                        endInput.type = "text";
+                        endInput.classList.add("time-pickable");
+                        endInput.placeholder = "End Time (hour:minute)";
+                        endInput.style.border = "1px solid rgb(207, 212, 217)";
+                        endInput.style.margin = "5px 5px 5px 5px";
+                        endInput.style.borderRadius = "4px";
+                        endInput.required = true;
+
+                        periodContainer.appendChild(periodLabel);
+                        periodContainer.appendChild(startInput);
+                        periodContainer.appendChild(endInput);
+
+                        container.appendChild(periodContainer);
+                    }
+                    // Activate the time picker for the new inputs
+                    activate();
+                });
+            });
+
+            
+
     }
+    
     
     function show(timePickable) {
         const picker = buildPicker(timePickable);
-        const { bottom: top, left } = timePickable.getBoundingClientRect();
-    
-        picker.style.top = `${top}px`;
-        picker.style.left = `${left}px`;
-    
+        const left = timePickable.offsetLeft + picker.offsetWidth;
+        const top = timePickable.offsetTop;
+
+        picker.style.left = `${left+150}px`;
+        picker.style.top = `${top+90}px`;
+
         document.body.appendChild(picker);
-    
+
         return picker;
     }
     
@@ -354,7 +434,6 @@
     
         return `<option value="${padded}">${padded}</option>`;
     }
-    
     activate();
-    </script>
+</script>
     

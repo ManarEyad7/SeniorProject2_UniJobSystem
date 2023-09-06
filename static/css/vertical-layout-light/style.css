@@ -30610,6 +30610,12 @@ div.tagsinput span.tag a {
   margin: 15px 0 15px 30px;
 }
 
+.interval{
+  width: 250px;
+  border: 1px solid rgb(207, 212, 217);
+  border-radius: 4px;
+  padding-left: 5px;
+}
 
 /*-------------------- rrrrrrrrrrrrr ------------------*/
 /* Styles for the left sidebar */
