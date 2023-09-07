@@ -184,7 +184,7 @@
                                         
 
                                         <button id="submit-button" type="submit" class="btn btn-primary mr-2">Submit</button>
-                                        <button class="btn btn-light" >Cancel</button>
+                                        <button id="cancel-button" class="btn btn-light" >Cancel</button>
                                     </form>
                                 </div>
                             </div>
@@ -432,6 +432,9 @@
 
     activate();
 
+
+    /*********** Submit Button Event  *************/
+
     // Custom validation
     const submitButton = document.getElementById("submit-button");
     submitButton.addEventListener("click", () => { 
@@ -494,5 +497,19 @@
         } 
         submitButton.disabled = false; // Disable the submit button if validation fails, enable it if validation passes
     });
+
+
+
+
+        /*********** Cancle Button Event  *************/
+        
+        const cancelButton = document.getElementById("cancel-button");
+        // Add event listener to the cancel button
+        cancelButton.addEventListener("click",goBack);
+        // Function to navigate to the previous page
+        function goBack() {
+        // Use the history object to go back to the previous page
+        window.history.back();
+        }
+
 </script>
-    
