@@ -30616,6 +30616,10 @@ div.tagsinput span.tag a {
   border-radius: 4px;
   padding-left: 5px;
 }
+.notification-content, .Schedule-content{
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
 
 /*-------------------- rrrrrrrrrrrrr ------------------*/
 /* Styles for the left sidebar */

@@ -53,6 +53,53 @@
             <div class="content-wrapper" style="min-height: inherit;">
                 <div class="container">
                     <div class="row mt-5">
+                        <div class="col-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="justify-content-between d-flex">   
+
+                                        <div> 
+                                            <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; font-size: 24px;">Welcome</h4>
+                                            {% for row in rows %}
+                                            <h4 class="left-margin " style="margin-bottom: 1.5rem;">{{row["name"]}} </h4>
+                                            {% endfor %}
+                                        </div> 
+                                    
+                                        <button class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem;" onclick="location.href = '/find_job';" type="button"
+                                            aria-expanded="true">Find job </button>
+
+                                    </div>
+                                    <hr>
+
+                                    <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem;"> Notifications </h4>
+                                    <div class="notification-content text-center"> 
+                                        There are no notifications. Would you like to look for a part-time job? 
+                                    </div>
+                                    <hr>
+                                    
+                                    <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem;"> Schedule </h4>
+                                    <div class="Schedule-content text-center"> 
+                                        soon
+                                    </div>
+                                    <hr>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+<!-- 
+
+        <div class="container-fluid page-body-wrapper w-100 ">
+            <div class="content-wrapper" style="min-height: inherit;">
+                <div class="container">
+                    <div class="row mt-5">
 
                         <div class="col-lg-6" style="float:none;margin:auto;">
                             <div class="left-sidebar">
@@ -84,11 +131,9 @@
                                     <div class="row mt-5">
                                         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
 
-                                            <!-- Right content - Form -->
                                             <div class="form-content text-left">
                                                 <h3 class="text-center font-weight-bold">Seek For Jobs</h3><br>
                                                 <form>
-                                                    <!-- Your form fields go here -->
                                                     <label class="font-weight-bold" for="name">Name:</label>
                                                     <input class="text-center" type="text" id="name" name="name"
                                                         value="{% for row in rows %}{{ row['name'] }}{% endfor %}"
@@ -119,7 +164,6 @@
                                                         <option value="NetworkEngineering">Network Engineering</option>
 
 
-                                                        <!-- Add more options here -->
                                                     </select><br><br>
 
 
@@ -144,13 +188,11 @@
                                             </div>
 
 
-                                            <!-- Right content - Review -->
                                             <div class="review-content text-center">
                                                 <p>There are no current activities.</p>
                                             </div>
 
 
-                                            <!-- Right content - Schedule -->
                                             <div class="schedule-content text-center">
                                                 <h2>Schedule Content</h2>
                                                 <p>Sample scheduling table goes here.</p>
@@ -165,7 +207,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 
     <!-- plugins:js -->

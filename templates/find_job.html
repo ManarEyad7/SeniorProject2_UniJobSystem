@@ -61,19 +61,23 @@
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Post Job</h4>
+                                    <h4 class="card-title">Find Job</h4>
                                     <p class="card-description">
                                         Fill out this form  to search for a Part Time job
                                     </p>
-                                    <form class="forms-sample">
+                                    <form id="myForm"class="forms-sample">
                                         <div class="form-group"> <!-- Name -->
-                                            <label for="studentName">Name:
-                                            </label>
-                                            <input type="text" class="form-control custom-input" id="name" value="name" readonly>
+                                            <label for="studentName" class="font-weight-bold">Name:</label>
+                                            <input type="text" class="form-control custom-input" id="name" required>
+                                        </div>
+                                        <div class="form-group"> <!-- Phone Number -->
+                                            <label for="studentName" class="font-weight-bold">Phone Number:</label>
+                                            <input type="text" class="form-control custom-input" id="phoneNumber" pattern="[0-9]+"
+                                            title="Please enter only numbers" minlength="10" maxlength="10" required>
                                         </div>
 
-                                        <div class="form-group"> <!-- Languages -->
-                                            <label>Languages:</label>
+                                        <div class="form-group" > <!-- Languages -->
+                                            <label class="font-weight-bold">Languages:</label>
                                             <select class="js-example-basic-multiple w-100" multiple="multiple"
                                                 required>
                                                 <option value="Arabic">Arabic</option>
@@ -82,7 +86,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Major -->
-                                            <label>Required Major:</label>
+                                            <label class="font-weight-bold">Required Major:</label>
                                             <select class="js-example-basic-single w-100" required>
                                                 <option value="" disabled selected hidden>Select a Major</option>
                                                 <option value="ComputerScience">Computer Science</option>
@@ -95,7 +99,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- GPA -->
-                                            <label>GPA:</label>
+                                            <label class="font-weight-bold">GPA:</label>
                                             <select class="js-example-basic-single w-100">
                                                 <option value="" disabled selected>Enter Your GPA</option>
                                                 <option value="5.0">5.0</option>
@@ -108,7 +112,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Skills -->
-                                            <label>Skills:</label>
+                                            <label class="font-weight-bold">Skills:</label>
                                             <select class="js-example-basic-multiple w-100" multiple="multiple" required>
                                                 <option value="Programming">Programming</option>
                                                 <option value="WebDevelopment">Web Development</option>
@@ -124,43 +128,43 @@
                                         </div>
                                     
                                         <div class="form-group"> <!-- Availability -->
-                                            <label for="exampleInputHours" class="col-sm-3 col-form-label">Availability:</label>
+                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold">Availability:</label>
                                             <div class="availability-container">
                                                 <div class="day" style="margin-left: 20px;">
-                                                    <p> Please choose the days you are available and the corresponding times</p>
+                                                    <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
                                                 </div>
                                                 <hr>
                                                 
                                                 <div class="day"> <!-- Sunday availability -->
-                                                    <label for="sunday">Sunday:</label>
-                                                    <input type="number" class="interval" id="sunday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <label for="sunday" class="font-weight-bold">Sunday:</label>
+                                                    <input type="number" class="interval" id="sunday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods"  required>
                                                     <div id="sunday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Monday availability -->
-                                                    <label for="monday">Monday:</label>
+                                                    <label for="monday" class="font-weight-bold">Monday:</label>
                                                     <input type="number" class="interval" id="monday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="monday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Tuesday availability -->
-                                                    <label for="tuesday">Tuesday:</label>
+                                                    <label for="tuesday" class="font-weight-bold">Tuesday:</label>
                                                     <input type="number" class="interval" id="tuesday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="tuesday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Wednesday availability -->
-                                                    <label for="wednesday">Wednesday:</label>
+                                                    <label for="wednesday" class="font-weight-bold">Wednesday:</label>
                                                     <input type="number" class="interval" id="wednesday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="wednesday-periods"></div>
                                                 </div>
                                                 <hr>
                                                    
                                                 <div class="day"> <!-- Thursday availability -->
-                                                    <label for="thursday">Thursday:</label>
+                                                    <label for="thursday" class="font-weight-bold">Thursday:</label>
                                                     <input type="number" class="interval" id="thursday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="thursday-periods"></div>
                                                 </div>
@@ -170,7 +174,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Experience -->
-                                            <label>Do you have previous work experience?</label>
+                                            <label class="font-weight-bold">Do you have previous work experience?</label>
                                             <select class="js-example-basic-single w-100" required>
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="ComputerScience">Yes</option>
@@ -179,8 +183,8 @@
                                         </div>
                                         
 
-                                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                        <button class="btn btn-light">Cancel</button>
+                                        <button id="submit-button" type="submit" class="btn btn-primary mr-2">Submit</button>
+                                        <button class="btn btn-light" >Cancel</button>
                                     </form>
                                 </div>
                             </div>
@@ -210,49 +214,7 @@
 
 </html>
 
-<script>/* delete it */
-    
-    function toggleTimeInputs(checkbox) {
-      const periodsCountInput = document.getElementById("periods-count");
-      const container = document.getElementById("time-inputs-container");
-  
-      if (checkbox.checked) {
-        periodsCountInput.disabled = false;
-        periodsCountInput.addEventListener("input", handlePeriodsCountChange);
-      } else {
-        periodsCountInput.disabled = true;
-        periodsCountInput.removeEventListener("input", handlePeriodsCountChange);
-        container.innerHTML = "";
-      }
-    }
-  
-    function handlePeriodsCountChange() {
-      const periodsCountInput = document.getElementById("periods-count");
-      const container = document.getElementById("time-inputs-container");
-      const count = parseInt(periodsCountInput.value);
-  
-      if (isNaN(count) || count <= 0) {
-        container.innerHTML = "";
-        return;
-      }
-  
-      let html = "";
-  
-      for (let i = 1; i <= count; i++) {
-        html += `
-          <div>
-            <label>Period ${i}:</label>
-            <input type="text" class="time-pickable" placeholder="Start Time (hour:minute)" 
-              style="border: 1px solid rgb(207, 212, 217); border-radius: 4px;" readonly>
-            <input type="text" class="time-pickable" placeholder="End Time (hour:minute)" 
-              style="border: 1px solid rgb(207, 212, 217); border-radius: 4px;" readonly>
-          </div>
-        `;
-      }
-  
-      container.innerHTML = html;
-    }
-  </script>
+
 
 
 <script> /*-- script for time picker  --*/
@@ -326,34 +288,60 @@
 
                         const startInput = document.createElement("input");
                         startInput.type = "text";
-                        startInput.classList.add("time-pickable");
+                        startInput.classList.add("time-pickable", "start-time");
+                        startInput.id = "start-time"
                         startInput.placeholder = "Start Time (hour:minute)";
                         startInput.style.border = "1px solid rgb(207, 212, 217)";
                         startInput.style.margin = "5px 5px 5px 5px";
+                        startInput.pattern = "(0[1-9]|1[0-2]):[0-5][0-9] (am|pm)"
                         startInput.style.borderRadius = "4px";
                         startInput.required = true;
 
                         const endInput = document.createElement("input");
                         endInput.type = "text";
-                        endInput.classList.add("time-pickable");
+                        endInput.classList.add("time-pickable", "end-time");
+                        endInput.id = "end-time"
                         endInput.placeholder = "End Time (hour:minute)";
                         endInput.style.border = "1px solid rgb(207, 212, 217)";
                         endInput.style.margin = "5px 5px 5px 5px";
+                        startInput.pattern = "(0[1-9]|1[0-2]):[0-5][0-9] (am|pm)"
                         endInput.style.borderRadius = "4px";
                         endInput.required = true;
 
+/*
+                        // Add event listener to compare start and end times
+                        startInput.addEventListener("change", () => {
+                            const startTime = startInput.value;
+                            const endTime = endInput.value;
+
+                            if (startTime && endTime && startTime > endTime) {
+                                alert("Start time cannot be greater than end time. Please clarify your input.");
+                            }
+                        });
+
+                        // Add event listener to compare start and end times
+                        endInput.addEventListener("change", () => {
+                            const startTime = startInput.value;
+                            const endTime = endInput.value;
+
+                            if (startTime && endTime && startTime > endTime) {
+                                alert("Start time cannot be greater than end time. Please clarify your input.");
+                            }
+                        });
+*/
                         periodContainer.appendChild(periodLabel);
                         periodContainer.appendChild(startInput);
                         periodContainer.appendChild(endInput);
 
                         container.appendChild(periodContainer);
+
                     }
+
                     // Activate the time picker for the new inputs
                     activate();
+
                 });
             });
-
-            
 
     }
     
@@ -373,9 +361,8 @@
     
     function buildPicker(timePickable) {
         const picker = document.createElement("div");
-        const hourOptions = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map(numberToOption);
-        const minuteOptions = [0, 10, 20, 30, 40, 50].map(numberToOption);
-    
+        const hourOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(numberToOption);
+	    const minuteOptions = [0, 10, 20, 30, 40, 50].map(numberToOption);
         
     
         picker.classList.add("time-picker");
@@ -387,46 +374,54 @@
             <select class="time-picker__select">
                 ${minuteOptions.join("")}
             </select>
+            <select class="time-picker__select">
+                <option value="am">am</option>
+                <option value="pm">pm</option>
+            </select>
         `;
     
         const selects = getSelectsFromPicker(picker);
     
         selects.hour.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
         selects.minute.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
-    
+        selects.meridiem.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
+
         if (timePickable.value) {
-            const { hour, minute } = getTimePartsFromPickable(timePickable);
+            const { hour, minute,meridiem } = getTimePartsFromPickable(timePickable);
     
             selects.hour.value = hour;
             selects.minute.value = minute;
+            selects.meridiem.value = meridiem;
         }
     
         return picker;
     }
     
     function getTimePartsFromPickable(timePickable) {
-        const pattern = /^(\d+):(\d+) $/;
-        const [hour, minute] = Array.from(timePickable.value.match(pattern)).splice(1);
+        const pattern = /^(\d+):(\d+) (am|pm)$/;
+        const [hour, minute,meridiem] = Array.from(timePickable.value.match(pattern)).splice(1);
     
         return {
             hour,
-            minute
+            minute,
+            meridiem
         };
     }
     
     function getSelectsFromPicker(timePicker) {
-        const [hour, minute] = timePicker.querySelectorAll(".time-picker__select");
+        const [hour, minute,meridiem] = timePicker.querySelectorAll(".time-picker__select");
     
         return {
             hour,
-            minute
+            minute,
+            meridiem
         };
     }
     
     function getTimeStringFromPicker(timePicker) {
         const selects = getSelectsFromPicker(timePicker);
     
-        return `${selects.hour.value}:${selects.minute.value} `;
+        return `${selects.hour.value}:${selects.minute.value} ${selects.meridiem.value}`;
     }
     
     function numberToOption(number) {
@@ -434,6 +429,70 @@
     
         return `<option value="${padded}">${padded}</option>`;
     }
+
     activate();
+
+    // Custom validation
+    const submitButton = document.getElementById("submit-button");
+    submitButton.addEventListener("click", () => { 
+        //(event) => { event.preventDefault();  //Prevent the default form submission 
+
+        const periodContainers = document.querySelectorAll(".period");
+        let isValid = true;
+
+        periodContainers.forEach((periodContainer) => {
+            const startInput = periodContainer.querySelector(".start-time");
+            const endInput = periodContainer.querySelector(".end-time");
+
+            const startParts = getTimePartsFromPickable(startInput);
+            const endParts = getTimePartsFromPickable(endInput);
+
+            const startHours = parseInt(startParts.hour);
+            const startMinutes = parseInt(startParts.minute);
+            const startMeridiem = startParts.meridiem;
+            const endHours = parseInt(endParts.hour);
+            const endMinutes = parseInt(endParts.minute);
+            const endMeridiem = endParts.meridiem;
+
+
+            if (
+                (startMeridiem === "pm" && endMeridiem === "am") ||
+                (startMeridiem === endMeridiem && startHours > endHours) ||
+                (startMeridiem === endMeridiem && startHours === endHours && startMinutes > endMinutes) ||
+                (startMeridiem === endMeridiem && startHours === endHours && startMinutes === endMinutes)
+            ) {
+                // Start time is greater than end time
+                isValid = false;
+                periodContainer.style.border = "1px solid red";
+                periodContainer.style.padding = "5px";
+                periodContainer.style.margin = "5px";
+
+                const errorSpan = periodContainer.querySelector("span");
+                if (!errorSpan) {
+                    const errorMessage = document.createElement("span");
+                    errorMessage.style.color = "red";
+                    errorMessage.textContent = "Start time should be before end time.";
+                    periodContainer.appendChild(errorMessage);
+                }
+            } else {
+                periodContainer.style.removeProperty("border");
+                periodContainer.style.removeProperty("padding");
+                periodContainer.style.removeProperty("margin");
+                const errorSpan = periodContainer.querySelector("span");
+                if (errorSpan) {
+                    errorSpan.remove();
+                }
+            }
+        });
+
+        if (!isValid) {
+            // Display a message to the user indicating validation error
+            alert("Please correct the highlighted periods with invalid start and end times.");
+            submitButton.disabled = true; // Disable the submit button
+            document.getElementById("start-time").value = "";
+            document.getElementById("end-time").value = "";
+        } 
+        submitButton.disabled = false; // Disable the submit button if validation fails, enable it if validation passes
+    });
 </script>
     
