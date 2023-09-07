@@ -53,10 +53,10 @@ def login():
                 
     return render_template("login.html")
 
-@app.route('/seekforjob')
-def seekforjob():
+@app.route('/find_job')
+def find_job():
     
-    return render_template('seekforjob.html')
+    return render_template('find_job.html')
 
 if __name__ == "__main__":
    app.run(debug = True)
