@@ -78,7 +78,7 @@
 
                                         <div class="form-group" > <!-- Languages -->
                                             <label class="font-weight-bold">Languages:</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
+                                            <select class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;"  multiple="multiple"
                                                 required>
                                                 <option value="Arabic">Arabic</option>
                                                 <option value="English">English</option>
@@ -87,7 +87,7 @@
 
                                         <div class="form-group"> <!-- Major -->
                                             <label class="font-weight-bold">Required Major:</label>
-                                            <select class="js-example-basic-single w-100" required>
+                                            <select class="js-example-basic-single content-wrapper w-100" style="width: 100%;"  required>
                                                 <option value="" disabled selected hidden>Select a Major</option>
                                                 <option value="ComputerScience">Computer Science</option>
                                                 <option value="ArtificialIntelligence">Artificial Intelligence</option>
@@ -100,7 +100,7 @@
 
                                         <div class="form-group"> <!-- GPA -->
                                             <label class="font-weight-bold">GPA:</label>
-                                            <select class="js-example-basic-single w-100">
+                                            <select class="js-example-basic-single content-wrapper w-100" style="width: 100%;" >
                                                 <option value="" disabled selected>Enter Your GPA</option>
                                                 <option value="5.0">5.0</option>
                                                 <option value="4.0">4.0</option>
@@ -113,7 +113,7 @@
 
                                         <div class="form-group"> <!-- Skills -->
                                             <label class="font-weight-bold">Skills:</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
+                                            <select class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;"  multiple="multiple" required>
                                                 <option value="Programming">Programming</option>
                                                 <option value="WebDevelopment">Web Development</option>
                                                 <option value="DatabaseManagement">Database Management</option>
@@ -175,7 +175,7 @@
 
                                         <div class="form-group"> <!-- Experience -->
                                             <label class="font-weight-bold">Do you have previous work experience?</label>
-                                            <select class="js-example-basic-single w-100" required>
+                                            <select class="js-example-basic-single content-wrapper w-100" style="width: 100%;"  required>
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="ComputerScience">Yes</option>
                                                 <option value="ArtificialIntelligence">No</option>
@@ -438,7 +438,6 @@
     // Custom validation
     const submitButton = document.getElementById("submit-button");
     submitButton.addEventListener("click", () => { 
-        //(event) => { event.preventDefault();  //Prevent the default form submission 
 
         const periodContainers = document.querySelectorAll(".period");
         let isValid = true;
@@ -457,7 +456,33 @@
             const endMinutes = parseInt(endParts.minute);
             const endMeridiem = endParts.meridiem;
 
+            // Define the working hours range
+            // Additional condition for working hours
+            const workingHoursStart = 8; // 8 AM
+            const workingHoursEnd = 16; // 4 PM
 
+            //Check if the chosen time is within working hours
+            if (
+                (startMeridiem === "am" && startHours < workingHoursStart) || // Start time is before working hours
+                (startMeridiem === "pm" && (startHours + 12) > workingHoursEnd) || // Start time is after working hours
+                (endMeridiem === "pm" && (endHours + 12) > workingHoursEnd) // End time is after working hours
+            ) {
+                isValid = false;
+                periodContainer.style.border = "1px solid red";
+                periodContainer.style.padding = "5px";
+                periodContainer.style.margin = "5px";
+
+                const errorSpan = periodContainer.querySelector("span");
+                if (!errorSpan) {
+                    const errorMessage = document.createElement("span");
+                    errorMessage.style.color = "red";
+                    errorMessage.textContent = "Invalid start or end times.";
+                    periodContainer.appendChild(errorMessage);
+                }
+            }
+
+            
+            // Check if the start time is before the end time
             if (
                 (startMeridiem === "pm" && endMeridiem === "am") ||
                 (startMeridiem === endMeridiem && startHours > endHours) ||
@@ -474,10 +499,11 @@
                 if (!errorSpan) {
                     const errorMessage = document.createElement("span");
                     errorMessage.style.color = "red";
-                    errorMessage.textContent = "Start time should be before end time.";
+                    errorMessage.textContent = "Invalid start or end times.";
                     periodContainer.appendChild(errorMessage);
                 }
-            } else {
+            } 
+            if (isValid) {
                 periodContainer.style.removeProperty("border");
                 periodContainer.style.removeProperty("padding");
                 periodContainer.style.removeProperty("margin");
@@ -490,7 +516,7 @@
 
         if (!isValid) {
             // Display a message to the user indicating validation error
-            alert("Please correct the highlighted periods with invalid start and end times.");
+            alert("Please ensure that the start time comes before the end time, and that the entered times fall within the allowed working hours.");
             submitButton.disabled = true; // Disable the submit button
             document.getElementById("start-time").value = "";
             document.getElementById("end-time").value = "";
@@ -502,7 +528,7 @@
 
 
         /*********** Cancle Button Event  *************/
-        
+
         const cancelButton = document.getElementById("cancel-button");
         // Add event listener to the cancel button
         cancelButton.addEventListener("click",goBack);
@@ -513,3 +539,6 @@
         }
 
 </script>
+
+
+
