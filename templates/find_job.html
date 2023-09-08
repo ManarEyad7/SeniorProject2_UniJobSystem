@@ -67,18 +67,18 @@
                                     </p>
                                     <form id="myForm"class="forms-sample">
                                         <div class="form-group"> <!-- Name -->
-                                            <label for="studentName" class="font-weight-bold">Name:</label>
+                                            <label for="name" class="font-weight-bold">Name:</label>
                                             <input type="text" class="form-control custom-input" id="name" required>
                                         </div>
                                         <div class="form-group"> <!-- Phone Number -->
-                                            <label for="studentName" class="font-weight-bold">Phone Number:</label>
+                                            <label for="phoneNumber" class="font-weight-bold">Phone Number:</label>
                                             <input type="text" class="form-control custom-input" id="phoneNumber" pattern="[0-9]+"
                                             title="Please enter only numbers" minlength="10" maxlength="10" required>
                                         </div>
 
                                         <div class="form-group" > <!-- Languages -->
                                             <label class="font-weight-bold">Languages:</label>
-                                            <select class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;"  multiple="multiple"
+                                            <select id="languages" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;"  multiple="multiple"
                                                 required>
                                                 <option value="Arabic">Arabic</option>
                                                 <option value="English">English</option>
@@ -87,7 +87,7 @@
 
                                         <div class="form-group"> <!-- Major -->
                                             <label class="font-weight-bold">Required Major:</label>
-                                            <select class="js-example-basic-single content-wrapper w-100" style="width: 100%;"  required>
+                                            <select id="major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;"  required>
                                                 <option value="" disabled selected hidden>Select a Major</option>
                                                 <option value="ComputerScience">Computer Science</option>
                                                 <option value="ArtificialIntelligence">Artificial Intelligence</option>
@@ -100,7 +100,7 @@
 
                                         <div class="form-group"> <!-- GPA -->
                                             <label class="font-weight-bold">GPA:</label>
-                                            <select class="js-example-basic-single content-wrapper w-100" style="width: 100%;" >
+                                            <select id="gpa" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" >
                                                 <option value="" disabled selected>Enter Your GPA</option>
                                                 <option value="5.0">5.0</option>
                                                 <option value="4.0">4.0</option>
@@ -113,7 +113,7 @@
 
                                         <div class="form-group"> <!-- Skills -->
                                             <label class="font-weight-bold">Skills:</label>
-                                            <select class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;"  multiple="multiple" required>
+                                            <select id="skills" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;"  multiple="multiple" required>
                                                 <option value="Programming">Programming</option>
                                                 <option value="WebDevelopment">Web Development</option>
                                                 <option value="DatabaseManagement">Database Management</option>
@@ -164,7 +164,7 @@
                                                 <hr>
                                                    
                                                 <div class="day"> <!-- Thursday availability -->
-                                                    <label for="thursday" class="font-weight-bold">Thursday:</label>
+                                                    <label for="thursday" class="font-weight-bold">thursday:</label>
                                                     <input type="number" class="interval" id="thursday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="thursday-periods"></div>
                                                 </div>
@@ -175,16 +175,17 @@
 
                                         <div class="form-group"> <!-- Experience -->
                                             <label class="font-weight-bold">Do you have previous work experience?</label>
-                                            <select class="js-example-basic-single content-wrapper w-100" style="width: 100%;"  required>
+                                            <select id="experience" class="js-example-basic-single content-wrapper w-100" style="width: 100%;"  required>
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="ComputerScience">Yes</option>
                                                 <option value="ArtificialIntelligence">No</option>
                                             </select>
                                         </div>
                                         
-
-                                        <button id="submit-button" type="submit" class="btn btn-primary mr-2">Submit</button>
-                                        <button id="cancel-button" class="btn btn-light" >Cancel</button>
+                                        <div class="text-center">
+                                            <button id="submit-button" type="submit" class="btn btn-primary mr-2">Submit</button>
+                                            <button id="cancel-button"  onclick="location.href = '/student';" class="btn btn-light" >Cancel</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -437,7 +438,8 @@
 
     // Custom validation
     const submitButton = document.getElementById("submit-button");
-    submitButton.addEventListener("click", () => { 
+    submitButton.addEventListener("click", handleClick);
+    function handleClick(){ 
 
         const periodContainers = document.querySelectorAll(".period");
         let isValid = true;
@@ -520,23 +522,37 @@
             submitButton.disabled = true; // Disable the submit button
             document.getElementById("start-time").value = "";
             document.getElementById("end-time").value = "";
-        } 
+        } //else if(!form.checkValidity()){
+            //alert("fill all fields");
+         else if (isValid && document.getElementById("name").value !== "" && document.getElementById("phoneNumber").value !== ""
+         && document.getElementById("languages").value !== "" && document.getElementById("major").value !== ""
+         && document.getElementById("gpa").value !== "" && document.getElementById("skills").value !== ""
+         && document.getElementById("experience").value !== ""&& document.getElementById("sunday-interval").value !== ""
+         && document.getElementById("monday-interval").value !== ""&& document.getElementById("tuesday-interval").value !== ""
+          && document.getElementById("wednesday-interval").value !== "" //&& document.getElementById("thursday-interval").value !== ""
+         ){
+            alert("sent successfully");
+            var message = "You have submitted a job application. If there are any offers, they will appear here";
+            window.location.href = ("/student?message=" + encodeURIComponent(message));
+        }
         submitButton.disabled = false; // Disable the submit button if validation fails, enable it if validation passes
-    });
-
+    };
 
 
 
         /*********** Cancle Button Event  *************/
 
         const cancelButton = document.getElementById("cancel-button");
-        // Add event listener to the cancel button
-        cancelButton.addEventListener("click",goBack);
+        var form = document.getElementById("myForm");
         // Function to navigate to the previous page
-        function goBack() {
+        function Freset() {
         // Use the history object to go back to the previous page
-        window.history.back();
+        form.reset();
+        //window.location.href = "/post_job';";
         }
+        // Add event listener to the cancel button
+        cancelButton.addEventListener("click",Freset);
+
 
 </script>
 

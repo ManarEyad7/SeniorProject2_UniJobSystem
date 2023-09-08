@@ -73,6 +73,9 @@
 
                                     <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem;"> Notifications </h4>
                                     <div class="notification-content text-center"> 
+                                        <div id="submissionDisplay">
+
+                                        </div>
                                         There are no notifications. Would you like to look for a part-time job? 
                                     </div>
                                     <hr>
@@ -272,3 +275,21 @@
 </script>
 
 </html>
+
+<script>
+    // Function to retrieve the value of a query parameter from the URL
+    function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+    }
+
+    // Retrieve the message from the URL query parameter
+    var message = getQueryParam("message");
+
+    // Display the message if it exists
+    if (message) {
+        var displayDiv = document.getElementById("submissionDisplay");
+        displayDiv.innerHTML = message;
+    }
+
+</script>
