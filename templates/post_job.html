@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
 
     <!-- JS files -->
-    <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
 </head>
 
 <body>
@@ -40,11 +40,7 @@
                         Employee
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                        <li> {% for row in rows %}
-
-                            {{row["email"]}}
-
-                            {% endfor %}
+                        <li> {{ user[4] }}
                         </li>
                         <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
                     </div>
@@ -68,12 +64,12 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Write a title for your job post
                                             </label>
-                                            <input type="text" class="form-control" id="jobTitle" name="jobTitle"
-                                                placeholder="Job title" required>
+                                            <input type="text" class="form-control" id="exampleInputName1" name="job_title"
+                                                placeholder="Job title">
                                         </div>
                                         <div class="form-group">
                                             <label>Required Major</label>
-                                            <select class="js-example-basic-single w-100" name="requiredMajor" required>
+                                            <select class="js-example-basic-single w-100" name="required_major"  required>
                                                 <option value="" disabled selected hidden>Select a Major</option>
                                                 <option value="ComputerScience">Computer Science</option>
                                                 <option value="ArtificialIntelligence">Artificial Intelligence</option>
@@ -85,7 +81,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Minimum GPA</label>
-                                            <select class="js-example-basic-single w-100" name="minGPA" required>
+                                            <select class="js-example-basic-single w-100" name="min_gpa">
                                                 <option value="" disabled selected>Select Minimum GPA</option>
                                                 <option value="5.0">5.0</option>
                                                 <option value="4.0">4.0</option>
@@ -97,8 +93,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Skills</label>
-                                            <select class="js-example-basic-multiple w-100" name="skills[]"
-                                                multiple="multiple" required>
+                                            <select class="js-example-basic-multiple w-100" name="skills" multiple="multiple"
+                                                required>
                                                 <option value="Programming">Programming</option>
                                                 <option value="teamwork">Team work</option>
                                                 <option value="dataScience">Data science</option>
@@ -110,15 +106,13 @@
                                             <label for="exampleInputHours" class="col-sm-3 col-form-label">Working Hours
                                                 (per week)</label>
                                             <div class="col-sm-12">
-                                                <input type="number" class="form-control" name="WorkingHours"
-                                                    id="exampleInputHours" placeholder="Working Hours" pattern="\d*"
-                                                    min="0" max="15">
+                                                <input type="number" class="form-control" id="exampleInputHours" name="working_hours" 
+                                                    placeholder="Working Hours" pattern="\d*" min="0" max="15">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Duration of the Job</label>
-                                            <select class="js-example-basic-single w-100" name="DurationOfTheJob"
-                                                required>
+                                            <select class="js-example-basic-single w-100" name="job_duration">
                                                 <option value="" disabled selected>Select Duration</option>
                                                 <option value="SI">Summer Internship</option>
                                                 <option value="OS">One Semester</option>
@@ -131,13 +125,13 @@
                                             <label for="exampleInputNoPA" class="col-sm-6 col-form-label">Number of
                                                 Positions Available (per week)</label>
                                             <div class="col-sm-12">
-                                                <input type="number" class="form-control" name="NoOfPA"
-                                                    id="exampleInputNoPA" placeholder="Number of Positions Available"
-                                                    pattern="\d*" min="1" max="100">
+                                                <input type="number" class="form-control" id="exampleInputNoPA"
+                                                name="positions_available"  placeholder="Number of Positions Available" pattern="\d*" min="1"
+                                                    max="100">
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                        <button class="btn btn-light" type="reset">Cancel</button>
+                                        <button class="btn btn-light">Cancel</button>
                                     </form>
                                 </div>
                             </div>

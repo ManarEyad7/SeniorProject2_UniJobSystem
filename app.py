@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect , flash, url_for,render_template
+from flask import Flask, request, redirect , flash, url_for,render_template, session
 import sqlite3
 TEMPLATES_AUTO_RELOAD = True
 
@@ -13,44 +13,32 @@ def index():
    return render_template('index.html')
 
 # Defines the secound route for login
-@app.route('/login' , methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
-    if request.method =='POST':
-           
+    if request.method == 'POST':
         connection = sqlite3.connect("users_database.db")
         cursor = connection.cursor()
-
-        id = request.form['id']
+        
+        user_id = request.form['id']
         password = request.form['password']
 
-        print(id,password)
-
-        query1 = "SELECT id,password FROM users where id='"+id+"' and password= '"+password+"' and position= 'employee'"
-        cursor.execute(query1)
-        result1 = cursor.fetchall()
-          
-        query2 = "SELECT id,password FROM users where id='"+id+"' and password= '"+password+"' and position= 'student'"
-        cursor.execute(query2)
-        result2 = cursor.fetchall()
-        #Read
-        con = sqlite3.connect("users_database.db")
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        query3 = "select name,email from users where id='"+id+"'"
-        cur.execute(query3)
-        rows = cur.fetchall()
-       
-
-        if len(result1) == 0 and len(result2) == 0:
-            print("sorry , incorrect login")
-            flash("sorry incorrect login Try again!", 'error')
-            return redirect(url_for("login"))         
-        elif len(result1) == 1:
-            return render_template("employee.html" , rows=rows)
+        cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ? AND password = ?", (user_id, password))
+        user = cursor.fetchone()
+        
+        if user:
+            session['user_id'] = user[0] # Save user_id in session
+            if user[2] == 'employee':
+                print("hhh", user)
+                return render_template("employee.html", user=user)
+            elif user[2] == 'student':
+                return render_template("student.html", user=user)
+            else:
+                flash("Position not recognized. Please try again.", 'error')
         else:
-            return render_template("student.html" ,rows=rows)
-                
+            flash("Sorry, incorrect login. Try again!", 'error')
+        
+        connection.close()
+
     return render_template("login.html")
 
 @app.route('/find_job')
@@ -61,9 +49,78 @@ def find_job():
 if __name__ == "__main__":
    app.run(debug = True)
 
-@app.route('/post_job')
+@app.route('/post_job', methods=['GET', 'POST'])
 def post_job():
-    return render_template('post_job.html')
+    if 'user_id' not in session:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
+
+    user_id = session['user_id']
+
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    
+    if request.method == 'POST':
+
+        job_title = request.form['job_title']
+        print("***********************************")
+
+        required_major = request.form['required_major']
+        min_gpa = request.form['min_gpa']
+        skills = request.form.getlist('skills')
+        working_hours = request.form['working_hours']
+        job_duration = request.form['job_duration']
+        positions_available = request.form['positions_available']
+        print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+
+        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, working_hours, job_duration, positions_available) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, job_title, required_major, min_gpa, ','.join(skills), working_hours, job_duration, positions_available))
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+
+        connection.commit()
+        connection.close()
+
+        flash("Job posted successfully!", 'success')
+        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6")
+        return redirect(url_for("employee"))
+
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+
+    if user:
+        return render_template('post_job.html', user=user)
+    else:
+        flash("User not found. Please log in again.", 'error')
+        return redirect(url_for("login"))
+
+@app.route('/employee')
+def employee():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        
+        try:
+            connection = sqlite3.connect("users_database.db")
+            cursor = connection.cursor()
+
+            cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+            user = cursor.fetchone()
+            print(user)
+
+            cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
+            jobs = cursor.fetchall()
+            print(jobs[1])
+            connection.close()
+
+            return render_template('employee.html', jobs=jobs, user=user)
+
+
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+            flash("An error occurred while fetching the job posts. Please try again.", 'error')
+            return redirect(url_for('index'))
+    else:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
 
 @app.route('/student')
 def student():
