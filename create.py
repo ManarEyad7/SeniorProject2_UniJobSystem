@@ -25,4 +25,18 @@ CREATE TABLE job_posts (
 )
 """)
 
+cursor.execute("""
+CREATE TABLE seekers_form (
+    form_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    name TEXT,
+    phoneNumber TEXT,
+    major TEXT,
+    gpa REAL,
+    skills TEXT,
+    experience TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)
+""")
+
 connection.commit()

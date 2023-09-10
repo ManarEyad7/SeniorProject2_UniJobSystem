@@ -41,10 +41,46 @@ def login():
 
     return render_template("login.html")
 
-@app.route('/find_job')
+@app.route('/find_job',methods=['GET', 'POST'])
 def find_job():
+    if 'user_id' not in session:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
+
+    user_id = session['user_id']
+
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
     
-    return render_template('find_job.html')
+    if request.method == 'POST':
+
+        name = request.form['name']
+
+        phoneNumber = request.form['phoneNumber']
+        languages = request.form.getlist('Languages')
+        skills = request.form.getlist('skills')
+        gpa = request.form['gpa']
+        major = request.form['major']
+        experience = request.form['experience']
+
+        cursor.execute("INSERT INTO seekers_form (user_id, name, phoneNumber, languages, skills, gpa, major, experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience))
+
+        connection.commit()
+        connection.close()
+
+        flash("Request was created successfully!", 'success')
+        return redirect(url_for("student"))
+
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+
+    if user:
+        return render_template('find_job.html', user=user)
+    else:
+        flash("User not found. Please log in again.", 'error')
+        return redirect(url_for("login"))
+
 
 if __name__ == "__main__":
    app.run(debug = True)
@@ -102,7 +138,7 @@ def employee():
             connection = sqlite3.connect("users_database.db")
             cursor = connection.cursor()
 
-            cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+            cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id))
             user = cursor.fetchone()
             print(user)
 
@@ -124,7 +160,44 @@ def employee():
 
 @app.route('/student')
 def student():
-    return render_template('student.html')
+    if 'user_id' in session:
+        user_id = session['user_id']
+        
+        try:
+            connection = sqlite3.connect("users_database.db")
+            cursor = connection.cursor()
+
+            cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+            user = cursor.fetchone()
+
+            cursor.execute("SELECT * FROM seekers_form WHERE user_id = ?", (user_id,))
+            seekerForms = cursor.fetchall()
+            connection.close()
+
+            return render_template('student.html', seekerForms=seekerForms, user=user)
+
+
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+            flash("An error occurred while fetching the form. Please try again.", 'error')
+            return redirect(url_for('index'))
+    else:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
+    
+@app.route('/studentCancle')
+def studentCancle():
+    if 'user_id' not in session:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
+
+    user_id = session['user_id']
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+    return render_template('student.html', user=user)
+    
 
 if __name__ == "__main__":
    app.run(debug = True)

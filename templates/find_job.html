@@ -20,8 +20,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
 
     <!-- JS files -->
-    <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
-
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
 </head>
 
 <body>
@@ -41,11 +40,7 @@
                         Student
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                        <li> {% for row in rows %}
-
-                            <p style="border-bottom: 1px solid;"> {{row["email"]}}</p>
-
-                            {% endfor %}
+                        <li> <p style="border-bottom: 1px solid;">{{ user[4] }}</p>
                         </li>
                         <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
                     </div>
@@ -62,23 +57,23 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Find Job</h4>
-                                    <p class="card-description">
-                                        Fill out this form  to search for a Part Time job
-                                    </p>
-                                    <form id="myForm"class="forms-sample">
+                                    <p class="card-description"> Fill out this form  to search for a Part Time job </p>
+                                    <form id="myForm" class="forms-sample" method="POST">
                                         <div class="form-group"> <!-- Name -->
                                             <label for="name" class="font-weight-bold">Name:</label>
-                                            <input type="text" class="form-control custom-input" id="name" required>
+                                            <input type="text" class="form-control custom-input" id="name" name="name" required>
                                         </div>
+
                                         <div class="form-group"> <!-- Phone Number -->
                                             <label for="phoneNumber" class="font-weight-bold">Phone Number:</label>
-                                            <input type="text" class="form-control custom-input" id="phoneNumber" pattern="[0-9]+"
+                                            <input type="text" class="form-control custom-input" id="phoneNumber" name="phoneNumber" pattern="05[0-9]{8}"
                                             title="Please enter only numbers" minlength="10" maxlength="10" required>
+                                            <div id="phoneNumberError" class="error-message"></div>
                                         </div>
 
                                         <div class="form-group" > <!-- Languages -->
                                             <label class="font-weight-bold">Languages:</label>
-                                            <select id="languages" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;"  multiple="multiple"
+                                            <select id="languages" class="js-example-basic-multiple content-wrapper w-100" name="Languages" style="width: 100%;"  multiple="multiple"
                                                 required>
                                                 <option value="Arabic">Arabic</option>
                                                 <option value="English">English</option>
@@ -87,7 +82,7 @@
 
                                         <div class="form-group"> <!-- Major -->
                                             <label class="font-weight-bold">Required Major:</label>
-                                            <select id="major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;"  required>
+                                            <select id="major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" name="major" required>
                                                 <option value="" disabled selected hidden>Select a Major</option>
                                                 <option value="ComputerScience">Computer Science</option>
                                                 <option value="ArtificialIntelligence">Artificial Intelligence</option>
@@ -100,7 +95,7 @@
 
                                         <div class="form-group"> <!-- GPA -->
                                             <label class="font-weight-bold">GPA:</label>
-                                            <select id="gpa" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" >
+                                            <select id="gpa" class="js-example-basic-single content-wrapper w-100" name="gpa" style="width: 100%;" >
                                                 <option value="" disabled selected>Enter Your GPA</option>
                                                 <option value="5.0">5.0</option>
                                                 <option value="4.0">4.0</option>
@@ -113,7 +108,7 @@
 
                                         <div class="form-group"> <!-- Skills -->
                                             <label class="font-weight-bold">Skills:</label>
-                                            <select id="skills" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;"  multiple="multiple" required>
+                                            <select id="skills" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;" name="skills" multiple="multiple" required>
                                                 <option value="Programming">Programming</option>
                                                 <option value="WebDevelopment">Web Development</option>
                                                 <option value="DatabaseManagement">Database Management</option>
@@ -175,7 +170,7 @@
 
                                         <div class="form-group"> <!-- Experience -->
                                             <label class="font-weight-bold">Do you have previous work experience?</label>
-                                            <select id="experience" class="js-example-basic-single content-wrapper w-100" style="width: 100%;"  required>
+                                            <select id="experience" class="js-example-basic-single content-wrapper w-100" name="experience" style="width: 100%;"  required>
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="ComputerScience">Yes</option>
                                                 <option value="ArtificialIntelligence">No</option>
@@ -184,7 +179,7 @@
                                         
                                         <div class="text-center">
                                             <button id="submit-button" type="submit" class="btn btn-primary mr-2">Submit</button>
-                                            <button id="cancel-button"  onclick="location.href = '/student';" class="btn btn-light" >Cancel</button>
+                                            <button id="cancel-button"  onclick="location.href = '/studentCancle';" class="btn btn-light" >Cancel</button>
                                         </div>
                                     </form>
                                 </div>
@@ -215,7 +210,28 @@
 
 </html>
 
-
+<script> /*customize the error message for the phone number input*/
+    // Get the phone number input element
+    var phoneNumberInput = document.getElementById('phoneNumber');
+  
+    // Get the error message element
+    var phoneNumberError = document.getElementById('phoneNumberError');  
+    
+    // Add an event listener for input validation
+    phoneNumberInput.addEventListener('input', function() {
+      // Check if the input value is valid
+      if (!phoneNumberInput.checkValidity()) {
+        // Display the custom error message
+        phoneNumberError.textContent = 'Please enter a valid phone number starting with 05';
+        phoneNumberInput.classList.add('error-input');
+        } else {
+        // Clear the error message
+        phoneNumberError.textContent = '';
+        // Remove the red border
+        phoneNumberInput.classList.remove('error-input');
+      }
+    });
+</script>
 
 
 <script> /*-- script for time picker  --*/
@@ -524,7 +540,7 @@
             document.getElementById("end-time").value = "";
         } //else if(!form.checkValidity()){
             //alert("fill all fields");
-         else if (isValid && document.getElementById("name").value !== "" && document.getElementById("phoneNumber").value !== ""
+        /* else if (isValid && document.getElementById("name").value !== "" && document.getElementById("phoneNumber").value !== ""
          && document.getElementById("languages").value !== "" && document.getElementById("major").value !== ""
          && document.getElementById("gpa").value !== "" && document.getElementById("skills").value !== ""
          && document.getElementById("experience").value !== ""&& document.getElementById("sunday-interval").value !== ""
@@ -534,7 +550,7 @@
             alert("sent successfully");
             var message = "You have submitted a job application. If there are any offers, they will appear here";
             window.location.href = ("/student?message=" + encodeURIComponent(message));
-        }
+        }*/
         submitButton.disabled = false; // Disable the submit button if validation fails, enable it if validation passes
     };
 

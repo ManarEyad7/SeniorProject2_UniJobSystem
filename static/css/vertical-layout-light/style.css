@@ -30621,6 +30621,9 @@ div.tagsinput span.tag a {
   padding-bottom: 3rem;
 }
 
+.error-input {
+  border: 1px solid red;
+}
 /*-------------------- rrrrrrrrrrrrr ------------------*/
 /* Styles for the left sidebar */
 
