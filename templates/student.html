@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Employee</title>
+    <title>Student</title>
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
 
@@ -66,21 +66,26 @@
 
                                     </div>
                                     <hr>
-
                                     <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem;"> Notifications </h4>
+                                    <div class="notification-content text-center"> 
+
                                     {% if seekerForms %}
-                                        {% for seekerForm in seekerForms %}
-                                            <div class="notification-content text-center"> 
-                                                <h4>{{ seekerForm[3] }}</h4>
-                                                <p></p>
-                                                <div id="submissionDisplay"></div>
-                                            </div>
+                                        {% for form in seekerForms %}
+                                              
+                                            {{ form[3] }} 
+
+                                            <button type="submit">Edit</button>
+                                            <button type="submit">Delete</button>
+
+                                            
                                         {% endfor %}
                                     {% else %}
                                         <div class="notification-content text-center"> 
                                             There are no notifications. Would you like to look for a part-time job? 
                                         </div>
                                     {% endif %}
+                                    </div>
+                                    
                                     <hr>
                                     
                                     <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem;"> Schedule </h4>

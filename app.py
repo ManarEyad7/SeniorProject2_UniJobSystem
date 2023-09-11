@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect , flash, url_for,render_template, session
+from flask import Flask, request, redirect , flash, url_for,render_template, session,abort
 import sqlite3
 TEMPLATES_AUTO_RELOAD = True
 
@@ -28,10 +28,9 @@ def login():
         if user:
             session['user_id'] = user[0] # Save user_id in session
             if user[2] == 'employee':
-                print("hhh", user)
-                return render_template("employee.html", user=user)
+                return redirect(url_for("employee"))
             elif user[2] == 'student':
-                return render_template("student.html", user=user)
+                return redirect(url_for('student'))  # Redirect to the student route
             else:
                 flash("Position not recognized. Please try again.", 'error')
         else:
@@ -40,6 +39,7 @@ def login():
         connection.close()
 
     return render_template("login.html")
+
 
 @app.route('/find_job',methods=['GET', 'POST'])
 def find_job():
@@ -63,8 +63,9 @@ def find_job():
         major = request.form['major']
         experience = request.form['experience']
 
-        cursor.execute("INSERT INTO seekers_form (user_id, name, phoneNumber, languages, skills, gpa, major, experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience))
+        cursor.execute("INSERT INTO seekers_form (user_id, name, phoneNumber, languages, skills, gpa, major, experience, sunday_availability, monday_availability, tuesday_availability, wednesday_availability, thursday_availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience, request.form['sunday-interval'], request.form['monday-interval'], request.form['tuesday-interval'],
+         request.form['wednesday-interval'], request.form['thursday-interval']))
 
         connection.commit()
         connection.close()
@@ -138,13 +139,11 @@ def employee():
             connection = sqlite3.connect("users_database.db")
             cursor = connection.cursor()
 
-            cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id))
+            cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
             user = cursor.fetchone()
-            print(user)
 
             cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
             jobs = cursor.fetchall()
-            print(jobs[1])
             connection.close()
 
             return render_template('employee.html', jobs=jobs, user=user)
@@ -162,7 +161,7 @@ def employee():
 def student():
     if 'user_id' in session:
         user_id = session['user_id']
-        
+
         try:
             connection = sqlite3.connect("users_database.db")
             cursor = connection.cursor()
@@ -198,6 +197,9 @@ def studentCancle():
     user = cursor.fetchone()
     return render_template('student.html', user=user)
     
+
+
+
 
 if __name__ == "__main__":
    app.run(debug = True)
