@@ -9,6 +9,8 @@
     <title>Employee</title>
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
+    <link rel="stylesheet" href="../../static\vendors\mdi\css\materialdesignicons.min.css">
+
 
     <!-- inject:css -->
     <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
@@ -18,7 +20,23 @@
 
     <!-- Website icon -->
     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+    <style>
+        .job-post-container {
+            max-height: 400px;
+            /* Adjust to fit exactly 4 job postings, you might need to change this */
+            overflow-y: auto;
+        }
 
+        .card {
+            width: 100%;
+            /* Setting it to 100% to take the full width of the parent container */
+        }
+
+        .job-post {
+            min-height: 50px;
+            /* Adjust as needed, this is set to allow approximately 4 job postings to fit without scrolling */
+        }
+    </style>
 </head>
 
 <body>
@@ -43,7 +61,7 @@
                         <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
                     </div>
                 </div>
-                </div>
+            </div>
         </nav>
 
         <div class="container-fluid page-body-wrapper w-100 ">
@@ -52,7 +70,6 @@
                     <div class="row mt-5">
                         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                             <h3 class="font-weight-bold">Welcome Employee</h3>
-
                             <h4>{{ user[3] }}</h4>
                         </div>
                     </div>
@@ -62,45 +79,52 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6 col-6 mb-4 mb-xl-0">
-                                            <p class="card-title">Your Postings</p>
+                                            <p class="card-title" style="margin-left: 1.1rem; ">Your Postings</p>
                                         </div>
                                         <div class="col-md-6 col-6">
                                             <div class="justify-content-end d-flex">
                                                 <form action="{{ url_for('post_job') }}">
-                                                    <button class="btn btn-inverse-primary btn-sm btn-fw" onclick="location.href = '/post_job';" type="button" aria-expanded="true">Post job</button>
+                                                    <button class="btn btn-inverse-primary btn-sm btn-fw" style="margin-right: 1.65rem; "
+                                                        onclick="location.href = '/post_job';" type="button"
+                                                        aria-expanded="true">Post job</button>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                     <hr>
-                                    {% if jobs %}
+                                    <div class="job-post-container">
+                                        {% if jobs %}
                                         {% for job in jobs %}
-                                            <div class="job-post">
-                                                <h4>{{ job[3] }}</h4>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Options
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="/view_candidates/{{ job.job_id }}">View Candidates</a>
-                                                        <a class="dropdown-item" href="/update_job/{{ job.job_id }}">Update Job</a>
-                                                    </div>
+                                        <div class="job-post d-flex justify-content-between align-items-center">
+                                            <h4 class="mb-0" style="flex: 1;">{{ job[2] }}</h4>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-primary btn-sm dropdown-toggle" style="margin-right: 0.9rem; "
+                                                    type="button" id="dropdownMenuIconButton1" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    <i class="mdi mdi-format-list-bulleted"></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item"
+                                                        href="/view_candidates/{{ job.job_id }}">View Candidates</a>
+                                                    <a class="dropdown-item" href="/update_job/{{ job.job_id }}">Update
+                                                        Job</a>
                                                 </div>
                                             </div>
-                                            <hr>
+                                        </div>
+                                        <hr>
                                         {% endfor %}
-                                    {% else %}
+                                        {% else %}
                                         <div class="up-card-section text-center" style="padding-top: 100px;">
                                             <h4 class="mb-10">No active job posts</h4>
-                                            <p class="px-30 pb-20">Post a job to the marketplace and let talent come to you.</p>
+                                            <p class="px-30 pb-20">Post a job to the marketplace and let talent come to
+                                                you.</p>
                                         </div>
-                                    {% endif %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-
                 </div>
             </div>
         </div>
