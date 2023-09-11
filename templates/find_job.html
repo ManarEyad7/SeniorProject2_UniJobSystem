@@ -132,35 +132,35 @@
                                                 
                                                 <div class="day"> <!-- Sunday availability -->
                                                     <label for="sunday" class="font-weight-bold">Sunday:</label>
-                                                    <input type="number" class="interval" id="sunday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods"  required>
+                                                    <input type="number" class="interval" id="sunday-interval" name="sunday-interval" min="0" max="5" placeholder="Number of Available Periods"  required>
                                                     <div id="sunday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Monday availability -->
                                                     <label for="monday" class="font-weight-bold">Monday:</label>
-                                                    <input type="number" class="interval" id="monday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <input type="number" class="interval" id="monday-interval" name="monday-interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="monday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Tuesday availability -->
                                                     <label for="tuesday" class="font-weight-bold">Tuesday:</label>
-                                                    <input type="number" class="interval" id="tuesday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <input type="number" class="interval" id="tuesday-interval" name="tuesday-interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="tuesday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Wednesday availability -->
                                                     <label for="wednesday" class="font-weight-bold">Wednesday:</label>
-                                                    <input type="number" class="interval" id="wednesday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <input type="number" class="interval" id="wednesday-interval" name="wednesday-interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="wednesday-periods"></div>
                                                 </div>
                                                 <hr>
                                                    
                                                 <div class="day"> <!-- Thursday availability -->
                                                     <label for="thursday" class="font-weight-bold">thursday:</label>
-                                                    <input type="number" class="interval" id="thursday-interval" name="interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <input type="number" class="interval" id="thursday-interval" name="thursday-interval" min="0" max="5" placeholder="Number of Available Periods" required>
                                                     <div id="thursday-periods"></div>
                                                 </div>
                                                   
@@ -290,7 +290,6 @@
                     const containerId = intervalInput.id.replace("-interval", "-periods");
                     const container = document.getElementById(containerId);
                     const numPeriods = parseInt(intervalInput.value);
-
                     // Clear existing period containers
                     container.innerHTML = "";
 
@@ -306,7 +305,9 @@
                         const startInput = document.createElement("input");
                         startInput.type = "text";
                         startInput.classList.add("time-pickable", "start-time");
-                        startInput.id = "start-time"
+                        //startInput.id = "start-time"
+                        startInput.id = `${intervalInput.id}-start-time-${i}`; // Unique ID for start time input
+                        startInput.name = `${intervalInput.id}-start-time-${i}`; // Unique name for start time input
                         startInput.placeholder = "Start Time (hour:minute)";
                         startInput.style.border = "1px solid rgb(207, 212, 217)";
                         startInput.style.margin = "5px 5px 5px 5px";
@@ -317,7 +318,9 @@
                         const endInput = document.createElement("input");
                         endInput.type = "text";
                         endInput.classList.add("time-pickable", "end-time");
-                        endInput.id = "end-time"
+                        //endInput.id = "end-time"
+                        endInput.id = `${intervalInput.id}-end-time-${i}`; // Unique ID for end time input
+                        endInput.name = `${intervalInput.id}-end-time-${i}`; // Unique name for end time input
                         endInput.placeholder = "End Time (hour:minute)";
                         endInput.style.border = "1px solid rgb(207, 212, 217)";
                         endInput.style.margin = "5px 5px 5px 5px";
@@ -325,27 +328,6 @@
                         endInput.style.borderRadius = "4px";
                         endInput.required = true;
 
-/*
-                        // Add event listener to compare start and end times
-                        startInput.addEventListener("change", () => {
-                            const startTime = startInput.value;
-                            const endTime = endInput.value;
-
-                            if (startTime && endTime && startTime > endTime) {
-                                alert("Start time cannot be greater than end time. Please clarify your input.");
-                            }
-                        });
-
-                        // Add event listener to compare start and end times
-                        endInput.addEventListener("change", () => {
-                            const startTime = startInput.value;
-                            const endTime = endInput.value;
-
-                            if (startTime && endTime && startTime > endTime) {
-                                alert("Start time cannot be greater than end time. Please clarify your input.");
-                            }
-                        });
-*/
                         periodContainer.appendChild(periodLabel);
                         periodContainer.appendChild(startInput);
                         periodContainer.appendChild(endInput);
