@@ -1,1 +1,1 @@
-cursor
+sunday_availability

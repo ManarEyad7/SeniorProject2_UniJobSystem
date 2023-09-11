@@ -1,11 +1,11 @@
 from flask import Flask, request, redirect , flash, url_for,render_template, session,abort
+
 import sqlite3
 TEMPLATES_AUTO_RELOAD = True
 
 app = Flask(__name__)
-
-
 app.secret_key = 'random string'
+
 
 # Defines the fist route for homepage
 @app.route('/')
@@ -63,9 +63,68 @@ def find_job():
         major = request.form['major']
         experience = request.form['experience']
 
-        cursor.execute("INSERT INTO seekers_form (user_id, name, phoneNumber, languages, skills, gpa, major, experience, sunday_availability, monday_availability, tuesday_availability, wednesday_availability, thursday_availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience, request.form['sunday-interval'], request.form['monday-interval'], request.form['tuesday-interval'],
-         request.form['wednesday-interval'], request.form['thursday-interval']))
+        #--------------------------- Start interval data
+        
+        # Get the sunday interval data from the form
+        sundayStarts = []
+        sundayEnds = []
+        num_periods = int(request.form.get('sunday-interval'))
+        for i in range(num_periods):
+            print("i== ",i)
+            start_time = request.form.get('sunday-interval-start-time-' + str(i))
+            end_time = request.form.get('sunday-interval-end-time-' + str(i))
+            sundayStarts.append(start_time)
+            sundayEnds.append(end_time)
+
+        # Get the monday interval data from the form
+        mondayStarts = []
+        mondayEnds = []
+        num_periods = int(request.form.get('monday-interval'))
+        for i in range(num_periods):
+            print("i== ",i)
+            start_time = request.form.get('monday-interval-start-time-' + str(i))
+            end_time = request.form.get('monday-interval-end-time-' + str(i))
+            mondayStarts.append(start_time)
+            mondayEnds.append(end_time)
+
+        # Get the tuesday interval data from the form
+        tuesdayStarts = []
+        tuesdayEnds = []
+        num_periods = int(request.form.get('tuesday-interval'))
+        for i in range(num_periods):
+            print("i== ",i)
+            start_time = request.form.get('tuesday-interval-start-time-' + str(i))
+            end_time = request.form.get('tuesday-interval-end-time-' + str(i))
+            tuesdayStarts.append(start_time)
+            tuesdayEnds.append(end_time)
+
+        # Get the wednesday interval data from the form
+        wednesdayStarts = []
+        wednesdayEnds = []
+        num_periods = int(request.form.get('wednesday-interval'))
+        for i in range(num_periods):
+            print("i== ",i)
+            start_time = request.form.get('wednesday-interval-start-time-' + str(i))
+            end_time = request.form.get('wednesday-interval-end-time-' + str(i))
+            wednesdayStarts.append(start_time)
+            wednesdayEnds.append(end_time)
+
+        # Get the thursday interval data from the form
+        thursdayStarts = []
+        thursdayEnds = []
+        num_periods = int(request.form.get('thursday-interval'))
+        for i in range(num_periods):
+            print("i== ",i)
+            start_time = request.form.get('thursday-interval-start-time-' + str(i))
+            end_time = request.form.get('thursday-interval-end-time-' + str(i))
+            thursdayStarts.append(start_time)
+            thursdayEnds.append(end_time)
+        
+        #--------------------------- End interval data
+
+
+        cursor.execute("INSERT INTO seekers_form (user_id, name, phoneNumber, languages, skills, gpa, major, experience,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
 
         connection.commit()
         connection.close()
