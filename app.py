@@ -35,6 +35,7 @@ def login():
                 flash("Position not recognized. Please try again.", 'error')
         else:
             flash("Sorry, incorrect login. Try again!", 'error')
+            return render_template("login.html")
         
         connection.close()
 
