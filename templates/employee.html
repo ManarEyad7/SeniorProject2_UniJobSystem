@@ -84,7 +84,8 @@
                                         <div class="col-md-6 col-6">
                                             <div class="justify-content-end d-flex">
                                                 <form action="{{ url_for('post_job') }}">
-                                                    <button class="btn btn-inverse-primary btn-sm btn-fw" style="margin-right: 1.65rem; "
+                                                    <button class="btn btn-inverse-primary btn-sm btn-fw"
+                                                        style="margin-right: 1.65rem; "
                                                         onclick="location.href = '/post_job';" type="button"
                                                         aria-expanded="true">Post job</button>
                                                 </form>
@@ -98,16 +99,20 @@
                                         <div class="job-post d-flex justify-content-between align-items-center">
                                             <h4 class="mb-0" style="flex: 1;">{{ job[2] }}</h4>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-primary btn-sm dropdown-toggle" style="margin-right: 0.9rem; "
-                                                    type="button" id="dropdownMenuIconButton1" data-toggle="dropdown"
+                                                <button class="btn btn-outline-primary btn-sm dropdown-toggle"
+                                                    style="margin-right: 0.9rem; " type="button"
+                                                    id="dropdownMenuIconButton1" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     <i class="mdi mdi-format-list-bulleted"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item"
-                                                        href="/view_candidates/{{ job.job_id }}">View Candidates</a>
+                                                        href="/view_candidates/{{ job.job_id }}"> View Candidates</a>
+                                                    <a class="dropdown-item"
+                                                        href="/view_candidates/{{ job.job_id }}">View Job</a>
                                                     <a class="dropdown-item" href="/update_job/{{ job.job_id }}">Update
                                                         Job</a>
+                                                    <a class="dropdown-item" href="/update_job/{{ job.job_id }}"> Delete Job</a>
                                                 </div>
                                             </div>
                                         </div>
