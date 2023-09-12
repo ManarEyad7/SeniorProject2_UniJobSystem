@@ -9,6 +9,7 @@ cursor = connection.cursor()
 #cursor.execute("INSERT INTO users VALUES ('1905453', 'Aa@12347', 'Sumaia Ahmed', '1905453@uj.edu.sa', 'student')")
 #cursor.execute("INSERT INTO users VALUES ('2006786', 'Aa@12348', 'Raneem Aljadani', '2006786@uj.edu.sa', 'student')")
 #cursor.execute("INSERT INTO users VALUES ('4514542', 'Aa@12349', 'ELHAM ALGAMDI', '4514542@uj.edu.sa', 'employee')")
+#cursor.execute("INSERT INTO users VALUES ('4514534', 'Aa@12340', 'AHHLAM MOHAMMED', '4514534@uj.edu.sa', 'employee')")
 
 cursor.execute("""
 CREATE TABLE job_posts (
