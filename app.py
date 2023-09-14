@@ -289,9 +289,11 @@ def view_jobs(id):
 
     cursor.execute("SELECT * FROM job_posts WHERE user_id = ? AND job_id =?", (user_id,id))
     jobs = cursor.fetchone()
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
     #connection.close()
 
-    return render_template('view_jobs.html', jobs=jobs)
+    return render_template('view_jobs.html', jobs=jobs,user=user)
 
 
 @app.route('/edit_jobs' , methods=['GET', 'POST'])
