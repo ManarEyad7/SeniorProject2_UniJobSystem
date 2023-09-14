@@ -60,30 +60,32 @@
                                             <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; font-size: 24px;">Welcome</h4>
                                             <h4 class="left-margin " style="margin-bottom: 1.5rem;">{{ user[3] }} </h4>
                                         </div> 
-                                        <form action="{{ url_for('post_job') }}">
-                                            <button class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem;" onclick="location.href = '/find_job';" type="button"aria-expanded="true">Find job </button>
+                                        <form action="{{ url_for('post_job') }}" >
+                                            {% if seekerForms %}
+                                                {% for form in seekerForms %}
+                                                    {% if form[2] == 1 %}
+                                                        <button id="findJob-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem; display: none;" onclick="location.href = '/find_job';" type="button" aria-expanded="true">Seek job </button>
+                                                        <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/view_form/{{ form[0] }}';" type="button" aria-expanded="true">View Form</button>
+                                                        <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/update_form/{{ form[0] }}';" type="button" aria-expanded="true">Update Form</button>
+                                                        <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/delete_form/{{ form[0] }}';" type="button" aria-expanded="true">Delete Form</button>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <button id="findJob-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem; display: inline-block;" onclick="location.href = '/find_job';" type="button"aria-expanded="true">Seek job </button>
+                                                <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: none;" type="button"aria-expanded="true">View Form</button>
+                                                <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: none;" type="button"aria-expanded="true">Update Form</button>
+                                                <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: none;" type="button"aria-expanded="true">Delete Form</button>
+                                            {% endif %}
+
                                         </form>
 
                                     </div>
                                     <hr>
                                     <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem;"> Notifications </h4>
                                     <div class="notification-content text-center"> 
-
-                                    {% if seekerForms %}
-                                        {% for form in seekerForms %}
-                                              
-                                            {{ form[3] }} 
-
-                                            <button type="submit">Edit</button>
-                                            <button type="submit">Delete</button>
-
-                                            <br>
-                                        {% endfor %}
-                                    {% else %}
                                         <div class="notification-content text-center"> 
                                             There are no notifications. Would you like to look for a part-time job? 
                                         </div>
-                                    {% endif %}
                                     </div>
                                     
                                     <hr>
@@ -229,7 +231,7 @@
 
 
 <script>
-    // Function to show the form content
+ /*   // Function to show the form content
     function showForm() {
         var formContent = document.querySelector(".form-content");
         var reviewContent = document.querySelector(".review-content");
@@ -265,7 +267,7 @@
         scheduleContent.style.display = "block";
     }
 
-
+*/
 
     // Get the button and dropdown content elements
     var button = document.querySelector('.dropdown2 button');
@@ -284,8 +286,7 @@
 
 </html>
 
-<script>
-    // Function to retrieve the value of a query parameter from the URL
+<script> // Function to retrieve the value of a query parameter from the URL
     function getQueryParam(name) {
         const params = new URLSearchParams(window.location.search);
         return params.get(name);

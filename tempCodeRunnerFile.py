@@ -1,1 +1,1 @@
-sunday_availability
+student
