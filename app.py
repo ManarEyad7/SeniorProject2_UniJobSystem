@@ -126,6 +126,8 @@ def find_job():
 
         cursor.execute("INSERT INTO seekers_form (user_id, name, phoneNumber, languages, skills, gpa, major, experience,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                     (user_id, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
+        
+        
 
         connection.commit()
         connection.close()
@@ -173,6 +175,7 @@ def post_job():
         cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, working_hours, job_duration, positions_available) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
                     (user_id, job_title, required_major, min_gpa, ','.join(skills), working_hours, job_duration, positions_available))
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        
 
         connection.commit()
         connection.close()
@@ -204,6 +207,7 @@ def employee():
 
             cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
             jobs = cursor.fetchall()
+            #session['job_id'] = jobs[0]
             connection.close()
 
             return render_template('employee.html', jobs=jobs, user=user)
@@ -257,9 +261,65 @@ def studentCancle():
     user = cursor.fetchone()
     return render_template('student.html', user=user)
     
+@app.route('/view_jobs/<id>')
+def view_jobs(id):
+    user_id = session['user_id']
+    #job_id = session['job_id']
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    #cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    #user = cursor.fetchone()
+
+    cursor.execute("SELECT * FROM job_posts WHERE user_id = ? AND job_id =?", (user_id,id))
+    jobs = cursor.fetchone()
+    #connection.close()
+
+    return render_template('view_jobs.html', jobs=jobs)
 
 
+@app.route('/edit_jobs' , methods=['GET', 'POST'])
+def edit_jobs():
+    
+    user_id = session['user_id']
+    if request.method == 'POST':
 
+        n_job_title = request.form['job_title']
+        print("***********************************")
+
+        n_required_major = request.form['required_major']
+        n_min_gpa = request.form['min_gpa']
+        n_skills = request.form.getlist('skills')
+        n_working_hours = request.form['working_hours']
+        n_job_duration = request.form['job_duration']
+        n_positions_available = request.form['positions_available']
+
+        connection = sqlite3.connect("users_database.db")
+        cursor = connection.cursor()
+        cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+        user = cursor.fetchone()
+
+        cursor.execute("UBDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}', skills= '{}' ,working_hours= '{}', job_duration = '{}' , positions_available = '{}' WHERE job_id = '{}' ".format(n_job_title,n_required_major,n_min_gpa,n_skills,n_working_hours,
+                                                                                                                                                                                                                       n_job_duration,n_positions_available,id))
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("employee"))
+    else:
+        return render_template('post_job.html',user = user)
+
+@app.route('/delete_jobs/<id>')
+def delete_jobs(id):
+    #user_id = session['user_id']
+    #job_id = session['job_id']
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM job_posts WHERE job_id = '{}' ".format(id))
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("employee"))
 
 if __name__ == "__main__":
    app.run(debug = True)
