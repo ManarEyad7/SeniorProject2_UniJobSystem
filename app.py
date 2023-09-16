@@ -306,8 +306,9 @@ def update_post_job(id):
     #jobid = id
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
-    
+
     if request.method == 'POST':
+        
         try:
             new_job_title = request.form['n_job_title']
             print("***********************************here")
@@ -339,7 +340,10 @@ def update_post_job(id):
         cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
         user = cursor.fetchone()
 
-        return render_template('update_post_job.html', user=user)
+        cursor.execute("SELECT * FROM job_posts WHERE user_id = ? AND job_id =?", (user_id,id))
+        jobs = cursor.fetchone()
+
+        return render_template('update_post_job.html', user=user ,jobs=jobs)
        
 
 
