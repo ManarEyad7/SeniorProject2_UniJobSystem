@@ -63,7 +63,7 @@
                                         <form action="{{ url_for('post_job') }}" >
                                             {% if seekerForms %}
                                                 {% for form in seekerForms %}
-                                                    {% if form[2] == 1 %}
+                                                    {% if form[1] == 1 %}
                                                         <button id="findJob-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem; display: none;" onclick="location.href = '/find_job';" type="button" aria-expanded="true">Seek job </button>
                                                         <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/view_form/{{ form[0] }}';" type="button" aria-expanded="true">View Form</button>
                                                         <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/update_form/{{ form[0] }}';" type="button" aria-expanded="true">Update Form</button>
@@ -84,7 +84,13 @@
                                     <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem;"> Notifications </h4>
                                     <div class="notification-content text-center"> 
                                         <div class="notification-content text-center"> 
-                                            There are no notifications. Would you like to look for a part-time job? 
+                                            {% if seekerForms %}
+                                            No notifications at the moment.<br>
+                                            You have already searched for part-time work. Please check back later for updates.
+                                            {% else %}
+                                            No notifications at the moment.<br>
+                                            If you are seeking part-time work, press the "Seek Job" button to explore opportunities.
+                                            {% endif %}
                                         </div>
                                     </div>
                                     
