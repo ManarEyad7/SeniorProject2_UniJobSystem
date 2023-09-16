@@ -310,17 +310,24 @@ def update_post_job(id):
     if request.method == 'POST':
         
         try:
+
+            new_skill = request.form.getlist('n_skills')
+            new_skills = ",".join(map(str, new_skill))
+
             new_job_title = request.form['n_job_title']
             print("***********************************here")
-
             new_required_major = request.form['n_required_major']
+            print("***********************************major")
             new_min_gpa = request.form['n_min_gpa']
-            #new_skills = request.form.getlist('n_skills')
+            print("***********************************gpa")
+            new_skills = new_skills
+            print("***********************************skills")
             new_working_hours = request.form['n_working_hours']
             new_job_duration = request.form['n_job_duration']
             new_positions_available = request.form['n_positions_available']
 
-            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' ,working_hours= '{}', job_duration = '{}' , positions_available = '{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_working_hours,new_job_duration,new_positions_available,id))
+            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , skills = '{}', working_hours= '{}', job_duration = '{}' , positions_available = '{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_skills,new_working_hours,new_job_duration,new_positions_available,id))
+            #cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , working_hours= '{}', job_duration = '{}' , positions_available = '{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_working_hours,new_job_duration,new_positions_available,id))
             #cursor.execute("UPDATE job_posts SET job_title = '{}' WHERE job_id = '{}' ".format(new_job_title,id))
             connection.commit()
             connection.close()
