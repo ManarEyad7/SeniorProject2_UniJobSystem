@@ -277,36 +277,57 @@ def view_jobs(id):
 
     return render_template('view_jobs.html', jobs=jobs)
 
-
-@app.route('/edit_jobs' , methods=['GET', 'POST'])
-def edit_jobs():
+@app.route('/update_post_job/<id>' , methods=['GET', 'POST'])
+def update_post_job(id):
     
+    if 'user_id' not in session:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
+
     user_id = session['user_id']
+    #jobid = id
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    
     if request.method == 'POST':
+        try:
+            new_job_title = request.form['n_job_title']
+            print("***********************************here")
 
-        n_job_title = request.form['job_title']
-        print("***********************************")
+            new_required_major = request.form['n_required_major']
+            new_min_gpa = request.form['n_min_gpa']
+            #new_skills = request.form.getlist('n_skills')
+            new_working_hours = request.form['n_working_hours']
+            new_job_duration = request.form['n_job_duration']
+            new_positions_available = request.form['n_positions_available']
 
-        n_required_major = request.form['required_major']
-        n_min_gpa = request.form['min_gpa']
-        n_skills = request.form.getlist('skills')
-        n_working_hours = request.form['working_hours']
-        n_job_duration = request.form['job_duration']
-        n_positions_available = request.form['positions_available']
+            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' ,working_hours= '{}', job_duration = '{}' , positions_available = '{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_working_hours,new_job_duration,new_positions_available,id))
+            #cursor.execute("UPDATE job_posts SET job_title = '{}' WHERE job_id = '{}' ".format(new_job_title,id))
+            connection.commit()
+            connection.close()
 
-        connection = sqlite3.connect("users_database.db")
-        cursor = connection.cursor()
+            #flash("Job updated successfully!", 'success')
+            print("Job updated successfully!")
+            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6")
+            return redirect(url_for("employee"))
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+            #flash("An error occurred while fetching the form. Please try again.", 'error')
+            #return redirect(url_for('index'))
+
+        
+    
+    else:
         cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
         user = cursor.fetchone()
 
-        cursor.execute("UBDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}', skills= '{}' ,working_hours= '{}', job_duration = '{}' , positions_available = '{}' WHERE job_id = '{}' ".format(n_job_title,n_required_major,n_min_gpa,n_skills,n_working_hours,
-                                                                                                                                                                                                                       n_job_duration,n_positions_available,id))
-        connection.commit()
-        connection.close()
+        return render_template('update_post_job.html', user=user)
+       
 
-        return redirect(url_for("employee"))
-    else:
-        return render_template('post_job.html',user = user)
+
+       
+
+
 
 @app.route('/delete_jobs/<id>')
 def delete_jobs(id):

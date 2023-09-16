@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Employee</title>
+
+    <!-- Website icon -->
+    <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+
+    <!-- Core CSS files -->
+    <link rel="stylesheet" href="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}">
+
+    <!-- Page-specific plugin CSS -->
+    <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='vendors/feather/feather.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
+
+    <!-- JS files -->
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
+</head>
+
+<body>
+    <div class="container-scroller ">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex ">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <div class="navbar-brand brand-logo mr-5"><img src="static/images/logo1d.svg" class="mr-2" alt="logo" />
+                </div>
+                <div class="navbar-brand brand-logo-mini"><img src="static/images/U.svg" alt="logo" /></div>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+
+                <div class="dropdown" style="margin-right: 2.5em; ">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Employee
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <li> <p style="border-bottom: 1px solid;">{{ user[4] }}</p>
+                        </li>
+                        <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="container-fluid page-body-wrapper w-100 ">
+            <div class="content-wrapper" style="min-height: inherit;">
+                <div class="container">
+                    <div class="row mt-5">
+                        <div class="col-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Post Job</h4>
+                                    <p class="card-description">
+                                        Fill out this form to gain the best candidates for your opportunity
+                                    </p>
+                                    <form class="forms-sample" method="POST">
+                                        <div class="form-group">
+                                            <label for="n_job_title">Write a title for your job post
+                                            </label>
+                                            <input type="text" class="form-control" id="n_job_title" name="n_job_title"
+                                                placeholder="Job title">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Required Major</label>
+                                            <select class="js-example-basic-single w-100" name="n_required_major"  required>
+                                                <option value="" disabled selected hidden>Select a Major</option>
+                                                <option value="ComputerScience">Computer Science</option>
+                                                <option value="ArtificialIntelligence">Artificial Intelligence</option>
+                                                <option value="DataScience">Data Science</option>
+                                                <option value="CyberSecurity">Cyber Security</option>
+                                                <option value="SoftwareEngineering">Software Engineering</option>
+                                                <option value="NetworkEngineering">Network Engineering</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Minimum GPA</label>
+                                            <select class="js-example-basic-single w-100" name="n_min_gpa">
+                                                <option value="" disabled selected>Select Minimum GPA</option>
+                                                <option value="5.0">5.0</option>
+                                                <option value="4.0">4.0</option>
+                                                <option value="3.0">3.0</option>
+                                                <option value="2.0">2.0</option>
+                                                <option value="1.0">1.0</option>
+                                                <option value="0.0">0.0</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Skills</label>
+                                            <select class="js-example-basic-multiple w-100" name="n_skills" multiple="multiple"
+                                                required>
+                                                <option value="Programming">Programming</option>
+                                                <option value="teamwork">Team work</option>
+                                                <option value="dataScience">Data science</option>
+                                                <option value="graphicDesign">Graphic design</option>
+                                                <option value="writingContests">Writing contests</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="n_working_hours" class="col-sm-3 col-form-label">Working Hours
+                                                (per week)</label>
+                                            <div class="col-sm-12">
+                                                <input type="number" class="form-control" id="n_working_hours" name="n_working_hours" 
+                                                    placeholder="Working Hours" pattern="\d*" min="0" max="15">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Duration of the Job</label>
+                                            <select class="js-example-basic-single w-100" name="n_job_duration">
+                                                <option value="" disabled selected>Select Duration</option>
+                                                <option value="SI">Summer Internship</option>
+                                                <option value="OS">One Semester</option>
+                                                <option value="FA">Full Academic Year</option>
+                                                <option value="Ind">Indefinite</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="n_positions_available" class="col-sm-6 col-form-label">Number of
+                                                Positions Available (per week)</label>
+                                            <div class="col-sm-12">
+                                                <input type="number" class="form-control" id="n_positions_available"
+                                                name="n_positions_available"  placeholder="Number of Positions Available" pattern="\d*" min="1"
+                                                    max="100">
+                                            </div>
+                                        </div>
+                                         
+                                        
+                                        <button type="submit" class="btn btn-primary mr-2" href = "/update_post_job">Update</button>
+                                        <button class="btn btn-light">Cancel</button>
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+<!-- Core JS files -->
+<script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+
+
+<!-- Page-specific plugin JS -->
+<script src="../../static/typeahead.js/typeahead.bundle.min.js"></script>
+<script src="../../static/vendors/select2/select2.min.js"></script>
+
+<!-- Custom JS for this page -->
+<script src="../../static/js/file-upload.js"></script>
+<script src="../../static/js/typeahead.js"></script>
+<script src="../../static/js/select2.js"></script>
+
+</html>
