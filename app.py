@@ -56,21 +56,20 @@ def find_job():
     if request.method == 'POST':
 
         name = request.form['name']
-
         phoneNumber = request.form['phoneNumber']
         languages = request.form.getlist('Languages')
         skills = request.form.getlist('skills')
         gpa = request.form['gpa']
         major = request.form['major']
         experience = request.form['experience']
-
+        form_submission = True
         #--------------------------- Start interval data
         
         # Get the sunday interval data from the form
         sundayStarts = []
         sundayEnds = []
-        num_periods = int(request.form.get('sunday-interval'))
-        for i in range(num_periods):
+        sunday_periods = int(request.form.get('sunday-interval'))
+        for i in range(sunday_periods):
             print("i== ",i)
             start_time = request.form.get('sunday-interval-start-time-' + str(i))
             end_time = request.form.get('sunday-interval-end-time-' + str(i))
@@ -80,8 +79,8 @@ def find_job():
         # Get the monday interval data from the form
         mondayStarts = []
         mondayEnds = []
-        num_periods = int(request.form.get('monday-interval'))
-        for i in range(num_periods):
+        monday_periods = int(request.form.get('monday-interval'))
+        for i in range(monday_periods):
             print("i== ",i)
             start_time = request.form.get('monday-interval-start-time-' + str(i))
             end_time = request.form.get('monday-interval-end-time-' + str(i))
@@ -91,8 +90,8 @@ def find_job():
         # Get the tuesday interval data from the form
         tuesdayStarts = []
         tuesdayEnds = []
-        num_periods = int(request.form.get('tuesday-interval'))
-        for i in range(num_periods):
+        tuesdayـperiods = int(request.form.get('tuesday-interval'))
+        for i in range(tuesdayـperiods):
             print("i== ",i)
             start_time = request.form.get('tuesday-interval-start-time-' + str(i))
             end_time = request.form.get('tuesday-interval-end-time-' + str(i))
@@ -102,8 +101,8 @@ def find_job():
         # Get the wednesday interval data from the form
         wednesdayStarts = []
         wednesdayEnds = []
-        num_periods = int(request.form.get('wednesday-interval'))
-        for i in range(num_periods):
+        wednesday_periods = int(request.form.get('wednesday-interval'))
+        for i in range(wednesday_periods):
             print("i== ",i)
             start_time = request.form.get('wednesday-interval-start-time-' + str(i))
             end_time = request.form.get('wednesday-interval-end-time-' + str(i))
@@ -113,8 +112,8 @@ def find_job():
         # Get the thursday interval data from the form
         thursdayStarts = []
         thursdayEnds = []
-        num_periods = int(request.form.get('thursday-interval'))
-        for i in range(num_periods):
+        thursday_periods = int(request.form.get('thursday-interval'))
+        for i in range(thursday_periods):
             print("i== ",i)
             start_time = request.form.get('thursday-interval-start-time-' + str(i))
             end_time = request.form.get('thursday-interval-end-time-' + str(i))
@@ -124,11 +123,9 @@ def find_job():
         #--------------------------- End interval data
 
 
-        cursor.execute("INSERT INTO seekers_form (user_id, name, phoneNumber, languages, skills, gpa, major, experience,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
+        cursor.execute("INSERT INTO seekers_form (user_id, form_submission, name, phoneNumber, languages, skills, gpa, major, experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, form_submission, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
         
-        
-
         connection.commit()
         connection.close()
 
@@ -260,7 +257,26 @@ def studentCancle():
     cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
     user = cursor.fetchone()
     return render_template('student.html', user=user)
-    
+
+
+@app.route('/view_form/<id>')
+def view_form(id):
+    user_id = session['user_id']
+    #job_id = session['job_id']
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    #cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    #user = cursor.fetchone()
+
+    cursor.execute("SELECT * FROM seekers_form WHERE user_id = ? AND id =?", (user_id,id))
+    form = cursor.fetchone()
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+    #connection.close()
+
+    return render_template('view_form.html', form=form,user=user)
+ 
 @app.route('/view_jobs/<id>')
 def view_jobs(id):
     user_id = session['user_id']
@@ -273,9 +289,11 @@ def view_jobs(id):
 
     cursor.execute("SELECT * FROM job_posts WHERE user_id = ? AND job_id =?", (user_id,id))
     jobs = cursor.fetchone()
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
     #connection.close()
 
-    return render_template('view_jobs.html', jobs=jobs)
+    return render_template('view_jobs.html', jobs=jobs,user=user)
 
 @app.route('/update_post_job/<id>' , methods=['GET', 'POST'])
 def update_post_job(id):
@@ -329,6 +347,21 @@ def update_post_job(id):
 
 
 
+
+@app.route('/delete_form/<id>')
+def delete_form(id):
+    #user_id = session['user_id']
+    #job_id = session['job_id']
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM seekers_form WHERE id = '{}' ".format(id))
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("student"))
+
+
 @app.route('/delete_jobs/<id>')
 def delete_jobs(id):
     #user_id = session['user_id']
@@ -341,6 +374,7 @@ def delete_jobs(id):
     connection.close()
 
     return redirect(url_for("employee"))
+
 
 if __name__ == "__main__":
    app.run(debug = True)
