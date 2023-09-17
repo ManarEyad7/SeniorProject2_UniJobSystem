@@ -115,7 +115,6 @@
                                                         {% for index in range(num_periods) %}
                                                         {% set start_time = start_times_list[index] %}
                                                         {% set end_time = end_times_list[index] %}
-                                                        
                                                         <label style="margin: 8px 5px 5px 15px;">Period {{ index + 1 }}:</label>
                                                         <input type = "text" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ start_time }} " readonly> </input>                                               
                                                         <input type = "text" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ end_time }} " readonly> </input>  
@@ -162,8 +161,6 @@
                                                         {% for index in range(num_periods) %}
                                                         {% set start_time = start_times_list[index] %}
                                                         {% set end_time = end_times_list[index] %}
-                                                        <p>tuesday-interval2-start-time-{{index}}</p>
-
                                                         <label style="margin: 8px 5px 5px 15px;">Period {{ index + 1 }}:</label>
                                                         <input type = "text" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ start_time }} " readonly> </input>                                               
                                                         <input type = "text" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ end_time }} " readonly> </input>  
@@ -195,6 +192,9 @@
                                                         {% else %}
                                                         <p style="margin-left: 15px;">There are no periods available </p>
                                                         {% endif %}
+
+
+                                                        
                                                     </div>
                                                 </div>
                                                 <hr>
