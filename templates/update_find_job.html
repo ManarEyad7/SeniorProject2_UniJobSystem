@@ -75,9 +75,9 @@
                                             <label class="font-weight-bold">Languages:</label>
                                             <select id="n_languages" class="js-example-basic-multiple content-wrapper w-100" name="n_Languages" style="width: 100%;"  multiple="multiple"
                                                 required>
-                                                <option value="{{ form[9] }}" selected >{{ form[9] }}</option>
-                                                <option value="Arabic ">Arabic</option>
-                                                <option value="English ">English</option>
+                                                <option value="{{ form[9] }}" selected>{{ form[9] }}</option>
+                                                <option value="Arabic">Arabic</option>
+                                                <option value="English">English</option>
                                             </select>
                                         </div>
 
@@ -85,19 +85,19 @@
                                             <label class="font-weight-bold">Required Major:</label>
                                             <select id="n_major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" name="n_major" required>
                                                 <option value="{{ form[5] }}" selected >{{ form[5] }}</option>
-                                                <option value="Computer Science ">Computer Science</option>
-                                                <option value="Artificial Intelligence ">Artificial Intelligence</option>
-                                                <option value="Data Science ">Data Science</option>
-                                                <option value="Cyber Security ">Cyber Security</option>
-                                                <option value="Software Engineering ">Software Engineering</option>
-                                                <option value="Network Engineering ">Network Engineering</option>
+                                                <option value="ComputerScience">Computer Science</option>
+                                                <option value="ArtificialIntelligence">Artificial Intelligence</option>
+                                                <option value="DataScience">Data Science</option>
+                                                <option value="CyberSecurity">Cyber Security</option>
+                                                <option value="SoftwareEngineering">Software Engineering</option>
+                                                <option value="NetworkEngineering">Network Engineering</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group"> <!-- GPA -->
                                             <label class="font-weight-bold">GPA:</label>
                                             <select id="n_gpa" class="js-example-basic-single content-wrapper w-100" name="n_gpa" style="width: 100%;" >
-                                                <option value="{{ form[6] }}" selected >{{ form[6] }}</option>
+                                                <option value="{{ form[6] }}" selected>{{ form[6] }}</option>
                                                 <option value="5.0">5.0</option>
                                                 <option value="4.0">4.0</option>
                                                 <option value="3.0">3.0</option>
@@ -110,17 +110,17 @@
                                         <div class="form-group"> <!-- Skills -->
                                             <label class="font-weight-bold">Skills:</label>
                                             <select id="n_skills" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;" name="n_skills" multiple="multiple" required>
-                                                <option value="{{ form[7] }}" selected >{{ form[7] }}</option>
-                                                <option value="Programming ">Programming</option>
-                                                <option value="Web Development ">Web Development</option>
-                                                <option value="Database Management ">Database Management</option>
-                                                <option value="Data Science ">Data science</option>
-                                                <option value="Graphic Design ">Graphic design</option>
-                                                <option value="Writing Contests ">Writing contests</option>
-                                                <option value="Communication ">Communication</option>
-                                                <option value="Teamwork ">Team work</option>
-                                                <option value="Time Management ">Time Management</option>
-                                                <option value="Adaptability ">Adaptability</option>
+                                                <option value="{{ form[7] }}" selected>{{ form[7] }}</option>
+                                                <option value="Programming">Programming</option>
+                                                <option value="WebDevelopment">Web Development</option>
+                                                <option value="DatabaseManagement">Database Management</option>
+                                                <option value="dataScience">Data science</option>
+                                                <option value="graphicDesign">Graphic design</option>
+                                                <option value="writingContests">Writing contests</option>
+                                                <option value="Communication">Communication</option>
+                                                <option value="teamwork">Team work</option>
+                                                <option value="TimeManagement">Time Management</option>
+                                                <option value="Adaptability">Adaptability</option>
                                             </select>
                                         </div>
                                     
@@ -131,118 +131,41 @@
                                                     <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
                                                 </div>
                                                 <hr>
-                                                {% if form %}
-
+                                                
                                                 <div class="day"> <!-- Sunday availability -->
                                                     <label for="sunday" class="font-weight-bold">Sunday:</label>
-                                                    <input type="number" class="interval" id="sunday-interval2" name="sunday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[10] }}" required>
-                                                    <div id="sunday-periods">
-                                                        {% if form[10] !=0 %}
-                                                        {% set start_times_list = form[11].split(',') %}
-                                                        {% set end_times_list = form[12].split(',') %}
-                                                        {% set num_periods =  form[10] %}
-
-                                                        {% for index in range(num_periods) %}
-                                                        {% set start_time = start_times_list[index] %}
-                                                        {% set end_time = end_times_list[index] %}
-                                                        <label style="margin: 8px 5px 5px 15px;">Period {{ index + 1 }}:</label>
-                                                        <input type = "text" id="sunday-interval2-start-time-{{index}}" name="sunday-interval2-start-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ start_time }} " readonly> </input>                                               
-                                                        <input type = "text" id="sunday-interval2-end-time-{{index}}" name="sunday-interval2-end-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ end_time }} " readonly> </input>  
-                                                        <br>
-                                                        {% endfor %}
-                                                        {% endif %}
-                                                    </div>
+                                                    <input type="number" class="interval" id="n_sunday-interval" name="n_sunday-interval" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[10] }}" required>
+                                                    <div id="sunday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Monday availability -->
                                                     <label for="monday" class="font-weight-bold">Monday:</label>
-                                                    <input type="number" class="interval" id="monday-interval2" name="monday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[13] }}"required>
-                                                    <div id="monday-periods">
-                                                        {% if form[13] !=0 %}
-                                                        {% set start_times_list = form[14].split(',') %}
-                                                        {% set end_times_list = form[15].split(',') %}
-                                                        {% set num_periods =  form[13] %}
-
-                                                        {% for index in range(num_periods) %}
-                                                        {% set start_time = start_times_list[index] %}
-                                                        {% set end_time = end_times_list[index] %}
-                                                        <label style="margin: 8px 5px 5px 15px;">Period {{ index + 1 }}:</label>
-                                                        <input type = "text" id="monday-interval2-start-time-{{index}}" name="monday-interval2-start-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ start_time }} " readonly> </input>                                               
-                                                        <input type = "text" id="monday-interval2-end-time-{{index}}" name="monday-interval2-end-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ end_time }} " readonly> </input>  
-                                                        <br>
-                                                        {% endfor %}
-                                                        {% endif %}
-                                                    </div>
+                                                    <input type="number" class="interval" id="n_monday-interval" name="n_monday-interval" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[13] }}"required>
+                                                    <div id="monday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Tuesday availability -->
                                                     <label for="tuesday" class="font-weight-bold">Tuesday:</label>
-                                                    <input type="number" class="interval" id="tuesday-interval2" name="tuesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[16] }}" required>
-                                                    <div id="tuesday-periods">
-                                                        {% if form[16] !=0 %}
-                                                        {% set start_times_list = form[17].split(',') %}
-                                                        {% set end_times_list = form[18].split(',') %}
-                                                        {% set num_periods =  form[16] %}
-
-                                                        {% for index in range(num_periods) %}
-                                                        {% set start_time = start_times_list[index] %}
-                                                        {% set end_time = end_times_list[index] %}
-                                                        <label style="margin: 8px 5px 5px 15px;">Period {{ index + 1 }}:</label>
-                                                        <input type = "text" id="tuesday-interval2-start-time-{{index}}" name="tuesday-interval2-start-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ start_time }} " readonly> </input>                                               
-                                                        <input type = "text" id="tuesday-interval2-end-time-{{index}}" name="tuesday-interval2-end-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ end_time }} " readonly> </input>  
-                                                        <br>
-                                                        {% endfor %}
-                                                        {% endif %}
-                                                    </div>
+                                                    <input type="number" class="interval" id="n_tuesday-interval" name="n_tuesday-interval" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[16] }}" required>
+                                                    <div id="tuesday-periods"></div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="day"> <!-- Wednesday availability -->
                                                     <label for="wednesday" class="font-weight-bold">Wednesday:</label>
-                                                    <input type="number" class="interval" id="wednesday-interval2" name="wednesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[19] }}" required>
-                                                    <div id="wednesday-periods">
-                                                        {% if form[19] !=0 %}
-                                                        {% set start_times_list = form[20].split(',') %}
-                                                        {% set end_times_list = form[21].split(',') %}
-                                                        {% set num_periods =  form[19] %}
-
-                                                        {% for index in range(num_periods) %}
-                                                        {% set start_time = start_times_list[index] %}
-                                                        {% set end_time = end_times_list[index] %}
-                                                        <label style="margin: 8px 5px 5px 15px;">Period {{ index + 1 }}:</label>
-                                                        <input type = "text" id="wednesday-interval2-start-time-{{index}}" name="wednesday-interval2-start-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ start_time }} " readonly> </input>                                               
-                                                        <input type = "text" id="wednesday-interval2-end-time-{{index}}" name="wednesday-interval2-end-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ end_time }} " readonly> </input>  
-                                                        <br>
-                                                        {% endfor %}
-                                                        {% endif %}
-                                                    </div>
+                                                    <input type="number" class="interval" id="n_wednesday-interval" name="n_wednesday-interval" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[19] }}" required>
+                                                    <div id="wednesday-periods"></div>
                                                 </div>
                                                 <hr>
                                                    
                                                 <div class="day"> <!-- Thursday availability -->
-                                                    <label for="thursday" class="font-weight-bold">Thursday:</label>
-                                                    <input type="number" class="interval" id="thursday-interval2" name="thursday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[22] }}"required>
-                                                    <div id="thursday-periods">
-                                                        {% if form[22] !=0 %}
-                                                        {% set start_times_list = form[23].split(',') %}
-                                                        {% set end_times_list = form[24].split(',') %}
-                                                        {% set num_periods =  form[22] %}
-
-                                                        {% for index in range(num_periods) %}
-                                                        {% set start_time = start_times_list[index] %}
-                                                        {% set end_time = end_times_list[index] %}
-                                                        <label style="margin: 8px 5px 5px 15px;">Period {{ index + 1 }}:</label>
-                                                        <input type = "text" id="thursday-interval2-start-time-{{index}}" name="thursday-interval2-start-time-{{index}}"  class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ start_time }} " readonly> </input>                                               
-                                                        <input type = "text" id="thursday-interval2-end-time-{{index}}" name="thursday-interval2-end-time-{{index}}" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ end_time }} " readonly> </input>  
-                                                        <br>
-                                                        {% endfor %}
-                                                        {% endif %}
-                                                    </div>
+                                                    <label for="thursday" class="font-weight-bold">thursday:</label>
+                                                    <input type="number" class="interval" id="n_thursday-interval" name="n_thursday-interval" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[22] }}"required>
+                                                    <div id="thursday-periods"></div>
                                                 </div>
-                                                {% endif %}
-
+                                                  
                                             </div>
                                             
                                         </div>
@@ -250,7 +173,7 @@
                                         <div class="form-group"> <!-- Experience -->
                                             <label class="font-weight-bold">Do you have previous work experience?</label>
                                             <select id="n_experience" class="js-example-basic-single content-wrapper w-100" name="n_experience" style="width: 100%;"  required>
-                                                <option value="{{ form[8] }}" selected > {{ form[8] }}</option>
+                                                <option value="{{ form[8] }}" selected > "{{ form[8] }}"</option>
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
@@ -260,7 +183,6 @@
                                             <button id="submit-button" type="submit" class="btn btn-primary mr-2" href = "/update_find_job">Update</button>
                                             <button id="cancel-button"  onclick="location.href = '/studentCancle';" class="btn btn-light" >Cancel</button>
                                         </div>
-                                        
                                     </form>
                                 </div>
                             </div>
@@ -364,10 +286,10 @@
             });
         });
             
-            const intervalInputs = document.querySelectorAll("[id$='-interval2']");
+            const intervalInputs = document.querySelectorAll("[id$='-interval']");
             intervalInputs.forEach((intervalInput) => {
                 intervalInput.addEventListener("change", () => {
-                    const containerId = intervalInput.id.replace("-interval2", "-periods");
+                    const containerId = intervalInput.id.replace("-interval", "-periods");
                     const container = document.getElementById(containerId);
                     const numPeriods = parseInt(intervalInput.value);
                     // Clear existing period containers
