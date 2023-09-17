@@ -388,55 +388,55 @@ def update_find_job(id):
             # Get the sunday interval data from the form
             sundayStarts = []
             sundayEnds = []
-            sunday_periods = int(request.form.get('n_sunday-interval'))
+            sunday_periods = int(request.form.get('sunday-interval2'))
             for i in range(sunday_periods):
                 print("i== ",i)
-                start_time = request.form.get('sunday-interval-start-time-' + str(i))
-                end_time = request.form.get('sunday-interval-end-time-' + str(i))
+                start_time = request.form.get('sunday-interval2-start-time-' + str(i))
+                end_time = request.form.get('sunday-interval2-end-time-' + str(i))
                 sundayStarts.append(start_time)
                 sundayEnds.append(end_time)
 
             # Get the monday interval data from the form
             mondayStarts = []
             mondayEnds = []
-            monday_periods = int(request.form.get('n_monday-interval'))
+            monday_periods = int(request.form.get('monday-interval2'))
             for i in range(monday_periods):
                 print("i== ",i)
-                start_time = request.form.get('monday-interval-start-time-' + str(i))
-                end_time = request.form.get('monday-interval-end-time-' + str(i))
+                start_time = request.form.get('monday-interval2-start-time-' + str(i))
+                end_time = request.form.get('monday-interval2-end-time-' + str(i))
                 mondayStarts.append(start_time)
                 mondayEnds.append(end_time)
   
             # Get the tuesday interval data from the form
             tuesdayStarts = []
             tuesdayEnds = []
-            tuesdayـperiods = int(request.form.get('n_tuesday-interval'))
+            tuesdayـperiods = int(request.form.get('tuesday-interval2'))
             for i in range(tuesdayـperiods):
                 print("i== ",i)
-                start_time = request.form.get('tuesday-interval-start-time-' + str(i))
-                end_time = request.form.get('tuesday-interval-end-time-' + str(i))
+                start_time = request.form.get('tuesday-interval2-start-time-' + str(i))
+                end_time = request.form.get('tuesday-interval2-end-time-' + str(i))
                 tuesdayStarts.append(start_time)
                 tuesdayEnds.append(end_time)
 
             # Get the wednesday interval data from the form
             wednesdayStarts = []
             wednesdayEnds = []
-            wednesday_periods = int(request.form.get('n_wednesday-interval'))
+            wednesday_periods = int(request.form.get('wednesday-interval2'))
             for i in range(wednesday_periods):
                 print("i== ",i)
-                start_time = request.form.get('wednesday-interval-start-time-' + str(i))
-                end_time = request.form.get('wednesday-interval-end-time-' + str(i))
+                start_time = request.form.get('wednesday-interval2-start-time-' + str(i))
+                end_time = request.form.get('wednesday-interval2-end-time-' + str(i))
                 wednesdayStarts.append(start_time)
                 wednesdayEnds.append(end_time)
 
             # Get the thursday interval data from the form
             thursdayStarts = []
             thursdayEnds = []
-            thursday_periods = int(request.form.get('n_thursday-interval'))
+            thursday_periods = int(request.form.get('thursday-interval2'))
             for i in range(thursday_periods):
                 print("i== ",i)
-                start_time = request.form.get('thursday-interval-start-time-' + str(i))
-                end_time = request.form.get('thursday-interval-end-time-' + str(i))
+                start_time = request.form.get('thursday-interval2-start-time-' + str(i))
+                end_time = request.form.get('thursday-interval2-end-time-' + str(i))
                 thursdayStarts.append(start_time)
                 thursdayEnds.append(end_time)
         
