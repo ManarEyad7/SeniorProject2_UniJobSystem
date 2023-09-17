@@ -353,7 +353,114 @@ def update_post_job(id):
         return render_template('update_post_job.html', user=user ,jobs=jobs)
        
 
+@app.route('/update_find_job/<id>' , methods=['GET', 'POST'])
+def update_find_job(id):
+    
+    if 'user_id' not in session:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
 
+    user_id = session['user_id']
+
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    
+    if request.method == 'POST':
+        
+        try:
+
+            new_skill = request.form.getlist('n_skills')
+            new_skills = ",".join(map(str, new_skill))
+
+            new_Language = request.form.getlist('n_Languages')
+            new_Languages = ",".join(map(str, new_Language))
+
+            new_name = request.form['n_name']
+            new_phoneNumber = request.form['n_phoneNumber']
+            new_Languages = new_Languages
+            new_skills = new_skills
+            new_gpa = request.form['n_gpa']
+            new_major = request.form['n_major']
+            new_experience = request.form['n_experience']
+            form_submission = True
+            #--------------------------- Start interval data
+        
+            # Get the sunday interval data from the form
+            sundayStarts = []
+            sundayEnds = []
+            sunday_periods = int(request.form.get('n_sunday-interval'))
+            for i in range(sunday_periods):
+                print("i== ",i)
+                start_time = request.form.get('sunday-interval-start-time-' + str(i))
+                end_time = request.form.get('sunday-interval-end-time-' + str(i))
+                sundayStarts.append(start_time)
+                sundayEnds.append(end_time)
+
+            # Get the monday interval data from the form
+            mondayStarts = []
+            mondayEnds = []
+            monday_periods = int(request.form.get('n_monday-interval'))
+            for i in range(monday_periods):
+                print("i== ",i)
+                start_time = request.form.get('monday-interval-start-time-' + str(i))
+                end_time = request.form.get('monday-interval-end-time-' + str(i))
+                mondayStarts.append(start_time)
+                mondayEnds.append(end_time)
+  
+            # Get the tuesday interval data from the form
+            tuesdayStarts = []
+            tuesdayEnds = []
+            tuesdayـperiods = int(request.form.get('n_tuesday-interval'))
+            for i in range(tuesdayـperiods):
+                print("i== ",i)
+                start_time = request.form.get('tuesday-interval-start-time-' + str(i))
+                end_time = request.form.get('tuesday-interval-end-time-' + str(i))
+                tuesdayStarts.append(start_time)
+                tuesdayEnds.append(end_time)
+
+            # Get the wednesday interval data from the form
+            wednesdayStarts = []
+            wednesdayEnds = []
+            wednesday_periods = int(request.form.get('n_wednesday-interval'))
+            for i in range(wednesday_periods):
+                print("i== ",i)
+                start_time = request.form.get('wednesday-interval-start-time-' + str(i))
+                end_time = request.form.get('wednesday-interval-end-time-' + str(i))
+                wednesdayStarts.append(start_time)
+                wednesdayEnds.append(end_time)
+
+            # Get the thursday interval data from the form
+            thursdayStarts = []
+            thursdayEnds = []
+            thursday_periods = int(request.form.get('n_thursday-interval'))
+            for i in range(thursday_periods):
+                print("i== ",i)
+                start_time = request.form.get('thursday-interval-start-time-' + str(i))
+                end_time = request.form.get('thursday-interval-end-time-' + str(i))
+                thursdayStarts.append(start_time)
+                thursdayEnds.append(end_time)
+        
+            #--------------------------- End interval data
+
+
+            cursor.execute("UPDATE seekers_form SET  name = '{}', phoneNumber = '{}', languages = '{}', skills = '{}', gpa = '{}', major = '{}', experience = '{}',sunday_periods = '{}',monday_periods = '{}',tuesdayـperiods = '{}',wednesday_periods = '{}',thursday_periods= '{}',sunday_start_interval = '{}',sunday_end_interval = '{}',monday_start_interval = '{}',monday_end_interval = '{}',tuesday_start_interval = '{}',tuesday_end_interval = '{}',wednesday_start_interval = '{}',wednesday_end_interval = '{}',thursday_start_interval = '{}',thursday_end_interval = '{}' WHERE id = '{}'".format 
+                       (new_name, new_phoneNumber, new_Languages , new_skills, new_gpa, new_major, new_experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)),id ))
+        
+            connection.commit()
+            connection.close()
+
+            flash("Request was Updated successfully!", 'success')
+            return redirect(url_for("student"))
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")    
+    else:
+        cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+        user = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM seekers_form WHERE user_id = ? AND id = ?", (user_id,id))
+        form = cursor.fetchone()
+
+        return render_template('update_find_job.html', user=user , form = form)
        
 
 

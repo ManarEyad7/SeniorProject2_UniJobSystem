@@ -66,7 +66,7 @@
                                                     {% if form[1] == 1 %}
                                                         <button id="findJob-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem; display: none;" onclick="location.href = '/find_job';" type="button" aria-expanded="true">Seek job </button>
                                                         <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/view_form/{{ form[0] }}';" type="button" aria-expanded="true">View Form</button>
-                                                        <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/update_form/{{ form[0] }}';" type="button" aria-expanded="true">Update Form</button>
+                                                        <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/update_find_job/{{ form[0] }}';" type="button" aria-expanded="true">Update Form</button>
                                                         <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/delete_form/{{ form[0] }}';" type="button" aria-expanded="true">Delete Form</button>
                                                     {% endif %}
                                                 {% endfor %}
