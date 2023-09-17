@@ -386,6 +386,22 @@ def delete_jobs(id):
 
     return redirect(url_for("employee"))
 
+@app.route('/employeeCancle')
+def employeeCancle():
+    if 'user_id' not in session:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
+
+    user_id = session['user_id']
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+
+    cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
+    jobs = cursor.fetchall()
+
+    return render_template('employee.html', jobs=jobs, user=user)
 
 if __name__ == "__main__":
    app.run(debug = True)
