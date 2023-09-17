@@ -435,14 +435,8 @@ def update_find_job(id):
             thursday_periods = int(request.form.get('thursday-interval2'))
             for i in range(thursday_periods):
                 print("i== ",i)
-<<<<<<< HEAD
-
-                start_time = request.form.get('thursday-interval-start-time-' + str(i))
-                end_time = request.form.get('thursday-interval-end-time-' + str(i))
-=======
                 start_time = request.form.get('thursday-interval2-start-time-' + str(i))
                 end_time = request.form.get('thursday-interval2-end-time-' + str(i))
->>>>>>> cdf364ad3accc97c2272137a3fefb848b2594e97
                 thursdayStarts.append(start_time)
                 thursdayEnds.append(end_time)
         
@@ -450,7 +444,7 @@ def update_find_job(id):
 
 
             cursor.execute("UPDATE seekers_form SET  name = '{}', phoneNumber = '{}', languages = '{}', skills = '{}', gpa = '{}', major = '{}', experience = '{}',sunday_periods = '{}',monday_periods = '{}',tuesdayـperiods = '{}',wednesday_periods = '{}',thursday_periods= '{}',sunday_start_interval = '{}',sunday_end_interval = '{}',monday_start_interval = '{}',monday_end_interval = '{}',tuesday_start_interval = '{}',tuesday_end_interval = '{}',wednesday_start_interval = '{}',wednesday_end_interval = '{}',thursday_start_interval = '{}',thursday_end_interval = '{}' WHERE id = '{}'".format 
-                       (new_name, new_phoneNumber, new_Languages , new_skills, new_gpa, new_major, new_experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)), ','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)),id ))
+                       (new_name, new_phoneNumber, new_Languages , new_skills, new_gpa, new_major, new_experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)),id ))
         
             connection.commit()
             connection.close()
@@ -468,6 +462,8 @@ def update_find_job(id):
 
         return render_template('update_find_job.html', user=user , form = form)
        
+
+
 
 
 @app.route('/delete_form/<id>')
