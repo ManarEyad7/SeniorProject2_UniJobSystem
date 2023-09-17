@@ -22,6 +22,7 @@
     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
     <style>
         .job-post-container {
+            min-height: 300px;
             max-height: 400px;
             /* Adjust to fit exactly 4 job postings, you might need to change this */
             overflow-y: auto;
@@ -97,7 +98,7 @@
                                         {% if jobs %}
                                         {% for job in jobs %}
                                         <div class="job-post d-flex justify-content-between align-items-center">
-                                            <h4 class="mb-0" style="flex: 1;">{{ job[2] }}</h4>
+                                            <h4 class="mb-0 text-capitalize" style="flex: 1;">{{ job[2] }}</h4>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-primary btn-sm dropdown-toggle"
                                                     style="margin-right: 0.9rem; " type="button"
@@ -106,13 +107,13 @@
                                                     <i class="mdi mdi-format-list-bulleted"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item"
-                                                        href="/view_candidates/{{ job.job_id }}"> View Candidates</a>
-                                                    <a class="dropdown-item"
-                                                        href="/view_jobs/{{ job[0] }}">View Job</a>
+                                                    <a class="dropdown-item" href="/view_candidates/{{ job.job_id }}">
+                                                        View Candidates</a>
+                                                    <a class="dropdown-item" href="/view_jobs/{{ job[0] }}">View Job</a>
                                                     <a class="dropdown-item" href="/update_post_job/{{ job[0] }}">Update
                                                         Job</a>
-                                                    <a class="dropdown-item" href="/delete_jobs/{{ job[0] }}"> Delete Job</a>
+                                                    <a class="dropdown-item" href="/delete_jobs/{{ job[0] }}"> Delete
+                                                        Job</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,6 +124,9 @@
                                             <h4 class="mb-10">No active job posts</h4>
                                             <p class="px-30 pb-20">Post a job to the marketplace and let talent come to
                                                 you.</p>
+                                            <div>
+                                                <a href="/post_job">Post a new job</a>
+                                            </div>
                                         </div>
                                         {% endif %}
                                     </div>
