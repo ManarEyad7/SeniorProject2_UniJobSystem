@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommended Seekers</title>
+</head>
+<body>
+    <h1>Recommended Seekers</h1>
+    <ul>
+        {% if recommendations %}
+        oo
+        {% for seeker in recommendations %}
+        <li>
+            <p>Major: {{ recommendations[1] }}</p>
+            <p>GPA: {{ recommendations[2] }}</p>
+            <p>Skills: {{ recommendations[3] }}</p>
+        </li>
+        {% endfor %}
+        {% endif %}
+
+    </ul>
+</body>
+</html>

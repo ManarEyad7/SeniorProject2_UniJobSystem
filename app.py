@@ -1,6 +1,8 @@
-from flask import Flask, request, redirect , flash, url_for,render_template, session,abort
-
+from flask import Flask, request, redirect , flash, url_for,render_template, session,abort,jsonify
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
 import sqlite3
+import numpy as np
 TEMPLATES_AUTO_RELOAD = True
 
 app = Flask(__name__)
@@ -461,10 +463,6 @@ def update_find_job(id):
         form = cursor.fetchone()
 
         return render_template('update_find_job.html', user=user , form = form)
-       
-
-
-
 
 @app.route('/delete_form/<id>')
 def delete_form(id):
@@ -478,7 +476,6 @@ def delete_form(id):
     connection.close()
 
     return redirect(url_for("student"))
-
 
 @app.route('/delete_jobs/<id>')
 def delete_jobs(id):
@@ -510,5 +507,79 @@ def employeeCancle():
 
     return render_template('employee.html', jobs=jobs, user=user)
 
+'''    ------------------------   recommendetion system trying   ------------------------    '''
+''' 
+
+
+# Route for recommending seekers for a specific job
+@app.route('/recommend/<int:job_id>', methods=['GET'])
+def recommend(job_id):
+   # SQLite database connection
+    connection = sqlite3.connect('users_database.db')
+    cursor = connection.cursor()
+    # Fetch job posts and seekers' forms data
+    cursor.execute("SELECT required_major, min_gpa, skills FROM job_posts WHERE job_id=?", (job_id,))
+    job_posts_data = cursor.fetchall()
+    cursor.execute("SELECT major, gpa, skills FROM seekers_form")
+    seekers_form_data = cursor.fetchall()
+    
+    # Preprocess and convert non-numeric features using TF-IDF
+    tfidf_vectorizer = TfidfVectorizer()
+    job_skills_numeric = tfidf_vectorizer.fit_transform(job_posts_data[0][2].split(','))
+    seeker_skills_numeric = tfidf_vectorizer.transform(seekers_form_data[0][2].split(','))
+    job_required_major_numeric = tfidf_vectorizer.transform(job_posts_data[0][0].split(','))
+    seeker_major_numeric = tfidf_vectorizer.transform(seekers_form_data[0][0].split(','))
+
+
+     Ensure the job and seeker arrays have the same number of rows
+    num_job_samples = job_skills_numeric.shape[0]
+    num_seeker_samples = seeker_skills_numeric.shape[0]
+
+    if num_job_samples < num_seeker_samples:
+        seeker_skills_numeric = seeker_skills_numeric[:num_job_samples]
+        seeker_major_numeric = seeker_major_numeric[:num_job_samples]
+    elif num_job_samples > num_seeker_samples:
+        job_skills_numeric = job_skills_numeric[:num_seeker_samples]
+        job_required_major_numeric = job_required_major_numeric[:num_seeker_samples]
+    
+    # Combine numerical and converted features
+    job_features = np.column_stack((job_posts_data[0][1], job_skills_numeric.toarray(), job_required_major_numeric.toarray()))
+    seeker_features = np.column_stack((seekers_form_data[0][1], seeker_skills_numeric.toarray(), seeker_major_numeric.toarray()))
+
+    # Calculate similarity scores
+    similarity_scores = cosine_similarity(job_features, seeker_features)
+
+    # Recommendation function
+    def recommend_seekers_for_job(job_id):
+        num_jobs = len(similarity_scores)
+        if job_id < 1 or job_id > num_jobs:
+            return []  # Return an empty list for invalid job IDs
+
+        job_index = job_id - 1
+        similarities = similarity_scores[job_index]
+        recommended_seekers_indices = np.argsort(similarities)[::-1][:5]  # Top 5 recommendations
+        recommended_seekers = [seekers_form_data[i] for i in recommended_seekers_indices]
+        return recommended_seekers
+
+    recommendations = recommend_seekers_for_job(job_id)
+    print('***********************************')
+    return render_template('recommendations.html', recommendations=recommendations)
+
+def compute_similarity(job_post_data, seekers_form_data):
+    # Implement your similarity measure logic here
+    # Calculate the similarity score between the job post and each seeker's form
+    # Return a similarity score array
+
+    # For demonstration purposes, let's assume a simple similarity score based on exact match of skills and major
+    skill_similarity = [len(set(job_post_data[2].split()).intersection(set(seeker_form[2].split()))) / len(set(job_post_data[2].split() + seeker_form[2].split())) for seeker_form in seekers_form_data]
+    major_similarity = [1 if job_post_data[0] == seeker_form[0] else 0 for seeker_form in seekers_form_data]
+
+    # Combine the similarity scores using weights if needed
+    similarity_scores = (0.7 * np.array(skill_similarity)) + (0.3 * np.array(major_similarity))
+    return similarity_scores
+
+    ------------------------   recommendetion system trying   ------------------------    
+'''
 if __name__ == "__main__":
    app.run(debug = True)
+
