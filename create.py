@@ -57,5 +57,13 @@ CREATE TABLE seekers_form (
 )
 """)
 
+cursor.execute("""
+CREATE TABLE files (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    data BLOB,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)
+""")
 
 connection.commit()

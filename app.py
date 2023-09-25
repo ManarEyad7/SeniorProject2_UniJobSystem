@@ -1,8 +1,12 @@
-from flask import Flask, request, redirect , flash, url_for,render_template, session,abort,jsonify
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
+from flask import Flask, request, redirect , flash, url_for,render_template, session,send_file
 import sqlite3
+from io import BytesIO
+
 import numpy as np
+
+ #to save pdf file
+import os
+
 TEMPLATES_AUTO_RELOAD = True
 
 app = Flask(__name__)
@@ -65,6 +69,18 @@ def find_job():
         major = request.form['major']
         experience = request.form['experience']
         form_submission = True
+        uploaded_file = request.files['pdf_file']    # Get the uploaded file
+
+        # Save the file to a temporary location
+        temp_path = '/tmp/' + uploaded_file.filename
+        uploaded_file.save(temp_path)
+
+        # Read the file data as binary
+        with open(temp_path, 'rb') as file:
+            file_data = file.read()
+
+        # Delete the temporary file
+        os.remove(temp_path)
         #--------------------------- Start interval data
         
         # Get the sunday interval data from the form
@@ -124,10 +140,13 @@ def find_job():
         
         #--------------------------- End interval data
 
-
         cursor.execute("INSERT INTO seekers_form (user_id, form_submission, name, phoneNumber, languages, skills, gpa, major, experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                     (user_id, form_submission, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
-        
+        #form_id = cursor.lastrowid
+
+        cursor.execute('INSERT INTO files (user_id, filename, data) VALUES (?, ?, ?)',
+                   ( user_id,uploaded_file.filename, file_data))
+
         connection.commit()
         connection.close()
 
@@ -144,6 +163,28 @@ def find_job():
         return redirect(url_for("login"))
 
 
+# Handle file download
+@app.route('/download/<int:file_id>')
+def download(file_id):
+    # Retrieve the file data from the database based on the form_id
+    conn = sqlite3.connect('users_database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT filename, data FROM files WHERE file_id = ?', (file_id,))
+    file = cursor.fetchone()
+    conn.close()
+
+    # Check if the file data exists
+    if file is None:
+        return 'File not found.'
+
+    filename = file[0]
+    file_data = file[1]
+    file_obj = BytesIO(file_data)  # Create a file-like object from the file_data
+    print(file_obj)
+
+    # Send the file data as a response using send_file
+    return send_file(file_obj, download_name=filename, as_attachment=True,mimetype='application/pdf')
+    
 if __name__ == "__main__":
    app.run(debug = True)
 
@@ -275,9 +316,11 @@ def view_form(id):
     form = cursor.fetchone()
     cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
     user = cursor.fetchone()
+    cursor.execute("SELECT file_id,filename, data FROM files WHERE user_id = ?", (user_id,))
+    file = cursor.fetchone()
     #connection.close()
 
-    return render_template('view_form.html', form=form,user=user)
+    return render_template('view_form.html', form=form,user=user,file=file)
  
 @app.route('/view_jobs/<id>')
 def view_jobs(id):
@@ -385,6 +428,19 @@ def update_find_job(id):
             new_major = request.form['n_major']
             new_experience = request.form['n_experience']
             form_submission = True
+            ''' 
+            new_uploaded_file = request.files['pdf_file']    # Get the uploaded file
+
+            # Save the file to a temporary location
+            new_temp_path = '/tmp/' + new_uploaded_file.filename
+            new_uploaded_file.save(new_temp_path)
+
+            # Read the file data as binary
+            with open(new_temp_path, 'rb') as file:
+                new_file_data = file.read()
+
+            # Delete the temporary file
+            os.remove(new_temp_path)'''
             #--------------------------- Start interval data
         
             # Get the sunday interval data from the form
@@ -445,9 +501,9 @@ def update_find_job(id):
             #--------------------------- End interval data
 
 
-            cursor.execute("UPDATE seekers_form SET  name = '{}', phoneNumber = '{}', languages = '{}', skills = '{}', gpa = '{}', major = '{}', experience = '{}',sunday_periods = '{}',monday_periods = '{}',tuesdayـperiods = '{}',wednesday_periods = '{}',thursday_periods= '{}',sunday_start_interval = '{}',sunday_end_interval = '{}',monday_start_interval = '{}',monday_end_interval = '{}',tuesday_start_interval = '{}',tuesday_end_interval = '{}',wednesday_start_interval = '{}',wednesday_end_interval = '{}',thursday_start_interval = '{}',thursday_end_interval = '{}' WHERE id = '{}'".format 
-                       (new_name, new_phoneNumber, new_Languages , new_skills, new_gpa, new_major, new_experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)),id ))
-        
+            cursor.execute("UPDATE seekers_form SET name = '{}', phoneNumber = '{}', languages = '{}', skills = '{}', gpa = '{}', major = '{}', experience = '{}', sunday_periods = '{}', monday_periods = '{}', tuesday_periods = '{}', wednesday_periods = '{}', thursday_periods = '{}', sunday_start_interval = '{}', sunday_end_interval = '{}', monday_start_interval = '{}', monday_end_interval = '{}', tuesday_start_interval = '{}', tuesday_end_interval = '{}', wednesday_start_interval = '{}', wednesday_end_interval = '{}', thursday_start_interval = '{}', thursday_end_interval = '{}' WHERE id = '{}'".format(new_name, new_phoneNumber, new_Languages, new_skills, new_gpa, new_major, new_experience, sunday_periods, monday_periods, tuesdayـperiods, wednesday_periods, thursday_periods, ','.join(map(str, sundayStarts)), ','.join(map(str, sundayEnds)), ','.join(map(str, mondayStarts)), ','.join(map(str, mondayEnds)), ','.join(map(str, tuesdayStarts)), ','.join(map(str, tuesdayEnds)), ','.join(map(str, wednesdayStarts)), ','.join(map(str, wednesdayEnds)), ','.join(map(str, thursdayStarts)), ','.join(map(str, thursdayEnds)), id))
+
+
             connection.commit()
             connection.close()
 
@@ -461,17 +517,21 @@ def update_find_job(id):
 
         cursor.execute("SELECT * FROM seekers_form WHERE user_id = ? AND id = ?", (user_id,id))
         form = cursor.fetchone()
+        
+        
 
         return render_template('update_find_job.html', user=user , form = form)
-
-@app.route('/delete_form/<id>')
-def delete_form(id):
+    return "invalid"
+@app.route('/delete_form/<id>/<user_id>')
+def delete_form(id,user_id):
     #user_id = session['user_id']
     #job_id = session['job_id']
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
 
     cursor.execute("DELETE FROM seekers_form WHERE id = '{}' ".format(id))
+    cursor.execute("DELETE FROM files WHERE user_id = '{}' ".format(user_id))
+
     connection.commit()
     connection.close()
 

@@ -58,7 +58,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Find Job</h4>
                                     <p class="card-description"> Fill out this form  to search for a Part Time job </p>
-                                    <form id="myForm" class="forms-sample" method="POST">
+                                    <form id="myForm" class="forms-sample" method="POST" enctype="multipart/form-data">
                                         <div class="form-group"> <!-- Name -->
                                             <label for="name" class="font-weight-bold">Name:</label>
                                             <input type="text" class="form-control custom-input" id="name" name="name" required>
@@ -83,6 +83,7 @@
                                         <div class="form-group"> <!-- Major -->
                                             <label class="font-weight-bold">Required Major:</label>
                                             <select id="major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" name="major" required>
+                                                <option value="" disabled selected>Options</option>
                                                 <option value="Computer Science">Computer Science</option>
                                                 <option value="Artificial Intelligence">Artificial Intelligence</option>
                                                 <option value="Data Science">Data Science</option>
@@ -175,6 +176,14 @@
                                                 <option value="No">No</option>
                                             </select>
                                         </div>
+
+
+
+                                        <div class="form-group"> <!-- Upload CV -->
+                                            <label class="font-weight-bold">Upload CV (PDF only):</label><br>
+                                            <input class="" type="file"  id="file" name="pdf_file" accept=".pdf" required>
+                                        </div>
+                                        
                                         
                                         <div class="text-center">
                                             <button id="submit-button" type="submit" class="btn btn-primary mr-2">Submit</button>

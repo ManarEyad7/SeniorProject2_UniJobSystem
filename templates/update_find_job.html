@@ -58,7 +58,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Find Job</h4>
                                     <p class="card-description"> Fill out this form  to search for a Part Time job </p>
-                                    <form id="myForm" class="forms-sample" method="POST">
+                                    <form id="myForm" class="forms-sample" method="POST" enctype="multipart/form-data">
                                         <div class="form-group"> <!-- Name -->
                                             <label for="n_name" class="font-weight-bold">Name:</label>
                                             <input type="text" class="form-control custom-input" id="n_name" name="n_name" value = "{{ form[3] }}" required>
@@ -254,6 +254,11 @@
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
+                                        </div>
+
+                                        <div class="form-group"> <!-- update CV 
+                                            <label class="font-weight-bold">The uploaded file is "", choose File if you want to update it?</label><br>
+                                            <input class="" type="file"  id="file" name="pdf_file" accept=".pdf" required>-->
                                         </div>
                                         
                                         <div class="text-center">
