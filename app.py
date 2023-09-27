@@ -2,9 +2,9 @@ from flask import Flask, request, redirect , flash, url_for,render_template, ses
 import sqlite3
 from io import BytesIO
 
-import numpy as np
+#import numpy as np
 
- #to save pdf file
+#to save pdf file
 import os
 
 TEMPLATES_AUTO_RELOAD = True
