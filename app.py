@@ -42,11 +42,10 @@ def login():
         else:
             flash("Sorry, incorrect login. Try again!", 'error')
             return render_template("login.html")
-        
+         
         connection.close()
 
     return render_template("login.html")
-
 
 @app.route('/find_job',methods=['GET', 'POST'])
 def find_job():
@@ -232,7 +231,7 @@ def post_job():
     else:
         flash("User not found. Please log in again.", 'error')
         return redirect(url_for("login"))
-
+    
 @app.route('/employee')
 def employee():
     if 'user_id' in session:
@@ -251,7 +250,7 @@ def employee():
             connection.close()
 
             return render_template('employee.html', jobs=jobs, user=user)
-
+        
 
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
