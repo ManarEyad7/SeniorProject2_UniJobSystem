@@ -1,7 +1,9 @@
-from flask import Flask, request, redirect , flash, url_for,render_template, session,send_file
+from flask import Flask, request, redirect , flash, url_for,render_template, session,send_file,jsonify
 import sqlite3
 from io import BytesIO
-
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 #import numpy as np
 
 #to save pdf file
@@ -70,16 +72,18 @@ def find_job():
         form_submission = True
         uploaded_file = request.files['pdf_file']    # Get the uploaded file
 
-        # Save the file to a temporary location
-        temp_path = '/tmp/' + uploaded_file.filename
-        uploaded_file.save(temp_path)
+        if uploaded_file is not None:
+            # Save the file to a temporary location
+            temp_path = '/tmp/' + uploaded_file.filename
+            uploaded_file.save(temp_path)
 
-        # Read the file data as binary
-        with open(temp_path, 'rb') as file:
-            file_data = file.read()
+            # Read the file data as binary
+            with open(temp_path, 'rb') as file:
+                file_data = file.read()
 
-        # Delete the temporary file
-        os.remove(temp_path)
+            # Delete the temporary file
+            os.remove(temp_path)
+            
         #--------------------------- Start interval data
         
         # Get the sunday interval data from the form
@@ -143,8 +147,9 @@ def find_job():
                     (user_id, form_submission, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
         #form_id = cursor.lastrowid
 
-        cursor.execute('INSERT INTO files (user_id, filename, data) VALUES (?, ?, ?)',
-                   ( user_id,uploaded_file.filename, file_data))
+        if uploaded_file is not None:
+            cursor.execute('INSERT INTO files (user_id, filename, data) VALUES (?, ?, ?)',
+                    ( user_id,uploaded_file.filename, file_data))
 
         connection.commit()
         connection.close()
@@ -521,6 +526,7 @@ def update_find_job(id):
 
         return render_template('update_find_job.html', user=user , form = form)
     return "invalid"
+
 @app.route('/delete_form/<id>/<user_id>')
 def delete_form(id,user_id):
     #user_id = session['user_id']
@@ -567,6 +573,49 @@ def employeeCancle():
     return render_template('employee.html', jobs=jobs, user=user)
 
 '''    ------------------------   recommendetion system trying   ------------------------    '''
+
+
+@app.route('/get_recommendations/<int:job_id>')
+def get_recommendations(job_id):
+    # Establish a connection to the SQLite database
+    conn = sqlite3.connect('users_database.db')
+    cursor = conn.cursor()
+    
+    # Retrieve data from SQL database
+    cursor.execute("SELECT major, gpa, skills FROM seekers_form")
+    seekers_data = cursor.fetchall()
+    
+    cursor.execute("SELECT required_major, min_gpa, skills FROM job_posts WHERE job_id = ?", (job_id,))
+    job_data = cursor.fetchone()
+    
+    # Perform recommendation process
+    seekers_combined_features = [' '.join(str(item) for item in row) for row in seekers_data]
+    job_combined_features = ' '.join(str(item) for item in job_data)
+
+    tfidf = TfidfVectorizer()
+    seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
+    job_tfidf_matrix = tfidf.transform([job_combined_features])
+
+    similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
+    top_seekers = np.argsort(similarity_scores, axis=0)[-3:][::-1].flatten()
+    print(similarity_scores)
+
+    #recommended_seekers = [seekers_data[i] for i in top_seekers]
+    recommended_seekers = []
+    for i in top_seekers:
+        seeker = seekers_data[i]
+        score = similarity_scores[i][0]  # Get the similarity score for the seeker
+        recommended_seekers.append({'seeker': seeker, 'score': score})
+    cursor.close()
+    conn.close()
+    
+    return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id)
+
+    #return jsonify({'job_id': job_id, 'recommendations': recommended_seekers})
+
+
+
+
 ''' 
 
 

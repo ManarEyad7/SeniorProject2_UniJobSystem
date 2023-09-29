@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Recommended Seekers</title>
+    <title>Job Recommendations</title>
 </head>
 <body>
-    <h1>Recommended Seekers</h1>
+    <h1>Recommendations for the job {{ job_id }}</h1>
+    
     <ul>
-        {% if recommendations %}
-        oo
-        {% for seeker in recommendations %}
+        {% for recommendation in recommendations %}
         <li>
-            <p>Major: {{ recommendations[1] }}</p>
-            <p>GPA: {{ recommendations[2] }}</p>
-            <p>Skills: {{ recommendations[3] }}</p>
+            <p>Major: {{ recommendation['seeker'][0] }}</p>
+            <p>GPA: {{ recommendation['seeker'][1] }}</p>
+            <p>Skills: {{ recommendation['seeker'][2] }}</p>
+            <p>Score: {{ recommendation['score'] }}</p>
         </li>
         {% endfor %}
-        {% endif %}
-
     </ul>
 </body>
 </html>
