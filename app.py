@@ -1,10 +1,10 @@
 from flask import Flask, request, redirect , flash, url_for,render_template, session,send_file,jsonify
 import sqlite3
 from io import BytesIO
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 #import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer 
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 #to save pdf file
 import os
