@@ -4,6 +4,8 @@ from io import BytesIO
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from datetime import datetime, timedelta
+
 #import numpy as np
 
 #to save pdf file
@@ -90,10 +92,14 @@ def find_job():
         sundayStarts = []
         sundayEnds = []
         sunday_periods = int(request.form.get('sunday-interval'))
+        totalDuration = 0 
         for i in range(sunday_periods):
-            print("i== ",i)
+            #print("i== ",i)
             start_time = request.form.get('sunday-interval-start-time-' + str(i))
             end_time = request.form.get('sunday-interval-end-time-' + str(i))
+            duration = calculate_duration(start_time, end_time)
+            totalDuration += duration
+            print('sunday: ',totalDuration)
             sundayStarts.append(start_time)
             sundayEnds.append(end_time)
 
@@ -102,9 +108,12 @@ def find_job():
         mondayEnds = []
         monday_periods = int(request.form.get('monday-interval'))
         for i in range(monday_periods):
-            print("i== ",i)
+            #print("i== ",i)
             start_time = request.form.get('monday-interval-start-time-' + str(i))
             end_time = request.form.get('monday-interval-end-time-' + str(i))
+            duration = calculate_duration(start_time, end_time)
+            totalDuration += duration
+            print('monday: ',totalDuration)
             mondayStarts.append(start_time)
             mondayEnds.append(end_time)
 
@@ -113,9 +122,12 @@ def find_job():
         tuesdayEnds = []
         tuesdayـperiods = int(request.form.get('tuesday-interval'))
         for i in range(tuesdayـperiods):
-            print("i== ",i)
+            #print("i== ",i)
             start_time = request.form.get('tuesday-interval-start-time-' + str(i))
             end_time = request.form.get('tuesday-interval-end-time-' + str(i))
+            duration = calculate_duration(start_time, end_time)
+            totalDuration += duration
+            print('tuesday: ',totalDuration)
             tuesdayStarts.append(start_time)
             tuesdayEnds.append(end_time)
 
@@ -124,9 +136,12 @@ def find_job():
         wednesdayEnds = []
         wednesday_periods = int(request.form.get('wednesday-interval'))
         for i in range(wednesday_periods):
-            print("i== ",i)
+            #print("i== ",i)
             start_time = request.form.get('wednesday-interval-start-time-' + str(i))
             end_time = request.form.get('wednesday-interval-end-time-' + str(i))
+            duration = calculate_duration(start_time, end_time)
+            totalDuration += duration
+            print('wednesday: ',totalDuration)
             wednesdayStarts.append(start_time)
             wednesdayEnds.append(end_time)
 
@@ -135,16 +150,20 @@ def find_job():
         thursdayEnds = []
         thursday_periods = int(request.form.get('thursday-interval'))
         for i in range(thursday_periods):
-            print("i== ",i)
+            #print("i== ",i)
             start_time = request.form.get('thursday-interval-start-time-' + str(i))
             end_time = request.form.get('thursday-interval-end-time-' + str(i))
+            duration = calculate_duration(start_time, end_time)
+            totalDuration += duration
+            print('thursday: ',totalDuration)
             thursdayStarts.append(start_time)
             thursdayEnds.append(end_time)
         
         #--------------------------- End interval data
-
-        cursor.execute("INSERT INTO seekers_form (user_id, form_submission, name, phoneNumber, languages, skills, gpa, major, experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, form_submission, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience,sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
+        print(totalDuration)
+        totalHoursDuration = convert_minutes_to_hours(totalDuration)
+        cursor.execute("INSERT INTO seekers_form (user_id, form_submission, name, phoneNumber, languages, skills, gpa, major, experience, totalDuration, sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, form_submission, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience, totalHoursDuration, sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
         #form_id = cursor.lastrowid
 
         if uploaded_file is not None:
@@ -165,6 +184,23 @@ def find_job():
     else:
         flash("User not found. Please log in again.", 'error')
         return redirect(url_for("login"))
+    
+def calculate_duration(start_time, end_time):
+    start_datetime = datetime.strptime(start_time, '%I:%M %p')
+    end_datetime = datetime.strptime(end_time, '%I:%M %p')
+    
+    if end_datetime < start_datetime:
+        end_datetime += timedelta(days=1)  # Add one day if the end time is on the next day
+    
+    duration = end_datetime - start_datetime
+    minutes = duration.seconds // 60
+    return minutes  # Convert to hours:minutes
+
+def convert_minutes_to_hours(duration_minutes):
+    hours = duration_minutes // 60
+    minutes = duration_minutes % 60
+    return hours
+
 
 
 # Handle file download
@@ -212,12 +248,13 @@ def post_job():
         min_gpa = request.form['min_gpa']
         skills = request.form.getlist('skills')
         working_hours = request.form['working_hours']
+        experience = request.form['experience']
         job_duration = request.form['job_duration']
         positions_available = request.form['positions_available']
         print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
 
-        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, working_hours, job_duration, positions_available) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, job_title, required_major, min_gpa, ','.join(skills), working_hours, job_duration, positions_available))
+        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, working_hours, experience, job_duration, positions_available) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, job_title, required_major, min_gpa, ','.join(skills), working_hours, experience, job_duration, positions_available))
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         
 
@@ -582,34 +619,66 @@ def get_recommendations(job_id):
     cursor = conn.cursor()
     
     # Retrieve data from SQL database
-    cursor.execute("SELECT major, gpa, skills FROM seekers_form")
+    cursor.execute("SELECT major, gpa, skills, totalDuration, experience FROM seekers_form")
     seekers_data = cursor.fetchall()
     
-    cursor.execute("SELECT required_major, min_gpa, skills FROM job_posts WHERE job_id = ?", (job_id,))
+    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
+    job_data = [job_data]
+    #print("iiii",seekers_data)
+    #print("iiii2222",job_data)
+
+    # Check if required_major is set to "No Preference"
+    if job_data[0][0] == 'No Preference':
+        # Drop the 'experience' column from seekers_data and job_data
+        seekers_data = [seeker[:3] + seeker[4:] for seeker in seekers_data]
+        job_data = [job_data[0][1:3] + job_data[0][4:]]
     
-    # Perform recommendation process
-    seekers_combined_features = [' '.join(str(item) for item in row) for row in seekers_data]
-    job_combined_features = ' '.join(str(item) for item in job_data)
+    # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
+    if job_data[0][4] == 'No':
+        seekers_data = [seeker[:4] for seeker in seekers_data]
+        job_data = [job_data[0][:4] + job_data[0][5:]]
 
-    tfidf = TfidfVectorizer()
-    seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
-    job_tfidf_matrix = tfidf.transform([job_combined_features])
+    # Filter out seekers whose total duration is less than the job's working hours
+    filtered_seekers_data = []
+    for seeker in seekers_data:
+        if seeker[3] >= job_data[0][3]:
+            filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
+            filtered_seekers_data.append(filtered_seeker)
 
-    similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
-    top_seekers = np.argsort(similarity_scores, axis=0)[-3:][::-1].flatten()
-    print(similarity_scores)
+    if not filtered_seekers_data:
+        message = "No suitable seekers found."
+        return render_template('recommendations.html', message=message)
+    else:
+        # Drop the time-related column from job_data
+        filtered_job_data = job_data[0][:3] + job_data[0][4:]
 
-    #recommended_seekers = [seekers_data[i] for i in top_seekers]
-    recommended_seekers = []
-    for i in top_seekers:
-        seeker = seekers_data[i]
-        score = similarity_scores[i][0]  # Get the similarity score for the seeker
-        recommended_seekers.append({'seeker': seeker, 'score': score})
-    cursor.close()
-    conn.close()
-    
-    return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id)
+        # Perform recommendation process
+        seekers_combined_features = [' '.join(str(item) for item in row) for row in filtered_seekers_data]
+        job_combined_features = [' '.join(str(item) for item in filtered_job_data)]        
+        print("zzzz",seekers_combined_features)
+        print("zzzz2222",job_combined_features)
+
+        tfidf = TfidfVectorizer()
+        seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
+        job_tfidf_matrix = tfidf.transform(job_combined_features)
+        #print("hhhh",seekers_tfidf_matrix)
+        #print("hhhh2222",job_tfidf_matrix)
+
+        similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
+        top_seekers = np.argsort(similarity_scores, axis=0)[-3:][::-1].flatten()
+        #print(similarity_scores)
+
+        #recommended_seekers = [seekers_data[i] for i in top_seekers]
+        recommended_seekers = []
+        for i in top_seekers:
+            seeker = seekers_data[i]
+            score = similarity_scores[i][0]  # Get the similarity score for the seeker
+            recommended_seekers.append({'seeker': seeker, 'score': score})
+        cursor.close()
+        conn.close()
+        
+        return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id)
 
     #return jsonify({'job_id': job_id, 'recommendations': recommended_seekers})
 
