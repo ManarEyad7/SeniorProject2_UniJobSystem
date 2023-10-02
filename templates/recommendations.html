@@ -1,9 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Job Recommendations</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>R</title>
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
+    <link rel="stylesheet" href="../../static\vendors\mdi\css\materialdesignicons.min.css">
+
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
+    <!-- endinject -->
+
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
+
+    <!-- Website icon -->
+    <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+    <style>
+        .job-post-container {
+            min-height: 300px;
+            max-height: 400px;
+            /* Adjust to fit exactly 4 job postings, you might need to change this */
+            overflow-y: auto;
+        }
+
+        .card {
+            width: 100%;
+            /* Setting it to 100% to take the full width of the parent container */
+        }
+
+        .job-post {
+            min-height: 50px;
+            /* Adjust as needed, this is set to allow approximately 4 job postings to fit without scrolling */
+        }
+    </style>
 </head>
+
 <body>
+    <div class="container-scroller ">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex ">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <div class="navbar-brand brand-logo mr-5"><img src="../../static/images/logo1d.svg" class="mr-2" alt="logo" />
+                </div>
+                <div class="navbar-brand brand-logo-mini"><img src="../../static/images/U.svg" alt="logo" /></div>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+
+                <div class="dropdown" style="margin-right: 2.5em; ">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Employee
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <li> {{ user[4] }}
+                        </li>
+                        <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid page-body-wrapper w-100 ">
+            <div class="content-wrapper" style="min-height: inherit;">
+                <div class="container">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- plugins:js -->
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+    <!-- endinject -->
+
+
+
+</body>
+
+</html>
+
+<!--
     <h1>Recommendations for the job {{ job_id }}</h1>
     
     <ul>
@@ -16,5 +97,4 @@
         </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+    -->

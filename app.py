@@ -614,14 +614,25 @@ def employeeCancle():
 
 @app.route('/get_recommendations/<int:job_id>')
 def get_recommendations(job_id):
+
+    if 'user_id' not in session:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
+
+    user_id = session['user_id']
+
     # Establish a connection to the SQLite database
     conn = sqlite3.connect('users_database.db')
     cursor = conn.cursor()
-    
+
+
     # Retrieve data from SQL database
     cursor.execute("SELECT major, gpa, skills, totalDuration, experience FROM seekers_form")
     seekers_data = cursor.fetchall()
-    
+
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+
     cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
@@ -678,7 +689,7 @@ def get_recommendations(job_id):
         cursor.close()
         conn.close()
         
-        return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id)
+        return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id , user=user)
 
     #return jsonify({'job_id': job_id, 'recommendations': recommended_seekers})
 
