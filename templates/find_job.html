@@ -61,14 +61,14 @@
                                     <form id="myForm" class="forms-sample" method="POST" enctype="multipart/form-data">
                                         <div class="form-group"> <!-- Name -->
                                             <label for="name" class="font-weight-bold">Name:</label>
-                                            <input type="text" class="form-control custom-input" id="name" name="name" required>
+                                            <input type="text" class="form-control custom-input" id="name" name="name" value="{{ user[3] }}" readonly>
                                         </div>
 
                                         <div class="form-group"> <!-- Phone Number -->
                                             <label for="phoneNumber" class="font-weight-bold">Phone Number:</label>
                                             <input type="text" class="form-control custom-input" id="phoneNumber" name="phoneNumber" pattern="05[0-9]{8}"
                                             title="Please enter only numbers" minlength="10" maxlength="10" required>
-                                            <div id="phoneNumberError" class="error-message"></div>
+                                            <div id="phoneNumberError" class="error-message" style="color: red;"></div>
                                         </div>
 
                                         <div class="form-group" > <!-- Languages -->
@@ -81,7 +81,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Major -->
-                                            <label class="font-weight-bold">Required Major:</label>
+                                            <label class="font-weight-bold">Major:</label>
                                             <select id="major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" name="major" required>
                                                 <option value="" disabled selected>Options</option>
                                                 <option value="Computer Science">Computer Science</option>
@@ -179,15 +179,13 @@
                                             </select>
                                         </div>
 
-
-
                                         <div class="form-group"> <!-- Upload CV -->
                                             <label class="font-weight-bold">Upload CV (PDF only):</label><br>
                                             <input class="" type="file"  id="file" name="pdf_file" accept=".pdf">
                                         </div>
                                         
                                         
-                                        <div class="text-center">
+                                        <div class="text-center"> <!-- Buttons -->
                                             <button id="submit-button" type="submit" class="btn btn-primary mr-2">Submit</button>
                                             <button id="cancel-button"  onclick="location.href = '/studentCancle';" class="btn btn-light" >Cancel</button>
                                         </div>

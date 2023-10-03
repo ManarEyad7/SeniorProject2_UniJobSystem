@@ -7,6 +7,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>R</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
     <link rel="stylesheet" href="../../static\vendors\mdi\css\materialdesignicons.min.css">
@@ -21,6 +23,14 @@
     <!-- Website icon -->
     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
     <style>
+        .clickable-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .clickable-icon:hover,
+        .clickable-icon:active {
+            transform: scale(1.2);
+        }
         .job-post-container {
             min-height: 300px;
             max-height: 400px;
@@ -30,6 +40,8 @@
 
         .card {
             width: 100%;
+            height: 240px;
+            margin-bottom: 20px; 
             /* Setting it to 100% to take the full width of the parent container */
         }
 
@@ -69,7 +81,48 @@
             <div class="content-wrapper" style="min-height: inherit;">
                 <div class="container">
 
+                    <div class="row mt-5"> <!-- headline #3b3d6f-->
+                        <div class="col-12 col-xl-12 mb-4 mb-xl-0">
+                            <h2 class="font-weight-bold text-center" style="color: darkslateblue;">Recommendations for the job {{ job_title[0] }}</h2>
+                        </div>
+                    </div>
 
+                    <div class="row" style="margin-top: 2.5rem;"> <!-- Cards div -->
+                        
+                        {% for recommendation in recommendations[:9] %}
+                        <div class="col-lg-4 col-md-6"> <!-- recommended seeker card -->
+                            <div class="card">
+                                <div class="card-body">
+                                    
+                                    <p>name: {{ recommendation['name'] }}</p>
+                                    <p>Major: {{ recommendation['seeker'][0] }}</p>
+                                    <p>GPA: {{ recommendation['seeker'][1] }}</p>
+                                    <p>Skills: {{ recommendation['seeker'][2] }}</p>
+                                    <p>Score: {{ recommendation['score'] }}</p>
+                                    
+                                    <div class="text-center" style="margin-top:20px;">
+                                        <i id="check-icon" class="fa-regular fa-circle-check fa-2xl clickable-icon" style="color: #26bb02; margin-right: 10px;"></i>
+                                        <i id="xmark-icon" class="fa-regular fa-circle-xmark fa-2xl clickable-icon" style="color: #e91619;"></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        {% if recommendations|length < 9 %}
+                        {% for _ in range(9 - recommendations|length) %}
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card">
+                                <div class="card-body d-flex align-items-center justify-content-center">
+                                    <p></p> 
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,12 +130,30 @@
     <!-- plugins:js -->
     <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
     <!-- endinject -->
-
-
-
 </body>
-
 </html>
+
+<script>
+    // Get the check icon by its id
+    var checkIcon = document.getElementById('check-icon');
+  
+    // Add click event listener to the check icon
+    checkIcon.addEventListener('click', function () {
+      // Update the message element with the desired message for the check icon
+      document.getElementById('message').textContent = 'Check icon clicked!';
+      // Add your custom action logic for the check icon here
+    });
+  
+    // Get the x mark icon by its id
+    var xmarkIcon = document.getElementById('xmark-icon');
+  
+    // Add click event listener to the x mark icon
+    xmarkIcon.addEventListener('click', function () {
+      // Update the message element with the desired message for the x mark icon
+      document.getElementById('message').textContent = 'X mark icon clicked!';
+      // Add your custom action logic for the x mark icon here
+    });
+  </script>
 
 <!--
     <h1>Recommendations for the job {{ job_id }}</h1>
