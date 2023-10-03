@@ -2,53 +2,36 @@
 <html lang="en">
 
 <head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Skydash Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../../static/vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../static/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../static/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../../static/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../../static/images/favicon.png" />
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>R</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <!-- Website icon -->
+   <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+   <style>
+       .clickable-icon {
+           transition: transform 0.2s ease-in-out;
+       }
 
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
-    <link rel="stylesheet" href="../../static\vendors\mdi\css\materialdesignicons.min.css">
-
-
-    <!-- inject:css -->
-    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
-    <!-- endinject -->
-
-    <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
-
-    <!-- Website icon -->
-    <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
-    <style>
-        .clickable-icon {
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .clickable-icon:hover,
-        .clickable-icon:active {
-            transform: scale(1.2);
-        }
-        .job-post-container {
-            min-height: 300px;
-            max-height: 400px;
-            /* Adjust to fit exactly 4 job postings, you might need to change this */
-            overflow-y: auto;
-        }
-
-        .card {
-            width: 100%;
-            height: 240px;
-            margin-bottom: 20px; 
-            /* Setting it to 100% to take the full width of the parent container */
-        }
-
-        .job-post {
-            min-height: 50px;
-            /* Adjust as needed, this is set to allow approximately 4 job postings to fit without scrolling */
-        }
+       .clickable-icon:hover,
+       .clickable-icon:active {
+           transform: scale(1.2);
+       }
     </style>
 </head>
 
@@ -84,75 +67,124 @@
 
                     <div class="row mt-5"> <!-- headline #3b3d6f-->
                         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
-                            <h2 class="font-weight-bold text-center" style="color: darkslateblue;">Recommendations for the job {{ job_title[0] }}</h2>
-                        </div>
-                    </div>
+                            <h2 class="font-weight-bold text-center " style="color: darkslateblue;">Recommendations for
+                                the job {{ job_title[0] | capitalize }}</h2>
 
-<<<<<<< HEAD
-                    <div class="row mt-5" style="margin-left: 5px">
-                        <div class="col-12 col-xl-12 mb-4 mb-xl-0">
-                            <h2 class="text-capitalize">{{ job[0] }} Job </h2>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 2.5rem;">
 
-                        <div class="col-lg-9 grid-margin stretch-card">
-                            <div class="card">
+                        <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card custom-card">
                                 <div class="card-body">
                                     <h4 class="card-title">Top Student Recommendations</h4>
                                     <p class="card-description">
-                                        Discover Ideal Candidates: Top Student Recommendations for This Job Opportunity 
+                                        Discover Ideal Candidates: Top Student Recommendations for This Job Opportunity
                                     </p>
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    
-                                                    <th>User</th>
-                                                    <th>Major</th>
-                                                    <th>GPA</th>
-                                                    <th>Skills</th>
-                                                    <th>Experience</th>
-                                                    <th>Score</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% if recommendations %}
-                                                {% for recommendation in recommendations %}
-                                                <tr>
-                                                    <td>{{ recommendation['seeker'][8] | capitalize }}</td>
-                                                    <td>{{ recommendation['seeker'][0] }}</td>
-                                                    <td>{{ recommendation['seeker'][1] }}</td>
-                                                    <td>
-                                                        {% for skill in recommendation['seeker'][2].split(',') %}
-                                                          <label class="badge badge-warning">{{ skill.strip() }}</label>
+
+                                    <div class="job-post-container">
+                                        <div class="job-post d-flex justify-content-between align-items-center">
+
+                                            <div class="table-responsive custom-table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th>User</th>
+                                                            <th>Major</th>
+                                                            <th>GPA</th>
+                                                            <th>Skills</th>
+                                                            <th>Score</th>
+                                                            <th></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if recommendations %}
+                                                        {% for recommendation in recommendations %}
+                                                        <tr>
+                                                            <td>{{ recommendation['name'] }}</td>
+                                                            <td>{{ recommendation['seeker'][0] }}</td>
+                                                            <td>{{ recommendation['seeker'][1] }}</td>
+                                                            <td class="skill-cell">
+                                                                {% set skills = recommendation['seeker'][2].split(',')
+                                                                %}
+                                                                {% if skills|length > 0 %}
+                                                                <div class="skills-container">
+                                                                    {% for skill in skills %}
+                                                                    {% if loop.index <= 3 %} <label
+                                                                        class="badge badge-warning"
+                                                                        style="margin-bottom: 2px ">{{ skill.strip()
+                                                                        }}</label>
+                                                                        {% endif %}
+                                                                        {% endfor %}
+                                                                        {% if skills|length > 3 %}
+                                                                        <span class="more-skills"
+                                                                            onclick="toggleSkills()">Show more</span>
+                                                                        <div class="hidden-skills"
+                                                                            style="display: none;">
+                                                                            {% for skill in skills %}
+                                                                            {% if loop.index > 3 %}
+
+                                                                            {% if loop.index % 3 == 1 %}
+                                                                            <div class="skill-row">
+                                                                                {% endif %}
+                                                                                <label class="badge badge-warning"
+                                                                                    style="margin-bottom: 2px ">{{
+                                                                                    skill.strip() }}</label>
+                                                                                {% if loop.index % 3 == 0 or loop.last
+                                                                                %}
+                                                                            </div>
+                                                                            {% endif %}
+                                                                            {% endif %}
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                        {% endif %}
+                                                                </div>
+
+                                                                {% else %}
+                                                                <!-- Handle the case when there are no skills -->
+                                                                <span>No skills available</span>
+                                                                {% endif %}
+                                                                
+                                                            </td>
+
+                                                            <td>{{ recommendation['score'] | float | round(2) }}</td>
+                                                            <td>
+                                                                <i id="check-icon"
+                                                                    class="fa-regular fa-circle-check fa-2xl clickable-icon"
+                                                                    style="color: #26bb02; margin-right: 10px;"></i>
+                                                                <i id="xmark-icon"
+                                                                    class="fa-regular fa-circle-xmark fa-2xl clickable-icon"
+                                                                    style="color: #e91619;"></i>
+                                                            </td>
+                                                        </tr>
                                                         {% endfor %}
-                                                      </td>
-                                                    <td>{{ recommendation['seeker'][3] }}</td>
-                                                    <td>{{ recommendation['score'] | float | round(2) }}</td>
-                                                </tr>
-                                                {% endfor %}
-                                                {% else %}
-                                                <tr>
-                                                    <td colspan="7">No recommended students found for this job.</td>
-                                                </tr>
-                                                {% endif %}
-                                            </tbody>
-                                        </table>
+                                                        {% else %}
+                                                        <tr>
+                                                            <td colspan="7">No recommended students found for this job.
+                                                            </td>
+                                                        </tr>
+
+
+                                                        {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
-                                                                        
+
                                 </div>
                             </div>
                         </div>
                     </div>
 
 
-
-=======
-                    <div class="row" style="margin-top: 2.5rem;"> <!-- Cards div -->
+                    <!--
+                    <div class="row" style="margin-top: 2.5rem;"> // Cards div 
                         
                         {% for recommendation in recommendations[:9] %}
-                        <div class="col-lg-4 col-md-6"> <!-- recommended seeker card -->
+                        <div class="col-lg-4 col-md-6">   //  recommended seeker card 
                             <div class="card">
                                 <div class="card-body">
                                     
@@ -185,7 +217,7 @@
                         {% endif %}
 
                     </div>
->>>>>>> 45892013da088352561405fa7e822d9e9953363d
+-->
                 </div>
             </div>
         </div>
@@ -193,42 +225,64 @@
     <!-- plugins:js -->
     <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
     <!-- endinject -->
+
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+   <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="../../static/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="../../static/js/off-canvas.js"></script>
+  <script src="../../static/js/hoverable-collapse.js"></script>
+  <script src="../../static/js/template.js"></script>
+  <script src="../../static/js/settings.js"></script>
+  <script src="../../static/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <!-- End custom js for this page-->
 </body>
+
 </html>
 
 <script>
+
     // Get the check icon by its id
     var checkIcon = document.getElementById('check-icon');
-  
+
     // Add click event listener to the check icon
     checkIcon.addEventListener('click', function () {
-      // Update the message element with the desired message for the check icon
-      document.getElementById('message').textContent = 'Check icon clicked!';
-      // Add your custom action logic for the check icon here
+        // Update the message element with the desired message for the check icon
+        document.getElementById('message').textContent = 'Check icon clicked!';
+        // Add your custom action logic for the check icon here
     });
-  
+
     // Get the x mark icon by its id
     var xmarkIcon = document.getElementById('xmark-icon');
-  
+
     // Add click event listener to the x mark icon
     xmarkIcon.addEventListener('click', function () {
-      // Update the message element with the desired message for the x mark icon
-      document.getElementById('message').textContent = 'X mark icon clicked!';
-      // Add your custom action logic for the x mark icon here
+        // Update the message element with the desired message for the x mark icon
+        document.getElementById('message').textContent = 'X mark icon clicked!';
+        // Add your custom action logic for the x mark icon here
     });
-  </script>
+</script>
 
-<!--
-    <h1>Recommendations for the job {{ job_id }}</h1>
-    
-    <ul>
-        {% for recommendation in recommendations %}
-        <li>
-            <p>Major: {{ recommendation['seeker'][0] }}</p>
-            <p>GPA: {{ recommendation['seeker'][1] }}</p>
-            <p>Skills: {{ recommendation['seeker'][2] }}</p>
-            <p>Score: {{ recommendation['score'] }}</p>
-        </li>
-        {% endfor %}
-    </ul>
-    -->
+<script>
+    var hiddenSkills = document.querySelector(".hidden-skills");
+    var showMoreButton = document.querySelector(".more-skills");
+
+    function toggleSkills() {
+        if (hiddenSkills.style.display === "none" || hiddenSkills.style.display === "") {
+            hiddenSkills.style.display = "block";
+            showMoreButton.innerText = "Show less";
+        } else {
+            hiddenSkills.style.display = "none";
+            showMoreButton.innerText = "Show more";
+        }
+    }
+</script>
