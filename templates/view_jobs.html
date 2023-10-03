@@ -60,50 +60,62 @@
                                    
                                     <form>
 
-                                        <div class="form-group">
+                                        <div class="form-group"> <!-- Title --> 
                                             <label for="exampleInputName1">Title of job post
                                             </label>
                                             <input type="text" class="form-control custom-input" id="exampleInputName1" name="job_title"
                                                 value="{{ jobs[2] }}" readonly>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group" > <!-- Required Languages -->
+                                            <label class="font-weight-bold">Required Languages:</label>
+                                            <input class="form-control custom-input" name="required_languages"  
+                                            value="{{ jobs[10] }}" readonly></input>
+                                            
+                                        </div>
+
+                                        <div class="form-group"> <!-- Required Major --> 
                                             <label>Required Major</label>
                                             <input class="form-control custom-input" name="required_major"  
                                             value="{{ jobs[3] }}" readonly></input>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group"> <!-- GPA --> 
                                             <label>Minimum GPA</label>
                                             <input class="form-control custom-input" name="min_gpa" value="{{ jobs[4] }}" readonly></input>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group"> <!-- Skills --> 
                                             <label>Skills</label>
                                             <input class="form-control custom-input" name="skills" multiple="multiple"
                                             value="{{ jobs[5] }}" readonly></input>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="exampleInputHours" class="col-sm-3 col-form-label">Working Hours
-                                                (per week)</label>
+                                        <div class="form-group"> <!-- Required Hours --> 
+                                            <label for="exampleInputHours" class="col-sm-3 col-form-label">Required working hours (in week)</label>
                                             <div class="col-sm-12">
                                                 <input type="number" class="form-control custom-input" id="exampleInputHours" name="working_hours" 
                                                 value="{{ jobs[6] }}" readonly>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group"> <!-- Experience -->
+                                            <label class="font-weight-bold">Would you prefer experienced seekers?</label>
+                                            <input class="form-control custom-input" id="experience" name="experience" 
+                                            value="{{ jobs[8] }}" readonly>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Job Duration -->
                                             <label>Duration of the Job</label>
                                             <input class="form-control custom-input" name="job_duration" value="{{ jobs[7] }}" readonly>
                                              
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group"> <!-- Positions -->
                                             <label for="exampleInputNoPA" class="col-sm-6 col-form-label">Number of
                                                 Positions Available (per week)</label>
                                             <div class="col-sm-12">
-                                                <input type="number" class="form-control custom-input" value="{{ jobs[8] }}" readonly>
+                                                <input type="number" class="form-control custom-input" value="{{ jobs[9] }}" readonly>
                                             </div>
                                         </div>
 

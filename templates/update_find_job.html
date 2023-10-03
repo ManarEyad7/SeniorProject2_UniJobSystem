@@ -61,14 +61,14 @@
                                     <form id="myForm" class="forms-sample" method="POST" enctype="multipart/form-data">
                                         <div class="form-group"> <!-- Name -->
                                             <label for="n_name" class="font-weight-bold">Name:</label>
-                                            <input type="text" class="form-control custom-input" id="n_name" name="n_name" value = "{{ form[3] }}" required>
+                                            <input type="text" class="form-control custom-input" id="n_name" name="n_name" value = "{{ form[3] }}" readonly>
                                         </div>
 
                                         <div class="form-group"> <!-- Phone Number -->
                                             <label for="n_phoneNumber" class="font-weight-bold">Phone Number:</label>
                                             <input type="text" class="form-control custom-input" id="n_phoneNumber" name="n_phoneNumber" pattern="05[0-9]{8}"
                                             title="Please enter only numbers" minlength="10" maxlength="10" value = "{{ form[4] }}" required>
-                                            <div id="phoneNumberError" class="error-message"></div>
+                                            <div id="n_phoneNumberError" class="error-message" style="color: red;"></div>
                                         </div>
 
                                         <div class="form-group" > <!-- Languages -->
@@ -135,15 +135,16 @@
                                                 </div>
                                                 <hr>
                                                 {% if form %}
+                                                {{form[11]}}
 
                                                 <div class="day"> <!-- Sunday availability -->
                                                     <label for="sunday" class="font-weight-bold">Sunday:</label>
-                                                    <input type="number" class="interval" id="sunday-interval2" name="sunday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[10] }}" required>
+                                                    <input type="number" class="interval" id="sunday-interval2" name="sunday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[11] }}" required>
                                                     <div id="sunday-periods">
-                                                        {% if form[10] !=0 %}
-                                                        {% set start_times_list = form[11].split(',') %}
-                                                        {% set end_times_list = form[12].split(',') %}
-                                                        {% set num_periods =  form[10] %}
+                                                        {% if form[11] !=0 %}
+                                                        {% set start_times_list = form[12].split(',') %}
+                                                        {% set end_times_list = form[13].split(',') %}
+                                                        {% set num_periods =  form[11] %}
 
                                                         {% for index in range(num_periods) %}
                                                         {% set start_time = start_times_list[index] %}
@@ -160,12 +161,12 @@
 
                                                 <div class="day"> <!-- Monday availability -->
                                                     <label for="monday" class="font-weight-bold">Monday:</label>
-                                                    <input type="number" class="interval" id="monday-interval2" name="monday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[13] }}"required>
+                                                    <input type="number" class="interval" id="monday-interval2" name="monday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[14] }}"required>
                                                     <div id="monday-periods">
-                                                        {% if form[13] !=0 %}
-                                                        {% set start_times_list = form[14].split(',') %}
-                                                        {% set end_times_list = form[15].split(',') %}
-                                                        {% set num_periods =  form[13] %}
+                                                        {% if form[14] !=0 %}
+                                                        {% set start_times_list = form[15].split(',') %}
+                                                        {% set end_times_list = form[16].split(',') %}
+                                                        {% set num_periods =  form[14] %}
 
                                                         {% for index in range(num_periods) %}
                                                         {% set start_time = start_times_list[index] %}
@@ -182,12 +183,12 @@
 
                                                 <div class="day"> <!-- Tuesday availability -->
                                                     <label for="tuesday" class="font-weight-bold">Tuesday:</label>
-                                                    <input type="number" class="interval" id="tuesday-interval2" name="tuesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[16] }}" required>
+                                                    <input type="number" class="interval" id="tuesday-interval2" name="tuesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[17] }}" required>
                                                     <div id="tuesday-periods">
-                                                        {% if form[16] !=0 %}
-                                                        {% set start_times_list = form[17].split(',') %}
-                                                        {% set end_times_list = form[18].split(',') %}
-                                                        {% set num_periods =  form[16] %}
+                                                        {% if form[17] !=0 %}
+                                                        {% set start_times_list = form[18].split(',') %}
+                                                        {% set end_times_list = form[19].split(',') %}
+                                                        {% set num_periods =  form[17] %}
 
                                                         {% for index in range(num_periods) %}
                                                         {% set start_time = start_times_list[index] %}
@@ -204,12 +205,12 @@
 
                                                 <div class="day"> <!-- Wednesday availability -->
                                                     <label for="wednesday" class="font-weight-bold">Wednesday:</label>
-                                                    <input type="number" class="interval" id="wednesday-interval2" name="wednesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[19] }}" required>
+                                                    <input type="number" class="interval" id="wednesday-interval2" name="wednesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[20] }}" required>
                                                     <div id="wednesday-periods">
-                                                        {% if form[19] !=0 %}
-                                                        {% set start_times_list = form[20].split(',') %}
-                                                        {% set end_times_list = form[21].split(',') %}
-                                                        {% set num_periods =  form[19] %}
+                                                        {% if form[20] !=0 %}
+                                                        {% set start_times_list = form[21].split(',') %}
+                                                        {% set end_times_list = form[22].split(',') %}
+                                                        {% set num_periods =  form[20] %}
 
                                                         {% for index in range(num_periods) %}
                                                         {% set start_time = start_times_list[index] %}
@@ -226,12 +227,12 @@
                                                    
                                                 <div class="day"> <!-- Thursday availability -->
                                                     <label for="thursday" class="font-weight-bold">Thursday:</label>
-                                                    <input type="number" class="interval" id="thursday-interval2" name="thursday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[22] }}"required>
+                                                    <input type="number" class="interval" id="thursday-interval2" name="thursday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ form[23] }}"required>
                                                     <div id="thursday-periods">
-                                                        {% if form[22] !=0 %}
-                                                        {% set start_times_list = form[23].split(',') %}
-                                                        {% set end_times_list = form[24].split(',') %}
-                                                        {% set num_periods =  form[22] %}
+                                                        {% if form[23] !=0 %}
+                                                        {% set start_times_list = form[24].split(',') %}
+                                                        {% set end_times_list = form[25].split(',') %}
+                                                        {% set num_periods =  form[23] %}
 
                                                         {% for index in range(num_periods) %}
                                                         {% set start_time = start_times_list[index] %}
@@ -300,10 +301,10 @@
 
 <script> /*customize the error message for the phone number input*/
     // Get the phone number input element
-    var phoneNumberInput = document.getElementById('phoneNumber');
+    var phoneNumberInput = document.getElementById('n_phoneNumber');
   
     // Get the error message element
-    var phoneNumberError = document.getElementById('phoneNumberError');  
+    var phoneNumberError = document.getElementById('n_phoneNumberError');  
     
     // Add an event listener for input validation
     phoneNumberInput.addEventListener('input', function() {
