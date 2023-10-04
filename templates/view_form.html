@@ -57,8 +57,9 @@
                     <div class="row mt-5">
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">View Job Form</h4>
+                                <div class="card-body" style="margin: 1rem;">
+                                    <h4 class="card-title" style="font-size: 20px;">View Job Form</h4>
+                                    <hr style="margin-bottom: 1.5rem;">
                                     <form>
                                         <div class="form-group"> <!-- Name -->
                                             <label for="name" class="font-weight-bold">Name:</label>
@@ -71,14 +72,8 @@
                                             title="Please enter only numbers" minlength="10" maxlength="10" value="{{ form[4] }}" readonly>
                                         </div>
 
-                                        <div class="form-group" > <!-- Languages -->
-                                            <label class="font-weight-bold">Languages:</label>
-                                            <input id="languages" class="form-control custom-input" name="Languages" style="width: 100%;"  multiple="multiple"
-                                            value="{{ form[9] }} " readonly> </input>
-                                        </div>
-
                                         <div class="form-group"> <!-- Major -->
-                                            <label class="font-weight-bold">Required Major:</label>
+                                            <label class="font-weight-bold">Major:</label>
                                             <input id="major" class="form-control custom-input" style="width: 100%;" name="major" 
                                             value="{{ form[5] }} " readonly> </input>
                                         </div>
@@ -93,6 +88,18 @@
                                             <label class="font-weight-bold">Skills:</label>
                                             <input id="skills" class="form-control custom-input" style="width: 100%;" name="skills" multiple="multiple" 
                                             value="{{ form[7] }} " readonly> </input>                                               
+                                        </div>
+
+                                        <div class="form-group" > <!-- Languages -->
+                                            <label class="font-weight-bold">Languages:</label>
+                                            <input id="languages" class="form-control custom-input" name="Languages" style="width: 100%;"  multiple="multiple"
+                                            value="{{ form[9] }} " readonly> </input>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Experience -->
+                                            <label class="font-weight-bold">Do You Have Previous Work Experience?</label>
+                                            <input id="experience" class="form-control custom-input" name="experience" style="width: 100%;"  
+                                            value="{{ form[8] }} " readonly> </input>                                                                                              
                                         </div>
                                     
                                         <div class="form-group"> <!-- Availability -->
@@ -162,7 +169,6 @@
                                                         {% for index in range(num_periods) %}
                                                         {% set start_time = start_times_list[index] %}
                                                         {% set end_time = end_times_list[index] %}
-                                                        <p>tuesday-interval2-start-time-{{index}}</p>
 
                                                         <label style="margin: 8px 5px 5px 15px;">Period {{ index + 1 }}:</label>
                                                         <input type = "text" class="time-pickable start-time" style="width: 100%; margin: 5px 5px 5px 5px; borderRadius:4px; width: fit-content;" value="{{ start_time }} " readonly> </input>                                               
@@ -226,10 +232,15 @@
                                             
                                         </div>
 
-                                        <div class="form-group"> <!-- Experience -->
-                                            <label class="font-weight-bold">Do you have previous work experience?</label>
-                                            <input id="experience" class="form-control custom-input" name="experience" style="width: 100%;"  
-                                            value="{{ form[8] }} " readonly> </input>                                                                                              
+                                        <div class="form-group"> <!-- Duration -->
+                                            <label class="font-weight-bold">Number of Weeks You Want To Work:</label>
+                                            <input type="number" class="form-control custom-input" style="width: 100%;" value="{{ form[26] }}" readonly>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Work preference -->
+                                            <label class="font-weight-bold">Work preference:</label>
+                                            <input class="form-control custom-input" name="work_preference" style="width: 100%;"  
+                                            value="{{ form[27] }} " readonly> </input>
                                         </div>
 
                                         <div class="form-group"> <!-- Download CV -->
@@ -237,8 +248,8 @@
                                             <a href="{{ url_for('download', file_id=file[0]) }}">Download File</a>
                                         </div>
 
-                                        <div class="text-center">
-                                            <a href="{{ url_for('student') }}" class="btn btn-light">Cancel</a>
+                                        <div class="text-center"> 
+                                            <a href="{{ url_for('student') }}" class="btn btn-light" style="font-size: 15px;">Cancel</a>
                                         </div>
                                     </form>
                                 </div>

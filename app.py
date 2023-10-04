@@ -71,6 +71,8 @@ def find_job():
         gpa = request.form['gpa']
         major = request.form['major']
         experience = request.form['experience']
+        work_duration = request.form['work_duration']
+        work_preference = request.form['work_preference']
         form_submission = True
         uploaded_file = request.files['pdf_file']    # Get the uploaded file
 
@@ -162,8 +164,8 @@ def find_job():
         #--------------------------- End interval data
         print(totalDuration)
         totalHoursDuration = convert_minutes_to_hours(totalDuration)
-        cursor.execute("INSERT INTO seekers_form (user_id, form_submission, name, phoneNumber, languages, skills, gpa, major, experience, totalDuration, sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, form_submission, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience, totalHoursDuration, sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
+        cursor.execute("INSERT INTO seekers_form (user_id, form_submission, name, phoneNumber, languages, skills, gpa, major, experience, totalDuration, sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,sunday_start_interval,sunday_end_interval,monday_start_interval,monday_end_interval,tuesday_start_interval,tuesday_end_interval,wednesday_start_interval,wednesday_end_interval,thursday_start_interval,thursday_end_interval,work_duration,work_preference) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, form_submission, name, phoneNumber, ','.join(languages), ','.join(skills), gpa, major, experience, totalHoursDuration, sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)),work_duration,work_preference ))
         #form_id = cursor.lastrowid
 
         if uploaded_file is not None:
@@ -272,11 +274,12 @@ def post_job():
         job_duration = request.form['job_duration']
         positions_available = request.form['positions_available']
         required_languages = request.form.getlist('required_languages')
+        work_location = request.form['work_location']
 
         print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
 
-        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, working_hours, experience, job_duration, positions_available, required_languages) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, job_title, required_major, min_gpa, ','.join(skills), working_hours, experience, job_duration, positions_available, ','.join(required_languages)))
+        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, working_hours, experience, job_duration, positions_available, required_languages,work_location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, job_title, required_major, min_gpa, ','.join(skills), working_hours, experience, job_duration, positions_available, ','.join(required_languages),work_location))
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         
 
@@ -436,8 +439,9 @@ def update_post_job(id):
             new_job_duration = request.form['n_job_duration']
             new_positions_available = request.form['n_positions_available']
             new_experience = request.form['n_experience'] 
+            new_work_location = request.form['n_work_location'] 
 
-            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , skills = '{}', working_hours= '{}', job_duration = '{}' , experience = '{}' ,positions_available = '{}' , required_languages= '{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_skills,new_working_hours,new_job_duration,new_experience,new_positions_available,new_required_languages,id))
+            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , skills = '{}', working_hours= '{}', job_duration = '{}' , experience = '{}' ,positions_available = '{}' , required_languages= '{}',work_location='{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_skills,new_working_hours,new_job_duration,new_experience,new_positions_available,new_required_languages,new_work_location,id))
             #cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , working_hours= '{}', job_duration = '{}' , positions_available = '{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_working_hours,new_job_duration,new_positions_available,id))
             #cursor.execute("UPDATE job_posts SET job_title = '{}' WHERE job_id = '{}' ".format(new_job_title,id))
             connection.commit()
@@ -492,6 +496,8 @@ def update_find_job(id):
             new_gpa = request.form['n_gpa']
             new_major = request.form['n_major']
             new_experience = request.form['n_experience']
+            new_work_duration = request.form['n_work_duration']
+            work_preference = request.form['n_work_preference']
             form_submission = True
             #--------------------------- Start interval data
         
@@ -564,8 +570,8 @@ def update_find_job(id):
             #--------------------------- End interval data
             totalHoursDuration = convert_minutes_to_hours(totalDuration)
 
-            cursor.execute("UPDATE seekers_form SET  name = '{}', phoneNumber = '{}', languages = '{}', skills = '{}', gpa = '{}', major = '{}', experience = '{}',totalDuration = '{}',sunday_periods = '{}',monday_periods = '{}',tuesdayـperiods = '{}',wednesday_periods = '{}',thursday_periods= '{}',sunday_start_interval = '{}',sunday_end_interval = '{}',monday_start_interval = '{}',monday_end_interval = '{}',tuesday_start_interval = '{}',tuesday_end_interval = '{}',wednesday_start_interval = '{}',wednesday_end_interval = '{}',thursday_start_interval = '{}',thursday_end_interval = '{}' WHERE id = '{}'".format 
-                       (new_name, new_phoneNumber, new_Languages , new_skills, new_gpa, new_major, new_experience, totalHoursDuration, sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)),id ))
+            cursor.execute("UPDATE seekers_form SET  name = '{}', phoneNumber = '{}', languages = '{}', skills = '{}', gpa = '{}', major = '{}', experience = '{}',totalDuration = '{}',sunday_periods = '{}',monday_periods = '{}',tuesdayـperiods = '{}',wednesday_periods = '{}',thursday_periods= '{}',sunday_start_interval = '{}',sunday_end_interval = '{}',monday_start_interval = '{}',monday_end_interval = '{}',tuesday_start_interval = '{}',tuesday_end_interval = '{}',wednesday_start_interval = '{}',wednesday_end_interval = '{}',thursday_start_interval = '{}',thursday_end_interval = '{}',work_duration = '{}', work_preference = '{}'  WHERE id = '{}'".format 
+                       (new_name, new_phoneNumber, new_Languages , new_skills, new_gpa, new_major, new_experience, totalHoursDuration, sunday_periods,monday_periods,tuesdayـperiods,wednesday_periods,thursday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)),new_work_duration,work_preference,id ))
         
             connection.commit()
             connection.close()
@@ -674,25 +680,29 @@ def get_recommendations(job_id):
     ''' ------------------- Retrieve general data ------------------- '''
 
     # Retrieve data from SQL database
-    cursor.execute("SELECT major, gpa, skills, totalDuration, experience, languages FROM seekers_form")
+    cursor.execute("SELECT major, gpa, skills, totalDuration, experience, languages, work_preference FROM seekers_form")
     seekers_data = cursor.fetchall()
 
-    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages FROM job_posts WHERE job_id = ?", (job_id,))
+    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages, work_location FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
+    
     #print("iiii",seekers_data)
     #print("iiii2222",job_data)
 
+    #print("1",job_data)
     # Check if required_major is set to "No Preference"
-    if job_data[0][0] == 'No Preference':
+    #if job_data[0][0] == 'No Preference':
         # Drop the 'major' column from seekers_data and job_data
-        seekers_data = [seeker[1:3] + seeker[4:] for seeker in seekers_data]
-        job_data = [job_data[0][1:3] + job_data[0][4:]]
+        #seekers_data = [seeker[1:3] + seeker[4:] for seeker in seekers_data]
+        #job_data = [job_data[0][1:3] + job_data[0][4:]]
+
     
     # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
     if job_data[0][4] == 'No':
         seekers_data = [seeker[:4] for seeker in seekers_data]
         job_data = [job_data[0][:4] + job_data[0][5:]]
+
 
     # Filter out seekers whose total duration is less than the job's working hours
     filtered_seekers_data = []
@@ -700,7 +710,7 @@ def get_recommendations(job_id):
         if seeker[3] >= job_data[0][3]:
             filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
             filtered_seekers_data.append(filtered_seeker)
-    print(filtered_seekers_data)
+
     if not filtered_seekers_data:
         message = "No suitable seekers found."
         return render_template('recommendations.html', message=message)
@@ -722,9 +732,6 @@ def get_recommendations(job_id):
 
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
-        print("gg" , seekers_info)
-        print(seekers_info)
-        print(seekers_info[0][3],seekers_info[0][2])
 
         #recommended_seekers = [seekers_data[i] for i in top_seekers]
         recommended_seekers = []
