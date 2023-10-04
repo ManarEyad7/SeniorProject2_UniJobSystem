@@ -686,7 +686,7 @@ def get_recommendations(job_id):
     # Check if required_major is set to "No Preference"
     if job_data[0][0] == 'No Preference':
         # Drop the 'major' column from seekers_data and job_data
-        seekers_data = [seeker[:3] + seeker[4:] for seeker in seekers_data]
+        seekers_data = [seeker[1:3] + seeker[4:] for seeker in seekers_data]
         job_data = [job_data[0][1:3] + job_data[0][4:]]
     
     # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
@@ -722,15 +722,19 @@ def get_recommendations(job_id):
 
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
-        print(similarity_scores)
+        print("gg" , seekers_info)
+        print(seekers_info)
+        print(seekers_info[0][3],seekers_info[0][2])
 
         #recommended_seekers = [seekers_data[i] for i in top_seekers]
         recommended_seekers = []
         for i in top_seekers:
             seeker = seekers_data[i]
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
-            info = seekers_info[i][3]
+            info = seekers_info[i]
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name':info})
+        print("dd")
+        print(type(recommended_seekers))
         cursor.close()
         conn.close()
         
@@ -813,6 +817,49 @@ def compute_similarity(job_post_data, seekers_form_data):
 
     ------------------------   recommendetion system trying   ------------------------    
 '''
+
+# Function to fetch candidate information from the database
+def get_candidate_info(candidate_id):
+    # Replace 'your_database.db' with the actual path to your SQLite database file
+    conn = sqlite3.connect('users_database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM seekers_form WHERE user_id=?", (candidate_id,))
+    candidate_data = cursor.fetchone()
+
+    cursor.execute("SELECT email FROM users WHERE id=?", (candidate_id,))
+    email = cursor.fetchone()
+
+    cursor.execute("SELECT file_id,filename, data FROM files WHERE user_id = ?", (candidate_id,))
+    file = cursor.fetchone()
+    conn.close()
+    if candidate_data:
+        # Assuming the database columns are: id, name, major, gpa, skills, score
+        return {
+            'id': candidate_data[2],
+            'name': candidate_data[3],
+            'major': candidate_data[5],
+            'phone': candidate_data[4],
+            'email': email,
+            'gpa': candidate_data[6],
+            'skills': candidate_data[7],
+            'experience': candidate_data[8],
+            'languages': candidate_data[9],
+            'availability': candidate_data[10:],
+            'cv': file[0]
+            
+        }
+    else:
+        return None
+
+
+@app.route('/get_candidate/<int:candidate_id>')
+def get_candidate(candidate_id):
+    candidate_info = get_candidate_info(candidate_id)
+    print(candidate_id)
+    if candidate_info:
+        return jsonify(candidate_info)
+    else:
+        return jsonify(error='Candidate not found'), 404
 if __name__ == "__main__":
    app.run(debug = True)
 

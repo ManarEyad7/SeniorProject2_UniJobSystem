@@ -2,37 +2,110 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Skydash Admin</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="../../static/vendors/feather/feather.css">
-  <link rel="stylesheet" href="../../static/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../../static/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="../../static/css/vertical-layout-light/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="../../static/images/favicon.png" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>view candidates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../static/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../../static/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../../static/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../static/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../../static/images/favicon.png" />
 
-   <!-- Website icon -->
-   <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
-   <style>
-       .clickable-icon {
-           transition: transform 0.2s ease-in-out;
-       }
+    <!-- Website icon -->
+    <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+    <style>
+        .clickable-icon {
+            transition: transform 0.2s ease-in-out;
+        }
 
-       .clickable-icon:hover,
-       .clickable-icon:active {
-           transform: scale(1.2);
-       }
+        .clickable-icon:hover,
+        .clickable-icon:active {
+            transform: scale(1.2);
+        }
+
+        .student-row:hover {
+            cursor: pointer;
+        }
+
+        /* Add CSS for the card */
+        /* Add CSS for the card */
+        #student-info-form {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background-color: white;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: -4px 0px 8px 0 rgba(0, 0, 0, 0.2);
+            z-index: 99999;
+            overflow: hidden;
+            /* Ensure sub-sections don't overflow */
+        }
+
+        /* Style the big border section */
+        #student-info-container {
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Style sub-sections */
+        .sub-section {
+            border-top: 1px solid #ccc;
+            /* Line to separate sub-sections */
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+
+        /* Style section titles */
+        .sub-section h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+
+        /* Add some spacing */
+        .sub-section p {
+            margin-bottom: 5px;
+        }
+
+        /* Add CSS to display "skills-label" and "student-skills" inline */
+        .inline-label {
+            display: inline-block;
+            margin-right: 10px;
+            /* Adjust the margin as needed for spacing */
+        }
+
+
+        /* Create an overlay to darken the background */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Adjust the opacity as needed */
+            z-index: 9999;
+            /* Ensure it's below the form */
+        }
     </style>
+
+
 </head>
 
 <body>
@@ -82,102 +155,182 @@
                                         Discover Ideal Candidates: Top Student Recommendations for This Job Opportunity
                                     </p>
 
-                                    <div class="job-post-container">
-                                        <div class="job-post d-flex justify-content-between align-items-center">
+                                    <div class="job-post d-flex justify-content-between align-items-center">
+                                        <div onclick="closeForm()" class="overlay" id="overlay"></div>
+                                        <div class="table-responsive custom-table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
 
-                                            <div class="table-responsive custom-table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
+                                                        <th>User</th>
+                                                        <th>Major</th>
+                                                        <th>GPA</th>
+                                                        <th>Skills</th>
+                                                        <th>Score</th>
+                                                        <th></th>
 
-                                                            <th>User</th>
-                                                            <th>Major</th>
-                                                            <th>GPA</th>
-                                                            <th>Skills</th>
-                                                            <th>Score</th>
-                                                            <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if recommendations %}
+                                                    {% for recommendation in recommendations %}
+                                                    <tr class="student-row"
+                                                        data-recommendation="{{ recommendation['name'][2] }}">
+                                                        <td>{{ recommendation['name'][3] }}</td>
+                                                        <td>{{ recommendation['seeker'][0] }}</td>
+                                                        <td>{{ recommendation['seeker'][1] }}</td>
+                                                        <td class="skill-cell">
+                                                            {% set skills = recommendation['seeker'][2].split(',')
+                                                            %}
+                                                            {% if skills|length > 0 %}
+                                                            <div class="skills-container">
+                                                                {% for skill in skills %}
+                                                                {% if loop.index <= 3 %} <label
+                                                                    class="badge badge-warning"
+                                                                    style="margin-bottom: 2px ">{{ skill.strip()
+                                                                    }}</label>
+                                                                    {% endif %}
+                                                                    {% endfor %}
+                                                                    {% if skills|length > 3 %}
+                                                                    <span class="more-skills"
+                                                                        onclick="toggleSkills()">Show more</span>
+                                                                    <div class="hidden-skills" style="display: none;">
+                                                                        {% for skill in skills %}
+                                                                        {% if loop.index > 3 %}
 
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% if recommendations %}
-                                                        {% for recommendation in recommendations %}
-                                                        <tr>
-                                                            <td>{{ recommendation['name'] }}</td>
-                                                            <td>{{ recommendation['seeker'][0] }}</td>
-                                                            <td>{{ recommendation['seeker'][1] }}</td>
-                                                            <td class="skill-cell">
-                                                                {% set skills = recommendation['seeker'][2].split(',')
-                                                                %}
-                                                                {% if skills|length > 0 %}
-                                                                <div class="skills-container">
-                                                                    {% for skill in skills %}
-                                                                    {% if loop.index <= 3 %} <label
-                                                                        class="badge badge-warning"
-                                                                        style="margin-bottom: 2px ">{{ skill.strip()
-                                                                        }}</label>
-                                                                        {% endif %}
-                                                                        {% endfor %}
-                                                                        {% if skills|length > 3 %}
-                                                                        <span class="more-skills"
-                                                                            onclick="toggleSkills()">Show more</span>
-                                                                        <div class="hidden-skills"
-                                                                            style="display: none;">
-                                                                            {% for skill in skills %}
-                                                                            {% if loop.index > 3 %}
-
-                                                                            {% if loop.index % 3 == 1 %}
-                                                                            <div class="skill-row">
-                                                                                {% endif %}
-                                                                                <label class="badge badge-warning"
-                                                                                    style="margin-bottom: 2px ">{{
-                                                                                    skill.strip() }}</label>
-                                                                                {% if loop.index % 3 == 0 or loop.last
-                                                                                %}
-                                                                            </div>
+                                                                        {% if loop.index % 3 == 1 %}
+                                                                        <div class="skill-row">
                                                                             {% endif %}
-                                                                            {% endif %}
-                                                                            {% endfor %}
+                                                                            <label class="badge badge-warning"
+                                                                                style="margin-bottom: 2px ">{{
+                                                                                skill.strip() }}</label>
+                                                                            {% if loop.index % 3 == 0 or loop.last
+                                                                            %}
                                                                         </div>
                                                                         {% endif %}
-                                                                </div>
+                                                                        {% endif %}
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                    {% endif %}
+                                                            </div>
 
-                                                                {% else %}
-                                                                <!-- Handle the case when there are no skills -->
-                                                                <span>No skills available</span>
-                                                                {% endif %}
-                                                                
-                                                            </td>
+                                                            {% else %}
+                                                            <!-- Handle the case when there are no skills -->
+                                                            <span>No skills available</span>
+                                                            {% endif %}
 
-                                                            <td>{{ recommendation['score'] | float | round(2) }}</td>
-                                                            <td>
-                                                                <i id="check-icon"
-                                                                    class="fa-regular fa-circle-check fa-2xl clickable-icon"
-                                                                    style="color: #26bb02; margin-right: 10px;"></i>
-                                                                <i id="xmark-icon"
-                                                                    class="fa-regular fa-circle-xmark fa-2xl clickable-icon"
-                                                                    style="color: #e91619;"></i>
-                                                            </td>
-                                                        </tr>
-                                                        {% endfor %}
-                                                        {% else %}
-                                                        <tr>
-                                                            <td colspan="7">No recommended students found for this job.
-                                                            </td>
-                                                        </tr>
+                                                        </td>
+
+                                                        <td>{{ recommendation['score'] | float | round(2) }}</td>
+                                                        <td>
+                                                            <i id="check-icon"
+                                                                class="fa-regular fa-circle-check fa-2xl clickable-icon"
+                                                                style="color: #26bb02; margin-right: 10px;"></i>
+                                                            <i id="xmark-icon"
+                                                                class="fa-regular fa-circle-xmark fa-2xl clickable-icon"
+                                                                style="color: #e91619;"></i>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <tr>
+                                                        <td colspan="7">No recommended students found for this job.
+                                                        </td>
+                                                    </tr>
 
 
-                                                        {% endif %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                    {% endif %}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-
                                 </div>
+
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="card" id="student-info-form" style="display: none; ">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; ">
+                            <h3 id="student-name"></h3>
+                            <div>
+                                <button class="btn btn-outline-primary btn-rounded btn-fw btn-sm"
+                                    style="padding-left: 30px; padding-right: 30px;">
+                                    <span style="display: inline-block; text-align: center; width: 100%;">Send
+                                        Notification
+                                    </span>
+                                </button>
+                                <button class="btn btn-inverse-primary btn btn-rounded btn-fw btn-sm"
+                                    style="padding-left: 30px; padding-right: 30px;">
+                                    <span style="display: inline-block; text-align: center; width: 100%;">Hire</span>
+                                </button>
+
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+
+                            <!-- Big Border Section -->
+                            <div id="student-info-container">
+                                <!-- Contact Information Sub-Section -->
+                                <div class="sub-section">
+                                    <h4>Contact Information</h4>
+                                    <p>Phone Number: <span id="student-phone"></span></p>
+                                    <p>Email: <span id="student-email"></span></p>
+                                </div>
+
+                                <!-- Academic Information Sub-Section -->
+                                <div class="sub-section">
+                                    <h4>Academic Information</h4>
+                                    <p>Major: <span id="student-major"></span></p>
+                                    <p>GPA: <span id="student-gpa"></span></p>
+                                    <div id="student-skills" class="skills-container">
+                                        <p id="skills-label">Skills:</p>
+                                    </div>
+
+                                    <div style="margin-top: 7px;">
+
+                                        <p>Experience: <span id="student-experience"></span></p>
+                                        <p>Languages: <span id="student-languages"></span></p>
+                                    </div>
+                                    <div class="sub-section">
+                                        <div style="margin-top: 20px;">
+
+                                            <h4 style="float: left;">Curriculum Vitae</h4>
+                                            <p style="text-align: right;"><a class="btn btn-primary btn-sm"
+                                                    id="cv-download-link" href="#" download>Download CV</a></p>
+                                        </div>
+                                        <div style="margin-top: 20px;">
+
+                                            <!-- Availability Sub-Section -->
+
+                                            <div class="sub-section">
+                                                <h4>Availability</h4>
+                                                <p>Availability: <span id="student-availability"></span></p>
+
+
+
+                                            </div>
+
+                                            <!-- Download CV Sub-Section -->
+
+
+                                        </div>
+
+                                        <div style="text-align: center;">
+                                            <button class="btn btn-primary" onclick="closeForm()">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
 
 
                     <!--
@@ -218,33 +371,30 @@
 
                     </div>
 -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- plugins:js -->
-    <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
-    <!-- endinject -->
+                    <!-- plugins:js -->
+                    <script type="text/javascript"
+                        src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+                    <!-- endinject -->
 
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-   <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="../../static/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="../../static/js/off-canvas.js"></script>
-  <script src="../../static/js/hoverable-collapse.js"></script>
-  <script src="../../static/js/template.js"></script>
-  <script src="../../static/js/settings.js"></script>
-  <script src="../../static/js/todolist.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <!-- End custom js for this page-->
+                    <!-- endinject -->
+                    <!-- Plugin js for this page -->
+                    <!-- End plugin js for this page -->
+                    <!-- inject:js -->
+                    <!-- container-scroller -->
+                    <!-- plugins:js -->
+                    <script src="../../static/js/vendor.bundle.base.js"></script>
+                    <!-- endinject -->
+                    <!-- Plugin js for this page -->
+                    <!-- End plugin js for this page -->
+                    <!-- inject:js -->
+                    <script src="../../static/js/off-canvas.js"></script>
+                    <script src="../../static/js/hoverable-collapse.js"></script>
+                    <script src="../../static/js/template.js"></script>
+                    <script src="../../static/js/settings.js"></script>
+                    <script src="../../static/js/todolist.js"></script>
+                    <!-- endinject -->
+                    <!-- Custom js for this page-->
+                    <!-- End custom js for this page-->
 </body>
 
 </html>
@@ -276,7 +426,8 @@
     var hiddenSkills = document.querySelector(".hidden-skills");
     var showMoreButton = document.querySelector(".more-skills");
 
-    function toggleSkills() {
+    function toggleSkills(event) {
+        event.stopPropagation(); // Stop the click event from propagating
         if (hiddenSkills.style.display === "none" || hiddenSkills.style.display === "") {
             hiddenSkills.style.display = "block";
             showMoreButton.innerText = "Show less";
@@ -285,4 +436,79 @@
             showMoreButton.innerText = "Show more";
         }
     }
+
+    // Add click event listener to table rows
+    const rows = document.querySelectorAll('.student-row');
+    rows.forEach(row => {
+        row.addEventListener('click', function () {
+            // Extract the candidate's ID from the data attribute
+            const candidateId = row.dataset.recommendation;
+
+            // Make an AJAX request to fetch candidate info
+            // Replace 'your_backend_api_url' with the actual URL of your backend API
+            fetch(`/get_candidate/${candidateId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update the form with the fetched data
+                    document.getElementById('student-name').textContent = data.name;
+                    // Add the phone number
+                    document.getElementById('student-major').textContent = data.major;
+                    document.getElementById('student-phone').textContent = data.phone;
+                    document.getElementById('student-email').textContent = data.email;
+
+                    document.getElementById('student-gpa').textContent = data.gpa;
+
+                    // Split the skills by comma
+                    const skillsArray = data.skills.split(',').map(skill => skill.trim());
+
+                    // Create label elements for each skill
+                    const skillsContainer = document.getElementById('student-skills');
+                    skillsContainer.innerHTML = ''; // Clear the container before adding labels
+
+                    // Add "Skills:" paragraph
+                    const skillsParagraph = document.createElement('p');
+                    skillsParagraph.textContent = 'Skills:';
+                    skillsContainer.appendChild(skillsParagraph);
+
+                    skillsArray.forEach(skill => {
+                        const skillLabel = document.createElement('span');
+                        skillLabel.textContent = skill;
+                        skillLabel.classList.add('badge', 'badge-warning'); // Apply CSS classes for styling
+                        skillLabel.style.marginRight = '5px'; // Add margin to create space between labels
+
+                        skillsContainer.appendChild(skillLabel);
+                    });
+
+
+                    document.getElementById('student-experience').textContent = data.experience;
+                    document.getElementById('student-languages').textContent = data.languages;
+                    document.getElementById('student-availability').textContent = data.availability;
+                    // Set the CV download link
+                    const cvDownloadLink = document.getElementById('cv-download-link');
+
+                    // Set the 'file_id' based on the 'student-cv' value from the data
+                    cvDownloadLink.href = `{{ url_for('download', file_id=0) }}`.replace('0', data.cv);
+
+                    // Set link text
+                    cvDownloadLink.textContent = 'Download CV';
+
+
+
+                    // Display the form
+                    // Show the form and overlay
+                    document.getElementById('student-info-form').style.display = 'block';
+                    document.getElementById('overlay').style.display = 'block';
+
+                });
+        });
+    });
+
+    // Function to close the form
+    function closeForm() {
+        // Hide the form and overlay
+        document.getElementById('student-info-form').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+    // Add click event listener to the "Show more" button
+    showMoreButton.addEventListener('click', toggleSkills);
 </script>
