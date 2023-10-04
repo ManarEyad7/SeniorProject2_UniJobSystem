@@ -55,9 +55,9 @@
                     <div class="row mt-5">
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body" style="margin: 1rem;">
                                     <h4 class="card-title" style="font-size: 20px;">Update Job Form</h4>
-                                    <p class="card-description" style="color:  #222831;"> Fill out this form  to search for a Part Time job </p>
+                                    <p class="card-description" style="color:  #222831; font-size: 15px;"> Fill out this form  to search for a Part Time job </p>
                                     <hr style="margin-bottom: 1.5rem;">
                                     <form id="myForm" class="forms-sample" method="POST" enctype="multipart/form-data">
                                         <div class="form-group"> <!-- Name -->
@@ -72,15 +72,6 @@
                                             <div id="n_phoneNumberError" class="error-message" style="color: red;"></div>
                                         </div>
 
-                                        <div class="form-group" > <!-- Languages -->
-                                            <label class="font-weight-bold">Languages:</label>
-                                            <select id="n_languages" class="js-example-basic-multiple content-wrapper w-100" name="n_Languages" style="width: 100%;"  multiple="multiple"
-                                                required>
-                                                <option value="{{ form[9] }}" selected >{{ form[9] }}</option>
-                                                <option value="Arabic ">Arabic</option>
-                                                <option value="English ">English</option>
-                                            </select>
-                                        </div>
 
                                         <div class="form-group"> <!-- Major -->
                                             <label class="font-weight-bold">Required Major:</label>
@@ -127,6 +118,26 @@
                                                 <option value="Organization">Organization</option>
                                             </select>
                                         </div>
+
+
+                                        <div class="form-group" > <!-- Languages -->
+                                            <label class="font-weight-bold">Languages:</label>
+                                            <select id="n_languages" class="js-example-basic-multiple content-wrapper w-100" name="n_Languages" style="width: 100%;"  multiple="multiple"
+                                                required>
+                                                <option value="{{ form[9] }}" selected >{{ form[9] }}</option>
+                                                <option value="Arabic ">Arabic</option>
+                                                <option value="English ">English</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Experience -->
+                                            <label class="font-weight-bold">Do You Have Previous Work Experience?</label>
+                                            <select id="n_experience" class="js-example-basic-single content-wrapper w-100" name="n_experience" style="width: 100%;"  required>
+                                                <option value="{{ form[8] }}" selected > {{ form[8] }}</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
                                     
                                         <div class="form-group"> <!-- Availability -->
                                             <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold">Availability:</label>
@@ -136,7 +147,6 @@
                                                 </div>
                                                 <hr>
                                                 {% if form %}
-                                                {{form[11]}}
 
                                                 <div class="day"> <!-- Sunday availability -->
                                                     <label for="sunday" class="font-weight-bold">Sunday:</label>
@@ -252,12 +262,18 @@
                                             
                                         </div>
 
-                                        <div class="form-group"> <!-- Experience -->
-                                            <label class="font-weight-bold">Do you have previous work experience?</label>
-                                            <select id="n_experience" class="js-example-basic-single content-wrapper w-100" name="n_experience" style="width: 100%;"  required>
-                                                <option value="{{ form[8] }}" selected > {{ form[8] }}</option>
-                                                <option value="Yes">Yes</option>
-                                                <option value="No">No</option>
+                                        <div class="form-group"> <!-- Duration -->
+                                            <label class="font-weight-bold">Number of Weeks You Want To Work:</label>
+                                            <input type="number" class="form-control" style="width: 100%;" value="{{ form[26] }}" 
+                                            placeholder="Number of Weeks" name="n_work_duration" pattern="\d*" min="1" max="10" required>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Work preference -->
+                                            <label class="font-weight-bold">Work preference:</label>
+                                            <select id="experience" class="js-example-basic-single content-wrapper w-100" name="n_work_preference" style="width: 100%;"  required>
+                                                <option value="{{ form[27] }} " selected> {{ form[27] }}</option>
+                                                <option value="remote">Remote</option>
+                                                <option value="onsite">Onsite</option>
                                             </select>
                                         </div>
 
@@ -266,9 +282,9 @@
                                             <input class="" type="file"  id="file" name="pdf_file" accept=".pdf" required>-->
                                         </div>
                                         
-                                        <div class="text-center">
-                                            <button id="submit-button" type="submit" class="btn btn-primary mr-2" href = "/update_find_job">Update</button>
-                                            <button id="cancel-button"  onclick="location.href = '/studentCancle';" class="btn btn-light" >Cancel</button>
+                                        <div class="text-center"> <!-- Buttons -->
+                                            <button id="submit-button" type="submit" class="btn btn-primary mr-2" href = "/update_find_job" style="font-size: 15px;">Update</button>
+                                            <button id="cancel-button"  onclick="location.href = '/studentCancle';" class="btn btn-light" style="font-size: 15px;" >Cancel</button>
                                         </div>
                                         
                                     </form>

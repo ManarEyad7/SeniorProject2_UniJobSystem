@@ -56,31 +56,24 @@
                     <div class="row mt-5">
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body" style="margin: 1rem;">
+                                    
                                     <h4 class="card-title" style="font-size: 20px;">Post Job</h4>
-                                    <p class="card-description" style="color:  #222831;">
+                                    <p class="card-description" style="color:  #222831; font-size: 15px;">
                                         Fill out this form to gain the best candidates for your opportunity
                                     </p><hr style="margin-bottom: 1.5rem;">
+
                                     <form class="forms-sample" method="POST">
+
                                         <div class="form-group"> <!-- Title -->
-                                            <label for="exampleInputName1" class="font-weight-bold">Write a title for your job post
-                                            </label>
+                                            <label for="exampleInputName1" class="font-weight-bold">Job Title: </label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 name="job_title" placeholder="Job title">
-                                        </div>
-                                        
-                                        <div class="form-group" > <!-- Required Languages -->
-                                            <label class="font-weight-bold">Required Languages:</label>
-                                            <select id="required_languages" class="js-example-basic-multiple content-wrapper w-100" name="required_languages" style="width: 100%;"  multiple="multiple" required>
-                                                <option value="Arabic ">Arabic</option>
-                                                <option value="English ">English</option>
-                                            </select>
                                         </div>
 
                                         <div class="form-group"> <!-- Required Major -->
                                             <label class="font-weight-bold">Required Major:</label>
-                                            <select class="js-example-basic-single w-100" name="required_major"
-                                                required>
+                                            <select class="js-example-basic-single content-wrapper w-100" name="required_major" style="width: 100%;" required>
                                                 <option value="" disabled selected hidden>Select a Major</option>
                                                 <option value="Computer Science">Computer Science</option>
                                                 <option value="Artificial Intelligence">Artificial Intelligence</option>
@@ -93,8 +86,8 @@
                                         </div>
 
                                         <div class="form-group"> <!-- GPA -->
-                                            <label class="font-weight-bold">Minimum GPA</label> 
-                                            <select class="js-example-basic-single w-100" name="min_gpa">
+                                            <label class="font-weight-bold">Minimum GPA:</label> 
+                                            <select class="js-example-basic-single content-wrapper w-100" name="min_gpa" style="width: 100%;">
                                                 <option value="" disabled selected>Select Minimum GPA</option>
                                                 <option value="5.0">5.0</option>
                                                 <option value="4.0">4.0</option>
@@ -106,9 +99,8 @@
                                         </div>
                                         
                                         <div class="form-group"> <!-- Skills -->
-                                            <label class="font-weight-bold">Skills</label>
-                                            <select class="js-example-basic-multiple w-100" name="skills"
-                                                multiple="multiple" required>
+                                            <label class="font-weight-bold">Required Skills:</label>
+                                            <select class="js-example-basic-multiple content-wrapper w-100" name="skills" style="width: 100%;" multiple="multiple" required>
                                                 <option value="Programming">Programming</option>
                                                 <option value="Web Development">Web Development</option>
                                                 <option value="Database Management">Database Management</option>
@@ -124,17 +116,16 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group"> <!-- Required hours -->
-                                            <label for="exampleInputHours" class="font-weight-bold">Required working hours (in week)</label>
-                                            <div class="col-sm-12">
-                                                <input type="number" class="form-control" id="exampleInputHours"
-                                                    name="working_hours" placeholder="Working Hours" pattern="\d*"
-                                                    min="0" max="15">
-                                            </div>
+                                        <div class="form-group" > <!-- Required Languages -->
+                                            <label class="font-weight-bold">Required Languages:</label>
+                                            <select id="required_languages" class="js-example-basic-multiple content-wrapper w-100" name="required_languages" style="width: 100%;"  multiple="multiple" required>
+                                                <option value="Arabic ">Arabic</option>
+                                                <option value="English ">English</option>
+                                            </select>
                                         </div>
-
+                                        
                                         <div class="form-group"> <!-- Experience -->
-                                            <label class="font-weight-bold">Would you prefer experienced seekers?</label>
+                                            <label class="font-weight-bold">Would You Prefer Experienced Seekers?</label>
                                             <select id="experience" class="js-example-basic-single content-wrapper w-100" name="experience" style="width: 100%;"  required>
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="Yes">Yes</option>
@@ -142,33 +133,37 @@
                                             </select>
                                         </div>
 
+                                        <div class="form-group"> <!-- Required hours -->
+                                            <label for="exampleInputHours" class="font-weight-bold">Required Working Hours (per week):</label>
+                                                <input type="number" class="form-control" id="exampleInputHours" name="working_hours" 
+                                                placeholder="Working Hours" pattern="\d*" min="0" max="15" style="width: 100%;">
+                                        </div>
+
+
                                         <div class="form-group">  <!-- Duration -->
-                                            <label class="font-weight-bold">Duration of the Job</label>
-                                            <select class="js-example-basic-single w-100" name="job_duration">
-                                                <option value="" disabled selected>Select Duration</option>
-                                                <option value="1 week">1 week</option>
-                                                <option value="2 weeks">2 weeks</option>
-                                                <option value="3 weeks">3 weeks</option>
-                                                <option value="4 weeks">4 weeks</option>
+                                            <label class="font-weight-bold">Job Duration (in weeks):</label>
+                                            <input type="number" class="form-control" name="job_duration" placeholder="Job duration (in weeks)" 
+                                            pattern="\d*" min="1" max="10" style="width: 100%;" required>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Work Location -->
+                                            <label class="font-weight-bold">Work Location:</label>
+                                            <select class="js-example-basic-single content-wrapper w-100" name="work_location" style="width: 100%;"  required>
+                                                <option value="" disabled selected hidden>Choose One</option>
+                                                <option value="remote">Remote</option>
+                                                <option value="onsite">Onsite</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group"> <!-- Positions Available -->
-                                            <label for="exampleInputNoPA" class="font-weight-bold">Number of
-                                                Positions Available (per week)</label>
-                                            <div class="col-sm-12">
-                                                <input type="number" class="form-control" id="exampleInputNoPA"
-                                                    name="positions_available"
-                                                    placeholder="Number of Positions Available" pattern="\d*" min="1"
-                                                    max="100">
-                                            </div>
+                                            <label for="exampleInputNoPA" class="font-weight-bold">Number of Positions Available (per week):</label>
+                                                <input type="number" class="form-control" id="exampleInputNoPA" name="positions_available"
+                                                    placeholder="Number of Positions Available" pattern="\d*" min="1" max="10" style="width: 100%;" required>
                                         </div>
 
                                         <div class="text-center"> <!-- Buttons -->
-
-                                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                        <button id="cancel-button" onclick="location.href = '/employeeCancle';"
-                                            class="btn btn-light">Cancel</button>
+                                            <button type="submit" class="btn btn-primary mr-2" style="font-size: 15px;">Submit</button>
+                                            <button id="cancel-button" onclick="location.href = '/employeeCancle';" class="btn btn-light" style="font-size: 15px;">Cancel</button>
                                         </div>
                                     </form>
                                 </div>
