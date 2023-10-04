@@ -56,13 +56,13 @@
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Post Job</h4>
-                                    <p class="card-description">
+                                    <h4 class="card-title" style="font-size: 20px;">Update Job</h4>
+                                    <p class="card-description" style="color:  #222831;">
                                         Fill out this form to gain the best candidates for your opportunity
-                                    </p>
+                                    </p><hr style="margin-bottom: 1.5rem;">
                                     <form class="forms-sample" method="POST">
                                         <div class="form-group"> <!-- Title -->
-                                            <label for="n_job_title">Write a title for your job post
+                                            <label class="font-weight-bold" for="n_job_title">Write a title for your job post
                                             </label>
                                             <input type="text" class="form-control" id="n_job_title" name="n_job_title" value = "{{ jobs[2] }}"
                                                 placeholder="Job title" >
@@ -78,7 +78,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Required Major -->
-                                            <label>Required Major</label> 
+                                            <label class="font-weight-bold">Required Major</label> 
                                             <select class="js-example-basic-single w-100" name="n_required_major"   required>
                                                 
                                                 <option value="{{ jobs[3] }}" selected>{{ jobs[3] }}</option>
@@ -93,7 +93,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- GPA -->
-                                            <label>Minimum GPA</label>
+                                            <label class="font-weight-bold">Minimum GPA</label>
                                             <select class="js-example-basic-single w-100" name="n_min_gpa" >
                                                 <option value="{{ jobs[4] }}" selected>{{ jobs[4] }}</option>
                                                 <option value="5.0">5.0</option>
@@ -106,7 +106,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Skills -->
-                                            <label>Skills</label>
+                                            <label class="font-weight-bold">Skills</label>
                                             <select class="js-example-basic-multiple w-100" name="n_skills"  multiple="multiple" required>
                                                 <option value="{{ jobs[5] }}" selected>{{ jobs[5] }}</option>
                                                 <option value="Programming">Programming</option>
@@ -125,7 +125,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Required Hours -->
-                                            <label for="n_working_hours" class="col-sm-3 col-form-label">Required working hours (in week)</label>
+                                            <label for="n_working_hours" class="font-weight-bold">Required working hours (in week)</label>
                                             <div class="col-sm-12">
                                                 <input type="number" class="form-control" id="n_working_hours" name="n_working_hours" 
                                                 value="{{ jobs[6] }}" placeholder="Working Hours" pattern="\d*" min="0" max="15">
@@ -142,7 +142,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Job Duration -->
-                                            <label>Duration of the Job</label>
+                                            <label class="font-weight-bold">Duration of the Job</label>
                                             <select class="js-example-basic-single w-100" name="n_job_duration" >
                                                 <option value="{{ jobs[7] }}" selected>{{ jobs[7] }}</option>
                                                 <option value="Summer Internship">Summer Internship</option>
@@ -153,7 +153,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Positions -->
-                                            <label for="n_positions_available" class="col-sm-6 col-form-label">Number of
+                                            <label for="n_positions_available" class="font-weight-bold">Number of
                                                 Positions Available (per week)</label>
                                             <div class="col-sm-12">
                                                 <input type="number" class="form-control" id="n_positions_available"
@@ -162,28 +162,20 @@
                                             </div>
                                         </div>
                                          
-                                        
-                                        <button type="submit" class="btn btn-primary mr-2" href = "/update_post_job">Update</button>
-                                        <button class="btn btn-light">Cancel</button>
-                                        
+                                        <div class="text-center"> <!-- Buttons -->
+                                            <button type="submit" class="btn btn-primary mr-2" href = "/update_post_job">Update</button>
+                                            <button class="btn btn-light">Cancel</button>
+                                        </div>
+
                                     </form>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
-
-
-
                 </div>
             </div>
-
         </div>
     </div>
-
-
 </body>
 <!-- Core JS files -->
 <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
