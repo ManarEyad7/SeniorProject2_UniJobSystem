@@ -198,11 +198,11 @@
 
                                         <div class="form-group"> <!-- Upload CV -->
                                             <label class="font-weight-bold">Upload CV (PDF only):</label><br>
-                                            <input class="" type="file"  id="file" name="pdf_file" accept=".pdf">
+                                            <input class="" type="file"  id="my_file" name="pdf_file" accept=".pdf">
                                         </div>
-                                        
+                                        <p id="demo"></p>
                                         <div class="text-center"> <!-- Buttons -->
-                                            <button id="submit-button" type="submit" class="btn btn-primary mr-2" style="font-size: 15px;">Submit</button>
+                                            <button id="submit-button" type="submit" class="btn btn-primary mr-2" style="font-size: 15px;" onclick="myFunction()" >Submit</button>
                                             <button id="cancel-button"  onclick="location.href = '/studentCancle';" class="btn btn-light" style="font-size: 15px;">Cancel</button>
                                         </div>
                                     </form>
@@ -572,4 +572,15 @@
         cancelButton.addEventListener("click",Freset);
 
 
+</script>
+
+
+<script>
+    function myFunction() {
+        var x =
+            document.getElementById(
+              "my_file").required = false;
+       
+        document.getElementById("demo").innerHTML = x;
+    }
 </script>
