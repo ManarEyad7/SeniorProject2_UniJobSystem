@@ -680,25 +680,29 @@ def get_recommendations(job_id):
     ''' ------------------- Retrieve general data ------------------- '''
 
     # Retrieve data from SQL database
-    cursor.execute("SELECT major, gpa, skills, totalDuration, experience, languages FROM seekers_form")
+    cursor.execute("SELECT major, gpa, skills, totalDuration, experience, languages, work_preference FROM seekers_form")
     seekers_data = cursor.fetchall()
 
-    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages FROM job_posts WHERE job_id = ?", (job_id,))
+    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages, work_location FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
+    
     #print("iiii",seekers_data)
     #print("iiii2222",job_data)
 
+    #print("1",job_data)
     # Check if required_major is set to "No Preference"
-    if job_data[0][0] == 'No Preference':
+    #if job_data[0][0] == 'No Preference':
         # Drop the 'major' column from seekers_data and job_data
-        seekers_data = [seeker[:3] + seeker[4:] for seeker in seekers_data]
-        job_data = [job_data[0][1:3] + job_data[0][4:]]
+        #seekers_data = [seeker[:3] + seeker[4:] for seeker in seekers_data]
+        #job_data = [job_data[0][1:3] + job_data[0][4:]]
+
     
     # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
     if job_data[0][4] == 'No':
         seekers_data = [seeker[:4] for seeker in seekers_data]
         job_data = [job_data[0][:4] + job_data[0][5:]]
+
 
     # Filter out seekers whose total duration is less than the job's working hours
     filtered_seekers_data = []
@@ -706,7 +710,7 @@ def get_recommendations(job_id):
         if seeker[3] >= job_data[0][3]:
             filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
             filtered_seekers_data.append(filtered_seeker)
-    print(filtered_seekers_data)
+
     if not filtered_seekers_data:
         message = "No suitable seekers found."
         return render_template('recommendations.html', message=message)
@@ -728,7 +732,7 @@ def get_recommendations(job_id):
 
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
-        print(similarity_scores)
+        #print(similarity_scores)
 
         #recommended_seekers = [seekers_data[i] for i in top_seekers]
         recommended_seekers = []
