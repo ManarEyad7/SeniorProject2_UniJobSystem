@@ -6,10 +6,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from datetime import datetime, timedelta
 
-#import numpy as np
 
 #to save pdf file
-import os
+import os 
 
 TEMPLATES_AUTO_RELOAD = True
 
@@ -87,6 +86,7 @@ def find_job():
 
             # Delete the temporary file
             os.remove(temp_path)
+
             
         #--------------------------- Start interval data
         
