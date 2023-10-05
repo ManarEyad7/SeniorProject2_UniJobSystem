@@ -852,23 +852,26 @@ def compute_similarity(job_post_data, seekers_form_data):
 
 # Function to fetch candidate information from the database
 def get_candidate_info(candidate_id):
-    # Replace 'your_database.db' with the actual path to your SQLite database file
-    conn = sqlite3.connect('users_database.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM seekers_form WHERE user_id=?", (candidate_id,))
-    candidate_data = cursor.fetchone()
+    try:
+        conn = sqlite3.connect('users_database.db')
+        cursor = conn.cursor()
 
-    cursor.execute("SELECT email FROM users WHERE id=?", (candidate_id,))
-    email = cursor.fetchone()
+        # Fetch candidate data
+        cursor.execute("SELECT * FROM seekers_form WHERE user_id=?", (candidate_id,))
+        candidate_data = cursor.fetchone()
 
-    cursor.execute("SELECT file_id,filename, data FROM files WHERE user_id = ?", (candidate_id,))
-    file = cursor.fetchone()
-    print(len(candidate_data))
-    conn.close()
-    if candidate_data:
-        # Assuming the database columns are: id, name, major, gpa, skills, score
-        return {
-            'id': candidate_data[2],
+        # Fetch email
+        cursor.execute("SELECT email FROM users WHERE id=?", (candidate_id,))
+        email = cursor.fetchone()
+
+        # Fetch CV information
+        cursor.execute("SELECT file_id, filename, data FROM files WHERE user_id=?", (candidate_id,))
+        file = cursor.fetchone()
+
+        if candidate_data:
+            return {
+                
+                            'id': candidate_data[2],
             'name': candidate_data[3],
             'major': candidate_data[5],
             'phone': candidate_data[4],
@@ -880,12 +883,16 @@ def get_candidate_info(candidate_id):
             'availability': candidate_data[10],
             'work_preference': candidate_data[27],
 
-
-            'cv': file[0]
-            
-        }
-    else:
-        return None
+                'cv': file[0] if file else None  # Return CV if available, else None
+            }
+        else:
+            return {}  # Return an empty dictionary if no data found
+    except sqlite3.Error as e:
+        # Handle database errors here
+        print("Database error:", str(e))
+        return None  # Return None to indicate an error
+    finally:
+        conn.close()
 
 
 @app.route('/get_candidate/<int:candidate_id>')

@@ -297,11 +297,14 @@
                                         </div>
                                         <div class="sub-section">
                                             <div style="margin-top: 20px;">
-
                                                 <h4 style="float: left;">Curriculum Vitae</h4>
-                                                <p style="text-align: right ;"><a class="btn btn-primary btn-sm"
-                                                        id="cv-download-link" href="#" download>Download CV</a></p>
+                                                <p style="text-align: right ;">
+                                                    <a class="btn btn-primary btn-sm" id="cv-download-link" href="#" download>Download CV</a>
+                                                </p>
+                                                <p id="cv-status"></p> <!-- This paragraph will display the CV status -->
                                             </div>
+                                        </div>
+                                        
                                             <div style="margin-top: 20px;">
 
                                                 <!-- Availability Sub-Section -->
@@ -314,7 +317,6 @@
                                                             id="student-work-preference"></span></p>
                                                 </div>
 
-                                                <!-- Download CV Sub-Section -->
                                             </div>
 
                                             <div
@@ -486,15 +488,24 @@
                     document.getElementById('student-availability').textContent = data.availability;
                     document.getElementById('student-work-preference').textContent = data.work_preference;
 
-                    // Set the CV download link
+                    // Set the CV download link and status
                     const cvDownloadLink = document.getElementById('cv-download-link');
+                    const cvStatus = document.getElementById('cv-status');
 
-                    // Set the 'file_id' based on the 'student-cv' value from the data
-                    cvDownloadLink.href = `{{ url_for('download', file_id=0) }}`.replace('0', data.cv);
+                    // Check if there is a value in data.cv
+                    if (data.cv) {
+                        // If data.cv has a value, set the link and display "Download CV"
+                        cvDownloadLink.href = `{{ url_for('download', file_id=0) }}`.replace('0', data.cv);
+                        cvDownloadLink.style.display = 'inline-block';
+                        cvStatus.textContent = ''; // Clear the status message
+                    } else {
+                        // If data.cv is empty, display a message and hide the download link
+                        cvDownloadLink.style.display = 'none';
+                        cvStatus.textContent = 'No CV uploaded';
+                        cvStatus.style.textAlign =  'right';
 
-                    // Set link text
-                    cvDownloadLink.textContent = 'Download CV';
 
+                    }
 
 
                     // Display the form
