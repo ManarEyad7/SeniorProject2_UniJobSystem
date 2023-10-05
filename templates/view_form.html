@@ -61,49 +61,49 @@
                                     <h4 class="card-title" style="font-size: 20px;">View Job Form</h4>
                                     <hr style="margin-bottom: 1.5rem;">
                                     <form>
-                                        <div class="form-group"> <!-- Name -->
-                                            <label for="name" class="font-weight-bold">Name:</label>
+                                        <div class="form-group" > <!-- Name -->
+                                            <label for="name" class="font-weight-bold" style="font-size: 15px;">Name:</label>
                                             <input type="text" class="form-control custom-input" id="name" name="name" value="{{ form[3] }}" readonly>
                                         </div>
 
-                                        <div class="form-group"> <!-- Phone Number -->
-                                            <label for="phoneNumber" class="font-weight-bold">Phone Number:</label>
+                                        <div class="form-group" ><!-- Phone Number -->
+                                            <label for="phoneNumber" class="font-weight-bold" style="font-size: 15px;">Phone Number:</label>
                                             <input type="text" class="form-control custom-input" id="phoneNumber" name="phoneNumber" pattern="05[0-9]{8}"
                                             title="Please enter only numbers" minlength="10" maxlength="10" value="{{ form[4] }}" readonly>
                                         </div>
 
                                         <div class="form-group"> <!-- Major -->
-                                            <label class="font-weight-bold">Major:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Major:</label>
                                             <input id="major" class="form-control custom-input" style="width: 100%;" name="major" 
                                             value="{{ form[5] }} " readonly> </input>
                                         </div>
 
-                                        <div class="form-group"> <!-- GPA -->
-                                            <label class="font-weight-bold">GPA:</label>
+                                        <div class="form-group" > <!-- GPA -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">GPA:</label>
                                             <input id="gpa" class="form-control custom-input"  name="gpa" style="width: 100%;" 
                                             value="{{ form[6] }} " readonly> </input>
                                         </div>
 
                                         <div class="form-group"> <!-- Skills -->
-                                            <label class="font-weight-bold">Skills:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Skills:</label>
                                             <input id="skills" class="form-control custom-input" style="width: 100%;" name="skills" multiple="multiple" 
                                             value="{{ form[7] }} " readonly> </input>                                               
                                         </div>
 
                                         <div class="form-group" > <!-- Languages -->
-                                            <label class="font-weight-bold">Languages:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Languages:</label>
                                             <input id="languages" class="form-control custom-input" name="Languages" style="width: 100%;"  multiple="multiple"
                                             value="{{ form[9] }} " readonly> </input>
                                         </div>
 
                                         <div class="form-group"> <!-- Experience -->
-                                            <label class="font-weight-bold">Do You Have Previous Work Experience?</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Do You Have Previous Work Experience?</label>
                                             <input id="experience" class="form-control custom-input" name="experience" style="width: 100%;"  
                                             value="{{ form[8] }} " readonly> </input>                                                                                              
                                         </div>
                                     
                                         <div class="form-group"> <!-- Availability -->
-                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold">Availability:</label>
+                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold" style="font-size: 15px;">Availability:</label>
                                             <div class="availability-container">
                                                 <div class="day" style="margin-left: 20px;">
                                                     <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
@@ -233,19 +233,24 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Duration -->
-                                            <label class="font-weight-bold">Number of Weeks You Want To Work:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Number of Weeks You Want To Work:</label>
                                             <input type="number" class="form-control custom-input" style="width: 100%;" value="{{ form[26] }}" readonly>
                                         </div>
 
                                         <div class="form-group"> <!-- Work preference -->
-                                            <label class="font-weight-bold">Work preference:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Work preference:</label>
                                             <input class="form-control custom-input" name="work_preference" style="width: 100%;"  
                                             value="{{ form[27] }} " readonly> </input>
                                         </div>
 
                                         <div class="form-group"> <!-- Download CV -->
-                                            <label class="font-weight-bold">To download the PDF file, click the link below:</label><br>
+                                            <label class="font-weight-bold" style="font-size: 15px;">To download the PDF file, click the link below:</label><br>
+
+                                            {% if file %}
                                             <a href="{{ url_for('download', file_id=file[0]) }}">Download File</a>
+                                            {% else %}
+                                            <h6 style="margin-left: 10px;">No file uploaded </h6>
+                                            {% endif %}
                                         </div>
 
                                         <div class="text-center"> 

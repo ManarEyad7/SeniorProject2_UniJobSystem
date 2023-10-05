@@ -63,13 +63,13 @@
                                     <form class="forms-sample" method="POST">
 
                                         <div class="form-group"> <!-- Title -->
-                                            <label class="font-weight-bold" for="n_job_title">Job Title:</label>
+                                            <label class="font-weight-bold" for="n_job_title" style="font-size: 15px;">Job Title:</label>
                                             <input type="text" class="form-control" id="n_job_title" name="n_job_title" value = "{{ jobs[2] }}"
                                                 placeholder="Job title" >
                                         </div>
 
                                         <div class="form-group"> <!-- Required Major -->
-                                            <label class="font-weight-bold">Required Major:</label> 
+                                            <label class="font-weight-bold" style="font-size: 15px;">Required Major:</label> 
                                             <select class="js-example-basic-single w-100" name="n_required_major"  style="width:100%;" required>
                                                 
                                                 <option value="{{ jobs[3] }}" selected>{{ jobs[3] }}</option>
@@ -84,7 +84,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- GPA -->
-                                            <label class="font-weight-bold">Minimum GPA</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Minimum GPA</label>
                                             <select class="js-example-basic-single w-100" style="width:100%;" name="n_min_gpa" >
                                                 <option value="{{ jobs[4] }}" selected>{{ jobs[4] }}</option>
                                                 <option value="5.0">5.0</option>
@@ -97,7 +97,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Skills -->
-                                            <label class="font-weight-bold">Skills</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Skills</label>
                                             <select class="js-example-basic-multiple w-100" name="n_skills"  multiple="multiple" style="width:100%;" required>
                                                 <option value="{{ jobs[5] }}" selected>{{ jobs[5] }}</option>
                                                 <option value="Programming">Programming</option>
@@ -116,7 +116,7 @@
                                         </div>
 
                                         <div class="form-group" > <!-- Required Languages -->
-                                            <label class="font-weight-bold">Required Languages:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Required Languages:</label>
                                             <select id="n_required_languages" class="js-example-basic-multiple content-wrapper w-100" name="n_required_languages" style="width: 100%;"  multiple="multiple" required>
                                                 <option value="{{ jobs[10] }}" selected>{{ jobs[10] }}</option>
                                                 <option value="Arabic ">Arabic</option>
@@ -125,7 +125,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Experience -->
-                                            <label class="font-weight-bold">Would You Prefer Experienced Seekers?</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Would You Prefer Experienced Seekers?</label>
                                             <select id="n_experience" class="js-example-basic-single content-wrapper w-100" name="n_experience" style="width: 100%;"  required>
                                                 <option value="{{ jobs[8] }}" selected>{{ jobs[8] }}</option>
                                                 <option value="Yes">Yes</option>
@@ -134,19 +134,19 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Required Hours -->
-                                            <label for="n_working_hours" class="font-weight-bold">Required Working Hours (per week):</label>
+                                            <label for="n_working_hours" style="font-size: 15px;" class="font-weight-bold">Required Working Hours (per week):</label>
                                             <input type="number" class="form-control" id="n_working_hours" name="n_working_hours" 
                                                 value="{{ jobs[6] }}" placeholder="Working Hours" pattern="\d*" min="0" max="15" style="width: 100%;">
                                         </div>
 
                                         <div class="form-group"> <!-- Job Duration -->
-                                            <label class="font-weight-bold">Job Duration (in weeks):</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Job Duration (in weeks):</label>
                                             <input type="number" class="form-control" name="n_job_duration" pattern="\d*" min="1" max="10" 
                                             value="{{ jobs[7] }}" placeholder="Job duration (in weeks)" style="width: 100%;">
                                         </div>
 
                                         <div class="form-group"> <!-- Work Location -->
-                                            <label class="font-weight-bold">Work Location:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Work Location:</label>
                                             <select class="js-example-basic-single content-wrapper w-100" name="n_work_location" style="width: 100%;"  required>
                                                 <option value="{{ jobs[11] }}"  selected >{{ jobs[11] }}</option>
                                                 <option value="remote">Remote</option>
@@ -155,7 +155,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Positions -->
-                                            <label for="n_positions_available" class="font-weight-bold">Number of Positions Available (per week):</label>
+                                            <label for="n_positions_available" class="font-weight-bold" style="font-size: 15px;">Number of Positions Available (per week):</label>
                                                 <input type="number" class="form-control" id="n_positions_available" name="n_positions_available"  
                                                 value="{{ jobs[9] }}" placeholder="Number of Positions Available" pattern="\d*" min="1"
                                                 style="width: 100%;" max="100">

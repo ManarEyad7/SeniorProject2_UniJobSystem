@@ -60,20 +60,20 @@
                                     <p class="card-description" style="color:  #222831; font-size: 15px;"> Fill out this form to search for a Part Time job </p>
                                     <hr style="margin-bottom: 1.5rem;">
                                     <form id="myForm" class="forms-sample" method="POST" enctype="multipart/form-data">
-                                        <div class="form-group"> <!-- Name -->
-                                            <label for="name" class="font-weight-bold">Name:</label>
+                                        <div class="form-group" > <!-- Name -->
+                                            <label for="name" class="font-weight-bold" style="font-size: 15px;">Name:</label>
                                             <input type="text" class="form-control custom-input" id="name" name="name" value="{{ user[3] }}" readonly>
                                         </div>
 
                                         <div class="form-group"> <!-- Phone Number -->
-                                            <label for="phoneNumber" class="font-weight-bold">Phone Number:</label>
+                                            <label for="phoneNumber" class="font-weight-bold" style="font-size: 15px;">Phone Number:</label>
                                             <input type="text" class="form-control custom-input" id="phoneNumber" name="phoneNumber" pattern="05[0-9]{8}"
                                             title="Please enter only numbers" minlength="10" maxlength="10" required>
                                             <div id="phoneNumberError" class="error-message" style="color: red;"></div>
                                         </div>
 
                                         <div class="form-group"> <!-- Major -->
-                                            <label class="font-weight-bold">Major:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Major:</label>
                                             <select id="major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" name="major" required>
                                                 <option value="" disabled selected>Options</option>
                                                 <option value="Computer Science">Computer Science</option>
@@ -87,7 +87,7 @@
 
 
                                         <div class="form-group"> <!-- GPA -->
-                                            <label class="font-weight-bold">GPA:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">GPA:</label>
                                             <select id="gpa" class="js-example-basic-single content-wrapper w-100" name="gpa" style="width: 100%;" >
                                                 <option value="" disabled selected>Enter Your GPA</option>
                                                 <option value="5.0">5.0</option>
@@ -100,7 +100,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Skills -->
-                                            <label class="font-weight-bold">Skills:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Skills:</label>
                                             <select id="skills" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;" name="skills" multiple="multiple" required>
                                                 <option value="Programming">Programming</option>
                                                 <option value="Web Development">Web Development</option>
@@ -117,8 +117,8 @@
                                             </select>
                                         </div>
                                     
-                                        <div class="form-group" > <!-- Languages -->
-                                            <label class="font-weight-bold">Languages:</label>
+                                        <div class="form-group"> <!-- Languages -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">Languages:</label>
                                             <select id="languages" class="js-example-basic-multiple content-wrapper w-100" name="Languages" style="width: 100%;"  multiple="multiple"
                                                 required>
                                                 <option value="Arabic ">Arabic</option>
@@ -127,8 +127,8 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Experience -->
-                                            <label class="font-weight-bold">Do You Have Previous Work Experience?</label>
-                                            <select id="experience" class="js-example-basic-single content-wrapper w-100" name="experience" style="width: 100%;"  required>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Do You Have Previous Work Experience?</label>
+                                            <select class="js-example-basic-single content-wrapper w-100" name="experience" style="width: 100%;"  >
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
@@ -136,7 +136,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Availability -->
-                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold">Availability:</label>
+                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold" style="font-size: 15px;">Availability:</label>
                                             <div class="availability-container">
                                                 <div class="day" style="margin-left: 20px;">
                                                     <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
@@ -182,13 +182,13 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Duration -->
-                                            <label class="font-weight-bold">Number of Weeks You Want To Work:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Number of Weeks You Want To Work:</label>
                                             <input type="number" class="form-control" name="work_duration" placeholder="Number of Weeks" 
                                             pattern="\d*" min="1" max="10" style="width: 100%;">
                                         </div>
 
                                         <div class="form-group"> <!-- Work preference -->
-                                            <label class="font-weight-bold">Work preference:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Work preference:</label>
                                             <select id="experience" class="js-example-basic-single content-wrapper w-100" name="work_preference" style="width: 100%;"  required>
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="remote">Remote</option>
@@ -197,7 +197,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Upload CV -->
-                                            <label class="font-weight-bold">Upload CV (PDF only):</label><br>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Upload CV (PDF only):</label><br>
                                             <input class="" type="file"  id="my_file" name="pdf_file" accept=".pdf">
                                         </div>
                                         <p id="demo"></p>
@@ -574,13 +574,3 @@
 
 </script>
 
-
-<script>
-    function myFunction() {
-        var x =
-            document.getElementById(
-              "my_file").required = false;
-       
-        document.getElementById("demo").innerHTML = x;
-    }
-</script>

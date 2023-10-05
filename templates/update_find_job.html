@@ -61,12 +61,12 @@
                                     <hr style="margin-bottom: 1.5rem;">
                                     <form id="myForm" class="forms-sample" method="POST" enctype="multipart/form-data">
                                         <div class="form-group"> <!-- Name -->
-                                            <label for="n_name" class="font-weight-bold">Name:</label>
+                                            <label for="n_name" class="font-weight-bold" style="font-size: 15px;">Name:</label>
                                             <input type="text" class="form-control custom-input" id="n_name" name="n_name" value = "{{ form[3] }}" readonly>
                                         </div>
 
                                         <div class="form-group"> <!-- Phone Number -->
-                                            <label for="n_phoneNumber" class="font-weight-bold">Phone Number:</label>
+                                            <label for="n_phoneNumber" class="font-weight-bold" style="font-size: 15px;">Phone Number:</label>
                                             <input type="text" class="form-control custom-input" id="n_phoneNumber" name="n_phoneNumber" pattern="05[0-9]{8}"
                                             title="Please enter only numbers" minlength="10" maxlength="10" value = "{{ form[4] }}" required>
                                             <div id="n_phoneNumberError" class="error-message" style="color: red;"></div>
@@ -74,7 +74,7 @@
 
 
                                         <div class="form-group"> <!-- Major -->
-                                            <label class="font-weight-bold">Required Major:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Required Major:</label>
                                             <select id="n_major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" name="n_major" required>
                                                 <option value="{{ form[5] }}" selected >{{ form[5] }}</option>
                                                 <option value="Computer Science">Computer Science</option>
@@ -88,7 +88,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- GPA -->
-                                            <label class="font-weight-bold">GPA:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">GPA:</label>
                                             <select id="n_gpa" class="js-example-basic-single content-wrapper w-100" name="n_gpa" style="width: 100%;" >
                                                 <option value="{{ form[6] }}" selected >{{ form[6] }}</option>
                                                 <option value="5.0">5.0</option>
@@ -101,7 +101,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Skills -->
-                                            <label class="font-weight-bold">Skills:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Skills:</label>
                                             <select id="n_skills" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;" name="n_skills" multiple="multiple" required>
                                                 <option value="{{ form[7] }}" selected >{{ form[7] }}</option>
                                                 <option value="Programming">Programming</option>
@@ -121,7 +121,7 @@
 
 
                                         <div class="form-group" > <!-- Languages -->
-                                            <label class="font-weight-bold">Languages:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Languages:</label>
                                             <select id="n_languages" class="js-example-basic-multiple content-wrapper w-100" name="n_Languages" style="width: 100%;"  multiple="multiple"
                                                 required>
                                                 <option value="{{ form[9] }}" selected >{{ form[9] }}</option>
@@ -131,7 +131,7 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Experience -->
-                                            <label class="font-weight-bold">Do You Have Previous Work Experience?</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Do You Have Previous Work Experience?</label>
                                             <select id="n_experience" class="js-example-basic-single content-wrapper w-100" name="n_experience" style="width: 100%;"  required>
                                                 <option value="{{ form[8] }}" selected > {{ form[8] }}</option>
                                                 <option value="Yes">Yes</option>
@@ -140,7 +140,7 @@
                                         </div>
                                     
                                         <div class="form-group"> <!-- Availability -->
-                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold">Availability:</label>
+                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold" style="font-size: 15px;">Availability:</label>
                                             <div class="availability-container">
                                                 <div class="day" style="margin-left: 20px;">
                                                     <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
@@ -263,13 +263,13 @@
                                         </div>
 
                                         <div class="form-group"> <!-- Duration -->
-                                            <label class="font-weight-bold">Number of Weeks You Want To Work:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Number of Weeks You Want To Work:</label>
                                             <input type="number" class="form-control" style="width: 100%;" value="{{ form[26] }}" 
                                             placeholder="Number of Weeks" name="n_work_duration" pattern="\d*" min="1" max="10" required>
                                         </div>
 
                                         <div class="form-group"> <!-- Work preference -->
-                                            <label class="font-weight-bold">Work preference:</label>
+                                            <label class="font-weight-bold" style="font-size: 15px;">Work preference:</label>
                                             <select id="experience" class="js-example-basic-single content-wrapper w-100" name="n_work_preference" style="width: 100%;"  required>
                                                 <option value="{{ form[27] }} " selected> {{ form[27] }}</option>
                                                 <option value="remote">Remote</option>
@@ -277,9 +277,9 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group"> <!-- update CV 
-                                            <label class="font-weight-bold">The uploaded file is "", choose File if you want to update it?</label><br>
-                                            <input class="" type="file"  id="file" name="pdf_file" accept=".pdf" required>-->
+                                        <div class="form-group"> <!-- update CV -->
+                                            <label class="font-weight-bold"  style="font-size: 15px;">The uploaded file is '{{file[2]}}', choose File if you want to update it:</label><br>
+                                            <input class="" type="file"  id="file" name="n_pdf_file" accept=".pdf" style="margin-left: 10px;">
                                         </div>
                                         
                                         <div class="text-center"> <!-- Buttons -->
