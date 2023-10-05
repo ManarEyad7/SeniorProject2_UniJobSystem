@@ -838,6 +838,7 @@ def get_candidate_info(candidate_id):
 
     cursor.execute("SELECT file_id,filename, data FROM files WHERE user_id = ?", (candidate_id,))
     file = cursor.fetchone()
+    print(len(candidate_data))
     conn.close()
     if candidate_data:
         # Assuming the database columns are: id, name, major, gpa, skills, score
@@ -851,7 +852,10 @@ def get_candidate_info(candidate_id):
             'skills': candidate_data[7],
             'experience': candidate_data[8],
             'languages': candidate_data[9],
-            'availability': candidate_data[10:],
+            'availability': candidate_data[10],
+            'work_preference': candidate_data[27],
+
+
             'cv': file[0]
             
         }

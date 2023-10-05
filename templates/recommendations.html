@@ -276,57 +276,55 @@
                                 <!-- Contact Information Sub-Section -->
                                 <div class="sub-section">
                                     <h4>Contact Information</h4>
-                                    <p>Phone Number: <span id="student-phone"></span></p>
-                                    <p>Email: <span id="student-email"></span></p>
+                                    <p style="font-size: 15px;">Phone Number: <span id="student-phone"></span></p>
+                                    <p style="font-size: 15px;">Email: <span id="student-email"></span></p>
                                 </div>
 
                                 <!-- Academic Information Sub-Section -->
                                 <div class="sub-section">
                                     <h4>Academic Information</h4>
-                                    <p>Major: <span id="student-major"></span></p>
-                                    <p>GPA: <span id="student-gpa"></span></p>
-                                    <div id="student-skills" class="skills-container">
-                                        <p id="skills-label">Skills:</p>
-                                    </div>
-
-                                    <div style="margin-top: 7px;">
-
-                                        <p>Experience: <span id="student-experience"></span></p>
-                                        <p>Languages: <span id="student-languages"></span></p>
-                                    </div>
-                                    <div class="sub-section">
-                                        <div style="margin-top: 20px;">
-
-                                            <h4 style="float: left;">Curriculum Vitae</h4>
-                                            <p style="text-align: right;"><a class="btn btn-primary btn-sm"
-                                                    id="cv-download-link" href="#" download>Download CV</a></p>
+                                    <pstyle="font-size: 15px;">Major: <span id="student-major"></span></p>
+                                        <p style="font-size: 15px;">GPA: <span id="student-gpa"></span></p>
+                                        <div style="font-size: 15px;" id="student-skills" class="skills-container">
+                                            <p style="font-size: 15px;" id="skills-label">Skills:</p>
                                         </div>
-                                        <div style="margin-top: 20px;">
 
-                                            <!-- Availability Sub-Section -->
+                                        <div style="margin-top: 7px;">
+                                            <p style="font-size: 15px;">Experience: <span
+                                                    id="student-experience"></span></p>
+                                            <p style="font-size: 15px;">Languages: <span id="student-languages"></span>
+                                            </p>
+                                        </div>
+                                        <div class="sub-section">
+                                            <div style="margin-top: 20px;">
 
-                                            <div class="sub-section">
-                                                <h4>Availability</h4>
-                                                <p>Availability: <span id="student-availability"></span></p>
+                                                <h4 style="float: left;">Curriculum Vitae</h4>
+                                                <p style="text-align: right ;"><a class="btn btn-primary btn-sm"
+                                                        id="cv-download-link" href="#" download>Download CV</a></p>
+                                            </div>
+                                            <div style="margin-top: 20px;">
 
+                                                <!-- Availability Sub-Section -->
 
+                                                <div class="sub-section">
+                                                    <h4 class="">Availability</h4>
+                                                    <p style="font-size: 15px;">Available Hours(per week): <span
+                                                            id="student-availability"></span></p>
+                                                    <p style="font-size: 15px;">Work Preference: <span
+                                                            id="student-work-preference"></span></p>
+                                                </div>
 
+                                                <!-- Download CV Sub-Section -->
                                             </div>
 
-                                            <!-- Download CV Sub-Section -->
+                                            <div
+                                                style="position: absolute; bottom: 25px; text-align: center; width: 100%;">
+                                                <button class="btn btn-primary" onclick="closeForm()">Close</button>
+                                            </div>
 
 
                                         </div>
-
-                                        <div style="text-align: center;">
-                                            <button class="btn btn-primary" onclick="closeForm()">Close</button>
-                                        </div>
-                                    </div>
                                 </div>
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -468,6 +466,8 @@
                     // Add "Skills:" paragraph
                     const skillsParagraph = document.createElement('p');
                     skillsParagraph.textContent = 'Skills:';
+                    skillsParagraph.style.fontSize = "15px";
+
                     skillsContainer.appendChild(skillsParagraph);
 
                     skillsArray.forEach(skill => {
@@ -475,6 +475,7 @@
                         skillLabel.textContent = skill;
                         skillLabel.classList.add('badge', 'badge-warning'); // Apply CSS classes for styling
                         skillLabel.style.marginRight = '5px'; // Add margin to create space between labels
+                        skillsParagraph.style.fontSize = '15px:';
 
                         skillsContainer.appendChild(skillLabel);
                     });
@@ -483,6 +484,8 @@
                     document.getElementById('student-experience').textContent = data.experience;
                     document.getElementById('student-languages').textContent = data.languages;
                     document.getElementById('student-availability').textContent = data.availability;
+                    document.getElementById('student-work-preference').textContent = data.work_preference;
+
                     // Set the CV download link
                     const cvDownloadLink = document.getElementById('cv-download-link');
 
