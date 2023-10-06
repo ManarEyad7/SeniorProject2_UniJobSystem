@@ -56,6 +56,23 @@
             /* Ensure sub-sections don't overflow */
         }
 
+        #job-details {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background-color: white;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: -4px 0px 8px 0 rgba(0, 0, 0, 0.2);
+            z-index: 99999;
+            overflow: hidden;
+            /* Ensure sub-sections don't overflow */
+        }
+
         /* Style the big border section */
         #student-info-container {
             border-radius: 15px;
@@ -145,18 +162,35 @@
 
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 2.5rem;">
+                    <div class="row"> 
+                        <!-- Add the return to previous page link here, outside the card -->
+                        <a href="/employee" id="return-link" class="btn btn-link " style="color: #3b3a88;">
+                            <i class="fa fa-chevron-circle-left"></i> View all posted jobs
+                        </a></div>
+                    <div class="row" style="margin-top: 0rem;">
 
                         <div class="col-lg-12 grid-margin stretch-card">
+
+
                             <div class="card custom-card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Top Student Recommendations</h4>
-                                    <p class="card-description">
-                                        Discover Ideal Candidates: Top Student Recommendations for This Job Opportunity
-                                    </p>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h4 class="card-title">Top Student Recommendations</h4>
+                                            <p class="card-description">
+                                                Discover Ideal Candidates: Top Student Recommendations for This Job
+                                                Opportunity
+                                            </p>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <a href="#" id="view-more-link" class="btn btn-link" style="color: #3b3a88;">
+                                                <i class="fa fa-external-link-square"></i> View job details
+                                            </a>
+                                        </div>
+                                    </div>
 
                                     <div class="job-post d-flex justify-content-between align-items-center">
-                                        <div onclick="closeForm()" class="overlay" id="overlay"></div>
+                                        <div onclick="closeCandidateInfo" class="overlay" id="overlay"></div>
                                         <div class="table-responsive custom-table-responsive">
                                             <table class="table table-hover">
                                                 <thead>
@@ -250,6 +284,10 @@
                         </div>
                     </div>
                 </div>
+                <!----------------------------------------------------------------------------------------->
+                <!----------------------------------------------------------------------------------------->
+                <!----------------------------------------------------------------------------------------->
+                <!----------------------------------------------------------------------------------------->
 
                 <div class="card" id="student-info-form" style="display: none; ">
                     <div class="card-body">
@@ -299,102 +337,158 @@
                                             <div style="margin-top: 20px;">
                                                 <h4 style="float: left;">Curriculum Vitae</h4>
                                                 <p style="text-align: right ;">
-                                                    <a class="btn btn-primary btn-sm" id="cv-download-link" href="#" download>Download CV</a>
+                                                    <a class="btn btn-primary btn-sm" id="cv-download-link" href="#"
+                                                        download>Download CV</a>
                                                 </p>
-                                                <p id="cv-status"></p> <!-- This paragraph will display the CV status -->
+                                                <p id="cv-status"></p>
+                                                <!-- This paragraph will display the CV status -->
                                             </div>
                                         </div>
-                                        
-                                            <div style="margin-top: 20px;">
 
-                                                <!-- Availability Sub-Section -->
+                                        <div style="margin-top: 20px;">
 
-                                                <div class="sub-section">
-                                                    <h4 class="">Availability</h4>
-                                                    <p style="font-size: 15px;">Available Hours(per week): <span
-                                                            id="student-availability"></span></p>
-                                                    <p style="font-size: 15px;">Work Preference: <span
-                                                            id="student-work-preference"></span></p>
-                                                </div>
+                                            <!-- Availability Sub-Section -->
 
+                                            <div class="sub-section">
+                                                <h4 class="">Availability</h4>
+                                                <p style="font-size: 15px;">Available Hours(per week): <span
+                                                        id="student-availability"></span></p>
+                                                <p style="font-size: 15px;">Work Preference: <span
+                                                        id="student-work-preference"></span></p>
                                             </div>
-
-                                            <div
-                                                style="position: absolute; bottom: 25px; text-align: center; width: 100%;">
-                                                <button class="btn btn-primary" onclick="closeForm()">Close</button>
-                                            </div>
-
 
                                         </div>
+
+                                        <div style="position: absolute; bottom: 25px; text-align: center; width: 100%;">
+                                            <button class="btn btn-primary"
+                                                onclick="closeCandidateInfo()">Close</button>
+                                        </div>
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
 
+                <div class="card" id="job-details" style="display: none; ">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; ">
 
-                    <!--
-                    <div class="row" style="margin-top: 2.5rem;"> // Cards div 
-                        
-                        {% for recommendation in recommendations[:9] %}
-                        <div class="col-lg-4 col-md-6">   //  recommended seeker card 
-                            <div class="card">
-                                <div class="card-body">
-                                    
-                                    <p>name: {{ recommendation['name'] }}</p>
-                                    <p>Major: {{ recommendation['seeker'][0] }}</p>
-                                    <p>GPA: {{ recommendation['seeker'][1] }}</p>
-                                    <p>Skills: {{ recommendation['seeker'][2] }}</p>
-                                    <p>Score: {{ recommendation['score'] }}</p>
-                                    
-                                    <div class="text-center" style="margin-top:20px;">
-                                        <i id="check-icon" class="fa-regular fa-circle-check fa-2xl clickable-icon" style="color: #26bb02; margin-right: 10px;"></i>
-                                        <i id="xmark-icon" class="fa-regular fa-circle-xmark fa-2xl clickable-icon" style="color: #e91619;"></i>
-                                    </div>
-
-                                </div>
-                            </div>
+                            <h3> Job details </h3>
                         </div>
-                        {% endfor %}
+                        <div style="margin-top: 20px;">
+                            <div class="sub-section">
+                                <div style="margin-top: 15px;">
 
-                        {% if recommendations|length < 9 %}
-                        {% for _ in range(9 - recommendations|length) %}
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card">
-                                <div class="card-body d-flex align-items-center justify-content-center">
-                                    <p></p> 
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
+                                    <h4 style="font-size: 20px;"> Job Title : <span id="job-title"></span></h4>
+                                    <div style="margin-top: 20px;">
 
-                    </div>
--->
-                    <!-- plugins:js -->
-                    <script type="text/javascript"
-                        src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
-                    <!-- endinject -->
+                                        <div style="margin-top: 25px;">
+                                        </div>
+                                        <!-- Big Border Section -->
+                                        <div id="student-info-container">
+                                            <!-- Contact Information Sub-Section -->
+                                            <div class="sub-section">
+                                                <h4>Job Requirements</h4>
+                                                <div style="margin-top: 25px;">
 
-                    <!-- endinject -->
-                    <!-- Plugin js for this page -->
-                    <!-- End plugin js for this page -->
-                    <!-- inject:js -->
-                    <!-- container-scroller -->
-                    <!-- plugins:js -->
-                    <script src="../../static/js/vendor.bundle.base.js"></script>
-                    <!-- endinject -->
-                    <!-- Plugin js for this page -->
-                    <!-- End plugin js for this page -->
-                    <!-- inject:js -->
-                    <script src="../../static/js/off-canvas.js"></script>
-                    <script src="../../static/js/hoverable-collapse.js"></script>
-                    <script src="../../static/js/template.js"></script>
-                    <script src="../../static/js/settings.js"></script>
-                    <script src="../../static/js/todolist.js"></script>
-                    <!-- endinject -->
-                    <!-- Custom js for this page-->
-                    <!-- End custom js for this page-->
+                                                    <p style="font-size: 15px;">Major: <span id="major"></span></p>
+                                                    <div style="margin-top: 10px;">
+
+                                                        <p style="font-size: 15px;">Skills: <span id="skills"></span>
+                                                        </p>
+                                                        <div style="margin-top:10px;">
+
+                                                            <p style="font-size: 15px;">Minimum GPA: <span
+                                                                    id="gpa"></span></p>
+                                                            <div style="margin-top: 10px;">
+
+                                                                <p style="font-size: 15px;">Experience: <span
+                                                                        id="experience"></span></p>
+                                                                <div style="margin-top: 10px;">
+
+                                                                    <p style="font-size: 15px;">Required Languages:
+                                                                        <span id="required_languages"></span></p>
+
+                                                                    <div style="margin-top: 10px;">
+
+
+                                                                    </div>
+                                                                    <div style="margin-top: 40px;">
+
+                                                                        <!-- Academic Information Sub-Section -->
+                                                                        <div class="sub-section">
+                                                                            <h4>Job Information</h4>
+                                                                            <div style="margin-top: 20px;">
+
+                                                                                <pstyle="font-size: 15px;">Job Duration:
+                                                                                    <span id="job_duration"></span></p>
+                                                                                    <div style="margin-top: 10px;">
+
+                                                                                        <p style="font-size: 15px;">
+                                                                                            Positions
+                                                                                            Available: <span
+                                                                                                id="positions_available"></span>
+                                                                                        </p>
+                                                                                        <div style="margin-top: 10px;">
+
+                                                                                            <p style="font-size: 15px;">
+                                                                                                Work
+                                                                                                Location: <span
+                                                                                                    id="work_location"></span>
+                                                                                            </p>
+                                                                                            <div
+                                                                                                style="margin-top: 10px;">
+
+                                                                                            </div>
+
+                                                                                            <div
+                                                                                                style="position: absolute; bottom: 25px; text-align: center; width: 100%;">
+                                                                                                <button
+                                                                                                    class="btn btn-primary"
+                                                                                                    onclick="closeJobDetails()">Close</button>
+                                                                                            </div>
+
+
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <!-- plugins:js -->
+                                                                        <script type="text/javascript"
+                                                                            src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+                                                                        <!-- endinject -->
+
+                                                                        <!-- endinject -->
+                                                                        <!-- Plugin js for this page -->
+                                                                        <!-- End plugin js for this page -->
+                                                                        <!-- inject:js -->
+                                                                        <!-- container-scroller -->
+                                                                        <!-- plugins:js -->
+                                                                        <script
+                                                                            src="../../static/js/vendor.bundle.base.js"></script>
+                                                                        <!-- endinject -->
+                                                                        <!-- Plugin js for this page -->
+                                                                        <!-- End plugin js for this page -->
+                                                                        <!-- inject:js -->
+                                                                        <script
+                                                                            src="../../static/js/off-canvas.js"></script>
+                                                                        <script
+                                                                            src="../../static/js/hoverable-collapse.js"></script>
+                                                                        <script
+                                                                            src="../../static/js/template.js"></script>
+                                                                        <script
+                                                                            src="../../static/js/settings.js"></script>
+                                                                        <script
+                                                                            src="../../static/js/todolist.js"></script>
+                                                                        <!-- endinject -->
+                                                                        <!-- Custom js for this page-->
+                                                                        <!-- End custom js for this page-->
 </body>
 
 </html>
@@ -502,7 +596,7 @@
                         // If data.cv is empty, display a message and hide the download link
                         cvDownloadLink.style.display = 'none';
                         cvStatus.textContent = 'No CV uploaded';
-                        cvStatus.style.textAlign =  'right';
+                        cvStatus.style.textAlign = 'right';
 
 
                     }
@@ -513,16 +607,72 @@
                     document.getElementById('student-info-form').style.display = 'block';
                     document.getElementById('overlay').style.display = 'block';
 
+
                 });
         });
     });
 
     // Function to close the form
-    function closeForm() {
-        // Hide the form and overlay
+    function closeCandidateInfo() {
+        // Hide the card and overlay
         document.getElementById('student-info-form').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
+
+    // Add click event listener to the overlay to close the card
+    document.getElementById('overlay').addEventListener('click', closeCandidateInfo);
     // Add click event listener to the "Show more" button
     showMoreButton.addEventListener('click', toggleSkills);
+</script>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const viewMoreLink = document.querySelector('#view-more-link');
+        const jobDetails = document.querySelector('#job-details');
+        const jobTitle = document.querySelector('#job-title');
+
+        viewMoreLink.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // Fetch job information using AJAX
+            fetch(`/get_job_info/{{ job_id }}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    // Add more job details as needed
+                    // Update the job details card/section with the fetched data
+                    jobTitle.textContent = data.title;
+                    document.getElementById('major').textContent = data.major;
+                    document.getElementById('skills').textContent = data.skills;
+                    document.getElementById('gpa').textContent = data.gpa;
+                    document.getElementById('job_duration').textContent = data.job_duration;
+                    document.getElementById('experience').textContent = data.experience;
+                    document.getElementById('positions_available').textContent = data.positions_available;
+                    document.getElementById('required_languages').textContent = data.required_languages;
+                    document.getElementById('work_location').textContent = data.work_location;
+
+                    // Show the job details card/section
+                    jobDetails.style.display = 'block';
+                    document.getElementById('overlay').style.display = 'block';
+
+
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+    // Function to close the form
+    // Function to close the job details card
+    function closeJobDetails() {
+        // Hide the card and overlay
+        document.getElementById('job-details').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    // Add click event listener to the overlay to close the card
+    document.getElementById('overlay').addEventListener('click', closeJobDetails);
+
+
+
 </script>

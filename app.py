@@ -903,6 +903,41 @@ def get_candidate(candidate_id):
         return jsonify(candidate_info)
     else:
         return jsonify(error='Candidate not found'), 404
+    
+
+@app.route('/get_job_info/<int:id>')
+def get_job_info(id):
+    try:
+        connection = sqlite3.connect("users_database.db")
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * FROM job_posts WHERE job_id = ?", (id,))
+        job = cursor.fetchone()
+        print(job[5])
+        connection.close()
+
+        if job is None:
+            abort(404)  # Job not found, return a 404 error
+
+        # Return the job information as JSON
+        return jsonify({
+            'title': job[2],
+            'major': job[3],
+            'skills': job[5],
+            'gpa' : job[4],
+            'working_hours' : job[6],
+            'job_duration' : job[7],
+            'experience' : job[8],
+            'positions_available' : job[9],
+            'required_languages' : job[10],
+            'work_location' : job[11]
+
+        })
+    except Exception as e:
+        # Handle database errors or other exceptions
+        return str(e)
+
+
 if __name__ == "__main__":
    app.run(debug = True)
 
