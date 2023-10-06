@@ -711,9 +711,6 @@ def get_recommendations(job_id):
     cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages, work_location FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
-    
-    #print("iiii",seekers_data)
-    #print("iiii2222",job_data)
 
     #print("1",job_data)
     # Check if required_major is set to "No Preference"
@@ -723,11 +720,6 @@ def get_recommendations(job_id):
         #job_data = [job_data[0][1:3] + job_data[0][4:]]
 
     
-    # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
-    if job_data[0][4] == 'No':
-        seekers_data = [seeker[:4] for seeker in seekers_data]
-        job_data = [job_data[0][:4] + job_data[0][5:]]
-
 
     # Filter out seekers whose total duration is less than the job's working hours
     filtered_seekers_data = []
@@ -735,6 +727,14 @@ def get_recommendations(job_id):
         if seeker[3] >= job_data[0][3]:
             filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
             filtered_seekers_data.append(filtered_seeker)
+           
+    job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
+
+    # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
+    if job_data[0][4] == 'No':
+        filtered_seekers_data = [seeker[:3] + seeker[4:] for seeker in filtered_seekers_data]
+        job_data = [job_data[0][:3] + job_data[0][4:]]
+    
 
     if not filtered_seekers_data:
         message = "No suitable seekers found."
@@ -745,20 +745,15 @@ def get_recommendations(job_id):
 
         # Perform recommendation process
         seekers_combined_features = [' '.join(str(item) for item in row) for row in filtered_seekers_data]
-        job_combined_features = [' '.join(str(item) for item in filtered_job_data)]        
-        #print("zzzz",seekers_combined_features)
-        #print("zzzz2222",job_combined_features)
+        job_combined_features = [' '.join(str(item) for item in filtered_job_data)]       
 
         tfidf = TfidfVectorizer()
         seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
         job_tfidf_matrix = tfidf.transform(job_combined_features)
-        #print("hhhh",seekers_tfidf_matrix)
-        #print("hhhh2222",job_tfidf_matrix)
 
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
 
-        #recommended_seekers = [seekers_data[i] for i in top_seekers]
         recommended_seekers = []
         for i in top_seekers:
             seeker = seekers_data[i]
@@ -772,83 +767,6 @@ def get_recommendations(job_id):
         
         return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id, job_title=job_title , user=user)
 
-    #return jsonify({'job_id': job_id, 'recommendations': recommended_seekers})
-
-
-
-
-''' 
-
-
-# Route for recommending seekers for a specific job
-@app.route('/recommend/<int:job_id>', methods=['GET'])
-def recommend(job_id):
-   # SQLite database connection
-    connection = sqlite3.connect('users_database.db')
-    cursor = connection.cursor()
-    # Fetch job posts and seekers' forms data
-    cursor.execute("SELECT required_major, min_gpa, skills FROM job_posts WHERE job_id=?", (job_id,))
-    job_posts_data = cursor.fetchall()
-    cursor.execute("SELECT major, gpa, skills FROM seekers_form")
-    seekers_form_data = cursor.fetchall()
-    
-    # Preprocess and convert non-numeric features using TF-IDF
-    tfidf_vectorizer = TfidfVectorizer()
-    job_skills_numeric = tfidf_vectorizer.fit_transform(job_posts_data[0][2].split(','))
-    seeker_skills_numeric = tfidf_vectorizer.transform(seekers_form_data[0][2].split(','))
-    job_required_major_numeric = tfidf_vectorizer.transform(job_posts_data[0][0].split(','))
-    seeker_major_numeric = tfidf_vectorizer.transform(seekers_form_data[0][0].split(','))
-
-
-     Ensure the job and seeker arrays have the same number of rows
-    num_job_samples = job_skills_numeric.shape[0]
-    num_seeker_samples = seeker_skills_numeric.shape[0]
-
-    if num_job_samples < num_seeker_samples:
-        seeker_skills_numeric = seeker_skills_numeric[:num_job_samples]
-        seeker_major_numeric = seeker_major_numeric[:num_job_samples]
-    elif num_job_samples > num_seeker_samples:
-        job_skills_numeric = job_skills_numeric[:num_seeker_samples]
-        job_required_major_numeric = job_required_major_numeric[:num_seeker_samples]
-    
-    # Combine numerical and converted features
-    job_features = np.column_stack((job_posts_data[0][1], job_skills_numeric.toarray(), job_required_major_numeric.toarray()))
-    seeker_features = np.column_stack((seekers_form_data[0][1], seeker_skills_numeric.toarray(), seeker_major_numeric.toarray()))
-
-    # Calculate similarity scores
-    similarity_scores = cosine_similarity(job_features, seeker_features)
-
-    # Recommendation function
-    def recommend_seekers_for_job(job_id):
-        num_jobs = len(similarity_scores)
-        if job_id < 1 or job_id > num_jobs:
-            return []  # Return an empty list for invalid job IDs
-
-        job_index = job_id - 1
-        similarities = similarity_scores[job_index]
-        recommended_seekers_indices = np.argsort(similarities)[::-1][:5]  # Top 5 recommendations
-        recommended_seekers = [seekers_form_data[i] for i in recommended_seekers_indices]
-        return recommended_seekers
-
-    recommendations = recommend_seekers_for_job(job_id)
-    print('***********************************')
-    return render_template('recommendations.html', recommendations=recommendations)
-
-def compute_similarity(job_post_data, seekers_form_data):
-    # Implement your similarity measure logic here
-    # Calculate the similarity score between the job post and each seeker's form
-    # Return a similarity score array
-
-    # For demonstration purposes, let's assume a simple similarity score based on exact match of skills and major
-    skill_similarity = [len(set(job_post_data[2].split()).intersection(set(seeker_form[2].split()))) / len(set(job_post_data[2].split() + seeker_form[2].split())) for seeker_form in seekers_form_data]
-    major_similarity = [1 if job_post_data[0] == seeker_form[0] else 0 for seeker_form in seekers_form_data]
-
-    # Combine the similarity scores using weights if needed
-    similarity_scores = (0.7 * np.array(skill_similarity)) + (0.3 * np.array(major_similarity))
-    return similarity_scores
-
-    ------------------------   recommendetion system trying   ------------------------    
-'''
 
 # Function to fetch candidate information from the database
 def get_candidate_info(candidate_id):
