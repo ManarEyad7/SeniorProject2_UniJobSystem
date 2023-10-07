@@ -256,17 +256,13 @@ def post_job():
     if 'user_id' not in session:
         flash("You are not logged in. Please log in first.", 'error')
         return redirect(url_for("login"))
-
+    
     user_id = session['user_id']
-
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
     
     if request.method == 'POST':
-
         job_title = request.form['job_title']
-        print("***********************************")
-
         required_major = request.form['required_major']
         min_gpa = request.form['min_gpa']
         skills = request.form.getlist('skills')
@@ -277,18 +273,10 @@ def post_job():
         required_languages = request.form.getlist('required_languages')
         work_location = request.form['work_location']
 
-        print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-
         cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, working_hours, experience, job_duration, positions_available, required_languages,work_location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                     (user_id, job_title, required_major, min_gpa, ','.join(skills), working_hours, experience, job_duration, positions_available, ','.join(required_languages),work_location))
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        
-
         connection.commit()
         connection.close()
-
-        flash("Job posted successfully!", 'success')
-        print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6")
         return redirect(url_for("employee"))
 
     cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
@@ -374,12 +362,9 @@ def studentCancle():
 @app.route('/view_form/<id>')
 def view_form(id):
     user_id = session['user_id']
-    #job_id = session['job_id']
+
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
-
-    #cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
-    #user = cursor.fetchone()
 
     cursor.execute("SELECT * FROM seekers_form WHERE user_id = ? AND id =?", (user_id,id))
     form = cursor.fetchone()
@@ -387,27 +372,23 @@ def view_form(id):
     user = cursor.fetchone()
     cursor.execute("SELECT file_id,filename, data FROM files WHERE user_id = ?", (user_id,))
     file = cursor.fetchone()
-    #connection.close()
-
+   
     return render_template('view_form.html', form=form,user=user,file=file)
  
 @app.route('/view_jobs/<id>')
 def view_jobs(id):
     user_id = session['user_id']
-    #job_id = session['job_id']
+
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
-
-    #cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
-    #user = cursor.fetchone()
 
     cursor.execute("SELECT * FROM job_posts WHERE user_id = ? AND job_id =?", (user_id,id))
     jobs = cursor.fetchone()
     cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
     user = cursor.fetchone()
-    #connection.close()
 
     return render_template('view_jobs.html', jobs=jobs,user=user)
+
 
 @app.route('/update_post_job/<id>' , methods=['GET', 'POST'])
 def update_post_job(id):
@@ -422,7 +403,6 @@ def update_post_job(id):
     cursor = connection.cursor()
 
     if request.method == 'POST':
-        
         try:
 
             new_skill = request.form.getlist('n_skills')
@@ -444,23 +424,16 @@ def update_post_job(id):
             new_experience = request.form['n_experience'] 
             new_work_location = request.form['n_work_location'] 
 
-            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , skills = '{}', working_hours= '{}', job_duration = '{}' , experience = '{}' ,positions_available = '{}' , required_languages= '{}',work_location='{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_skills,new_working_hours,new_job_duration,new_experience,new_positions_available,new_required_languages,new_work_location,id))
-            #cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , working_hours= '{}', job_duration = '{}' , positions_available = '{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_working_hours,new_job_duration,new_positions_available,id))
-            #cursor.execute("UPDATE job_posts SET job_title = '{}' WHERE job_id = '{}' ".format(new_job_title,id))
+            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , skills = '{}',working_hours= '{}', job_duration = '{}' , experience = '{}' ,positions_available = '{}' ,required_languages= '{}',work_location='{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_skills,new_working_hours,new_job_duration,new_experience,new_positions_available,new_required_languages,new_work_location,id))
             connection.commit()
             connection.close()
 
-            #flash("Job updated successfully!", 'success')
             print("Job updated successfully!")
-            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6")
+            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             return redirect(url_for("employee"))
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
-            #flash("An error occurred while fetching the form. Please try again.", 'error')
-            #return redirect(url_for('index'))
-
-        
-    
+              
     else:
         cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
         user = cursor.fetchone()
@@ -680,7 +653,6 @@ def employeeCancle():
 
 @app.route('/get_recommendations/<int:job_id>')
 def get_recommendations(job_id):
-
     if 'user_id' not in session:
         flash("You are not logged in. Please log in first.", 'error')
         return redirect(url_for("login"))
@@ -690,9 +662,7 @@ def get_recommendations(job_id):
     # Establish a connection to the SQLite database
     conn = sqlite3.connect('users_database.db')
     cursor = conn.cursor()
-
     ''' ------------------- Retrieve general data ------------------- '''
-    
     cursor.execute("SELECT * FROM seekers_form")
     seekers_info = cursor.fetchall()
 
@@ -703,24 +673,14 @@ def get_recommendations(job_id):
     job_title = cursor.fetchone()
 
     ''' ------------------- Retrieve general data ------------------- '''
-
     # Retrieve data from SQL database
     cursor.execute("SELECT major, gpa, skills, totalHours, experience, languages, work_preference FROM seekers_form")
     seekers_data = cursor.fetchall()
 
-    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages, work_location FROM job_posts WHERE job_id = ?", (job_id,))
+    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
-
-    #print("1",job_data)
-    # Check if required_major is set to "No Preference"
-    #if job_data[0][0] == 'No Preference':
-        # Drop the 'major' column from seekers_data and job_data
-        #seekers_data = [seeker[1:3] + seeker[4:] for seeker in seekers_data]
-        #job_data = [job_data[0][1:3] + job_data[0][4:]]
-
     
-
     # Filter out seekers whose total duration is less than the job's working hours
     filtered_seekers_data = []
     for seeker in seekers_data:
@@ -729,6 +689,16 @@ def get_recommendations(job_id):
             filtered_seekers_data.append(filtered_seeker)
            
     job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
+
+
+    #print("1",job_data)
+    # Check if required_major is set to "No Preference"
+    #if job_data[0][0] == 'No Preference':
+        # Drop the 'major' column from seekers_data and job_data
+        #seekers_data = [seeker[1:3] + seeker[4:] for seeker in seekers_data]
+        #job_data = [job_data[0][1:3] + job_data[0][4:]]
+    # Function to fetch candidate information from the database
+
 
     # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
     if job_data[0][4] == 'No':
@@ -764,11 +734,10 @@ def get_recommendations(job_id):
         print(type(recommended_seekers))
         cursor.close()
         conn.close()
-        
+
         return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id, job_title=job_title , user=user)
 
 
-# Function to fetch candidate information from the database
 def get_candidate_info(candidate_id):
     try:
         conn = sqlite3.connect('users_database.db')
