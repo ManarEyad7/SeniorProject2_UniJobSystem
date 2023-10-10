@@ -734,61 +734,41 @@ def get_recommendations(job_id):
 
     ''' ------------------- Retrieve general data ------------------- '''
     # Retrieve data from SQL database
-    cursor.execute("SELECT major, gpa, skills, totalHours, experience, languages, work_preference FROM seekers_form")
+    cursor.execute("SELECT major, gpa, skills, totalHours, experience, languages, work_preference,id FROM seekers_form")
     seekers_data = cursor.fetchall()
 
     cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
 
-    # Define a dictionary to map experience levels to weights
-    experience_weights = {
-    'No': 0,
 
-    }
+    # Define a dictionary to map experience levels to weights
+    #experience_weights = {
+    #'No': 0,
+    #}
     
     # Filter out seekers whose total duration is less than the job's working hours
-    filtered_seekers_data1 = []
-    #unsatisfied_requirements = []
+    filtered_seekers_data = []
     for seeker in seekers_data:
         if seeker[3] >= job_data[0][3]:
             filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
-            filtered_seekers_data1.append(filtered_seeker)
+            filtered_seekers_data.append(filtered_seeker)
+    print('filtered_seekers_data',len(filtered_seekers_data))
+    job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
         
     # Assign weights to experience feature values
-    filtered_seekers_data = []
-    for filtered_seekers_data1 in seekers_data:
-        experience = filtered_seekers_data1[4]
-        weight = experience_weights.get(experience, 1.0)  # Default weight is 1.0 if experience level is not specified in the dictionary
-        filtered_seeker = list(filtered_seekers_data1[:4]) + [weight] + list(filtered_seekers_data1[5:])  # Include the weight in the filtered seeker data
-        filtered_seekers_data.append(filtered_seeker)
+    #filtered_seekers_data = []
+    #for filtered_seekers_data1 in seekers_data:
+     #   experience = filtered_seekers_data1[4]
+     #   weight = experience_weights.get(experience, 1.0)  # Default weight is 1.0 if experience level is not specified in the dictionary
+     #   filtered_seeker = list(filtered_seekers_data1[:4]) + [weight] + list(filtered_seekers_data1[5:])  # Include the weight in the filtered seeker data
+     #   filtered_seekers_data.append(filtered_seeker)
 
-    job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
-
-
-    #print("1",job_data)
-    # Check if required_major is set to "No Preference"
-    #if job_data[0][0] == 'No Preference':
-        # Drop the 'major' column from seekers_data and job_data
-        #seekers_data = [seeker[1:3] + seeker[4:] for seeker in seekers_data]
-        #job_data = [job_data[0][1:3] + job_data[0][4:]]
-    # Function to fetch candidate information from the database
-
-
-    # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
-    #if job_data[0][4] == 'No':
-    #    filtered_seekers_data = [seeker[:3] + seeker[4:] for seeker in filtered_seekers_data]
-    #    job_data = [job_data[0][:3] + job_data[0][4:]]
-    
 
     if not filtered_seekers_data:
         message = "No suitable seekers found."
-        return render_template('recommendations.html', message=message)
+        return render_template('recommendations.html', message=message, job_id=job_id, job_title=job_title , user=user)
     else:
-        # Drop the time-related column from job_data
-        #filtered_job_data = job_data[0][:3] + job_data[0][4:]
-
-       
         # Perform recommendation process
         seekers_combined_features = [' '.join(str(item) for item in row) for row in filtered_seekers_data]
         job_combined_features = [' '.join(str(item) for item in job_data)]
@@ -800,18 +780,18 @@ def get_recommendations(job_id):
 
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
-
         recommended_seekers = []
         
+        seekers_data_dict = {seeker[6]: seeker for seeker in filtered_seekers_data}
+        seekers_info_dict ={seekers_info[0]: seekers_info for seekers_info in seekers_info}
+
         for i in top_seekers:
-            seeker = seekers_data[i]
+            seeker_id = filtered_seekers_data[i][6]  # Get the seeker ID
+            seeker = seekers_data_dict.get(seeker_id)  # Retrieve the seeker information using the seeker ID
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
-            info = seekers_info[i]
-            recommended_seekers.append({'seeker': seeker, 'score': score, 'name':info})
+            info = seekers_info_dict.get(seeker_id)
+            recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
             
-        
-        print("dd")
-        print(type(recommended_seekers))
         cursor.close()
         conn.close()
 
@@ -841,7 +821,7 @@ def get_Unstaisfied_recommendations(job_id):
 
     ''' ------------------- Retrieve general data ------------------- '''
     # Retrieve data from SQL database
-    cursor.execute("SELECT major, gpa, skills, totalHours, experience, languages, work_preference FROM seekers_form")
+    cursor.execute("SELECT major, gpa, skills, totalHours, experience, languages, work_preference,id FROM seekers_form")
     seekers_data = cursor.fetchall()
 
     cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
@@ -850,34 +830,23 @@ def get_Unstaisfied_recommendations(job_id):
     
     
     # Filter out seekers whose total duration is less than the job's working hours
-    
     unsatisfied_requirements = []
     for seeker in seekers_data:
         if seeker[3] < job_data[0][3]:
             filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
             unsatisfied_requirements.append(filtered_seeker)
-        
-    print(unsatisfied_requirements)
-    print()
+    print('unsatisfied_requirements',len(unsatisfied_requirements))
 
     job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
-
-    # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
-    if job_data[0][4] == 'No':
-        unsatisfied_requirements = [seeker[:3] + seeker[4:] for seeker in unsatisfied_requirements]
-        job_data = [job_data[0][:3] + job_data[0][4:]]
-    
+      
 
     if not unsatisfied_requirements:
         message = "No suitable seekers found."
-        return render_template('recommendations2.html', message=message)
+        return render_template('recommendations2.html', message=message, job_id=job_id, job_title=job_title , user=user)
     else:
-        # Drop the time-related column from job_data
-        filtered_job_data = job_data[0][:3] + job_data[0][4:]
-
         # Perform recommendation process
         seekers_combined_features = [' '.join(str(item) for item in row) for row in unsatisfied_requirements]
-        job_combined_features = [' '.join(str(item) for item in filtered_job_data)]
+        job_combined_features = [' '.join(str(item) for item in job_data)]
 
         tfidf = TfidfVectorizer()
         seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
@@ -895,17 +864,19 @@ def get_Unstaisfied_recommendations(job_id):
 
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
 
+        seekers_data_dict = {seeker[6]: seeker for seeker in unsatisfied_requirements}
+        seekers_info_dict ={seekers_info[0]: seekers_info for seekers_info in seekers_info}
+
         #recommended_seekers = []
         unsatisfied_recommendations = []
         for i in top_seekers:
-            seeker = seekers_data[i]
+            seeker_id = unsatisfied_requirements[i][6]  # Get the seeker ID
+            seeker = seekers_data_dict.get(seeker_id)  # Retrieve the seeker information using the seeker ID
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
-            info = seekers_info[i]
-            unsatisfied_recommendations.append({'seeker': seeker, 'score': score, 'name':info})
+            info = seekers_info_dict.get(seeker_id)
+            unsatisfied_recommendations.append({'seeker': seeker, 'score': score, 'name': info})
             
-    
-        print("dd")
-        
+            
         cursor.close()
         conn.close()
 

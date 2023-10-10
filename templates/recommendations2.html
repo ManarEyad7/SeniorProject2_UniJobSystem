@@ -154,22 +154,18 @@
         <div class="container-fluid page-body-wrapper w-100 ">
             <div class="content-wrapper" style="min-height: inherit;">
                 <div class="container">
-
+                    
                     <div class="row mt-5"> <!-- headline #3b3d6f-->
                         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
-                            <h2 class="font-weight-bold text-center " style="color: darkslateblue;">Recommendations for
+                            <h2 class="font-weight-bold text-center " style="color: darkslateblue;">unsatisfied seekers based on time for
                                 the job {{ job_title[0] | capitalize }}</h2>
 
                         </div>
                     </div>
                     <div class="row"> 
                         <!-- Add the return to previous page link here, outside the card -->
-                        <a href="/employee" id="return-link" class="btn btn-link " style="color: #3b3a88;">
-                            <i class="fa fa-chevron-circle-left"></i> View all posted jobs
-                        </a></div>
-
-                        <a href="/get_Unstaisfied_recommendations" id="return-link" class="btn btn-link " style="color: #3b3a88;">
-                            <i class="fa fa-chevron-circle-left"></i> View Unstatisfied Candidates
+                        <a href="/get_recommendations/{{job_id}}" id="return-link" class="btn btn-link " style="color: #3b3a88;">
+                            <i class="fa fa-chevron-circle-left"></i> Back
                         </a></div>
 
                     <div class="row" style="margin-top: 0rem;">
@@ -178,13 +174,12 @@
 
 
                             <div class="card custom-card">
-                                <div class="card-body">
+                                <div class="card-body" style="margin: .7rem;">
                                     <div class="row">
                                         <div class="col-8">
                                             <h4 class="card-title">Top Student Recommendations</h4>
                                             <p class="card-description">
-                                                Discover Ideal Candidates: Top Student Recommendations for This Job
-                                                Opportunity
+                                                Discover Ideal Candidates: Top Student Recommendations for This Job Opportunity
                                             </p>
                                         </div>
                                         <div class="col-4 text-right">

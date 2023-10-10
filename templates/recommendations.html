@@ -159,7 +159,6 @@
                         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                             <h2 class="font-weight-bold text-center " style="color: darkslateblue;">Recommendations for
                                 the job {{ job_title[0] | capitalize }}</h2>
-
                         </div>
                     </div>
                     <div class="row"> 
@@ -168,10 +167,6 @@
                             <i class="fa fa-chevron-circle-left"></i> View all posted jobs
                         </a></div>
 
-                        <a href="/get_Unstaisfied_recommendations/{{job_id}}" id="return-link" class="btn btn-link " style="color: #3b3a88;">
-                            <i class="fa fa-chevron-circle-left"></i> View Unstatisfied Candidates
-                        </a></div>
-                        
 
                     <div class="row" style="margin-top: 0rem;">
 
@@ -179,16 +174,20 @@
 
 
                             <div class="card custom-card">
-                                <div class="card-body">
+                                <div class="card-body"style="margin: .7rem;">
                                     <div class="row">
-                                        <div class="col-8">
+                                        <div class="col-7">
                                             <h4 class="card-title">Top Student Recommendations</h4>
                                             <p class="card-description">
                                                 Discover Ideal Candidates: Top Student Recommendations for This Job
                                                 Opportunity
                                             </p>
                                         </div>
-                                        <div class="col-4 text-right">
+                                        
+                                        <div class="col-5 text-right" >
+                                            <a href="/get_Unstaisfied_recommendations/{{job_id}}" class="btn btn-link" style="color: #3b3a88;">
+                                                <i class="fa fa-external-link-square"></i> View Unstatisfied Candidates
+                                            </a>
                                             <a href="#" id="view-more-link" class="btn btn-link" style="color: #3b3a88;">
                                                 <i class="fa fa-external-link-square"></i> View job details
                                             </a>
