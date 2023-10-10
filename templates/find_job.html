@@ -234,23 +234,11 @@
 
                                         <div class="form-group"> <!-- Experience -->
                                             <label class="font-weight-bold" style="font-size: 15px;">Do You Have Previous Work Experience?</label>
-                                            <select class="js-example-basic-single content-wrapper w-100" name="experience" style="width: 100%;"  onchange="showExperienceLevel(this.value)">
+                                            <select class="js-example-basic-single content-wrapper w-100" name="experience" style="width: 100%;"  >
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
-                                        </div>
-                                        
-                                        <div id="experienceLevelQuestion" style="display: none;">
-                                            <div class="form-group"> <!-- Experience Level -->
-                                                <label class="font-weight-bold" style="font-size: 15px;">Please Select Your Level of Experience:</label>
-                                                <select class="js-example-basic-single content-wrapper w-100" name="experience_level" style="width: 100%;">
-                                                    <option value="" disabled selected hidden>Choose One</option>
-                                                    <option value="Beginner">Beginner</option>
-                                                    <option value="Intermediate">Intermediate</option>
-                                                    <option value="Advanced">Advanced</option>
-                                                </select>
-                                            </div>
                                         </div>
 
                                         <div class="form-group"> <!-- Availability -->
@@ -347,16 +335,6 @@
 <script src="../../static/js/select2.js"></script>
 
 </html>
-<script>
-    function showExperienceLevel(value) {
-        const experienceLevelQuestion = document.getElementById("experienceLevelQuestion");
-        if (value === "Yes") {
-            experienceLevelQuestion.style.display = "block";
-        } else {
-            experienceLevelQuestion.style.display = "none";
-        }
-    }
-</script>
 
 <script> /*customize the error message for the phone number input*/
     // Get the phone number input element
@@ -701,4 +679,3 @@
 
 
 </script>
-
