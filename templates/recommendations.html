@@ -257,36 +257,38 @@
                         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                             <h2 class="font-weight-bold text-center " style="color: darkslateblue;">Recommendations for
                                 the job {{ job_title[0] | capitalize }}</h2>
-
                         </div>
                     </div>
                     <div class="row">
                         <!-- Add the return to previous page link here, outside the card -->
                         <a href="/employee" id="return-link" class="btn btn-link " style="color: #3b3a88;">
                             <i class="fa fa-chevron-circle-left"></i> View all posted jobs
-                        </a>
-                    </div>
+                        </a></div>
+
+
                     <div class="row" style="margin-top: 0rem;">
 
                         <div class="col-lg-12 grid-margin stretch-card">
 
 
                             <div class="card custom-card">
-                                <div class="card-body">
+                                <div class="card-body"style="margin: .7rem;">
                                     <div class="row">
-                                        <div class="col-8">
-                                            <h4 class="card-title" style="margin-left: 4%;">Top Student Recommendations
-                                            </h4>
-                                            <p class="card-description" style="margin-left: 4%;">
+                                        <div class="col-7">
+                                            <h4 class="card-title">Top Student Recommendations</h4>
+                                            <p class="card-description">
                                                 Discover Ideal Candidates: Top Student Recommendations for This Job
                                                 Opportunity
                                             </p>
                                         </div>
-                                        <div class="col-4 text-right">
-                                            <a href="#" id="view-more-link" class="btn btn-link"
-                                                style="color: #3b3a88;">
+                                        
+                                        <div class="col-5 text-right" >
+                                            <a href="/get_Unstaisfied_recommendations/{{job_id}}" class="btn btn-link" style="color: #3b3a88;">
+                                                <i class="fa fa-external-link-square"></i> View Unstatisfied Candidates
+                                            </a>
+                                            <a href="#" id="view-more-link" class="btn btn-link" style="color: #3b3a88;">
                                                 <i class="fa fa-external-link-square"></i> <span
-                                                    class="d-none d-sm-inline">View job details</span>
+                                                class="d-none d-sm-inline">View job details</span>
                                             </a>
                                         </div>
                                     </div>
