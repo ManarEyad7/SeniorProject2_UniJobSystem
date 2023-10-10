@@ -650,6 +650,66 @@ def employeeCancle():
 
 '''    ------------------------   recommendetion system trying   ------------------------    '''
 
+#def seeker_satisfies_job(seeker, job_data):
+    #job_data = [job_data]
+    #print(job_data[0][0])
+    #print(job_data[0][1])
+    #print(job_data[0][2])
+    #print(job_data[0][3])
+    #print(job_data[0][4])
+    #print(job_data[0][5])
+    #print(job_data[0][6])
+
+    #required_major = job_data[0][0]
+    #min_gpa = job_data[0][1]
+    #required_skills = job_data[0][2]
+    #working_hours = job_data[0][3]
+    #experience_required = job_data[0][4]
+    #required_languages = job_data[0][5]
+    #work_location = job_data[0][6]
+
+    #seeker_major = seeker[0]
+    #seeker_gpa = seeker[1]
+    #seeker_skills = seeker[2]
+    #seeker_total_hours = seeker[3]
+    #seeker_experience = seeker[4]
+    #seeker_languages = seeker[5]
+    #seeker_work_preference = seeker[6]
+
+    # Check if the seeker's major matches the required major or if the required major is "No Preference"
+    #if required_major != 'No Preference' and seeker_major != required_major:
+    #    return False
+
+    # Check if the seeker's GPA is greater than or equal to the minimum GPA required
+    #if seeker_gpa < min_gpa:
+    #    return False
+
+    # Check if the seeker has all the required skills
+    #required_skills = set(required_skills.split(','))
+    #seeker_skills = set(seeker_skills.split(','))
+    #if not required_skills.issubset(seeker_skills):
+    #    return False
+
+    # Check if the seeker's total hours are greater than or equal to the working hours required
+    #if seeker[3] < job_data[0][3]:
+     #   return False
+
+    # Check if the seeker's experience matches the experience requirement or if the requirement is "NO"
+    #if experience_required != 'NO' and seeker_experience != experience_required:
+    #    return False
+
+    # Check if the seeker knows all the required languages
+    #required_languages = set(required_languages.split(','))
+    #seeker_languages = set(seeker_languages.split(','))
+    #if not required_languages.issubset(seeker_languages):
+    #    return False
+
+    # Check if the seeker's work preference matches the work location or if the work location is "No Preference"
+    #if work_location != 'No Preference' and seeker_work_preference != work_location:
+    #    return False
+
+    # All requirements are satisfied
+#   return True
 
 @app.route('/get_recommendations/<int:job_id>')
 def get_recommendations(job_id):
@@ -680,14 +740,29 @@ def get_recommendations(job_id):
     cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
+
+    # Define a dictionary to map experience levels to weights
+    experience_weights = {
+    'No': 0,
+
+    }
     
     # Filter out seekers whose total duration is less than the job's working hours
-    filtered_seekers_data = []
+    filtered_seekers_data1 = []
+    #unsatisfied_requirements = []
     for seeker in seekers_data:
         if seeker[3] >= job_data[0][3]:
             filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
-            filtered_seekers_data.append(filtered_seeker)
-           
+            filtered_seekers_data1.append(filtered_seeker)
+        
+    # Assign weights to experience feature values
+    filtered_seekers_data = []
+    for filtered_seekers_data1 in seekers_data:
+        experience = filtered_seekers_data1[4]
+        weight = experience_weights.get(experience, 1.0)  # Default weight is 1.0 if experience level is not specified in the dictionary
+        filtered_seeker = list(filtered_seekers_data1[:4]) + [weight] + list(filtered_seekers_data1[5:])  # Include the weight in the filtered seeker data
+        filtered_seekers_data.append(filtered_seeker)
+
     job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
 
 
@@ -701,9 +776,9 @@ def get_recommendations(job_id):
 
 
     # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
-    if job_data[0][4] == 'No':
-        filtered_seekers_data = [seeker[:3] + seeker[4:] for seeker in filtered_seekers_data]
-        job_data = [job_data[0][:3] + job_data[0][4:]]
+    #if job_data[0][4] == 'No':
+    #    filtered_seekers_data = [seeker[:3] + seeker[4:] for seeker in filtered_seekers_data]
+    #    job_data = [job_data[0][:3] + job_data[0][4:]]
     
 
     if not filtered_seekers_data:
@@ -711,31 +786,130 @@ def get_recommendations(job_id):
         return render_template('recommendations.html', message=message)
     else:
         # Drop the time-related column from job_data
-        filtered_job_data = job_data[0][:3] + job_data[0][4:]
+        #filtered_job_data = job_data[0][:3] + job_data[0][4:]
 
+       
         # Perform recommendation process
         seekers_combined_features = [' '.join(str(item) for item in row) for row in filtered_seekers_data]
-        job_combined_features = [' '.join(str(item) for item in filtered_job_data)]       
+        job_combined_features = [' '.join(str(item) for item in job_data)]
 
         tfidf = TfidfVectorizer()
         seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
         job_tfidf_matrix = tfidf.transform(job_combined_features)
 
+
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
 
         recommended_seekers = []
+        
         for i in top_seekers:
             seeker = seekers_data[i]
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
             info = seekers_info[i]
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name':info})
+            
+        
         print("dd")
         print(type(recommended_seekers))
         cursor.close()
         conn.close()
 
         return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id, job_title=job_title , user=user)
+
+
+@app.route('/get_Unstaisfied_recommendations/<int:job_id>')
+def get_Unstaisfied_recommendations(job_id):
+    if 'user_id' not in session:
+        flash("You are not logged in. Please log in first.", 'error')
+        return redirect(url_for("login"))
+
+    user_id = session['user_id']
+
+    # Establish a connection to the SQLite database
+    conn = sqlite3.connect('users_database.db')
+    cursor = conn.cursor()
+    ''' ------------------- Retrieve general data ------------------- '''
+    cursor.execute("SELECT * FROM seekers_form")
+    seekers_info = cursor.fetchall()
+
+    cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+    # Retrieve job title
+    cursor.execute("SELECT job_title FROM job_posts WHERE job_id = ?", (job_id,))
+    job_title = cursor.fetchone()
+
+    ''' ------------------- Retrieve general data ------------------- '''
+    # Retrieve data from SQL database
+    cursor.execute("SELECT major, gpa, skills, totalHours, experience, languages, work_preference FROM seekers_form")
+    seekers_data = cursor.fetchall()
+
+    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
+    job_data = cursor.fetchone()
+    job_data = [job_data]
+    
+    
+    # Filter out seekers whose total duration is less than the job's working hours
+    
+    unsatisfied_requirements = []
+    for seeker in seekers_data:
+        if seeker[3] < job_data[0][3]:
+            filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
+            unsatisfied_requirements.append(filtered_seeker)
+        
+    print(unsatisfied_requirements)
+    print()
+
+    job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
+
+    # Drop the 'experience' column from seekers_data and job_data if job_data['experience'] is 'NO'
+    if job_data[0][4] == 'No':
+        unsatisfied_requirements = [seeker[:3] + seeker[4:] for seeker in unsatisfied_requirements]
+        job_data = [job_data[0][:3] + job_data[0][4:]]
+    
+
+    if not unsatisfied_requirements:
+        message = "No suitable seekers found."
+        return render_template('recommendations2.html', message=message)
+    else:
+        # Drop the time-related column from job_data
+        filtered_job_data = job_data[0][:3] + job_data[0][4:]
+
+        # Perform recommendation process
+        seekers_combined_features = [' '.join(str(item) for item in row) for row in unsatisfied_requirements]
+        job_combined_features = [' '.join(str(item) for item in filtered_job_data)]
+
+        tfidf = TfidfVectorizer()
+        seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
+        job_tfidf_matrix = tfidf.transform(job_combined_features)
+
+        # Update the weight of the experience feature in the job_tfidf_matrix
+        experience_index = tfidf.vocabulary_.get('experience')
+        if experience_index is not None:
+            job_tfidf_matrix[0, experience_index] = 0.5 * job_tfidf_matrix[0, experience_index]
+
+        # Update the weight of the experience feature in the similarity_scores
+        experience_weight = 0.5
+        similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
+        similarity_scores[:, experience_index] *= experience_weight
+
+        top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
+
+        #recommended_seekers = []
+        unsatisfied_recommendations = []
+        for i in top_seekers:
+            seeker = seekers_data[i]
+            score = similarity_scores[i][0]  # Get the similarity score for the seeker
+            info = seekers_info[i]
+            unsatisfied_recommendations.append({'seeker': seeker, 'score': score, 'name':info})
+            
+    
+        print("dd")
+        
+        cursor.close()
+        conn.close()
+
+        return render_template('recommendations2.html', recommendations=unsatisfied_recommendations, job_id=job_id, job_title=job_title , user=user)
 
 
 def get_candidate_info(candidate_id):
