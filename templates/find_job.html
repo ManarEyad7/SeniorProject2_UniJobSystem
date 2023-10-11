@@ -564,8 +564,7 @@
 
     // Custom validation
     const submitButton = document.getElementById("submit-button");
-    submitButton.addEventListener("click", handleClick);
-    function handleClick(){ 
+    submitButton.addEventListener("click",() => {
 
         const periodContainers = document.querySelectorAll(".period");
         let isValid = true;
@@ -590,32 +589,19 @@
             const workingHoursEnd = 16; // 4 PM
 
             //Check if the chosen time is within working hours
-            if (
-                (startMeridiem === "am" && startHours < workingHoursStart) || // Start time is before working hours
-                (startMeridiem === "pm" && (startHours + 12) > workingHoursEnd) || // Start time is after working hours
-                (endMeridiem === "pm" && (endHours + 12) > workingHoursEnd) // End time is after working hours
-            ) {
-                isValid = false;
-                periodContainer.style.border = "1px solid red";
-                periodContainer.style.padding = "5px";
-                periodContainer.style.margin = "5px";
-
-                const errorSpan = periodContainer.querySelector("span");
-                if (!errorSpan) {
-                    const errorMessage = document.createElement("span");
-                    errorMessage.style.color = "red";
-                    errorMessage.textContent = "Invalid start or end times.";
-                    periodContainer.appendChild(errorMessage);
-                }
-            }
+            
 
             
             // Check if the start time is before the end time
             if (
                 (startMeridiem === "pm" && endMeridiem === "am") ||
-                (startMeridiem === endMeridiem && startHours > endHours) ||
+                (startMeridiem === endMeridiem && startHours > endHours) || // start hour is greater than the end hour
                 (startMeridiem === endMeridiem && startHours === endHours && startMinutes > endMinutes) ||
-                (startMeridiem === endMeridiem && startHours === endHours && startMinutes === endMinutes)
+                (startMeridiem === endMeridiem && startHours === endHours && startMinutes === endMinutes) ||
+                (endMeridiem === "am" && endHours === 12) ||
+                (startMeridiem === "am" && startHours < workingHoursStart) || // Start time is before working hours
+                (startMeridiem === "pm" && (startHours + 12) > workingHoursEnd) || // Start time is after working hours
+                (endMeridiem === "pm" && (endHours !== 12 && (endHours + 12) > workingHoursEnd)) // End time is after working hours
             ) {
                 // Start time is greater than end time
                 isValid = false;
@@ -648,23 +634,15 @@
             submitButton.disabled = true; // Disable the submit button
             document.getElementById("start-time").value = "";
             document.getElementById("end-time").value = "";
-        } //else if(!form.checkValidity()){
-            //alert("fill all fields");
-        /* else if (isValid && document.getElementById("name").value !== "" && document.getElementById("phoneNumber").value !== ""
-         && document.getElementById("languages").value !== "" && document.getElementById("major").value !== ""
-         && document.getElementById("gpa").value !== "" && document.getElementById("skills").value !== ""
-         && document.getElementById("experience").value !== ""&& document.getElementById("sunday-interval").value !== ""
-         && document.getElementById("monday-interval").value !== ""&& document.getElementById("tuesday-interval").value !== ""
-          && document.getElementById("wednesday-interval").value !== "" //&& document.getElementById("thursday-interval").value !== ""
-         ){
-            alert("sent successfully");
-            var message = "You have submitted a job application. If there are any offers, they will appear here";
-            window.location.href = ("/student?message=" + encodeURIComponent(message));
-        }*/
+        } 
         submitButton.disabled = false; // Disable the submit button if validation fails, enable it if validation passes
-    };
+    });
 
 
+
+</script>
+
+<script>
 
         /*********** Cancle Button Event  *************/
 
@@ -678,6 +656,5 @@
         }
         // Add event listener to the cancel button
         cancelButton.addEventListener("click",Freset);
-
 
 </script>
