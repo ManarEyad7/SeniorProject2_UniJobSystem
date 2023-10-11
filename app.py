@@ -741,28 +741,32 @@ def get_recommendations(job_id):
     job_data = cursor.fetchone()
     job_data = [job_data]
 
-
     # Define a dictionary to map experience levels to weights
-    #experience_weights = {
-    #'No': 0,
-    #}
+    experience_weights = {
+        'No': 0,
+        'Beginner': 0.5,
+        'Intermediate': 1.0,
+        'Advanced': 1.5
+    }
+
+    # Assign weights to experience feature values
+    filtered_seekers_data1 = []
+    for seeker in seekers_data:
+        experience = seeker[4]
+        weight = experience_weights.get(experience, 1.0)  # Default weight is 1.0 if experience level is not specified in the dictionary
+        filtered_seeker = list(seeker[:4]) + [weight] + list(seeker[5:])  # Include the weight in the filtered seeker data
+        filtered_seekers_data1.append(filtered_seeker)
+
     
     # Filter out seekers whose total duration is less than the job's working hours
     filtered_seekers_data = []
-    for seeker in seekers_data:
+    for seeker in filtered_seekers_data1:
         if seeker[3] >= job_data[0][3]:
             filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
             filtered_seekers_data.append(filtered_seeker)
     print('filtered_seekers_data',len(filtered_seekers_data))
     job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
         
-    # Assign weights to experience feature values
-    #filtered_seekers_data = []
-    #for filtered_seekers_data1 in seekers_data:
-     #   experience = filtered_seekers_data1[4]
-     #   weight = experience_weights.get(experience, 1.0)  # Default weight is 1.0 if experience level is not specified in the dictionary
-     #   filtered_seeker = list(filtered_seekers_data1[:4]) + [weight] + list(filtered_seekers_data1[5:])  # Include the weight in the filtered seeker data
-     #   filtered_seekers_data.append(filtered_seeker)
 
 
     if not filtered_seekers_data:
@@ -828,13 +832,28 @@ def get_Unstaisfied_recommendations(job_id):
     job_data = cursor.fetchone()
     job_data = [job_data]
     
+     # Define a dictionary to map experience levels to weights
+    experience_weights = {
+        'No': 0,
+        'Beginner': 0.5,
+        'Intermediate': 1.0,
+        'Advanced': 1.5
+    }
+
+    # Assign weights to experience feature values
+    filtered_seekers_data2 = []
+    for seeker in seekers_data:
+        experience = seeker[4]
+        weight = experience_weights.get(experience, 1.0)  # Default weight is 1.0 if experience level is not specified in the dictionary
+        filtered_seeker = list(seeker[:4]) + [weight] + list(seeker[5:])  # Include the weight in the filtered seeker data
+        filtered_seekers_data2.append(filtered_seeker)
     
     # Filter out seekers whose total duration is less than the job's working hours
     unsatisfied_requirements = []
-    for seeker in seekers_data:
+    for seeker in filtered_seekers_data2:
         if seeker[3] < job_data[0][3]:
-            filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
-            unsatisfied_requirements.append(filtered_seeker)
+            filtered_seeker2 = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
+            unsatisfied_requirements.append(filtered_seeker2)
     print('unsatisfied_requirements',len(unsatisfied_requirements))
 
     job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
@@ -852,16 +871,9 @@ def get_Unstaisfied_recommendations(job_id):
         seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
         job_tfidf_matrix = tfidf.transform(job_combined_features)
 
-        # Update the weight of the experience feature in the job_tfidf_matrix
-        experience_index = tfidf.vocabulary_.get('experience')
-        if experience_index is not None:
-            job_tfidf_matrix[0, experience_index] = 0.5 * job_tfidf_matrix[0, experience_index]
 
-        # Update the weight of the experience feature in the similarity_scores
-        experience_weight = 0.5
+       
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
-        similarity_scores[:, experience_index] *= experience_weight
-
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
 
         seekers_data_dict = {seeker[6]: seeker for seeker in unsatisfied_requirements}
