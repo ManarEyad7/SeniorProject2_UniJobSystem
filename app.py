@@ -187,7 +187,6 @@ def find_job():
     else:
         flash("User not found. Please log in again.", 'error')
         return redirect(url_for("login"))
-    
 def calculate_duration(start_time, end_time):
     # Step 1: Convert to 24-hour format
     start_time = convert_to_24_hour(start_time)
@@ -210,7 +209,7 @@ def convert_to_24_hour(time_str):
     hour, minute = map(int, time_str[:-3].split(':'))
     am_pm = time_str[-2:].lower()
 
-    if am_pm == 'pm':
+    if am_pm == 'pm' and hour != 12:
         hour += 12
 
     return f'{hour:02d}:{minute:02d}'
