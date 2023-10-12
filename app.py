@@ -650,66 +650,6 @@ def employeeCancle():
 
 '''    ------------------------   recommendetion system trying   ------------------------    '''
 
-#def seeker_satisfies_job(seeker, job_data):
-    #job_data = [job_data]
-    #print(job_data[0][0])
-    #print(job_data[0][1])
-    #print(job_data[0][2])
-    #print(job_data[0][3])
-    #print(job_data[0][4])
-    #print(job_data[0][5])
-    #print(job_data[0][6])
-
-    #required_major = job_data[0][0]
-    #min_gpa = job_data[0][1]
-    #required_skills = job_data[0][2]
-    #working_hours = job_data[0][3]
-    #experience_required = job_data[0][4]
-    #required_languages = job_data[0][5]
-    #work_location = job_data[0][6]
-
-    #seeker_major = seeker[0]
-    #seeker_gpa = seeker[1]
-    #seeker_skills = seeker[2]
-    #seeker_total_hours = seeker[3]
-    #seeker_experience = seeker[4]
-    #seeker_languages = seeker[5]
-    #seeker_work_preference = seeker[6]
-
-    # Check if the seeker's major matches the required major or if the required major is "No Preference"
-    #if required_major != 'No Preference' and seeker_major != required_major:
-    #    return False
-
-    # Check if the seeker's GPA is greater than or equal to the minimum GPA required
-    #if seeker_gpa < min_gpa:
-    #    return False
-
-    # Check if the seeker has all the required skills
-    #required_skills = set(required_skills.split(','))
-    #seeker_skills = set(seeker_skills.split(','))
-    #if not required_skills.issubset(seeker_skills):
-    #    return False
-
-    # Check if the seeker's total hours are greater than or equal to the working hours required
-    #if seeker[3] < job_data[0][3]:
-     #   return False
-
-    # Check if the seeker's experience matches the experience requirement or if the requirement is "NO"
-    #if experience_required != 'NO' and seeker_experience != experience_required:
-    #    return False
-
-    # Check if the seeker knows all the required languages
-    #required_languages = set(required_languages.split(','))
-    #seeker_languages = set(seeker_languages.split(','))
-    #if not required_languages.issubset(seeker_languages):
-    #    return False
-
-    # Check if the seeker's work preference matches the work location or if the work location is "No Preference"
-    #if work_location != 'No Preference' and seeker_work_preference != work_location:
-    #    return False
-
-    # All requirements are satisfied
-#   return True
 
 @app.route('/get_recommendations/<int:job_id>')
 def get_recommendations(job_id):
@@ -743,31 +683,28 @@ def get_recommendations(job_id):
 
     # Define a dictionary to map experience levels to weights
     experience_weights = {
-        'No': 0,
-        'Beginner': 0.5,
-        'Intermediate': 1.0,
-        'Advanced': 1.5
+        'No': 0
     }
 
     # Assign weights to experience feature values
-    filtered_seekers_data1 = []
+    filtered_seekers_data2 = []
     for seeker in seekers_data:
         experience = seeker[4]
         weight = experience_weights.get(experience, 1.0)  # Default weight is 1.0 if experience level is not specified in the dictionary
         filtered_seeker = list(seeker[:4]) + [weight] + list(seeker[5:])  # Include the weight in the filtered seeker data
-        filtered_seekers_data1.append(filtered_seeker)
-
-    
+        filtered_seekers_data2.append(filtered_seeker)
+   
     # Filter out seekers whose total duration is less than the job's working hours
     filtered_seekers_data = []
-    for seeker in filtered_seekers_data1:
+    for seeker in filtered_seekers_data2:
         if seeker[3] >= job_data[0][3]:
             filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
             filtered_seekers_data.append(filtered_seeker)
     print('filtered_seekers_data',len(filtered_seekers_data))
+
+
     job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
         
-
 
     if not filtered_seekers_data:
         message = "No suitable seekers found."
@@ -777,11 +714,47 @@ def get_recommendations(job_id):
         seekers_combined_features = [' '.join(str(item) for item in row) for row in filtered_seekers_data]
         job_combined_features = [' '.join(str(item) for item in job_data)]
 
-        tfidf = TfidfVectorizer()
+        tfidf = TfidfVectorizer(
+            sublinear_tf=True,
+            use_idf=True,
+            smooth_idf=True,
+            norm=None,
+            lowercase=True,
+            stop_words='english',
+            token_pattern=r'\b\w+\b',
+            max_features=None,
+            binary=False,
+            decode_error='ignore',
+            strip_accents='unicode',
+            dtype=np.float32,
+            vocabulary=None,
+            ngram_range=(1, 1),
+            max_df=1.0,
+            min_df=1,
+            analyzer='word',
+            encoding='utf-8'
+        )
         seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
         job_tfidf_matrix = tfidf.transform(job_combined_features)
 
+        # Define the feature weights
+        feature_weights = {
+            'totalHours': 1.0,
+            'skills': 1.0,
+            'gpa': 0.7,
+            'languages': 0.9,
+            'work_preference': 0.9,
+            'major': 0.8
+        }
+        feature_indices = {feature: tfidf.vocabulary_.get(feature) for feature in feature_weights}
+        for feature, weight in feature_weights.items():
+            feature_index = feature_indices.get(feature)
+            if feature_index is not None:
+                seekers_tfidf_matrix[:, feature_index] *= weight
+                job_tfidf_matrix[:, feature_index] *= weight
 
+
+        # Compute the cosine similarity
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
         recommended_seekers = []
@@ -832,12 +805,9 @@ def get_Unstaisfied_recommendations(job_id):
     job_data = cursor.fetchone()
     job_data = [job_data]
     
-     # Define a dictionary to map experience levels to weights
+    # Define a dictionary to map experience levels to weights
     experience_weights = {
-        'No': 0,
-        'Beginner': 0.5,
-        'Intermediate': 1.0,
-        'Advanced': 1.5
+        'No': 0
     }
 
     # Assign weights to experience feature values
@@ -870,6 +840,23 @@ def get_Unstaisfied_recommendations(job_id):
         tfidf = TfidfVectorizer()
         seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
         job_tfidf_matrix = tfidf.transform(job_combined_features)
+
+        
+        # Define the feature weights
+        feature_weights = {
+            'totalHours': 1.0,
+            'skills': 1.0,
+            'gpa': 0.7,
+            'languages': 0.9,
+            'work_preference': 0.9,
+            'major': 0.8
+        }
+        feature_indices = {feature: tfidf.vocabulary_.get(feature) for feature in feature_weights}
+        for feature, weight in feature_weights.items():
+            feature_index = feature_indices.get(feature)
+            if feature_index is not None:
+                seekers_tfidf_matrix[:, feature_index] *= weight
+                job_tfidf_matrix[:, feature_index] *= weight
 
 
        
