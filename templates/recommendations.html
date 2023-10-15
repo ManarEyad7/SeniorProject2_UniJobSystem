@@ -77,6 +77,7 @@
                 /* Set the width to 100% for small screens */
                 height: 100vh;
                 /* Set the height to 100% of viewport height for small screens */
+                overflow-y: auto;
             }
         }
 
@@ -235,10 +236,7 @@
 
         }
 
-        @media (max-height: 740px) {
-
-            /* Apply styles for screens 400px or less */
-         
+        @media (max-height: 740px) {         
 
             .close-button1 {
                 width: 100%;
@@ -561,8 +559,8 @@
                         <div style="margin-top: 20px;"> </div>
 
 
-                        <pstyle="font-size: 15px;">Job Duration:
-                            <span id="job_duration"></span></p>
+                        <pstyle="font-size: 15px;">Working Hours:
+                            <span id="working_hours"></span></p>
                             <div style="margin-top: 10px;"> </div>
 
 
@@ -785,7 +783,7 @@
                     document.getElementById('major').textContent = data.major;
                     document.getElementById('skills').textContent = data.skills;
                     document.getElementById('gpa').textContent = data.gpa;
-                    document.getElementById('job_duration').textContent = data.job_duration;
+                    document.getElementById('working_hours').textContent = data.working_hours;
                     document.getElementById('experience').textContent = data.experience;
                     document.getElementById('positions_available').textContent = data.positions_available;
                     document.getElementById('required_languages').textContent = data.required_languages;
@@ -837,7 +835,7 @@
                     document.getElementById('major').textContent = data.major;
                     document.getElementById('skills').textContent = data.skills;
                     document.getElementById('gpa').textContent = data.gpa;
-                    document.getElementById('job_duration').textContent = data.job_duration;
+                    document.getElementById('working_hours').textContent = data.working_hours;
                     document.getElementById('experience').textContent = data.experience;
                     document.getElementById('positions_available').textContent = data.positions_available;
                     document.getElementById('required_languages').textContent = data.required_languages;
