@@ -765,6 +765,7 @@ def get_recommendations(job_id):
             seeker_id = filtered_seekers_data[i][6]  # Get the seeker ID
             seeker = seekers_data_dict.get(seeker_id)  # Retrieve the seeker information using the seeker ID
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
+            score = score * 100
             info = seekers_info_dict.get(seeker_id)
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
             
@@ -889,6 +890,7 @@ def get_Unstaisfied_recommendations(job_id):
             seeker_id = unsatisfied_requirements[i][6]  # Get the seeker ID
             seeker = seekers_data_dict.get(seeker_id)  # Retrieve the seeker information using the seeker ID
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
+            score = score * 100
             info = seekers_info_dict.get(seeker_id)
             unsatisfied_recommendations.append({'seeker': seeker, 'score': score, 'name': info})
             
