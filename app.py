@@ -819,6 +819,7 @@ def get_Unstaisfied_recommendations(job_id):
     
     # Filter out seekers whose total duration is less than the job's working hours
     unsatisfied_requirements = []
+    
     for seeker in filtered_seekers_data2:
         if seeker[3] < job_data[0][3]:
             filtered_seeker2 = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
@@ -836,7 +837,24 @@ def get_Unstaisfied_recommendations(job_id):
         seekers_combined_features = [' '.join(str(item) for item in row) for row in unsatisfied_requirements]
         job_combined_features = [' '.join(str(item) for item in job_data)]
 
-        tfidf = TfidfVectorizer()
+        tfidf = TfidfVectorizer(sublinear_tf=True,
+            use_idf=True,
+            smooth_idf=True,
+            norm=None,
+            lowercase=True,
+            stop_words='english',
+            token_pattern=r'\b\w+\b',
+            max_features=None,
+            binary=False,
+            decode_error='ignore',
+            strip_accents='unicode',
+            dtype=np.float32,
+            vocabulary=None,
+            ngram_range=(1, 1),
+            max_df=1.0,
+            min_df=1,
+            analyzer='word',
+            encoding='utf-8')
         seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
         job_tfidf_matrix = tfidf.transform(job_combined_features)
 
