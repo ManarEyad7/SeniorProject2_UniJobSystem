@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 
 #to save pdf file
 import os 
+if not os.path.exists('/tmp/'):
+    os.makedirs('/tmp/')
 
 TEMPLATES_AUTO_RELOAD = True
 
