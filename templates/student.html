@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,7 +18,90 @@
 
     <!-- Website icon -->
     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+    <style>
+        .block-d {
+            justify-content: space-between;
+            display: flex;
+        }
 
+        #findJob-button {
+
+            margin: 1.5rem;
+
+
+        }
+
+        #viewForm-button {
+            margin:  1.5rem 0.5rem
+        }
+
+        #updateForm-button {
+            margin:  1.5rem 0.5rem
+        }
+
+        #deleteForm-button {
+            margin:  1.5rem 0.5rem
+        }
+
+
+        @media (max-width: 600px) {
+
+            #findJob-button {
+                width: 100%;
+                justify-items: center;
+                margin: 1.5rem 0;
+                /* Add margin to separate it from other buttons and align it to the center */
+                display: block;
+                /* Set to block to ensure full width */
+                padding: 0%;
+                margin: 0.5rem 0rem;
+            }
+
+            #viewForm-button {
+                width: 100%;
+                justify-items: center;
+                margin: 1.5rem 0;
+                /* Add margin to separate it from other buttons and align it to the center */
+                display: block;
+                /* Set to block to ensure full width */
+                padding: 0%;
+                margin: 0.5rem 0rem;
+            }
+
+            #updateForm-button {
+                width: 100%;
+                justify-items: center;
+                margin: 1.5rem 0;
+                /* Add margin to separate it from other buttons and align it to the center */
+                display: block;
+                /* Set to block to ensure full width */
+                padding: 0%;
+                margin: 0.5rem 0rem;
+            }
+
+            #deleteForm-button {
+                width: 100%;
+                justify-items: center;
+                margin: 1.5rem 0;
+                /* Add margin to separate it from other buttons and align it to the center */
+                display: block;
+                /* Set to block to ensure full width */
+                padding: 0%;
+                margin: 0.5rem 0rem;
+            }
+
+
+
+            .block-d {
+                display: block;
+                justify-content: center;
+            }
+
+
+
+
+        }
+    </style>
 </head>
 
 <body>
@@ -38,7 +121,7 @@
                         Student
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                        <li> 
+                        <li>
                             <p style="border-bottom: 1px solid;"> {{ user[4] }}</p>
                         </li>
                         <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
@@ -54,50 +137,79 @@
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="justify-content-between d-flex">   
+                                    <div class=" block-d">
 
-                                        <div> 
-                                            <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; font-size: 27px;">Welcome</h4>
-                                            <h4 class="left-margin " style="margin-bottom: 1.5rem; font-size: 21px;">{{ user[3] }} </h4>
-                                        </div> 
-                                        <form action="{{ url_for('post_job') }}" >
+                                        <div>
+                                            <h4 class="font-weight-bold left-margin"
+                                                style="margin-top: 1.5rem; font-size: 27px;">Welcome</h4>
+                                            <h4 class="left-margin " style="margin-bottom: 1.5rem; font-size: 21px;">{{
+                                                user[3] }} </h4>
+                                        </div>
+                                        <form class="j" action="{{ url_for('post_job') }}">
                                             {% if seekerForms %}
-                                                {% for form in seekerForms %}
-                                                    {% if form[1] == 1 %}
-                                                        <button id="findJob-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem; display: none;" onclick="location.href = '/find_job';" type="button" aria-expanded="true">Seek job </button>
-                                                        <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/view_form/{{ form[0] }}';" type="button" aria-expanded="true">View Profile</button>
-                                                        <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/update_find_job/{{ form[0] }}';" type="button" aria-expanded="true">Update Profile</button>
-                                                        <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: inline-block;" onclick="location.href = '/delete_form/{{ form[0] }}/{{ form[2] }}';" type="button" aria-expanded="true">Delete Profile</button>
-                                                    {% endif %}
-                                                {% endfor %}
+                                            {% for form in seekerForms %}
+                                            {% if form[1] == 1 %}
+                                            <button id="findJob-button" class="btn btn-inverse-primary btn-fw "
+                                                style="height: 50px;  display: none;"
+                                                onclick="location.href = '/find_job';" type="button"
+                                                aria-expanded="true">Seek job </button>
+                                            <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "
+                                                style="height: 50px;  display: inline-block;"
+                                                onclick="location.href = '/view_form/{{ form[0] }}';" type="button"
+                                                aria-expanded="true">View Profile</button>
+                                            <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "
+                                                style="height: 50px;  display: inline-block;"
+                                                onclick="location.href = '/update_find_job/{{ form[0] }}';"
+                                                type="button" aria-expanded="true">Update Profile</button>
+                                            <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "
+                                                style="height: 50px;  display: inline-block;"
+                                                onclick="location.href = '/delete_form/{{ form[0] }}/{{ form[2] }}';"
+                                                type="button" aria-expanded="true">Delete Profile</button>
+                                            {% endif %}
+                                            {% endfor %}
                                             {% else %}
-                                                <button id="findJob-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem; display: inline-block;" onclick="location.href = '/find_job';" type="button"aria-expanded="true">Seek job </button>
-                                                <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: none;" type="button"aria-expanded="true">View Profile</button>
-                                                <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: none;" type="button"aria-expanded="true">Update Profile</button>
-                                                <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "  style="height: 50px; margin: 1.5rem 0.5rem; display: none;" type="button"aria-expanded="true">Delete Profile</button>
+                                            <button id="findJob-button" class="btn btn-inverse-primary btn-fw "
+                                                style="height: 50px;  display: inline-block;"
+                                                onclick="location.href = '/find_job';" type="button"
+                                                aria-expanded="true">Seek job </button>
+                                            <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "
+                                                style="height: 50px;  display: none;"
+                                                type="button" aria-expanded="true">View Profile</button>
+                                            <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "
+                                                style="height: 50px;  display: none;"
+                                                type="button" aria-expanded="true">Update Profile</button>
+                                            <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "
+                                                style="height: 50px;  display: none;"
+                                                type="button" aria-expanded="true">Delete Profile</button>
                                             {% endif %}
 
                                         </form>
 
                                     </div>
                                     <hr>
-                                    <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 20px;"> Notifications </h4>
-                                    <div class="notification-content text-center"> 
-                                        <div class="notification-content text-center"> 
+                                    <h4 class="font-weight-bold left-margin"
+                                        style="margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 20px;">
+                                        Notifications </h4>
+                                    <div class="notification-content text-center">
+                                        <div class="notification-content text-center">
                                             {% if seekerForms %}
                                             No notifications at the moment.<br>
-                                            You have already searched for part-time work. Please check back later for updates.
+                                            You have already searched for part-time work. Please check back later for
+                                            updates.
                                             {% else %}
                                             No notifications at the moment.<br>
-                                            If you are seeking part-time work, press the "Seek Job" button to explore opportunities.
+                                            If you are seeking part-time work, press the "Seek Job" button to explore
+                                            opportunities.
                                             {% endif %}
                                         </div>
                                     </div>
-                                    
+
                                     <hr>
-                                    
-                                    <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 20px;"> Schedule </h4>
-                                    <div class="Schedule-content text-center"> 
+
+                                    <h4 class="font-weight-bold left-margin"
+                                        style="margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 20px;"> Schedule
+                                    </h4>
+                                    <div class="Schedule-content text-center">
                                         soon
                                     </div>
                                     <hr>
@@ -113,7 +225,7 @@
 
 
 
-<!-- 
+        <!-- 
 
         <div class="container-fluid page-body-wrapper w-100 ">
             <div class="content-wrapper" style="min-height: inherit;">
@@ -229,51 +341,51 @@
         </div>-->
     </div>
 
-     <!-- plugins:js -->
-     <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
-     <!-- endinject -->
- 
+    <!-- plugins:js -->
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+    <!-- endinject -->
+
 </body>
 
 
 <script>
- /*   // Function to show the form content
-    function showForm() {
-        var formContent = document.querySelector(".form-content");
-        var reviewContent = document.querySelector(".review-content");
-        var scheduleContent = document.querySelector(".schedule-content");
-
-        // Display the form content and hide the review and schedule content
-        formContent.style.display = "block";
-        reviewContent.style.display = "none";
-        scheduleContent.style.display = "none";
-    }
-
-    // Function to show the review content
-    function showReview() {
-        var formContent = document.querySelector(".form-content");
-        var reviewContent = document.querySelector(".review-content");
-        var scheduleContent = document.querySelector(".schedule-content");
-
-        // Display the review content and hide the form and schedule content
-        formContent.style.display = "none";
-        reviewContent.style.display = "block";
-        scheduleContent.style.display = "none";
-    }
-
-    // Function to show the schedule content
-    function showSchedule() {
-        var formContent = document.querySelector(".form-content");
-        var reviewContent = document.querySelector(".review-content");
-        var scheduleContent = document.querySelector(".schedule-content");
-
-        // Display the schedule content and hide the form and review content
-        formContent.style.display = "none";
-        reviewContent.style.display = "none";
-        scheduleContent.style.display = "block";
-    }
-
-*/
+    /*   // Function to show the form content
+       function showForm() {
+           var formContent = document.querySelector(".form-content");
+           var reviewContent = document.querySelector(".review-content");
+           var scheduleContent = document.querySelector(".schedule-content");
+   
+           // Display the form content and hide the review and schedule content
+           formContent.style.display = "block";
+           reviewContent.style.display = "none";
+           scheduleContent.style.display = "none";
+       }
+   
+       // Function to show the review content
+       function showReview() {
+           var formContent = document.querySelector(".form-content");
+           var reviewContent = document.querySelector(".review-content");
+           var scheduleContent = document.querySelector(".schedule-content");
+   
+           // Display the review content and hide the form and schedule content
+           formContent.style.display = "none";
+           reviewContent.style.display = "block";
+           scheduleContent.style.display = "none";
+       }
+   
+       // Function to show the schedule content
+       function showSchedule() {
+           var formContent = document.querySelector(".form-content");
+           var reviewContent = document.querySelector(".review-content");
+           var scheduleContent = document.querySelector(".schedule-content");
+   
+           // Display the schedule content and hide the form and review content
+           formContent.style.display = "none";
+           reviewContent.style.display = "none";
+           scheduleContent.style.display = "block";
+       }
+   
+   */
 
     // Get the button and dropdown content elements
     var button = document.querySelector('.dropdown2 button');
