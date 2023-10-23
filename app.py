@@ -733,8 +733,7 @@ def get_recommendations(job_id):
             max_df=1.0,
             min_df=1,
             analyzer='word',
-            encoding='utf-8'
-        )
+            encoding='utf-8')
         seekers_tfidf_matrix = tfidf.fit_transform(seekers_combined_features)
         job_tfidf_matrix = tfidf.transform(job_combined_features)
 
