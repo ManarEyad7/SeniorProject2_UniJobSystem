@@ -596,12 +596,14 @@
             // Check if the start time is before the end time
             if (
                 (startMeridiem === "pm" && endMeridiem === "am") ||
-                (startMeridiem === endMeridiem && startHours > endHours) || // start hour is greater than the end hour
+                //(startMeridiem === endMeridiem && startHours > endHours) || // start hour is greater than the end hour
+                (startMeridiem === "am" && endMeridiem === "am" && startHours > endHours) ||
+                (startMeridiem === "pm" && endMeridiem === "pm" && startHours > endHours && !(startHours === 12)) ||
                 (startMeridiem === endMeridiem && startHours === endHours && startMinutes > endMinutes) ||
                 (startMeridiem === endMeridiem && startHours === endHours && startMinutes === endMinutes) ||
                 (endMeridiem === "am" && endHours === 12) ||
                 (startMeridiem === "am" && startHours < workingHoursStart) || // Start time is before working hours
-                (startMeridiem === "pm" && (startHours + 12) > workingHoursEnd) || // Start time is after working hours
+                (startMeridiem === "pm" && (startHours + 12) > workingHoursEnd && startHours !== 12) || // Start time is after working hours
                 (endMeridiem === "pm" && (endHours !== 12 && (endHours + 12) > workingHoursEnd)) // End time is after working hours
             ) {
                 // Start time is greater than end time
