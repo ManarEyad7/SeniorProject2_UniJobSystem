@@ -30616,12 +30616,15 @@ div.tagsinput span.tag a {
   border-radius: 4px;
   padding-left: 5px;
 }
-.notification-content, .Schedule-content{
+.notification-content{
   padding-top: 2rem;
   padding-bottom: 3rem;
   justify-content: space-between;
 }
 
+.Schedule-content{
+  margin: auto;
+}
 .error-input {
   border: 1px solid red;
 }
@@ -30695,7 +30698,7 @@ div.tagsinput span.tag a {
 	outline: inherit;
 }
 
-.form-content, .schedule-content{
+.form-content{
   display: none;
 }
 input{

@@ -102,6 +102,103 @@
 
         }
     </style>
+
+    <!-- For table 1 -->
+    <style>
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+    }
+
+    .timeline-date {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #000;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .timeline-content {
+      padding: 15px;
+      background-color: #f2f2f2;
+      border-radius: 4px;
+    }
+
+    .timeline-table {
+      width: 80%;
+      border-collapse: collapse;
+      margin: auto;
+    }
+
+    .timeline-table th,
+    .timeline-table td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .timeline-table th {
+      background-color: rgba(75, 73, 172, 0.135);
+      padding: 15px;
+      /*#f2f2f2*/
+    }
+    </style>
+
+    <!-- For table 2 -->
+    <style>
+    table {
+        margin: auto;
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f987;
+        width: 90%;
+        border-collapse: collapse;
+    }
+
+    th {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;;    
+      border-left: 1px solid #ddd;  
+    }
+
+    td {
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid #dddddd50;
+        border-right: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+
+    }
+
+    th {
+      background-color: rgba(91, 89, 165, 0.071);
+      width: 15%;
+    }
+
+    .day {
+      position: relative;
+      width: 0px;
+    }
+
+   
+    .time {
+      color: #686767;
+    }
+
+    .event {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .description {
+      color: #666;
+    }
+    </style>
 </head>
 
 <body>
@@ -209,9 +306,206 @@
                                     <h4 class="font-weight-bold left-margin"
                                         style="margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 20px;"> Schedule
                                     </h4>
-                                    <div class="Schedule-content text-center">
-                                        soon
-                                    </div>
+
+
+                                    <div class="schedule-content"> 
+                                        <!-- Table 1 -->
+                                        <table class="timeline-table">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Sunday</th>
+                                                    <th>Monday</th>
+                                                    <th>Tuesday</th>
+                                                    <th>Wednesday</th>
+                                                    <th>Thursday</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+                                                    <th>08:00 am</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>09:00 am</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>10:00 am</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <!-- Add more rows for each hour -->
+                                                <tr>
+                                                    <th>11:00 am</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>12:00 pm</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>01:00 pm</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>02:00 pm</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>03:00 pm</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>04:00 pm</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                </tr>
+                                                <tr>
+                                                <th>05:00 pm</th>
+                                                <td class="timeline-item"></td>
+                                                <td class="timeline-item"></td>
+                                                <td class="timeline-item"></td>
+                                                <td class="timeline-item"></td>
+                                                <td class="timeline-item"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <hr>
+
+                                        <!-- Table 2 -->
+                                        <table>
+                                            <thead>
+                                              <tr>
+                                                <th>Time</th>
+                                                <th>Monday</th>
+                                                <th>Tuesday</th>
+                                                <th>Wednesday</th>
+                                                <th>Thursday</th>
+                                                <th>Friday</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td class="time">08:00 am</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">09:00 am</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">10:00 am</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">11:00 am</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">12:00 pm</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">01:00 pm</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">02:00 pm</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">03:00 pm</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">04:00 pm</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <tr>
+                                                <td class="time">05:00 pm</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                              </tr>
+                                              <!-- Add more rows for each hour -->
+                                            </tbody>
+                                        </table>
+                                      </div>
                                     <hr>
 
                                 </div>
