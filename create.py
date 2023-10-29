@@ -28,34 +28,29 @@ cursor = connection.cursor()
 #""")
 
 #cursor.execute("""
-#CREATE TABLE seekers_form (
- #   form_id INTEGER PRIMARY KEY AUTOINCREMENT,
- #   form_submission INTEGER,
-  #  user_id INTEGER,
- #   name TEXT,
- #   phoneNumber TEXT,
- #   major TEXT,
-  #  gpa REAL,
- #   skills TEXT,
- #   experience TEXT,
- #   languages TEXT,
- #   sunday_periods INTEGER,
- #   sunday_start_interval TEXT,
- #   sunday_end_interval TEXT,
-  #  monday_periods INTEGER,
- #   monday_start_interval TEXT,
- #   monday_end_interval TEXT,
- #   tuesdayـperiods INTEGER,
-  #  tuesday_start_interval TEXT,
-  #  tuesday_end_interval TEXT,
-  #  wednesday_periods INTEGER,
-  #  wednesday_start_interval TEXT,
- #  wednesday_end_interval TEXT,
-  #  thursday_periods INTEGER,
- #  thursday_start_interval TEXT,
-  #  thursday_end_interval TEXT,
-  #  FOREIGN KEY (user_id) REFERENCES users(id)
+#CREATE TABLE job_times (
+ #   job_time_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  #  time_id INTEGER,
+   # fixed_flexible TEXT,
+    #flexible_hours INTEGER
+#    sunday_job_periods INTEGER,
+ #   sunday_start TEXT,
+  #  sunday_end TEXT,
+   # monday_job_periods INTEGER,
+    #monday_start TEXT,
+#    monday_end TEXT,
+ #   tuesdayـjob_periods INTEGER,
+  #  tuesday_start TEXT,
+   # tuesday_end TEXT,
+    #wednesday_job_periods INTEGER,
+#    wednesday_start TEXT,
+ #   wednesday_end TEXT,
+  #  thursday_job_periods INTEGER,
+   # thursday_start TEXT,
+    #thursday_end TEXT,
+#    FOREIGN KEY (time_id) REFERENCES job_posts(job_id)
 #)""")
+
 
 #cursor.execute("""
 #CREATE TABLE files (

@@ -395,7 +395,7 @@
         document.querySelectorAll(".time-pickable").forEach((timePickable) => {
             let activePicker = null;
             timePickable.addEventListener("focus", () => {
-                if (activePicker) return;
+                /*if (activePicker) return;*/
                 activePicker = show(timePickable);
                 const onClickAway = ({ target }) => {
                     if (

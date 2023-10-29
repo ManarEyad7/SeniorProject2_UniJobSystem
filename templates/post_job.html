@@ -21,6 +21,7 @@
 
     <!-- JS files -->
     <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
+    
 </head>
 
 <body>
@@ -63,7 +64,7 @@
                                         Fill out this form to gain the best candidates for your opportunity
                                     </p><hr style="margin-bottom: 1.5rem;">
 
-                                    <form class="forms-sample" method="POST">
+                                    <form id="jobForm" class="forms-sample" method="POST">
 
                                         <div class="form-group"> <!-- Title -->
                                             <label for="exampleInputName1" class="font-weight-bold" style="font-size: 15px;">Job Title: </label>
@@ -239,14 +240,66 @@
                                                 <option value="" disabled selected hidden>Choose One</option>
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
-                                                
                                             </select>
                                         </div>
 
-                                        <div class="form-group"> <!-- Required hours -->
-                                            <label for="exampleInputHours" class="font-weight-bold" style="font-size: 15px;">Required Working Hours (per week):</label>
-                                                <input type="number" class="form-control" id="exampleInputHours" name="working_hours" 
-                                                placeholder="Working Hours" pattern="\d*" min="0" max="15" style="width: 100%;" required>
+                                        <div class="form-group"> <!-- fixed or flexible -->
+                                            <label class="font-weight-bold"style="font-size: 15px;">Are your working hours fixed or flexible?</label>
+                                            <select id="fixed-flexible" class="js-example-basic-single content-wrapper w-100" name="fixed-flexible" style="width: 100%;" onchange="fixedORflexible(this.value)" required>
+                                                <option value="" disabled selected hidden>Choose One</option>
+                                                <option value="Fixed">Fixed</option>
+                                                <option value="Flexible">Flexible</option>
+                                            </select>
+                                        </div>
+
+                                        <div id="fixed-hours" class="form-group" style="display: none;">  <!-- fixed Required hours -->
+                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold" style="font-size: 15px;">Required Working Hours:</label>
+                                            <div class="availability-container">
+                                                <div class="day" style="margin-left: 20px;">
+                                                    <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
+                                                </div>
+                                                <hr>
+                                                
+                                                <div class="day"> <!-- Sunday availability -->
+                                                    <label for="sunday" class="font-weight-bold">Sunday:</label>
+                                                    <input style="max-width: 97%;"   type="number" class="interval" id="sunday-interval" name="sunday-interval" min="0" max="1" placeholder="Number of Available Periods" >
+                                                    <div id="sunday-periods"></div>
+                                                </div>
+                                                <hr>
+
+                                                <div class="day"> <!-- Monday availability -->
+                                                    <label for="monday" class="font-weight-bold">Monday:</label>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="monday-interval" name="monday-interval" min="0" max="1" placeholder="Number of Available Periods">
+                                                    <div id="monday-periods"></div>
+                                                </div>
+                                                <hr>
+
+                                                <div class="day"> <!-- Tuesday availability -->
+                                                    <label for="tuesday" class="font-weight-bold">Tuesday:</label>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="tuesday-interval" name="tuesday-interval" min="0" max="1" placeholder="Number of Available Periods" >
+                                                    <div id="tuesday-periods"></div>
+                                                </div>
+                                                <hr>
+
+                                                <div class="day"> <!-- Wednesday availability -->
+                                                    <label for="wednesday" class="font-weight-bold">Wednesday:</label>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="wednesday-interval" name="wednesday-interval" min="0" max="1" placeholder="Number of Available Periods" >
+                                                    <div id="wednesday-periods"></div>
+                                                </div>
+                                                <hr>
+                                                   
+                                                <div class="day"> <!-- Thursday availability -->
+                                                    <label for="thursday" class="font-weight-bold">Thursday:</label>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="thursday-interval" name="thursday-interval" min="0" max="1" placeholder="Number of Available Periods" >
+                                                    <div id="thursday-periods"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="flexible-hours" class="form-group" style="display: none;"> <!-- flexible Required hours -->
+                                            <label for="exampleInputHours" class="font-weight-bold" style="font-size: 15px;">Flexible Required Working Hours (per week):</label>
+                                                <input type="number" class="form-control" id="exampleInputHours" name="flexible_hours" 
+                                                placeholder="Flexible Working Hours" pattern="\d*" min="0" max="15" style="width: 100%;">
                                         </div>
 
 
@@ -272,31 +325,333 @@
                                         </div>
 
                                         <div class="text-center"> <!-- Buttons -->
-                                            <button type="submit" class="btn btn-primary mr-2" style="font-size: 15px;">Submit</button>
+                                            <button id="jobSubmit-button" type="submit" class="btn btn-primary mr-2" style="font-size: 15px;">Submit</button>
                                             <button id="cancel-button" onclick="location.href = '/employeeCancle';" class="btn btn-light" style="font-size: 15px;">Cancel</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
-
-
-
                 </div>
             </div>
-
         </div>
     </div>
-
-
 </body>
+
+
+
+
+<script> /*-- script for time picker  --*/
+
+    function activate() {
+        document.head.insertAdjacentHTML("beforeend", `
+            <style>
+                .time-picker {
+                    position: absolute;
+                    display: inline-block;
+                    padding: 10px;
+                    background: #eeeeee;
+                    border-radius: 6px;
+                }
+    
+                .time-picker__select {
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    outline: none;
+                    text-align: center;
+                    border: 1px solid #dddddd;
+                    border-radius: 6px;
+                    padding: 6px 10px;
+                    background: #ffffff;
+                    cursor: pointer;
+                    font-family: 'Heebo', sans-serif;
+                }
+            </style>
+        `);
+    
+        document.querySelectorAll(".time-pickable").forEach((timePickable) => {
+            let activePicker = null;
+            timePickable.addEventListener("focus", () => {
+                if (activePicker) return;
+                activePicker = show(timePickable);
+                const onClickAway = ({ target }) => {
+                    if (
+                        target === activePicker ||
+                        target === timePickable ||
+                        activePicker.contains(target)
+                        ) {
+                            return;
+                        }
+                        document.removeEventListener("mousedown", onClickAway);
+                        document.body.removeChild(activePicker);
+                        activePicker = null;
+                };
+                document.addEventListener("mousedown", onClickAway);
+            });
+        });
+            
+            const intervalInputs = document.querySelectorAll("[id$='-interval']");
+            intervalInputs.forEach((intervalInput) => {
+                intervalInput.addEventListener("change", () => {
+                    const containerId = intervalInput.id.replace("-interval", "-periods");
+                    const container = document.getElementById(containerId);
+                    const numPeriods = parseInt(intervalInput.value);
+                    // Clear existing period containers
+                    container.innerHTML = "";
+
+                    // Generate period containers with start and end time inputs
+                    for (let i = 0; i < numPeriods; i++) {
+                        const periodContainer = document.createElement("div");
+                        periodContainer.classList.add("period");
+
+                        const periodLabel = document.createElement("label");
+                        periodLabel.textContent = `Period ${i + 1}:`;
+                        periodLabel.style.margin = "8px 5px 5px 5px";
+
+                        const startInput = document.createElement("input");
+                        startInput.type = "text";
+                        startInput.classList.add("time-pickable", "start-time");
+                        //startInput.id = "start-time"
+                        startInput.id = `${intervalInput.id}-start-time-${i}`; // Unique ID for start time input
+                        startInput.name = `${intervalInput.id}-start-time-${i}`; // Unique name for start time input
+                        startInput.placeholder = "Start Time (hour:minute)";
+                        startInput.style.border = "1px solid rgb(207, 212, 217)";
+                        startInput.style.margin = "5px 5px 5px 5px";
+                        startInput.pattern = "(0[1-9]|1[0-2]):[0-5][0-9] (am|pm)"
+                        startInput.style.borderRadius = "4px";
+                        startInput.required = true;
+
+                        const endInput = document.createElement("input");
+                        endInput.type = "text";
+                        endInput.classList.add("time-pickable", "end-time");
+                        //endInput.id = "end-time"
+                        endInput.id = `${intervalInput.id}-end-time-${i}`; // Unique ID for end time input
+                        endInput.name = `${intervalInput.id}-end-time-${i}`; // Unique name for end time input
+                        endInput.placeholder = "End Time (hour:minute)";
+                        endInput.style.border = "1px solid rgb(207, 212, 217)";
+                        endInput.style.margin = "5px 5px 5px 5px";
+                        startInput.pattern = "(0[1-9]|1[0-2]):[0-5][0-9] (am|pm)"
+                        endInput.style.borderRadius = "4px";
+                        endInput.required = true;
+
+                        periodContainer.appendChild(periodLabel);
+                        periodContainer.appendChild(startInput);
+                        periodContainer.appendChild(endInput);
+
+                        container.appendChild(periodContainer);
+
+                    }
+
+                    // Activate the time picker for the new inputs
+                    activate();
+
+                });
+            });
+
+    }
+    
+    
+    function show(timePickable) {
+        const picker = buildPicker(timePickable);
+        const left = timePickable.offsetLeft + picker.offsetWidth;
+        const top = timePickable.offsetTop;
+
+        picker.style.left = `${left+150}px`;
+        picker.style.top = `${top+90}px`;
+
+        document.body.appendChild(picker);
+
+        return picker;
+    }
+    
+    function buildPicker(timePickable) {
+        const picker = document.createElement("div");
+        const hourOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(numberToOption);
+	    const minuteOptions = [0, 10, 20, 30, 40, 50].map(numberToOption);
+        
+    
+        picker.classList.add("time-picker");
+        picker.innerHTML = `
+            <select class="time-picker__select">
+                ${hourOptions.join("")}
+            </select>
+            :
+            <select class="time-picker__select">
+                ${minuteOptions.join("")}
+            </select>
+            <select class="time-picker__select">
+                <option value="am">am</option>
+                <option value="pm">pm</option>
+            </select>
+        `;
+    
+        const selects = getSelectsFromPicker(picker);
+    
+        selects.hour.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
+        selects.minute.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
+        selects.meridiem.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
+
+        if (timePickable.value) {
+            const { hour, minute,meridiem } = getTimePartsFromPickable(timePickable);
+    
+            selects.hour.value = hour;
+            selects.minute.value = minute;
+            selects.meridiem.value = meridiem;
+        }
+    
+        return picker;
+    }
+    
+    function getTimePartsFromPickable(timePickable) {
+        const pattern = /^(\d+):(\d+) (am|pm)$/;
+        const [hour, minute,meridiem] = Array.from(timePickable.value.match(pattern)).splice(1);
+    
+        return {
+            hour,
+            minute,
+            meridiem
+        };
+    }
+    
+    function getSelectsFromPicker(timePicker) {
+        const [hour, minute,meridiem] = timePicker.querySelectorAll(".time-picker__select");
+    
+        return {
+            hour,
+            minute,
+            meridiem
+        };
+    }
+    
+    function getTimeStringFromPicker(timePicker) {
+        const selects = getSelectsFromPicker(timePicker);
+    
+        return `${selects.hour.value}:${selects.minute.value} ${selects.meridiem.value}`;
+    }
+    
+    function numberToOption(number) {
+        const padded = number.toString().padStart(2, "0");
+    
+        return `<option value="${padded}">${padded}</option>`;
+    }
+
+    activate();
+
+
+    /*********** Submit Button Event  *************/
+
+    // Custom validation
+    const submitButton = document.getElementById("jobSubmit-button");
+    submitButton.addEventListener("click",() => {
+
+        const periodContainers = document.querySelectorAll(".period");
+        let isValid = true;
+
+        periodContainers.forEach((periodContainer) => {
+            const startInput = periodContainer.querySelector(".start-time");
+            const endInput = periodContainer.querySelector(".end-time");
+
+            const startParts = getTimePartsFromPickable(startInput);
+            const endParts = getTimePartsFromPickable(endInput);
+
+            const startHours = parseInt(startParts.hour);
+            const startMinutes = parseInt(startParts.minute);
+            const startMeridiem = startParts.meridiem;
+            const endHours = parseInt(endParts.hour);
+            const endMinutes = parseInt(endParts.minute);
+            const endMeridiem = endParts.meridiem;
+
+            // Define the working hours range
+            // Additional condition for working hours
+            const workingHoursStart = 8; // 8 AM
+            const workingHoursEnd = 16; // 4 PM
+
+            //Check if the chosen time is within working hours
+            
+
+            
+            // Check if the start time is before the end time
+            if (
+                (startMeridiem === "pm" && endMeridiem === "am") ||
+                //(startMeridiem === endMeridiem && startHours > endHours) || // start hour is greater than the end hour
+                (startMeridiem === "am" && endMeridiem === "am" && startHours > endHours) ||
+                (startMeridiem === "pm" && endMeridiem === "pm" && startHours > endHours && !(startHours === 12)) ||
+                (startMeridiem === endMeridiem && startHours === endHours && startMinutes > endMinutes) ||
+                (startMeridiem === endMeridiem && startHours === endHours && startMinutes === endMinutes) ||
+                (endMeridiem === "am" && endHours === 12) ||
+                (startMeridiem === "am" && startHours < workingHoursStart) || // Start time is before working hours
+                (startMeridiem === "pm" && (startHours + 12) > workingHoursEnd && startHours !== 12) || // Start time is after working hours
+                (endMeridiem === "pm" && (endHours !== 12 && (endHours + 12) > workingHoursEnd)) // End time is after working hours
+            ) {
+                // Start time is greater than end time
+                isValid = false;
+                periodContainer.style.border = "1px solid red";
+                periodContainer.style.padding = "5px";
+                periodContainer.style.margin = "5px";
+
+                const errorSpan = periodContainer.querySelector("span");
+                if (!errorSpan) {
+                    const errorMessage = document.createElement("span");
+                    errorMessage.style.color = "red";
+                    errorMessage.textContent = "Invalid start or end times.";
+                    periodContainer.appendChild(errorMessage);
+                }
+            } 
+            if (isValid) {
+                periodContainer.style.removeProperty("border");
+                periodContainer.style.removeProperty("padding");
+                periodContainer.style.removeProperty("margin");
+                const errorSpan = periodContainer.querySelector("span");
+                if (errorSpan) {
+                    errorSpan.remove();
+                }
+            }
+        });
+
+        if (!isValid) {
+            // Display a message to the user indicating validation error
+            alert("Please ensure that the start time comes before the end time, and that the entered times fall within the allowed working hours.");
+            submitButton.disabled = true; // Disable the submit button
+            document.getElementById("start-time").value = "";
+            document.getElementById("end-time").value = "";
+        } 
+        submitButton.disabled = false; // Disable the submit button if validation fails, enable it if validation passes
+    });
+
+
+
+</script>
+
+
+<script> /* Make time fields visible if the check box is selected */
+    function toggleTimeFields(day) {
+        var timeFields = document.getElementById(day + "TimeFields");
+        var checkbox = document.getElementsByName(day + "Checkbox")[0];
+        
+        if (checkbox.checked) {
+            timeFields.style.display = "flex";
+        } else {
+            timeFields.style.display = "none";
+        }
+    }
+</script>
+
+<!-- 
+<script> /* Make time fields writable if the checkbox is checked  */
+    function toggleTimeFields(day) {
+    var timeFields = document.getElementById(day + "TimeFields").getElementsByTagName("input");
+    var checkbox = document.getElementsByName(day + "Checkbox")[0];
+
+    for (var i = 0; i < timeFields.length; i++) {
+        timeFields[i].disabled = !checkbox.checked;
+    }
+    }
+</script>-->
+
 <!-- Core JS files -->
 <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
-
 
 <!-- Page-specific plugin JS -->
 <script src="../../static/typeahead.js/typeahead.bundle.min.js"></script>
@@ -308,3 +663,24 @@
 <script src="../../static/js/select2.js"></script>
 
 </html>
+
+<script> /* if the working hours is fixed the question 'Required Working Hours' appear */
+
+    function fixedORflexible(value){
+        var FixedHoursGroup = document.getElementById("fixed-hours");
+        var FlexibleHoursGroup = document.getElementById("flexible-hours");
+
+        if (value === "Flexible") {
+            FlexibleHoursGroup.style.display = "block";
+            FixedHoursGroup.style.display = "none";
+        } 
+        else if(value === "Fixed") {
+            FixedHoursGroup.style.display = "block";
+            FlexibleHoursGroup.style.display = "none";
+        }
+        else{
+            FixedHoursGroup.style.display = "none";
+            FlexibleHoursGroup.style.display = "none";
+        }
+    }
+</script>

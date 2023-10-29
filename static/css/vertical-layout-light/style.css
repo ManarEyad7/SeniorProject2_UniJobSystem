@@ -30756,3 +30756,22 @@ input{
 .dropdown2:hover .dropdown-content2 {
   display: block;
 }
+
+
+
+input[type="text"].start-time,
+input[type="text"].end-time {
+  border: 1px solid rgb(207, 212, 217);
+  margin: 5px 5px 5px 5px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+input[type="text"].start-time[style*="border: 1px solid red;"],
+input[type="text"].end-time[style*="border: 1px solidred;"] {
+  border-color: red;
+}
+
+.error {
+  border: 1px solid red;
+}

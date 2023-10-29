@@ -267,15 +267,97 @@ def post_job():
         required_major = request.form['required_major']
         min_gpa = request.form['min_gpa']
         skills = request.form.getlist('skills')
-        working_hours = request.form['working_hours']
+        #working_hours = request.form['working_hours']
         experience = request.form['experience']
         job_duration = request.form['job_duration']
         positions_available = request.form['positions_available']
         required_languages = request.form.getlist('required_languages')
         work_location = request.form['work_location']
+        fixed_flexible = request.form['fixed-flexible']
 
-        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, working_hours, experience, job_duration, positions_available, required_languages,work_location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, job_title, required_major, min_gpa, ','.join(skills), working_hours, experience, job_duration, positions_available, ','.join(required_languages),work_location))
+        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, experience, job_duration, positions_available, required_languages,work_location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, job_title, required_major, min_gpa, ','.join(skills), experience, job_duration, positions_available, ','.join(required_languages),work_location))
+        # Retrieve the reference key (last inserted row ID)
+        reference_key = cursor.lastrowid
+
+        if fixed_flexible == 'Flexible':
+            flexible_hours = request.form['flexible_hours']
+
+            cursor.execute("INSERT INTO job_times (time_id,fixed_flexible,flexible_hours) VALUES (?,?,?)",
+                       (reference_key,fixed_flexible,flexible_hours))
+        
+        
+        #--------------------------- Start interval data
+        if fixed_flexible == 'Fixed':
+            # Get the sunday interval data from the form
+            sundayStarts = []
+            sundayEnds = []
+            sunday_periods = int(request.form.get('sunday-interval'))
+            #totalDuration = 0 
+            for i in range(sunday_periods):
+                start_time = request.form.get('sunday-interval-start-time-' + str(i))
+                end_time = request.form.get('sunday-interval-end-time-' + str(i))
+                #duration = calculate_duration(start_time, end_time)
+                #totalDuration += duration
+                sundayStarts.append(start_time)
+                sundayEnds.append(end_time)
+
+            # Get the monday interval data from the form
+            mondayStarts = []
+            mondayEnds = []
+            monday_periods = int(request.form.get('monday-interval'))
+            for i in range(monday_periods):
+                start_time = request.form.get('monday-interval-start-time-' + str(i))
+                end_time = request.form.get('monday-interval-end-time-' + str(i))
+                #duration = calculate_duration(start_time, end_time)
+                #totalDuration += duration
+                mondayStarts.append(start_time)
+                mondayEnds.append(end_time)
+
+            # Get the tuesday interval data from the form
+            tuesdayStarts = []
+            tuesdayEnds = []
+            tuesdayـperiods = int(request.form.get('tuesday-interval'))
+            for i in range(tuesdayـperiods):
+                start_time = request.form.get('tuesday-interval-start-time-' + str(i))
+                end_time = request.form.get('tuesday-interval-end-time-' + str(i))
+                #duration = calculate_duration(start_time, end_time)
+                #totalDuration += duration
+                tuesdayStarts.append(start_time)
+                tuesdayEnds.append(end_time)
+
+            # Get the wednesday interval data from the form
+            wednesdayStarts = []
+            wednesdayEnds = []
+            wednesday_periods = int(request.form.get('wednesday-interval'))
+            for i in range(wednesday_periods):
+                start_time = request.form.get('wednesday-interval-start-time-' + str(i))
+                end_time = request.form.get('wednesday-interval-end-time-' + str(i))
+                #duration = calculate_duration(start_time, end_time)
+                #totalDuration += duration
+                wednesdayStarts.append(start_time)
+                wednesdayEnds.append(end_time)
+
+            # Get the thursday interval data from the form
+            thursdayStarts = []
+            thursdayEnds = []
+            thursday_periods = int(request.form.get('thursday-interval'))
+            for i in range(thursday_periods):
+                start_time = request.form.get('thursday-interval-start-time-' + str(i))
+                end_time = request.form.get('thursday-interval-end-time-' + str(i))
+                #duration = calculate_duration(start_time, end_time)
+                #totalDuration += duration
+                thursdayStarts.append(start_time)
+                thursdayEnds.append(end_time)
+
+            cursor.execute("INSERT INTO job_times (time_id,fixed_flexible,sunday_job_periods,sunday_start,sunday_end,monday_job_periods,monday_start,monday_end,tuesdayـjob_periods,tuesday_start,tuesday_end,wednesday_job_periods,wednesday_start,wednesday_end,thursday_job_periods,thursday_start,thursday_end) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                       (reference_key,fixed_flexible,sunday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),monday_periods,','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),tuesdayـperiods,','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),wednesday_periods,','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),thursday_periods,','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
+        
+            
+            #--------------------------- End interval data
+
+        #cursor.execute("INSERT INTO job_times (user_id,fixed_flexible,flexible_hours,sunday_job_periods,sunday_start,sunday_end,monday_job_periods,monday_start,monday_end,tuesdayـjob_periods,tuesday_start,tuesday_end,wednesday_job_periods,wednesday_start,wednesday_end,thursday_job_periods,thursday_start,thursday_end) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        #               (user_id,fixed_flexible,flexible_hours,sunday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),monday_periods,','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),tuesdayـperiods,','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),wednesday_periods,','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),thursday_periods,','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
         connection.commit()
         connection.close()
         return redirect(url_for("employee"))
@@ -303,6 +385,7 @@ def employee():
 
             cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
             jobs = cursor.fetchall()
+            
             #session['job_id'] = jobs[0]
             connection.close()
 
@@ -387,13 +470,14 @@ def view_jobs(id):
     jobs = cursor.fetchone()
     cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
     user = cursor.fetchone()
+    cursor.execute("SELECT * FROM job_times WHERE time_id =?", (id,))
+    time = cursor.fetchone()
 
-    return render_template('view_jobs.html', jobs=jobs,user=user)
+    return render_template('view_jobs.html', jobs=jobs,user=user,time=time)
 
 
 @app.route('/update_post_job/<id>' , methods=['GET', 'POST'])
 def update_post_job(id):
-    
     if 'user_id' not in session:
         flash("You are not logged in. Please log in first.", 'error')
         return redirect(url_for("login"))
@@ -405,36 +489,108 @@ def update_post_job(id):
 
     if request.method == 'POST':
         try:
-
             new_skill = request.form.getlist('n_skills')
             new_skills = ",".join(map(str, new_skill))
-
             new_job_title = request.form['n_job_title']
-            print("***********************************here")
+
             new_required_languages = request.form.getlist('n_required_languages')
             new_required_languages = ",".join(map(str, new_required_languages))
             new_required_major = request.form['n_required_major']
-            print("***********************************major")
+
             new_min_gpa = request.form['n_min_gpa']
-            print("***********************************gpa")
             new_skills = new_skills
-            print("***********************************skills")
-            new_working_hours = request.form['n_working_hours']
+            #new_working_hours = request.form['n_working_hours']
             new_job_duration = request.form['n_job_duration']
             new_positions_available = request.form['n_positions_available']
             new_experience = request.form['n_experience'] 
             new_work_location = request.form['n_work_location'] 
+            new_fixed_flexible = request.form['n_fixed-flexible']
 
-            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , skills = '{}',working_hours= '{}', job_duration = '{}' , experience = '{}' ,positions_available = '{}' ,required_languages= '{}',work_location='{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_skills,new_working_hours,new_job_duration,new_experience,new_positions_available,new_required_languages,new_work_location,id))
+            if new_fixed_flexible == 'Flexible':
+                new_flexible_hours = request.form['n_flexible_hours']
+                cursor.execute("UPDATE job_times SET fixed_flexible = '{}' , flexible_hours='{}', sunday_job_periods= NULL,sunday_start= NULL,sunday_end= NULL,monday_job_periods= NULL,monday_start= NULL,monday_end= NULL,tuesdayـjob_periods= NULL,tuesday_start= NULL,tuesday_end= NULL,wednesday_job_periods= NULL,wednesday_start= NULL,wednesday_end= NULL,thursday_job_periods= NULL,thursday_start= NULL,thursday_end= NULL WHERE time_id = '{}' ".format(new_fixed_flexible,new_flexible_hours,id))
+
+            if new_fixed_flexible == 'Fixed':
+                #--------------------------- Start interval data
+                # Get the sunday interval data from the form
+                sundayStarts = []
+                sundayEnds = []
+                sunday_periods = int(request.form.get('sunday-interval2'))
+                totalDuration = 0 
+                for i in range(sunday_periods):
+                    print("i== ",i)
+                    start_time = request.form.get('sunday-interval2-start-time-' + str(i))
+                    end_time = request.form.get('sunday-interval2-end-time-' + str(i))
+                    duration = calculate_duration(start_time, end_time)
+                    totalDuration += duration
+                    sundayStarts.append(start_time)
+                    sundayEnds.append(end_time)
+
+                # Get the monday interval data from the form
+                mondayStarts = []
+                mondayEnds = []
+                monday_periods = int(request.form.get('monday-interval2'))
+                for i in range(monday_periods):
+                    print("i== ",i)
+                    start_time = request.form.get('monday-interval2-start-time-' + str(i))
+                    end_time = request.form.get('monday-interval2-end-time-' + str(i))
+                    duration = calculate_duration(start_time, end_time)
+                    totalDuration += duration
+                    mondayStarts.append(start_time)
+                    mondayEnds.append(end_time)
+    
+                # Get the tuesday interval data from the form
+                tuesdayStarts = []
+                tuesdayEnds = []
+                tuesdayـperiods = int(request.form.get('tuesday-interval2'))
+                for i in range(tuesdayـperiods):
+                    print("i== ",i)
+                    start_time = request.form.get('tuesday-interval2-start-time-' + str(i))
+                    end_time = request.form.get('tuesday-interval2-end-time-' + str(i))
+                    duration = calculate_duration(start_time, end_time)
+                    totalDuration += duration
+                    tuesdayStarts.append(start_time)
+                    tuesdayEnds.append(end_time)
+                
+                # Get the wednesday interval data from the form
+                wednesdayStarts = []
+                wednesdayEnds = []
+                wednesday_periods = int(request.form.get('wednesday-interval2'))
+                for i in range(wednesday_periods):
+                    print("i== ",i)
+                    start_time = request.form.get('wednesday-interval2-start-time-' + str(i))
+                    end_time = request.form.get('wednesday-interval2-end-time-' + str(i))
+                    duration = calculate_duration(start_time, end_time)
+                    totalDuration += duration
+                    wednesdayStarts.append(start_time)
+                    wednesdayEnds.append(end_time)
+
+                # Get the thursday interval data from the form
+                thursdayStarts = []
+                thursdayEnds = []
+                thursday_periods = int(request.form.get('thursday-interval2'))
+                for i in range(thursday_periods):
+                    print("i== ",i)
+                    start_time = request.form.get('thursday-interval2-start-time-' + str(i))
+                    end_time = request.form.get('thursday-interval2-end-time-' + str(i))
+                    duration = calculate_duration(start_time, end_time)
+                    totalDuration += duration
+                    thursdayStarts.append(start_time)
+                    thursdayEnds.append(end_time)
+                #--------------------------- End interval data
+                cursor.execute("UPDATE job_times SET fixed_flexible = '{}',sunday_job_periods= '{}',sunday_start= '{}',sunday_end= '{}',monday_job_periods= '{}',monday_start= '{}',monday_end= '{}',tuesdayـjob_periods= '{}',tuesday_start= '{}',tuesday_end= '{}',wednesday_job_periods= '{}',wednesday_start= '{}',wednesday_end= '{}',thursday_job_periods= '{}',thursday_start= '{}',thursday_end= '{}', flexible_hours= NULL WHERE time_id = '{}' ".format(new_fixed_flexible,sunday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),monday_periods,','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),tuesdayـperiods,','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),wednesday_periods,','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),thursday_periods,','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)),id))
+                     
+
+            cursor.execute("UPDATE job_posts SET job_title = '{}', required_major = '{}', min_gpa = '{}' , skills = '{}', job_duration = '{}' , experience = '{}' ,positions_available = '{}' ,required_languages= '{}',work_location='{}' WHERE job_id = '{}' ".format(new_job_title,new_required_major,new_min_gpa,new_skills,new_job_duration,new_experience,new_positions_available,new_required_languages,new_work_location,id))
+
             connection.commit()
             connection.close()
 
-            print("Job updated successfully!")
-            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             return redirect(url_for("employee"))
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
-              
+            return 'e'           
+           
     else:
         cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
         user = cursor.fetchone()
@@ -442,8 +598,11 @@ def update_post_job(id):
         cursor.execute("SELECT * FROM job_posts WHERE user_id = ? AND job_id =?", (user_id,id))
         jobs = cursor.fetchone()
 
-        return render_template('update_post_job.html', user=user ,jobs=jobs)
+        cursor.execute("SELECT * FROM job_times WHERE time_id =?", (id,))
+        time = cursor.fetchone()
 
+        return render_template('update_post_job.html', user=user ,jobs=jobs,time=time)
+    
 @app.route('/update_find_job/<id>' , methods=['GET', 'POST'])
 def update_find_job(id):
     
@@ -627,6 +786,8 @@ def delete_jobs(id):
     cursor = connection.cursor()
 
     cursor.execute("DELETE FROM job_posts WHERE job_id = '{}' ".format(id))
+    cursor.execute("DELETE FROM job_times WHERE time_id = '{}' ".format(id))
+
     connection.commit()
     connection.close()
 
