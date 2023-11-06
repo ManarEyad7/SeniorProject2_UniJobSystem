@@ -52,78 +52,6 @@ def login():
 
     return render_template("login.html")
 
-@app.route('/notify/<int:student_id>/<int:job_id>', methods=['POST'])
-def notify(student_id,job_id):
-    connection = sqlite3.connect("users_database.db")
-    cursor = connection.cursor()
-    print("1")
-
-    if request.method == 'POST':
-        print("2")
-        print(job_id)
-        try:
-            confirm = False
-            print(confirm)
-            print("3")
-            message = "you have been selected"
-            print("4")
-            #student_id = request.form['student-id']
-            print("5")
-            cursor.execute("SELECT job_title, job_duration FROM job_posts WHERE job_id = ?", (job_id,))
-            user = cursor.fetchone()
-            print("6")
-            print(user[0])
-            print(user[1])
-            cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
-                           (student_id, job_id, user[0], user[1], message, confirm))
-            print("7")
-        except sqlite3.Error as e:
-            print(f"An error occurred: {e}")
-            #flash("An error occurred while fetching the job posts. Please try again.", 'error')
-            #return redirect(url_for('index'))
-        
-        connection.commit()
-        connection.close()
-      
-    print(f"Sending notification to student with ID: {student_id}")
-
-    # You can return a response to the client if needed
-    return "Notification sent successfully", 200
-
-
-'''
-@app.route('/notify/<int:stu_id>/<int:job_id>', methods=['POST','GET'])
-def notify(stu_id,job_id):
-    print("1")
-    if request.method == 'POST':
-        connection = sqlite3.connect("users_database.db")
-        cursor = connection.cursor()
-        print("2")
-        try:
-            
-            confirm = False
-            print("3")
-            message = "you have been selected"
-            print("4")
-            #student_id = request.form['student-id']
-            print("5")
-            cursor.execute("SELECT job_title, job_duration FROM job_posts WHERE job_id = ?", (job_id,))
-            user = cursor.fetchone()
-            print("6")
-            cursor.execute("INSERT INTO notifications (user_id, job_id,job_title, job_duration, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
-                (stu_id, job_id, user[0], user[1], message, confirm))
-            print("7")
-        except sqlite3.Error as e:
-            print(f"An error occurred: {e}")
-            #flash("An error occurred while fetching the job posts. Please try again.", 'error')
-            #return redirect(url_for('index'))
-        
-        connection.close()
-
-    return redirect(url_for("employee"))
-
-'''
-
 @app.route('/find_job',methods=['GET', 'POST'])
 def find_job():
     if 'user_id' not in session:
@@ -819,22 +747,6 @@ def update_find_job(id):
 
         return render_template('update_find_job.html', user=user , form = form, file=file)
        
-''' 
-            new_uploaded_file = request.files['n_pdf_file']    # Get the uploaded file
-
-            # Save the file to a temporary location
-            new_temp_path = '/tmp/' + new_uploaded_file.filename
-            new_uploaded_file.save(new_temp_path)
-
-            # Read the file data as binary
-            with open(new_temp_path, 'rb') as file:
-                new_file_data = file.read()
-
-            # Delete the temporary file
-            os.remove(new_temp_path)
-'''
-
-
 @app.route('/delete_form/<id>/<user_id>')
 def delete_form(id,user_id):
     #user_id = session['user_id']
@@ -911,9 +823,16 @@ def get_recommendations(job_id):
     cursor.execute("SELECT major, gpa, skills, totalHours, experience, languages, work_preference,id FROM seekers_form")
     seekers_data = cursor.fetchall()
 
-    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
+    cursor.execute("SELECT required_major, min_gpa, skills, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
+
+    cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
+    job_time = cursor.fetchone()
+
+    
+    cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form")
+    students_time = cursor.fetchall()
 
     # Define a dictionary to map experience levels to weights
     experience_weights = {
@@ -927,17 +846,16 @@ def get_recommendations(job_id):
         weight = experience_weights.get(experience, 1.0)  # Default weight is 1.0 if experience level is not specified in the dictionary
         filtered_seeker = list(seeker[:4]) + [weight] + list(seeker[5:])  # Include the weight in the filtered seeker data
         filtered_seekers_data2.append(filtered_seeker)
-   
-    # Filter out seekers whose total duration is less than the job's working hours
+
     filtered_seekers_data = []
-    for seeker in filtered_seekers_data2:
-        if seeker[3] >= job_data[0][3]:
-            filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
-            filtered_seekers_data.append(filtered_seeker)
-    print('filtered_seekers_data',len(filtered_seekers_data))
-
-
-    job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
+    if job_time[2] == 'Flexible':
+        # Filter out seekers whose total duration is less than the job's working hours
+        for seeker in filtered_seekers_data2:
+            if seeker[3] >= job_time[3]:
+                filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
+                filtered_seekers_data.append(filtered_seeker)
+    elif job_time[2] == 'Fixed':
+        filtered_seekers_data = check(students_time,job_time)
         
 
     if not filtered_seekers_data:
@@ -945,6 +863,7 @@ def get_recommendations(job_id):
         return render_template('recommendations.html', message=message, job_id=job_id, job_title=job_title , user=user)
     else:
         # Perform recommendation process
+        #print(filtered_seekers_data[1])
         seekers_combined_features = [' '.join(str(item) for item in row) for row in filtered_seekers_data]
         job_combined_features = [' '.join(str(item) for item in job_data)]
 
@@ -998,18 +917,20 @@ def get_recommendations(job_id):
         for i in top_seekers:
             seeker_id = filtered_seekers_data[i][6]  # Get the seeker ID
             seeker = seekers_data_dict.get(seeker_id)  # Retrieve the seeker information using the seeker ID
-            print(seeker)
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
             score = score * 100
             info = seekers_info_dict.get(seeker_id)
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
-            print()
-            print(recommended_seekers)
             
+    
+
         cursor.close()
         conn.close()
 
         return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id, job_title=job_title , user=user)
+
+def check(s,e):
+    return "Flase"
 
 
 @app.route('/get_Unstaisfied_recommendations/<int:job_id>')
@@ -1038,9 +959,12 @@ def get_Unstaisfied_recommendations(job_id):
     cursor.execute("SELECT major, gpa, skills, totalHours, experience, languages, work_preference,id FROM seekers_form")
     seekers_data = cursor.fetchall()
 
-    cursor.execute("SELECT required_major, min_gpa, skills, working_hours, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
+    cursor.execute("SELECT required_major, min_gpa, skills, experience, required_languages,work_location FROM job_posts WHERE job_id = ?", (job_id,))
     job_data = cursor.fetchone()
     job_data = [job_data]
+
+    cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
+    job_time = cursor.fetchone()
     
     # Define a dictionary to map experience levels to weights
     experience_weights = {
@@ -1057,14 +981,12 @@ def get_Unstaisfied_recommendations(job_id):
     
     # Filter out seekers whose total duration is less than the job's working hours
     unsatisfied_requirements = []
-    
-    for seeker in filtered_seekers_data2:
-        if seeker[3] < job_data[0][3]:
-            filtered_seeker2 = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
-            unsatisfied_requirements.append(filtered_seeker2)
-    print('unsatisfied_requirements',len(unsatisfied_requirements))
-
-    job_data = [job_data[0][:3] + job_data[0][4:]]    # Drop the time-related columns from the job data
+    if job_time[2] == 'Flexible':
+        for seeker in filtered_seekers_data2:
+            if seeker[3] < job_time[3]:
+                filtered_seeker2 = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
+                unsatisfied_requirements.append(filtered_seeker2)
+        print('unsatisfied_requirements',len(unsatisfied_requirements))
       
 
     if not unsatisfied_requirements:
@@ -1137,7 +1059,6 @@ def get_Unstaisfied_recommendations(job_id):
 
         return render_template('recommendations2.html', recommendations=unsatisfied_recommendations, job_id=job_id, job_title=job_title , user=user)
 
-
 def get_candidate_info(candidate_id):
     try:
         conn = sqlite3.connect('users_database.db')
@@ -1181,20 +1102,15 @@ def get_candidate_info(candidate_id):
     finally:
         conn.close()
 
-
-
 @app.route('/get_candidate/<int:candidate_id>')
 def get_candidate(candidate_id):
     candidate_info = get_candidate_info(candidate_id)
     print(candidate_id)
-  
     if candidate_info:
         return jsonify(candidate_info)
     else:
         return jsonify(error='Candidate not found'), 404
     
-
-
 @app.route('/get_job_info/<int:id>')
 def get_job_info(id):
     try:
@@ -1226,7 +1142,6 @@ def get_job_info(id):
     except Exception as e:
         # Handle database errors or other exceptions
         return str(e)
-
 
 if __name__ == "__main__":
    app.run(debug = True)

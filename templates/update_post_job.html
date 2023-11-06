@@ -242,7 +242,7 @@
                                         <div class="form-group"> <!-- fixed or flexible -->
                                             <label class="font-weight-bold"style="font-size: 15px;">Are your working hours fixed or flexible?</label>
                                             <select id="fixed-flexible" class="js-example-basic-single content-wrapper w-100" name="n_fixed-flexible" style="width: 100%;" onchange="fixedORflexible(this.value)" required>
-                                                <option value="{{ time[2] }}" selected>{{ time[2] }}</option>
+                                                <option selected>{{ time[2] }}</option>
                                                 <option value="Fixed">Fixed</option>
                                                 <option value="Flexible">Flexible</option>
                                             </select>
@@ -250,7 +250,7 @@
 
                                        
                                         <div id="fixed-hours" class="form-group" >  <!-- fixed Required hours -->
-                                             {% if time[2] == "Fixed" %}
+                                            {% if time[2] == "Fixed" %}
                                             <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold" style="font-size: 15px;">Required Working Hours:</label>
                                             <div class="availability-container">
                                                 <div class="day" style="margin-left: 20px;">
@@ -370,8 +370,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% else %}
-                                            <div class="availability-container">
+                                            {% elif time[2] != "Fixed"  %}
+                                            <div id="new_fixed"  class="availability-container">
                                                 <div class="day" style="margin-left: 20px;">
                                                     <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
                                                 </div>
@@ -379,9 +379,9 @@
                                                 
                                                 <div class="day"> <!-- Sunday time -->
                                                     <label for="sunday" class="font-weight-bold">Sunday:</label>
-                                                    <input style="max-width: 97%;" type="number" class="interval" id="sunday-interval2" name="sunday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[4] }}" required>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="sunday-interval2" name="sunday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[4] }}" >
                                                     <div id="sunday-periods">
-                                                        {% if time[4] !=0 %}
+                                                        {% if time[4] !=0 and time[4] is not none  %}
                                                         {% set start_times_list = time[5].split(',') %}
                                                         {% set end_times_list = time[6].split(',') %}
                                                         {% set num_periods =  time[4] %}
@@ -402,9 +402,9 @@
 
                                                 <div class="day"> <!-- Monday time -->
                                                     <label for="monday" class="font-weight-bold">Monday:</label>
-                                                    <input style="max-width: 97%;" type="number" class="interval" id="monday-interval2" name="monday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[7] }}"required>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="monday-interval2" name="monday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[7] }}">
                                                     <div id="monday-periods">
-                                                        {% if time[7] !=0 %}
+                                                        {% if time[7] !=0 and time[7] is not none %}
                                                         {% set start_times_list = time[8].split(',') %}
                                                         {% set end_times_list = time[9].split(',') %}
                                                         {% set num_periods =  time[7] %}
@@ -426,9 +426,9 @@
 
                                                 <div class="day"> <!-- Tuesday time -->
                                                     <label for="tuesday" class="font-weight-bold">Tuesday:</label>
-                                                    <input style="max-width: 97%;" type="number" class="interval" id="tuesday-interval2" name="tuesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[10] }}" required>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="tuesday-interval2" name="tuesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[10] }}" >
                                                     <div id="tuesday-periods">
-                                                        {% if time[10] !=0 %}
+                                                        {% if time[10] !=0 and time[10] is not none %}
                                                         {% set start_times_list = time[11].split(',') %}
                                                         {% set end_times_list = time[12].split(',') %}
                                                         {% set num_periods =  time[10] %}
@@ -448,9 +448,9 @@
 
                                                 <div class="day"> <!-- Wednesday time -->
                                                     <label for="wednesday" class="font-weight-bold">Wednesday:</label>
-                                                    <input style="max-width: 97%;" type="number" class="interval" id="wednesday-interval2" name="wednesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[13] }}" required>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="wednesday-interval2" name="wednesday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[13] }}" >
                                                     <div id="wednesday-periods">
-                                                        {% if time[13] !=0 %}
+                                                        {% if time[13] !=0 and time[13] is not none %}
                                                         {% set start_times_list = time[14].split(',') %}
                                                         {% set end_times_list = time[15].split(',') %}
                                                         {% set num_periods =  time[13] %}
@@ -470,9 +470,9 @@
                                                    
                                                 <div class="day"> <!-- Thursday time -->
                                                     <label for="thursday" class="font-weight-bold">Thursday:</label>
-                                                    <input style="max-width: 97%;" type="number" class="interval" id="thursday-interval2" name="thursday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[16] }}"required>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="thursday-interval2" name="thursday-interval2" min="0" max="5" placeholder="Number of Available Periods" value="{{ time[16] }}">
                                                     <div id="thursday-periods">
-                                                        {% if time[16] !=0 %}
+                                                        {% if time[16] !=0 and time[16] is not none %}
                                                         {% set start_times_list = time[17].split(',') %}
                                                         {% set end_times_list = time[18].split(',') %}
                                                         {% set num_periods =  time[16] %}
@@ -499,10 +499,12 @@
                                             <label for="exampleInputHours" class="font-weight-bold" style="font-size: 15px;">Flexible Required Working Hours (per week):</label>
                                             <input type="number" class="form-control" id="exampleInputHours" name="n_flexible_hours" 
                                                 value="{{ time[3] }}" placeholder="Flexible Working Hours" pattern="\d*" min="0" max="15" style="width: 100%;">
-                                            {% else %}
-                                            <label for="exampleInputHours" class="font-weight-bold" style="font-size: 15px;">Flexible Required Working Hours (per week):</label>
-                                            <input type="number" class="form-control" id="exampleInputHours" name="n_flexible_hours" 
+                                            {% elif time[2] != "Flexible" %}
+                                            <div id="new_flexible">
+                                                <label for="exampleInputHours" class="font-weight-bold" style="font-size: 15px;">Flexible Required Working Hours (per week):</label>
+                                                <input type="number" class="form-control" id="exampleInputHours" name="n_flexible_hours" 
                                                 placeholder="Flexible Working Hours" pattern="\d*" min="0" max="15" style="width: 100%;">
+                                            </div>
                                             {% endif %}
                                         </div>
                                         
