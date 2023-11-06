@@ -1153,33 +1153,31 @@ def notify(student_id,job_id):
     print("1")
 
     if request.method == 'POST':
-        print("2")
-        print(job_id)
         try:
             confirm = False
-            print(confirm)
-            print("3")
             message = "you have been selected"
-            print("4")
             #student_id = request.form['student-id']
-            print("5")
-            cursor.execute("SELECT job_title, job_duration FROM job_posts WHERE job_id = ?", (job_id,))
+            cursor.execute("SELECT job_title, job_duration,positions_available FROM job_posts WHERE job_id = ?", (job_id,))
             user = cursor.fetchone()
-            print("6")
-            print(user[0])
-            print(user[1])
+           
+            # Get the current number of positions filled for the job
+            cursor.execute("SELECT COUNT(*) FROM notifications WHERE id_job = ?", (job_id,))
+            current_positions_filled = cursor.fetchone()[0]
+
+            # Check if the current number of positions filled exceeds the maximum available positions
+            if current_positions_filled >= user[2]:
+                print("Cannot send notification. Maximum positions filled.")
+                return "Cannot send notification. Maximum positions filled.", 300
+            
             cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
-                           (student_id, job_id, user[0], user[1], message, confirm))
-            print("7")
+                    (student_id, job_id, user[0], user[1], message, confirm))
+            connection.commit()
+            connection.close()     
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
             #flash("An error occurred while fetching the job posts. Please try again.", 'error')
             #return redirect(url_for('index'))
-        
-        connection.commit()
-        connection.close()
-      
     print(f"Sending notification to student with ID: {student_id}")
-
+ 
     # You can return a response to the client if needed
     return "Notification sent successfully", 200
