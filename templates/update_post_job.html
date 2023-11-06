@@ -241,15 +241,15 @@
 
                                         <div class="form-group"> <!-- fixed or flexible -->
                                             <label class="font-weight-bold"style="font-size: 15px;">Are your working hours fixed or flexible?</label>
-                                            <select id="fixed-flexible" class="js-example-basic-single content-wrapper w-100" name="n_fixed-flexible" style="width: 100%;" onchange="fixedORflexible(this.value)" required>
-                                                <option selected>{{ time[2] }}</option>
+                                            <select id="fixed-flexible" class="js-example-basic-single content-wrapper w-100" name="n_fixed-flexible" style="width: 100%;" onfocus="fixedORflexible(this.value)"  onchange="fixedORflexible(this.value)" required>
+                                                <option value="{{ time[2] }}" selected>{{ time[2] }}</option>
                                                 <option value="Fixed">Fixed</option>
                                                 <option value="Flexible">Flexible</option>
                                             </select>
                                         </div>
 
                                        
-                                        <div id="fixed-hours" class="form-group" >  <!-- fixed Required hours -->
+                                        <div id="fixed-hours" class="form-group" style="display: none;">  <!-- fixed Required hours -->
                                             {% if time[2] == "Fixed" %}
                                             <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold" style="font-size: 15px;">Required Working Hours:</label>
                                             <div class="availability-container">
@@ -370,7 +370,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% elif time[2] != "Fixed"  %}
+                                            {% elif time[2] != "Fixed"%}
                                             <div id="new_fixed"  class="availability-container">
                                                 <div class="day" style="margin-left: 20px;">
                                                     <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
@@ -494,11 +494,13 @@
                                         
                                         
                                        
-                                        <div id="flexible-hours" class="form-group"> <!-- flexible Required hours -->
+                                        <div id="flexible-hours" class="form-group" style="display: none;"> <!-- flexible Required hours -->
                                             {% if time[2] == "Flexible" %}
-                                            <label for="exampleInputHours" class="font-weight-bold" style="font-size: 15px;">Flexible Required Working Hours (per week):</label>
-                                            <input type="number" class="form-control" id="exampleInputHours" name="n_flexible_hours" 
-                                                value="{{ time[3] }}" placeholder="Flexible Working Hours" pattern="\d*" min="0" max="15" style="width: 100%;">
+                                            <div id="flexible">
+                                                <label for="exampleInputHours" class="font-weight-bold" style="font-size: 15px;">Flexible Required Working Hours (per week):</label>
+                                                <input type="number" class="form-control" id="exampleInputHours" name="n_flexible_hours" 
+                                                    value="{{ time[3] }}" placeholder="Flexible Working Hours" pattern="\d*" min="0" max="15" style="width: 100%;">
+                                            </div>
                                             {% elif time[2] != "Flexible" %}
                                             <div id="new_flexible">
                                                 <label for="exampleInputHours" class="font-weight-bold" style="font-size: 15px;">Flexible Required Working Hours (per week):</label>
@@ -841,6 +843,9 @@
 
 <script> /* if the working hours is fixed the question 'Required Working Hours' appear */
 
+    // Call the function with the initial selected value
+    fixedORflexible(document.getElementById("fixed-flexible").value);
+    
     function fixedORflexible(value){
         var FixedHoursGroup = document.getElementById("fixed-hours");
         var FlexibleHoursGroup = document.getElementById("flexible-hours");
@@ -848,14 +853,12 @@
         if (value === "Flexible") {
             FlexibleHoursGroup.style.display = "block";
             FixedHoursGroup.style.display = "none";
+
         } 
         else if(value === "Fixed") {
             FixedHoursGroup.style.display = "block";
             FlexibleHoursGroup.style.display = "none";
-        }
-        else{
-            FixedHoursGroup.style.display = "none";
-            FlexibleHoursGroup.style.display = "none";
+
         }
     }
 </script>
