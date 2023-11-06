@@ -1146,3 +1146,40 @@ def get_job_info(id):
 if __name__ == "__main__":
    app.run(debug = True)
 
+@app.route('/notify/<int:student_id>/<int:job_id>', methods=['POST'])
+def notify(student_id,job_id):
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    print("1")
+
+    if request.method == 'POST':
+        print("2")
+        print(job_id)
+        try:
+            confirm = False
+            print(confirm)
+            print("3")
+            message = "you have been selected"
+            print("4")
+            #student_id = request.form['student-id']
+            print("5")
+            cursor.execute("SELECT job_title, job_duration FROM job_posts WHERE job_id = ?", (job_id,))
+            user = cursor.fetchone()
+            print("6")
+            print(user[0])
+            print(user[1])
+            cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
+                           (student_id, job_id, user[0], user[1], message, confirm))
+            print("7")
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+            #flash("An error occurred while fetching the job posts. Please try again.", 'error')
+            #return redirect(url_for('index'))
+        
+        connection.commit()
+        connection.close()
+      
+    print(f"Sending notification to student with ID: {student_id}")
+
+    # You can return a response to the client if needed
+    return "Notification sent successfully", 200

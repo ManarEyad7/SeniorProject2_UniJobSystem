@@ -626,6 +626,26 @@
 </html>
 
 <script>
+    // Retrieve the required number and available positions from the database (assuming you have an API endpoint to fetch the data)
+    // Replace "your-api-endpoint" with the actual API endpoint URL
+    fetch("your-api-endpoint")
+        .then(response => response.json())
+        .then(data => {
+            const requiredNumber = data.requiredNumber;
+            const availablePositions = data.availablePositions;
+
+            // Check if the required number exceeds the available positions
+            if (requiredNumber > availablePositions) {
+                // Disable the send notification button
+                document.getElementById("send-notification-button").disabled = true;
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data from the API:", error);
+        });
+</script>
+
+<script>
 
     // Get the check icon by its id
     var checkIcon = document.getElementById('check-icon');
