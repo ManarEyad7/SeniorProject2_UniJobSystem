@@ -11874,6 +11874,11 @@ input[type="button"].btn-block {
 .error {
   color: red
 }
+
+.selected {
+  color: green
+}
+
 .dropleft .dropdown-menu {
   top: 0;
   right: 100%;

@@ -52,6 +52,78 @@ def login():
 
     return render_template("login.html")
 
+@app.route('/notify/<int:student_id>/<int:job_id>', methods=['POST'])
+def notify(student_id,job_id):
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    print("1")
+
+    if request.method == 'POST':
+        print("2")
+        print(job_id)
+        try:
+            confirm = False
+            print(confirm)
+            print("3")
+            message = "you have been selected"
+            print("4")
+            #student_id = request.form['student-id']
+            print("5")
+            cursor.execute("SELECT job_title, job_duration FROM job_posts WHERE job_id = ?", (job_id,))
+            user = cursor.fetchone()
+            print("6")
+            print(user[0])
+            print(user[1])
+            cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
+                           (student_id, job_id, user[0], user[1], message, confirm))
+            print("7")
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+            #flash("An error occurred while fetching the job posts. Please try again.", 'error')
+            #return redirect(url_for('index'))
+        
+        connection.commit()
+        connection.close()
+      
+    print(f"Sending notification to student with ID: {student_id}")
+
+    # You can return a response to the client if needed
+    return "Notification sent successfully", 200
+
+
+'''
+@app.route('/notify/<int:stu_id>/<int:job_id>', methods=['POST','GET'])
+def notify(stu_id,job_id):
+    print("1")
+    if request.method == 'POST':
+        connection = sqlite3.connect("users_database.db")
+        cursor = connection.cursor()
+        print("2")
+        try:
+            
+            confirm = False
+            print("3")
+            message = "you have been selected"
+            print("4")
+            #student_id = request.form['student-id']
+            print("5")
+            cursor.execute("SELECT job_title, job_duration FROM job_posts WHERE job_id = ?", (job_id,))
+            user = cursor.fetchone()
+            print("6")
+            cursor.execute("INSERT INTO notifications (user_id, job_id,job_title, job_duration, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
+                (stu_id, job_id, user[0], user[1], message, confirm))
+            print("7")
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+            #flash("An error occurred while fetching the job posts. Please try again.", 'error')
+            #return redirect(url_for('index'))
+        
+        connection.close()
+
+    return redirect(url_for("employee"))
+
+'''
+
 @app.route('/find_job',methods=['GET', 'POST'])
 def find_job():
     if 'user_id' not in session:
@@ -926,10 +998,13 @@ def get_recommendations(job_id):
         for i in top_seekers:
             seeker_id = filtered_seekers_data[i][6]  # Get the seeker ID
             seeker = seekers_data_dict.get(seeker_id)  # Retrieve the seeker information using the seeker ID
+            print(seeker)
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
             score = score * 100
             info = seekers_info_dict.get(seeker_id)
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
+            print()
+            print(recommended_seekers)
             
         cursor.close()
         conn.close()
@@ -1107,15 +1182,18 @@ def get_candidate_info(candidate_id):
         conn.close()
 
 
+
 @app.route('/get_candidate/<int:candidate_id>')
 def get_candidate(candidate_id):
     candidate_info = get_candidate_info(candidate_id)
     print(candidate_id)
+  
     if candidate_info:
         return jsonify(candidate_info)
     else:
         return jsonify(error='Candidate not found'), 404
     
+
 
 @app.route('/get_job_info/<int:id>')
 def get_job_info(id):

@@ -2,7 +2,41 @@ import sqlite3
 connection = sqlite3.connect("users_database.db")
 
 cursor = connection.cursor()
+#cursor.execute("""DROP TABLE notifications""")
 
+cursor.execute("""
+CREATE TABLE notifications (
+    notification_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER,
+    id_job INTEGER,
+    title_job TEXT,
+    message TEXT,
+    duration_of_job TEXT,
+    confirm INTEGER,
+    FOREIGN KEY (student_id) REFERENCES users(id),
+    FOREIGN KEY (id_job) REFERENCES job_posts(job_id),
+    FOREIGN KEY (title_job) REFERENCES job_posts(job_title),
+    FOREIGN KEY (duration_of_job) REFERENCES job_posts(job_duration)
+)
+""")
+
+
+
+#cursor.execute("""
+#CREATE TABLE notifications (
+#    notification_id INTEGER PRIMARY KEY AUTOINCREMENT,
+#    user_id INTEGER,
+#    job_id INTEGER,
+#    job_title TEXT,
+#    message TEXT,
+#    job_duration TEXT,
+#    confirm INTEGER,
+#    FOREIGN KEY (user_id) REFERENCES users(id),
+#    FOREIGN KEY (job_id) REFERENCES job_posts(job_id),
+#    FOREIGN KEY (job_title) REFERENCES job_posts(job_title),
+#    FOREIGN KEY (job_duration) REFERENCES job_posts(job_duration)
+#)
+#""")
 
 #cursor.execute("INSERT INTO users VALUES ('2005892', 'Aa@12345', 'Ranya Alghamdi', '2005892@uj.edu.sa', 'student')")
 #cursor.execute("INSERT INTO users VALUES ('1905480', 'Aa@12346', 'Manar Eyad', '1905480@uj.edu.sa', 'student')")

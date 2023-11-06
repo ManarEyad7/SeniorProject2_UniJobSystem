@@ -236,7 +236,7 @@
 
         }
 
-        @media (max-height: 740px) {         
+        @media (max-height: 740px) {
 
             .close-button1 {
                 width: 100%;
@@ -435,20 +435,22 @@
             </div>
         </div>
 
+
         <div class="card" id="student-info-form" style="display: none; ">
             <div class="card-body">
                 <div id="kjjj" style=" justify-content:space-between; flex-wrap: wrap;">
                     <h3 class="student-name" id="student-name"></h3>
+
                     <div id="l" style="flex-grow: 1; display: flex; flex-wrap: wrap; justify-content: flex-end; ">
-                        <button class="btn btn-outline-primary btn-rounded btn-fw btn-sm"
-                            style="padding-left: 30px; padding-right: 30px; margin-bottom: 10px;">
-                            <span style="display: -ms-inline-flexbox; text-align: center; width: 100%;">Send
-                                Notification</span>
+                        <button class="btn btn-outline-primary btn-rounded btn-fw btn-sm" id="send-notification-button" style="padding-left: 30px; padding-right: 30px; margin-bottom: 10px;">
+                            <span style="display: -ms-inline-flexbox; text-align: center; width: 100%;">Send Notification</span>
                         </button>
+
                         <button class="btn btn-inverse-primary btn btn-rounded btn-fw btn-sm"
                             style="padding-left: 30px; padding-right: 30px; margin-bottom: 10px; margin-left: 5px;">
                             <span style="display: -ms-inline-grid; text-align: center; width: 100%; ">Hire</span>
                         </button>
+
                     </div>
                 </div>
                 <div style="margin-top: 20px;">
@@ -465,6 +467,7 @@
                         <!-- Academic Information Sub-Section -->
                         <div class="sub-section">
                             <h4>Academic Information</h4>
+                            <p style="font-size: 15px;">ID: <span id="student-id"></span></p>
                             <p style="font-size: 15px;">Major: <span id="student-major"></span></p>
                             <p style="font-size: 15px;">GPA: <span id="student-gpa"></span></p>
                             <div style="font-size: 15px;" id="student-skills" class="skills-container">
@@ -511,6 +514,7 @@
 
             </div>
         </div>
+
         <div class="card" id="job-details" style="display: none; ">
             <div class="card-body">
                 <div style="display: flex; justify-content: space-between; ">
@@ -674,6 +678,7 @@
             fetch(`/get_candidate/${candidateId}`)
                 .then(response => response.json())
                 .then(data => {
+                    document.getElementById('student-id').textContent = data.id;
                     // Update the form with the fetched data
                     document.getElementById('student-name').textContent = data.name;
                     // Add the phone number
@@ -758,6 +763,35 @@
     // Add click event listener to the "Show more" button
     showMoreButton.addEventListener('click', toggleSkills);
 </script>
+<script>
+    // Function to handle the "Send Notification" button click
+    function sendNotification() {
+        const studentId = document.getElementById('student-id').textContent;
+
+        // Make an AJAX request to your Flask route to send the student_id
+        fetch(`/notify/${studentId}/{{ job_id }}`, {
+            method: 'POST', // Use 'POST' or 'GET' depending on your server implementation
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Notification sent successfully!');
+                closeCandidateInfo(); // Close the candidate info form after sending the notification
+            } else {
+                alert('Failed to send notification. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Add a click event listener to the "Send Notification" button
+    const sendNotificationButton = document.getElementById('send-notification-button');
+    sendNotificationButton.addEventListener('click', sendNotification);
+</script>
 
 
 <script>
@@ -811,6 +845,7 @@
 
 
 </script>
+
 
 <script>
 
