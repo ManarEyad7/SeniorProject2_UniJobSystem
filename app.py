@@ -797,6 +797,164 @@ def employeeCancle():
 '''    ------------------------   recommendetion system trying   ------------------------    '''
 
 
+def makedicforjob(job_data) :
+
+    # Create a dictionary with known keys and no initial values
+    my_dict = {
+        "Sunday": [],
+        "Monday": [],
+        "Tuesday": [],
+        "Wednesday": [],
+        "Thursday": [],
+    }
+
+    # Days of the week to assign data to
+    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"]
+    day_index = 0  # Start with Sunday
+
+    # Iterate through the tuple in increments of 3 elements
+    for i in range(0, len(job_data), 3):
+        # Get the current set of 3 elements
+        job_info = job_data[i:i + 3]
+
+        # Check if job_data[i] is zero, and if so, don't add any time slots
+        if job_info[0] == 0:
+            continue
+
+        # Extract the start and end times
+        start_times = job_data[i+1]
+        end_times = job_data[i+2]
+
+        # Split start_times and end_times using comma as the delimiter
+        start_times = start_times.split(',')
+        end_times = end_times.split(',')
+
+        # Iterate through the times and add them to the corresponding day's list in the dictionary
+        for start, end in zip(start_times, end_times):
+            t = start.strip() + " - " + end.strip()
+            my_dict[days[day_index]].append(t)
+
+        # Move to the next day
+        day_index = (day_index + 1) % len(days)
+
+    return my_dict
+def makedicforStudents(students_time) :
+    # Create a dictionary to store the student schedules
+    student_schedules = {}
+
+    # Days of the week
+    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"]
+
+    # Iterate through the list of students
+    for student_data in students_time:
+        # Extract the student index (e.g., 0 or 1)
+        student_index = student_data[0]
+        student_name = student_index
+
+        # Initialize a dictionary to store the schedule for each day
+        student_schedule = {day: [] for day in days}
+
+        day_index = 0
+
+        # Iterate through the student's data in increments of 1 or 2 elements
+        for i in range(1, len(student_data), 3):
+            # Extract the day and time data
+            slots = student_data[i]
+
+            if slots != 0:
+                # Get the current set of 3 elements
+                job_info = student_data[i:i + 3]
+                # Extract the start and end times
+                start_times = student_data[i + 1]
+                end_times = student_data[i + 2]
+                start_times = start_times.split(',')
+                end_times = end_times.split(',')
+
+                # Iterate through the times and add them to the corresponding day's list in the dictionary
+                for start, end in zip(start_times, end_times):
+                    t = start.strip() + " - " + end.strip()
+                    student_schedule[days[day_index]].append(t)
+            else:
+                # If there are no start or end times, store an empty list in the dictionary
+                student_schedule[days[day_index]] = []
+
+            # Move to the next day
+            day_index = (day_index + 1) % len(days)
+
+        student_schedules[student_name] = student_schedule
+
+    return student_schedules
+# Function to convert time in "hh:mm AM/PM" format to minutes
+def convert_to_minutes(time_str):
+    # Split time and meridiem (AM/PM)
+    time, meridiem = time_str.split()
+    hour, minute = time.split(":")
+    hour = int(hour)
+    minute = int(minute)
+
+    # Convert to 24-hour format
+    if meridiem == "PM" and hour != 12:
+        hour += 12
+
+    # Convert to minutes
+    return hour * 60 + minute
+# Function to calculate alignment scores with overlaps for all students
+def calculate_alignment_scores_with_overlaps(students, job_schedule):
+    alignment_scores = {}
+
+    # Iterate through each student and their schedule
+    for student, schedule in students.items():
+        # Calculate alignment score with overlaps and get overlap information
+        alignment_score, overlap_info = calculate_alignment_score_with_overlaps(schedule, job_schedule)
+
+        # Store alignment score and overlap information for the student
+        alignment_scores[student] = alignment_score
+        alignment_scores[f"{student} Overlaps"] = overlap_info
+
+    return alignment_scores
+# Function to calculate the alignment score with overlaps for a single student
+def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
+    from collections import defaultdict
+
+    student_overlaps = defaultdict(dict)
+
+    # Iterate through days in the student's schedule
+    for day in student_schedule.keys():
+
+        if day in job_schedule:
+            student_overlaps[day] = []
+
+            # Iterate through each time slot in the student's schedule for the current day
+            for student_slot in student_schedule[day]:
+
+                # Iterate through each time slot in the job schedule for the current day
+                for job_slot in job_schedule[day]:
+
+                    # Split start and end times for the student and job slots
+                    student_start, student_end = student_slot.split(" - ")
+                    job_start, job_end = job_slot.split(" - ")
+
+                    # Convert start and end times to minutes
+                    student_start_minutes = convert_to_minutes(student_start)
+                    student_end_minutes = convert_to_minutes(student_end)
+                    job_start_minutes = convert_to_minutes(job_start)
+                    job_end_minutes = convert_to_minutes(job_end)
+
+                    # Calculate the overlap start and end times
+                    overlap_start = max(student_start_minutes, job_start_minutes)
+                    overlap_end = min(student_end_minutes, job_end_minutes)
+
+                    # Check if there is an overlap
+                    if overlap_start < overlap_end:
+                        student_overlaps[day].append((overlap_start, overlap_end))
+
+    # Calculate the alignment score as the sum of overlap times
+    alignment_score = sum(
+        (overlap[1] - overlap[0]) for overlaps in student_overlaps.values() for overlap in overlaps
+    )
+
+   
+    return alignment_score, student_overlaps
 @app.route('/get_recommendations/<int:job_id>')
 def get_recommendations(job_id):
     if 'user_id' not in session:
@@ -854,8 +1012,35 @@ def get_recommendations(job_id):
             if seeker[3] >= job_time[3]:
                 filtered_seeker = list(seeker[:3]) + list(seeker[4:]) # Drop the time-related columns from the seeker data
                 filtered_seekers_data.append(filtered_seeker)
+
     elif job_time[2] == 'Fixed':
-        filtered_seekers_data = check(students_time,job_time)
+        # Create a dictionary for the job schedule
+        job_schedule = makedicforjob(job_time[4:])
+
+        # Create a dictionary for the students' schedules
+        students_schedules = makedicforStudents(students_time)
+
+        # Calculate alignment scores with overlaps for all students
+        alignment_scores = calculate_alignment_scores_with_overlaps(students_schedules, job_schedule)
+
+        # Filter students with overlapping time greater than zero and store their data
+        students_with_overlap = {}  # Dictionary to store data for students with overlap
+
+        for seeker in filtered_seekers_data2:
+            student_id = seeker[7]
+            alignment_score = alignment_scores.get(student_id, 0)
+
+            if alignment_score > 0:
+                filtered_seeker = list(seeker[:3]) + list(seeker[4:])   # Add alignment score to the tuple
+                filtered_seekers_data.append(filtered_seeker)
+
+                # Store data for students with overlap
+                students_with_overlap[student_id] = {
+                    'seeker': seeker,
+                    'alignment_score': alignment_score,
+                    'schedule': students_schedules.get(student_id, {})
+                }
+
         
 
     if not filtered_seekers_data:
