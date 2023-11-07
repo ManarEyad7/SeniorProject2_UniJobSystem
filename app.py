@@ -516,13 +516,13 @@ def update_post_job(id):
                 sundayStarts = []
                 sundayEnds = []
                 sunday_periods = int(request.form.get('sunday-interval2'))
-                totalDuration = 0 
+                #totalDuration = 0 
                 for i in range(sunday_periods):
                     print("i== ",i)
                     start_time = request.form.get('sunday-interval2-start-time-' + str(i))
                     end_time = request.form.get('sunday-interval2-end-time-' + str(i))
-                    duration = calculate_duration(start_time, end_time)
-                    totalDuration += duration
+                    #duration = calculate_duration(start_time, end_time)
+                    #totalDuration += duration
                     sundayStarts.append(start_time)
                     sundayEnds.append(end_time)
 
@@ -534,8 +534,8 @@ def update_post_job(id):
                     print("i== ",i)
                     start_time = request.form.get('monday-interval2-start-time-' + str(i))
                     end_time = request.form.get('monday-interval2-end-time-' + str(i))
-                    duration = calculate_duration(start_time, end_time)
-                    totalDuration += duration
+                    #duration = calculate_duration(start_time, end_time)
+                    #totalDuration += duration
                     mondayStarts.append(start_time)
                     mondayEnds.append(end_time)
     
@@ -547,8 +547,8 @@ def update_post_job(id):
                     print("i== ",i)
                     start_time = request.form.get('tuesday-interval2-start-time-' + str(i))
                     end_time = request.form.get('tuesday-interval2-end-time-' + str(i))
-                    duration = calculate_duration(start_time, end_time)
-                    totalDuration += duration
+                    #duration = calculate_duration(start_time, end_time)
+                    #totalDuration += duration
                     tuesdayStarts.append(start_time)
                     tuesdayEnds.append(end_time)
                 
@@ -560,8 +560,8 @@ def update_post_job(id):
                     print("i== ",i)
                     start_time = request.form.get('wednesday-interval2-start-time-' + str(i))
                     end_time = request.form.get('wednesday-interval2-end-time-' + str(i))
-                    duration = calculate_duration(start_time, end_time)
-                    totalDuration += duration
+                    #duration = calculate_duration(start_time, end_time)
+                    #totalDuration += duration
                     wednesdayStarts.append(start_time)
                     wednesdayEnds.append(end_time)
 
@@ -573,8 +573,8 @@ def update_post_job(id):
                     print("i== ",i)
                     start_time = request.form.get('thursday-interval2-start-time-' + str(i))
                     end_time = request.form.get('thursday-interval2-end-time-' + str(i))
-                    duration = calculate_duration(start_time, end_time)
-                    totalDuration += duration
+                    #duration = calculate_duration(start_time, end_time)
+                    #totalDuration += duration
                     thursdayStarts.append(start_time)
                     thursdayEnds.append(end_time)
                 #--------------------------- End interval data
@@ -816,9 +816,11 @@ def makedicforjob(job_data) :
     for i in range(0, len(job_data), 3):
         # Get the current set of 3 elements
         job_info = job_data[i:i + 3]
+        #print(job_info)
 
         # Check if job_data[i] is zero, and if so, don't add any time slots
         if job_info[0] == 0:
+            day_index = (day_index + 1) % len(days)
             continue
 
         # Extract the start and end times
@@ -836,8 +838,8 @@ def makedicforjob(job_data) :
 
         # Move to the next day
         day_index = (day_index + 1) % len(days)
-
     return my_dict
+
 def makedicforStudents(students_time) :
     # Create a dictionary to store the student schedules
     student_schedules = {}
@@ -919,11 +921,13 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
     student_overlaps = defaultdict(dict)
 
     # Iterate through days in the student's schedule
+    #dict_keys(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'])
+
     for day in student_schedule.keys():
 
         if day in job_schedule:
             student_overlaps[day] = []
-
+            #print(job_schedule)
             # Iterate through each time slot in the student's schedule for the current day
             for student_slot in student_schedule[day]:
 
@@ -933,7 +937,8 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
                     # Split start and end times for the student and job slots
                     student_start, student_end = student_slot.split(" - ")
                     job_start, job_end = job_slot.split(" - ")
-
+                    
+                    
                     # Convert start and end times to minutes
                     student_start_minutes = convert_to_minutes(student_start)
                     student_end_minutes = convert_to_minutes(student_end)
@@ -943,18 +948,21 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
                     # Calculate the overlap start and end times
                     overlap_start = max(student_start_minutes, job_start_minutes)
                     overlap_end = min(student_end_minutes, job_end_minutes)
-
+                    
                     # Check if there is an overlap
                     if overlap_start < overlap_end:
                         student_overlaps[day].append((overlap_start, overlap_end))
+       
 
     # Calculate the alignment score as the sum of overlap times
     alignment_score = sum(
         (overlap[1] - overlap[0]) for overlaps in student_overlaps.values() for overlap in overlaps
     )
+    #print(alignment_score,student_overlaps)
 
    
     return alignment_score, student_overlaps
+
 @app.route('/get_recommendations/<int:job_id>')
 def get_recommendations(job_id):
     if 'user_id' not in session:
@@ -1016,12 +1024,13 @@ def get_recommendations(job_id):
     elif job_time[2] == 'Fixed':
         # Create a dictionary for the job schedule
         job_schedule = makedicforjob(job_time[4:])
+        #print(job_time[4:])
 
         # Create a dictionary for the students' schedules
         students_schedules = makedicforStudents(students_time)
-
         # Calculate alignment scores with overlaps for all students
         alignment_scores = calculate_alignment_scores_with_overlaps(students_schedules, job_schedule)
+        #calculate_alignment_score_with_overlaps
 
         # Filter students with overlapping time greater than zero and store their data
         students_with_overlap = {}  # Dictionary to store data for students with overlap
@@ -1029,9 +1038,12 @@ def get_recommendations(job_id):
         for seeker in filtered_seekers_data2:
             student_id = seeker[7]
             alignment_score = alignment_scores.get(student_id, 0)
+            #print('alignment_score= ',alignment_score)
 
             if alignment_score > 0:
+                #print('before',seeker)
                 filtered_seeker = list(seeker[:3]) + list(seeker[4:])   # Add alignment score to the tuple
+                #print('after',filtered_seeker)
                 filtered_seekers_data.append(filtered_seeker)
 
                 # Store data for students with overlap
@@ -1040,8 +1052,8 @@ def get_recommendations(job_id):
                     'alignment_score': alignment_score,
                     'schedule': students_schedules.get(student_id, {})
                 }
-
-        
+        print(filtered_seekers_data)
+        #print(students_with_overlap[38]['alignment_score'])
 
     if not filtered_seekers_data:
         message = "No suitable seekers found."
