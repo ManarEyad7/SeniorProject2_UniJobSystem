@@ -415,10 +415,13 @@ def student():
             cursor.execute("SELECT * FROM seekers_form WHERE user_id = ?", (user_id,))
             seekerForms = cursor.fetchall()
 
+            cursor.execute("SELECT * FROM notifications WHERE student_id = ?", (user_id,))
+            notifications = cursor.fetchall()
+
             
             connection.close()
 
-            return render_template('student.html', seekerForms=seekerForms, user=user)
+            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications)
 
 
         except sqlite3.Error as e:
@@ -1354,7 +1357,7 @@ def notify(student_id,job_id):
             confirm = False
             message = "you have been selected"
             #student_id = request.form['student-id']
-            cursor.execute("SELECT job_title, job_duration,positions_available FROM job_posts WHERE job_id = ?", (job_id,))
+            cursor.execute("SELECT job_title, job_duration,positions_available, work_location FROM job_posts WHERE job_id = ?", (job_id,))
             user = cursor.fetchone()
            
             # Get the current number of positions filled for the job
@@ -1366,8 +1369,9 @@ def notify(student_id,job_id):
                 print("Cannot send notification. Maximum positions filled.")
                 return "Cannot send notification. Maximum positions filled.", 300
             
-            cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
-                    (student_id, job_id, user[0], user[1], message, confirm))
+            cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, work_location, confirm) VALUES (?, ?, ?, ?, ?, ?, ?)", 
+                    (student_id, job_id, user[0], user[1], message, user[3] ,confirm))
+            
             connection.commit()
             connection.close()     
         except sqlite3.Error as e:

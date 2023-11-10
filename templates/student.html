@@ -32,15 +32,15 @@
         }
 
         #viewForm-button {
-            margin:  1.5rem 0.5rem
+            margin: 1.5rem 0.5rem
         }
 
         #updateForm-button {
-            margin:  1.5rem 0.5rem
+            margin: 1.5rem 0.5rem
         }
 
         #deleteForm-button {
-            margin:  1.5rem 0.5rem
+            margin: 1.5rem 0.5rem
         }
 
 
@@ -105,99 +105,142 @@
 
     <!-- For table 1 -->
     <style>
-    .timeline-item {
-      position: relative;
-      margin-bottom: 50px;
-    }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
 
-    .timeline-date {
-      position: absolute;
-      top: -22px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #000;
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 14px;
-    }
+        .timeline-date {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #000;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
 
-    .timeline-content {
-      padding: 15px;
-      background-color: #f2f2f2;
-      border-radius: 4px;
-    }
+        .timeline-content {
+            padding: 15px;
+            background-color: #f2f2f2;
+            border-radius: 4px;
+        }
 
-    .timeline-table {
-      width: 80%;
-      border-collapse: collapse;
-      margin: auto;
-    }
+        .timeline-table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: auto;
+        }
 
-    .timeline-table th,
-    .timeline-table td {
-      border: 1px solid #000;
-      padding: 8px;
-      text-align: center;
-    }
+        .timeline-table th,
+        .timeline-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
 
-    .timeline-table th {
-      background-color: rgba(75, 73, 172, 0.135);
-      padding: 15px;
-      /*#f2f2f2*/
-    }
+        .timeline-table th {
+            background-color: rgba(75, 73, 172, 0.135);
+            padding: 15px;
+            /*#f2f2f2*/
+        }
     </style>
 
     <!-- For table 2 -->
     <style>
-    table {
-        margin: auto;
-        font-family: Arial, sans-serif;
-        background-color: #f9f9f987;
-        width: 90%;
-        border-collapse: collapse;
-    }
+        table {
+            margin: auto;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f987;
+            width: 90%;
+            border-collapse: collapse;
+        }
 
-    th {
-      padding: 15px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-      border-right: 1px solid #ddd;;    
-      border-left: 1px solid #ddd;  
-    }
+        th {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            ;
+            border-left: 1px solid #ddd;
+        }
 
-    td {
-        padding: 20px;
-        text-align: center;
-        border-bottom: 1px solid #dddddd50;
-        border-right: 1px solid #ddd;
-        border-left: 1px solid #ddd;
+        td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #dddddd50;
+            border-right: 1px solid #ddd;
+            border-left: 1px solid #ddd;
 
-    }
+        }
 
-    th {
-      background-color: rgba(91, 89, 165, 0.071);
-      width: 15%;
-    }
+        th {
+            background-color: rgba(91, 89, 165, 0.071);
+            width: 15%;
+        }
 
-    .day {
-      position: relative;
-      width: 0px;
-    }
+        .day {
+            position: relative;
+            width: 0px;
+        }
 
-   
-    .time {
-      color: #686767;
-    }
 
-    .event {
-      font-weight: bold;
-      color: #333;
-    }
+        .time {
+            color: #686767;
+        }
 
-    .description {
-      color: #666;
-    }
+        .event {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .description {
+            color: #666;
+        }
+    </style>
+
+    <!-- this style for notifications table -->
+    <title>Table with Buttons</title>
+    <style>
+        .table-container {
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button-container button {
+            margin-left: 5px;
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button-container button.confirm {
+            background-color: #26bb02;
+        }
+
+        .button-container button.reject {
+            background-color: #f44336;
+        }
     </style>
 </head>
 
@@ -270,14 +313,14 @@
                                                 onclick="location.href = '/find_job';" type="button"
                                                 aria-expanded="true">Seek job </button>
                                             <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "
-                                                style="height: 50px;  display: none;"
-                                                type="button" aria-expanded="true">View Profile</button>
+                                                style="height: 50px;  display: none;" type="button"
+                                                aria-expanded="true">View Profile</button>
                                             <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "
-                                                style="height: 50px;  display: none;"
-                                                type="button" aria-expanded="true">Update Profile</button>
+                                                style="height: 50px;  display: none;" type="button"
+                                                aria-expanded="true">Update Profile</button>
                                             <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "
-                                                style="height: 50px;  display: none;"
-                                                type="button" aria-expanded="true">Delete Profile</button>
+                                                style="height: 50px;  display: none;" type="button"
+                                                aria-expanded="true">Delete Profile</button>
                                             {% endif %}
 
                                         </form>
@@ -290,11 +333,44 @@
                                     <div class="notification-content text-center">
                                         <div class="notification-content text-center">
                                             {% if seekerForms %}
-                                            No notifications at the moment.<br>
-                                            You have already searched for part-time work. Please check back later for
-                                            updates.
+                                            {% if notifications %}
+                                            You have been selected for the below jobs<br>
+
+                                            <div class="table-container">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>job title</th>
+                                                            <th>duration of the job</th>
+                                                            <th>job location</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {% for notification in notifications %}
+                                                        <tr>
+                                                            <td>{{notification[3]}}</td>
+                                                            <td>{{notification[5]}} week</td>
+                                                            <td>{{notification[6]}}</td>
+                                                            <td class="button-container">
+                                                                <button class="confirm">confirm</button>
+                                                                <button class="reject">reject</button>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+
+
+                                                        <!-- Add more rows as needed -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
 
                                             <div id="flashMessage"></div>
+                                            {% else %}
+                                            No notifications at the moment.<br>
+                                            {% endif %}
 
 
                                             {% else %}
@@ -312,7 +388,7 @@
                                     </h4>
 
 
-                                    <div class="schedule-content"> 
+                                    <div class="schedule-content">
                                         <!-- Table 1 -->
                                         <table class="timeline-table">
                                             <thead>
@@ -401,12 +477,12 @@
                                                     <td class="timeline-item"></td>
                                                 </tr>
                                                 <tr>
-                                                <th>05:00 pm</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
+                                                    <th>05:00 pm</th>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
+                                                    <td class="timeline-item"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -416,100 +492,100 @@
                                         <!-- Table 2 -->
                                         <table>
                                             <thead>
-                                              <tr>
-                                                <th>Time</th>
-                                                <th>Monday</th>
-                                                <th>Tuesday</th>
-                                                <th>Wednesday</th>
-                                                <th>Thursday</th>
-                                                <th>Friday</th>
-                                              </tr>
+                                                <tr>
+                                                    <th>Time</th>
+                                                    <th>Monday</th>
+                                                    <th>Tuesday</th>
+                                                    <th>Wednesday</th>
+                                                    <th>Thursday</th>
+                                                    <th>Friday</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                              <tr>
-                                                <td class="time">08:00 am</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">09:00 am</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">10:00 am</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">11:00 am</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">12:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">01:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">02:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">03:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">04:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <tr>
-                                                <td class="time">05:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                              </tr>
-                                              <!-- Add more rows for each hour -->
+                                                <tr>
+                                                    <td class="time">08:00 am</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">09:00 am</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">10:00 am</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">11:00 am</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">12:00 pm</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">01:00 pm</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">02:00 pm</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">03:00 pm</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">04:00 pm</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="time">05:00 pm</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <!-- Add more rows for each hour -->
                                             </tbody>
                                         </table>
-                                      </div>
+                                    </div>
                                     <hr>
 
                                 </div>
@@ -736,7 +812,7 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener("DOMContentLoaded", function (event) {
         var flashMessage = getParameterByName("flashMessage");
         if (flashMessage) {
             var flashMessageElement = document.getElementById("flashMessage");

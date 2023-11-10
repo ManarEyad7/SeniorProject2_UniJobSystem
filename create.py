@@ -4,6 +4,7 @@ connection = sqlite3.connect("users_database.db")
 cursor = connection.cursor()
 #cursor.execute("""DROP TABLE notifications""")
 
+'''
 cursor.execute("""
 CREATE TABLE notifications (
     notification_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,14 +13,17 @@ CREATE TABLE notifications (
     title_job TEXT,
     message TEXT,
     duration_of_job TEXT,
+    work_location TEXT,
     confirm INTEGER,
+               
     FOREIGN KEY (student_id) REFERENCES users(id),
     FOREIGN KEY (id_job) REFERENCES job_posts(job_id),
     FOREIGN KEY (title_job) REFERENCES job_posts(job_title),
-    FOREIGN KEY (duration_of_job) REFERENCES job_posts(job_duration)
+    FOREIGN KEY (duration_of_job) REFERENCES job_posts(job_duration),
+    FOREIGN KEY (work_location) REFERENCES job_posts(work_location)
 )
 """)
-
+'''
 
 
 #cursor.execute("""
