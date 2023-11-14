@@ -819,17 +819,11 @@ def makedicforjob(job_data) :
     for i in range(0, len(job_data), 3):
         # Get the current set of 3 elements
         job_info = job_data[i:i + 3]
-<<<<<<< Updated upstream
         #print(job_info)
 
         # Check if job_data[i] is zero, and if so, don't add any time slots
         if job_info[0] == 0:
             day_index = (day_index + 1) % len(days)
-=======
-
-        # Check if job_data[i] is zero, and if so, don't add any time slots
-        if job_info[0] == 0:
->>>>>>> Stashed changes
             continue
 
         # Extract the start and end times
@@ -847,13 +841,10 @@ def makedicforjob(job_data) :
 
         # Move to the next day
         day_index = (day_index + 1) % len(days)
-<<<<<<< Updated upstream
     return my_dict
 
-=======
 
-    return my_dict
->>>>>>> Stashed changes
+    
 def makedicforStudents(students_time) :
     # Create a dictionary to store the student schedules
     student_schedules = {}
@@ -935,20 +926,14 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
     student_overlaps = defaultdict(dict)
 
     # Iterate through days in the student's schedule
-<<<<<<< Updated upstream
     #dict_keys(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'])
 
-=======
->>>>>>> Stashed changes
     for day in student_schedule.keys():
 
         if day in job_schedule:
             student_overlaps[day] = []
-<<<<<<< Updated upstream
             #print(job_schedule)
-=======
 
->>>>>>> Stashed changes
             # Iterate through each time slot in the student's schedule for the current day
             for student_slot in student_schedule[day]:
 
@@ -958,12 +943,9 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
                     # Split start and end times for the student and job slots
                     student_start, student_end = student_slot.split(" - ")
                     job_start, job_end = job_slot.split(" - ")
-<<<<<<< Updated upstream
                     
                     
-=======
 
->>>>>>> Stashed changes
                     # Convert start and end times to minutes
                     student_start_minutes = convert_to_minutes(student_start)
                     student_end_minutes = convert_to_minutes(student_end)
@@ -973,34 +955,23 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
                     # Calculate the overlap start and end times
                     overlap_start = max(student_start_minutes, job_start_minutes)
                     overlap_end = min(student_end_minutes, job_end_minutes)
-<<<<<<< Updated upstream
                     
                     # Check if there is an overlap
                     if overlap_start < overlap_end:
                         student_overlaps[day].append((overlap_start, overlap_end))
        
-=======
-
-                    # Check if there is an overlap
-                    if overlap_start < overlap_end:
-                        student_overlaps[day].append((overlap_start, overlap_end))
->>>>>>> Stashed changes
 
     # Calculate the alignment score as the sum of overlap times
     alignment_score = sum(
         (overlap[1] - overlap[0]) for overlaps in student_overlaps.values() for overlap in overlaps
     )
-<<<<<<< Updated upstream
     #print(alignment_score,student_overlaps)
 
    
     return alignment_score, student_overlaps
 
-=======
 
-   
-    return alignment_score, student_overlaps
->>>>>>> Stashed changes
+
 @app.route('/get_recommendations/<int:job_id>')
 def get_recommendations(job_id):
     if 'user_id' not in session:
@@ -1062,7 +1033,6 @@ def get_recommendations(job_id):
     elif job_time[2] == 'Fixed':
         # Create a dictionary for the job schedule
         job_schedule = makedicforjob(job_time[4:])
-<<<<<<< Updated upstream
         #print(job_time[4:])
 
         # Create a dictionary for the students' schedules
@@ -1070,14 +1040,6 @@ def get_recommendations(job_id):
         # Calculate alignment scores with overlaps for all students
         alignment_scores = calculate_alignment_scores_with_overlaps(students_schedules, job_schedule)
         #calculate_alignment_score_with_overlaps
-=======
-
-        # Create a dictionary for the students' schedules
-        students_schedules = makedicforStudents(students_time)
-
-        # Calculate alignment scores with overlaps for all students
-        alignment_scores = calculate_alignment_scores_with_overlaps(students_schedules, job_schedule)
->>>>>>> Stashed changes
 
         # Filter students with overlapping time greater than zero and store their data
         students_with_overlap = {}  # Dictionary to store data for students with overlap
@@ -1085,19 +1047,14 @@ def get_recommendations(job_id):
         for seeker in filtered_seekers_data2:
             student_id = seeker[7]
             alignment_score = alignment_scores.get(student_id, 0)
-<<<<<<< Updated upstream
             #print('alignment_score= ',alignment_score)
 
             if alignment_score > 0:
                 #print('before',seeker)
                 filtered_seeker = list(seeker[:3]) + list(seeker[4:])   # Add alignment score to the tuple
                 #print('after',filtered_seeker)
-=======
-
-            if alignment_score > 0:
-                filtered_seeker = list(seeker[:3]) + list(seeker[4:])   # Add alignment score to the tuple
->>>>>>> Stashed changes
                 filtered_seekers_data.append(filtered_seeker)
+                
 
                 # Store data for students with overlap
                 students_with_overlap[student_id] = {
@@ -1105,13 +1062,10 @@ def get_recommendations(job_id):
                     'alignment_score': alignment_score,
                     'schedule': students_schedules.get(student_id, {})
                 }
-<<<<<<< Updated upstream
         print(filtered_seekers_data)
         #print(students_with_overlap[38]['alignment_score'])
-=======
 
         
->>>>>>> Stashed changes
 
     if not filtered_seekers_data:
         message = "No suitable seekers found."
@@ -1412,11 +1366,7 @@ def notify(student_id,job_id):
             confirm = False
             message = "you have been selected"
             #student_id = request.form['student-id']
-<<<<<<< Updated upstream
             cursor.execute("SELECT job_title, job_duration,positions_available, work_location FROM job_posts WHERE job_id = ?", (job_id,))
-=======
-            cursor.execute("SELECT job_title, job_duration,positions_available FROM job_posts WHERE job_id = ?", (job_id,))
->>>>>>> Stashed changes
             user = cursor.fetchone()
            
             # Get the current number of positions filled for the job
@@ -1428,14 +1378,11 @@ def notify(student_id,job_id):
                 print("Cannot send notification. Maximum positions filled.")
                 return "Cannot send notification. Maximum positions filled.", 300
             
-<<<<<<< Updated upstream
             cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, work_location, confirm) VALUES (?, ?, ?, ?, ?, ?, ?)", 
                     (student_id, job_id, user[0], user[1], message, user[3] ,confirm))
             
-=======
             cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
                     (student_id, job_id, user[0], user[1], message, confirm))
->>>>>>> Stashed changes
             connection.commit()
             connection.close()     
         except sqlite3.Error as e:
