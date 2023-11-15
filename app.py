@@ -819,7 +819,6 @@ def makedicforjob(job_data) :
     for i in range(0, len(job_data), 3):
         # Get the current set of 3 elements
         job_info = job_data[i:i + 3]
-        #print(job_info)
 
         # Check if job_data[i] is zero, and if so, don't add any time slots
         if job_info[0] == 0:
@@ -841,10 +840,8 @@ def makedicforjob(job_data) :
 
         # Move to the next day
         day_index = (day_index + 1) % len(days)
+
     return my_dict
-
-
-    
 def makedicforStudents(students_time) :
     # Create a dictionary to store the student schedules
     student_schedules = {}
@@ -892,7 +889,7 @@ def makedicforStudents(students_time) :
 
     return student_schedules
 # Function to convert time in "hh:mm AM/PM" format to minutes
-def convert_to_minutes(time_str):
+def convert_to_minutes1(time_str):
     # Split time and meridiem (AM/PM)
     time, meridiem = time_str.split()
     hour, minute = time.split(":")
@@ -923,16 +920,26 @@ def calculate_alignment_scores_with_overlaps(students, job_schedule):
 def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
     from collections import defaultdict
 
-    student_overlaps = defaultdict(dict)
+    student_overlaps = defaultdict(list)
+    total_job_duration = 0
 
     # Iterate through days in the student's schedule
-    #dict_keys(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'])
-
     for day in student_schedule.keys():
 
         if day in job_schedule:
+            # Iterate through each time slot in the job schedule for the current day
+            for job_slot in job_schedule[day]:
+                # Split start and end times for the job slot
+                job_start, job_end = job_slot.split(" - ")
+
+                # Convert start and end times to minutes
+                job_start_minutes = convert_to_minutes1(job_start)
+                job_end_minutes = convert_to_minutes1(job_end)
+
+                # Calculate the job duration for the day
+                total_job_duration += job_end_minutes - job_start_minutes
+
             student_overlaps[day] = []
-            #print(job_schedule)
 
             # Iterate through each time slot in the student's schedule for the current day
             for student_slot in student_schedule[day]:
@@ -943,33 +950,29 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
                     # Split start and end times for the student and job slots
                     student_start, student_end = student_slot.split(" - ")
                     job_start, job_end = job_slot.split(" - ")
-                    
-                    
 
                     # Convert start and end times to minutes
-                    student_start_minutes = convert_to_minutes(student_start)
-                    student_end_minutes = convert_to_minutes(student_end)
-                    job_start_minutes = convert_to_minutes(job_start)
-                    job_end_minutes = convert_to_minutes(job_end)
+                    student_start_minutes = convert_to_minutes1(student_start)
+                    student_end_minutes = convert_to_minutes1(student_end)
+                    job_start_minutes = convert_to_minutes1(job_start)
+                    job_end_minutes = convert_to_minutes1(job_end)
 
                     # Calculate the overlap start and end times
                     overlap_start = max(student_start_minutes, job_start_minutes)
                     overlap_end = min(student_end_minutes, job_end_minutes)
-                    
+
                     # Check if there is an overlap
                     if overlap_start < overlap_end:
                         student_overlaps[day].append((overlap_start, overlap_end))
-       
 
     # Calculate the alignment score as the sum of overlap times
     alignment_score = sum(
         (overlap[1] - overlap[0]) for overlaps in student_overlaps.values() for overlap in overlaps
     )
-    #print(alignment_score,student_overlaps)
 
-   
-    return alignment_score, student_overlaps
-
+    # Normalize alignment score by dividing by total job duration
+    normalized_alignment_score = alignment_score / total_job_duration if total_job_duration != 0 else 0
+    return normalized_alignment_score, student_overlaps
 
 
 @app.route('/get_recommendations/<int:job_id>')
@@ -1117,12 +1120,21 @@ def get_recommendations(job_id):
 
         # Compute the cosine similarity
         similarity_scores = cosine_similarity(seekers_tfidf_matrix, job_tfidf_matrix)
+        # Check if job time is fixed
+        if job_time[2] == 'Fixed':
+            # Add overlapping scores to the similarity scores
+            for i, seeker in enumerate(filtered_seekers_data):
+                seeker_id = seeker[6]
+                overlapping_score = students_with_overlap[seeker_id]['alignment_score']
+                similarity_scores[i] = ((0.5) *similarity_scores[i] +(0.5) *overlapping_score) / 2
+
         top_seekers = np.argsort(similarity_scores, axis=0)[-9:][::-1].flatten()
         recommended_seekers = []
         
         seekers_data_dict = {seeker[6]: seeker for seeker in filtered_seekers_data}
         seekers_info_dict ={seekers_info[0]: seekers_info for seekers_info in seekers_info}
-
+        
+        
         for i in top_seekers:
             seeker_id = filtered_seekers_data[i][6]  # Get the seeker ID
             seeker = seekers_data_dict.get(seeker_id)  # Retrieve the seeker information using the seeker ID
