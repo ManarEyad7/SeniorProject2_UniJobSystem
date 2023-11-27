@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from datetime import datetime, timedelta
-
+from datetime import date
 
 #to save pdf file
 import os 
@@ -400,6 +400,41 @@ def employee():
         flash("You are not logged in. Please log in first.", 'error')
         return redirect(url_for("login"))
 
+
+def is_job_time(row, day, hour):
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM job_times")
+    job_times = cursor.fetchall()
+    for entry in job_times:
+        if entry['day'] == day and entry['hour'] == hour:
+            return True
+    return False
+
+# Define the is_job_time function
+def is_job_time2(job_times, day, hour):
+    for job_time in job_times:
+        if (
+            (day == 0 and job_time['sunday_job_periods'] > 0 and hour >= job_time['sunday_start'] and hour <= job_time['sunday_end']) or
+            (day == 1 and job_time['monday_job_periods'] > 0 and hour >= job_time['monday_start'] and hour <= job_time['monday_end']) or
+            (day == 2 and job_time['tuesday_job_periods'] > 0 and hour >= job_time['tuesday_start'] and hour <= job_time['tuesday_end']) or
+            (day == 3 and job_time['wednesday_job_periods'] > 0 and hour >= job_time['wednesday_start'] and hour <= job_time['wednesday_end']) or
+            (day == 4 and job_time['thursday_job_periods'] > 0 and hour >= job_time['thursday_start'] and hour <= job_time['thursday_end'])
+        ):
+            return True
+    return False
+
+def is_job_time3(job_times, day, hour):
+    for job_time in job_times:
+        if (
+            (day == 0 and int(job_time[2]) > 0 and int(hour) >= int(job_time[3]) and int(hour) <= int(job_time[4])) or
+            (day == 1 and int(job_time[5]) > 0 and int(hour) >= int(job_time[6]) and int(hour) <= int(job_time[7])) or
+            (day == 2 and int(job_time[8]) > 0 and int(hour) >= int(job_time[9]) and int(hour) <= int(job_time[10])) or
+            (day == 3 and int(job_time[11]) > 0 and int(hour) >= int(job_time[12]) and int(hour) <= int(job_time[13])) or
+            (day == 4 and int(job_time[14]) > 0 and int(hour) >= int(job_time[15]) and int(hour) <= int(job_time[16]))
+        ):
+            return True
+    return False
 @app.route('/student')
 def student():
     if 'user_id' in session:
@@ -415,13 +450,48 @@ def student():
             cursor.execute("SELECT * FROM seekers_form WHERE user_id = ?", (user_id,))
             seekerForms = cursor.fetchall()
 
-            cursor.execute("SELECT * FROM notifications WHERE student_id = ?", (user_id,))
+
+            #check before display
+            # Get the current date
+            current_date = date.today() 
+            confirm = 0
+            cursor.execute("SELECT end_date FROM notifications ")
+            rows = cursor.fetchall()
+
+            # Iterate through each row
+            for row in rows:
+                end_date = datetime.strptime(row[0], "%Y-%m-%d").date()
+    
+                if end_date <= current_date:
+                    # Delete the row where end_date has passed
+                    cursor.execute("DELETE FROM notifications WHERE end_date = ?", (row[0],))
+
+            cursor.execute("SELECT * FROM notifications WHERE student_id = ? AND confirm = ?", (user_id,confirm))
             notifications = cursor.fetchall()
 
             
+
+            confirm1 = 1
+            print("1")
+            cursor.execute("SELECT id_job FROM notifications WHERE student_id = ? AND confirm = ?", (user_id,confirm1))
+            #job_id = cursor.fetchone()
+            job_id_tuple = cursor.fetchone()
+            job_id = job_id_tuple[0] if job_id_tuple else None
+            print(job_id)
+            print("2")
+            cursor.execute("SELECT * FROM job_times  WHERE time_id = ?", (job_id,))
+            job_times = cursor.fetchall()
+
+            #Visualize_table(user_id,job_id)
+            print("3")
+
+            
+            print("44")
+
+            connection.commit()
             connection.close()
 
-            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications)
+            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications, job_times= job_times)
 
 
         except sqlite3.Error as e:
@@ -889,6 +959,7 @@ def makedicforStudents(students_time) :
             day_index = (day_index + 1) % len(days)
 
         student_schedules[student_name] = student_schedule
+        print(student_schedules)
 
     return student_schedules
 # Function to convert time in "hh:mm AM/PM" format to minutes
@@ -944,8 +1015,6 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
                     student_start, student_end = student_slot.split(" - ")
                     job_start, job_end = job_slot.split(" - ")
                     
-                    
-
                     # Convert start and end times to minutes
                     student_start_minutes = convert_to_minutes(student_start)
                     student_end_minutes = convert_to_minutes(student_end)
@@ -1130,13 +1199,16 @@ def get_recommendations(job_id):
             score = score * 100
             info = seekers_info_dict.get(seeker_id)
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
-            
+        
+        cursor.execute("SELECT * FROM notifications WHERE id_job = ? ", (job_id,))
+        notifications = cursor.fetchone()
+    
     
 
         cursor.close()
         conn.close()
 
-        return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id, job_title=job_title , user=user)
+        return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id, job_title=job_title , user=user, notifications=notifications)
 
 def check(s,e):
     return "Flase"
@@ -1365,6 +1437,13 @@ def notify(student_id,job_id):
         try:
             confirm = False
             message = "you have been selected"
+            # Get the current date
+            current_date = date.today()
+            
+
+            # Calculate the end date as three days after the current date
+            end_date = current_date + timedelta(days=1)
+
             #student_id = request.form['student-id']
             cursor.execute("SELECT job_title, job_duration,positions_available, work_location FROM job_posts WHERE job_id = ?", (job_id,))
             user = cursor.fetchone()
@@ -1378,11 +1457,25 @@ def notify(student_id,job_id):
                 print("Cannot send notification. Maximum positions filled.")
                 return "Cannot send notification. Maximum positions filled.", 300
             
-            cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, work_location, confirm) VALUES (?, ?, ?, ?, ?, ?, ?)", 
-                    (student_id, job_id, user[0], user[1], message, user[3] ,confirm))
+            cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, work_location, confirm, current_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (student_id, job_id, user[0], user[1], message, user[3] ,confirm, current_date, end_date))
             
-            cursor.execute("INSERT INTO notifications (student_id, id_job,title_job, duration_of_job, message, confirm) VALUES (?, ?, ?, ?, ?, ?)", 
-                    (student_id, job_id, user[0], user[1], message, confirm))
+            #check before display
+            # Get the current date
+            current_date = date.today() 
+            print(current_date)
+            cursor.execute("SELECT end_date FROM notifications ")
+            rows  = cursor.fetchall()
+            print(notify)
+            for row in rows:
+                # Convert the notify[0] value to a date object
+                notify_date = datetime.strptime(row[0], "%Y-%m-%d").date()
+                print(notify_date)
+                if current_date >= notify_date:
+                    # Delete notifications where end_date has passed
+                    cursor.execute("DELETE FROM notifications WHERE end_date = ?", (row[0],))
+                    
+            
             connection.commit()
             connection.close()     
         except sqlite3.Error as e:
@@ -1393,3 +1486,276 @@ def notify(student_id,job_id):
  
     # You can return a response to the client if needed
     return "Notification sent successfully", 200
+
+@app.route('/confirm_notification/<int:student_id>/<int:notify_id>', methods=['GET', 'POST'])
+def confirm_notification(student_id,notify_id):
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    print(f"Sending notification to student with ID: {student_id}")
+    print(f"Sending notification ID2: {notify_id}")
+    print("p")
+    cursor.execute("SELECT id_job FROM notifications WHERE notification_id = ?", (notify_id,))
+    #job_id = cursor.fetchone()
+    job_id_tuple = cursor.fetchone()
+    job_id = job_id_tuple[0] if job_id_tuple else None
+    print(job_id)
+    print("r")
+    try:
+        print("i")
+        confirm = 1
+        cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+        print("n")
+        Visualize_table(student_id,job_id)
+        #get_schedules(job_id,student_id)
+        print("t")
+        connection.commit()
+        connection.close()
+
+               
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        #flash("An error occurred while fetching the job posts. Please try again.", 'error')
+        #return redirect(url_for('index'))
+    
+    
+
+    return redirect(url_for('student'))
+
+
+
+@app.route('/reject_notification/<int:student_id>/<int:notify_id>', methods=['GET', 'POST'])
+def reject_notification(student_id,notify_id):
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    print(f"Sending notification to student with ID: {student_id}")
+    print(f"Sending notification ID2: {notify_id}")
+    
+    
+    try:
+        #print("i")
+        confirm = 2
+        cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+        #print("n")
+        
+        #print("t")
+        connection.commit()
+        connection.close()
+
+               
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        #flash("An error occurred while fetching the job posts. Please try again.", 'error')
+        #return redirect(url_for('index'))
+    
+    
+
+    return redirect(url_for('student'))
+
+
+# Function to create a visual schedule representation as an HTML table
+def visualize_schedule_html(student_schedule, job_schedule, student_name):
+    days = list(student_schedule.keys())
+    #num_days = len(days)
+
+    # Create the HTML table
+    html_table = '<table>'
+    html_table += '<thead><tr><th></th>'
+    for day in days:
+        html_table += f'<th>{day}</th>'
+    html_table += '</tr></thead><tbody>'
+
+    for time in range(8, 18):  # Assuming 8 AM to 5 PM schedule
+        hour = f"{time:02d}:00"  # Format the hour as 'HH:00'
+
+        # Start a new row for each hour
+        html_table += f'<tr><th>{hour}</th>'
+
+        for day in days:
+            student_slots = student_schedule[day]
+            job_slots = job_schedule[day]
+            cell_class = "timeline-item"
+
+
+            for job_slot in job_slots:
+                job_start, job_end = job_slot.split(" - ")
+                job_start_hour = int(job_start.split(":")[0])
+                job_end_hour = int(job_end.split(":")[0])
+
+                if time >= job_start_hour and time < job_end_hour:
+                    cell_class = " job-period"
+            
+            for student_slot in student_slots:
+                student_start, student_end = student_slot.split(" - ")
+                student_start_hour = int(student_start.split(":")[0])
+                student_end_hour = int(student_end.split(":")[0])
+
+                if time >= student_start_hour and time < student_end_hour:
+                    cell_class = " student-period"
+
+
+            html_table += f'<td class="{cell_class}"></td>'
+
+        html_table += '</tr>'
+
+    html_table += '</tbody></table>'
+
+    # Generate the HTML file
+    html = f'''
+    <html>
+    <head>
+        <style>
+            table {{
+                border-collapse: collapse;
+            }}
+            th, td {{
+                border: 1px solid black;
+                padding: 8px;
+                text-align: center;
+            }}
+            .job-period {{
+                background-color: green;
+                opacity: 0.5;
+            }}
+            .student-period {{
+                background-color: red;
+                opacity: 0.5;
+            }}
+        </style>
+    </head>
+    <body>
+        <h2>Schedule for {student_name}</h2>
+        {html_table}
+    </body>
+    </html>
+    '''
+
+    # Save the HTML file
+    with open(f'{student_name}_schedule.html', 'w') as file:
+        file.write(html)
+
+def Visualize_table(student_id,job_id):
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+    print("a")
+    cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
+    job_time = cursor.fetchone()
+    print("b")
+    
+    cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
+    students_time = cursor.fetchall()
+    print("c")
+# Visualize the schedule for each student
+
+    # Create a dictionary for the job schedule
+    job_schedule = makedicforjob(job_time[4:])
+        #print(job_time[4:])
+
+    # Create a dictionary for the students' schedules
+    students_schedules = makedicforStudents(students_time)
+    for student, schedule in students_schedules.items():
+        visualize_schedule_html33(schedule, job_schedule, student)
+
+@app.route('/schedules/<job_id>/<student_id>', methods=['POST','GET'])
+def get_schedules(job_id,student_id):
+
+    #args = request.get_json()
+    #student_id = args['studentId']
+    #job_id = args['jobId']
+
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
+    job_time = cursor.fetchone()
+    
+    cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
+    students_time = cursor.fetchall()
+
+    # Retrieve the student_schedule and job_schedule data from your backend
+    student_schedule = makedicforStudents(students_time)  # Replace with your actual logic to fetch student schedule
+    job_schedule = makedicforjob(job_time[4:])     # Replace with your actual logic to fetch job schedule
+
+    # Return the schedules as a JSON response
+    return jsonify({
+        'student_schedule': student_schedule,
+        'job_schedule': job_schedule
+        
+    })
+
+
+
+
+
+# Function to insert the HTML table into an existing HTML file at a specific insertion point
+def insert_into_html_file(html_table, student_name, insertion_point):
+    with open('C:/Users/msi 1/OneDrive/Documents/GitHub/SeniorProject2_UniJobSystem/templates/student.html', 'r') as file:
+        content = file.read()
+    
+    # Find the insertion point in the HTML content
+    index = content.find(insertion_point)
+    
+    if index != -1:
+        # Insert the HTML table at the specified insertion point
+        updated_content = content[:index] + html_table + content[index:]
+        
+        # Write the updated content to the HTML file
+        with open('C:/Users/msi 1/OneDrive/Documents/GitHub/SeniorProject2_UniJobSystem/templates/student.html', 'w') as file:
+            file.write(updated_content)
+    else:
+        print("Insertion point not found in the HTML file.")
+
+# Function to create a visual schedule representation as an HTML table
+def visualize_schedule_html33(student_schedule, job_schedule, student_name):
+    days = list(student_schedule.keys())
+
+    # Create the HTML table
+    cell_class2 = "timeline-table"
+    html_table = f'<table class="{cell_class2}">'
+    
+    html_table += '<thead><tr><th></th>'
+    for day in days:
+        html_table += f'<th>{day}</th>'
+    html_table += '</tr></thead><tbody>'
+
+    for time in range(8, 18):  # Assuming 8 AM to 5 PM schedule
+        hour = f"{time:02d}:00"  # Format the hour as 'HH:00'
+
+        # Start a new row for each hour
+        html_table += f'<tr><th>{hour}</th>'
+
+        for day in days:
+            student_slots = student_schedule[day]
+            job_slots = job_schedule[day]
+            cell_class = "timeline-item"
+            
+            for student_slot in student_slots:
+                student_start, student_end = student_slot.split(" - ")
+                student_start_hour = int(student_start.split(":")[0])
+                student_end_hour = int(student_end.split(":")[0])
+
+                if time >= student_start_hour and time < student_end_hour:
+                    cell_class += " student-period"
+
+            for job_slot in job_slots:
+                job_start, job_end = job_slot.split(" - ")
+                job_start_hour = int(job_start.split(":")[0])
+                job_end_hour = int(job_end.split(":")[0])
+
+                if time >= job_start_hour and time < job_end_hour:
+                    cell_class += " job-period"
+
+            
+
+            html_table += f'<td class="{cell_class}"></td>'
+
+        html_table += '</tr>'
+
+    html_table += '</tbody></table>'
+
+    # Specify the insertion point in the HTML file
+    insertion_point = '<!-- INSERTION POINT -->'
+
+    # Insert the HTML table into the existing HTML file at the specified insertion point
+    insert_into_html_file(html_table, student_name, insertion_point)

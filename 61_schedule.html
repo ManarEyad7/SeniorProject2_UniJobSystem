@@ -1,0 +1,290 @@
+<html>
+
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .job-period {
+            background-color: green;
+            opacity: 0.5;
+        }
+
+        .student-period {
+            background-color: red;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Schedule for 61</h2>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>08:00</th>
+                <td class="timeline-item"></td>
+                <td class=" job-period"></td>
+                <td class=" student-period"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>09:00</th>
+                <td class="timeline-item"></td>
+                <td class=" job-period"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>10:00</th>
+                <td class="timeline-item"></td>
+                <td class=" job-period"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>11:00</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>12:00</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>13:00</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>14:00</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>15:00</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>16:00</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>17:00</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    <table class="timeline-table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hour in ['08:00 am', '09:00 am', '10:00 am', '11:00 am', '12:00 pm', '01:00 pm', '02:00 pm', '03:00
+            pm', '04:00 pm', '05:00 pm'] %}
+            <tr>
+                <th>{{ hour }}</th>
+                {% for day in [0, 1, 2, 3, 4] %}
+                <td class="timeline-item 
+                        {% if is_job_time(job_times, day, hour) %}
+                        timeline-item-filled  {% endif %}">
+                    {% for job_time in job_times %}
+                    {% if job_time['sunday_job_periods'] > 0 and day == 0 and hour >= job_time['sunday_start'] and hour
+                    <= job_time['sunday_end'] %} {{ job_time['fixed_flexible'] }} {% elif
+                        job_time['monday_job_periods']> 0 and day == 1 and hour >= job_time['monday_start'] and hour <=
+                            job_time['monday_end'] %} {{ job_time['fixed_flexible'] }} {% elif
+                            job_time['tuesday_job_periods']> 0 and day == 2 and hour >= job_time['tuesday_start'] and
+                            hour <= job_time['tuesday_end'] %} {{ job_time['fixed_flexible'] }} {% elif
+                                job_time['wednesday_job_periods']> 0 and day == 3 and hour >=
+                                job_time['wednesday_start'] and hour <= job_time['wednesday_end'] %} {{
+                                    job_time['fixed_flexible'] }} {% elif job_time['thursday_job_periods']> 0 and day ==
+                                    4 and hour >= job_time['thursday_start'] and hour <= job_time['thursday_end'] %} {{
+                                        job_time['fixed_flexible'] }} {% endif %} {% endfor %} </td>
+                                        {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <table class="timeline-table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if job_times %}
+            {% for job_time in job_times %}
+            {% for hour in ['08:00 am', '09:00 am', '10:00 am', '11:00 am', '12:00 pm', '01:00 pm', '02:00 pm', '03:00
+            pm', '04:00 pm', '05:00 pm'] %}
+            <tr>
+                <th>08:00 am</th>
+
+                {% if loop.index == 1 %}
+                {% if (job_time[4] != 0 and hour >= job_time['sunday_start'] and hour <= job_time['sunday_end']) or
+                    (hour>= job_time['monday_start'] and hour <= job_time['monday_end']) or (hour>=
+                        job_time['tuesday_start'] and hour <= job_time['tuesday_end']) or (hour>=
+                            job_time['wednesday_start'] and hour <= job_time['wednesday_end']) or (hour>=
+                                job_time['thursday_start'] and hour <= job_time['thursday_end']))%} <td
+                                    class=" job-period">
+                                    </td>
+                                    {% else %}
+                                    <td class="timeline-item"></td>
+
+                                    {% endif %}
+                                    {% endif %}
+
+            </tr>
+            <tr>
+                <th>09:00 am</th>
+                {% if loop.index == 2 %}
+                {% if job_time[4] != 0 and ((hour >= job_time['sunday_start'] and hour <= job_time['sunday_end']) or
+                    (hour>= job_time['monday_start'] and hour <= job_time['monday_end']) or (hour>=
+                        job_time['tuesday_start'] and hour <= job_time['tuesday_end']) or (hour>=
+                            job_time['wednesday_start'] and hour <= job_time['wednesday_end']) or (hour>=
+                                job_time['thursday_start'] and hour <= job_time['thursday_end']))%} <td
+                                    class=" job-period">
+                                    </td>
+                                    {% else %}
+                                    <td class="timeline-item"></td>
+
+                                    {% endif %}
+                                    {% endif %}
+            </tr>
+            <tr>
+                <th>10:00 am</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+
+            <tr>
+                <th>11:00 am</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>12:00 pm</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>01:00 pm</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>02:00 pm</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>03:00 pm</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>04:00 pm</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+            <tr>
+                <th>05:00 pm</th>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+                <td class="timeline-item"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    
+
+</body>
+
+</html>

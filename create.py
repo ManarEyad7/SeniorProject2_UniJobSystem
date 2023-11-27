@@ -15,7 +15,8 @@ CREATE TABLE notifications (
     duration_of_job TEXT,
     work_location TEXT,
     confirm INTEGER,
-               
+    current_date DATE,
+    end_date DATE,         
     FOREIGN KEY (student_id) REFERENCES users(id),
     FOREIGN KEY (id_job) REFERENCES job_posts(job_id),
     FOREIGN KEY (title_job) REFERENCES job_posts(job_title),
@@ -65,30 +66,31 @@ CREATE TABLE notifications (
 #)
 #""")
 
-#cursor.execute("""
-#CREATE TABLE job_times (
- #   job_time_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  #  time_id INTEGER,
-   # fixed_flexible TEXT,
-    #flexible_hours INTEGER
-#    sunday_job_periods INTEGER,
- #   sunday_start TEXT,
-  #  sunday_end TEXT,
-   # monday_job_periods INTEGER,
-    #monday_start TEXT,
-#    monday_end TEXT,
- #   tuesdayـjob_periods INTEGER,
-  #  tuesday_start TEXT,
-   # tuesday_end TEXT,
-    #wednesday_job_periods INTEGER,
-#    wednesday_start TEXT,
- #   wednesday_end TEXT,
-  #  thursday_job_periods INTEGER,
-   # thursday_start TEXT,
-    #thursday_end TEXT,
-#    FOREIGN KEY (time_id) REFERENCES job_posts(job_id)
-#)""")
-
+'''
+cursor.execute("""
+CREATE TABLE job_times (
+    job_time_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_id INTEGER,
+    fixed_flexible TEXT,
+    flexible_hours INTEGER
+    sunday_job_periods INTEGER,
+    sunday_start TEXT,
+    sunday_end TEXT,
+    monday_job_periods INTEGER,
+    monday_start TEXT,
+    monday_end TEXT,
+    tuesdayـjob_periods INTEGER,
+    tuesday_start TEXT,
+    tuesday_end TEXT,
+    wednesday_job_periods INTEGER,
+    wednesday_start TEXT,
+    wednesday_end TEXT,
+    thursday_job_periods INTEGER,
+    thursday_start TEXT,
+    thursday_end TEXT,
+    FOREIGN KEY (time_id) REFERENCES job_posts(job_id)
+)""")
+'''
 
 #cursor.execute("""
 #CREATE TABLE files (

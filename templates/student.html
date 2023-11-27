@@ -242,6 +242,39 @@
             background-color: #f44336;
         }
     </style>
+
+    <style>
+        table {
+
+            border-collapse: collapse;
+
+        }
+
+        th,
+        td {
+
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+
+        }
+
+        .job-period {
+
+            background-color: green;
+            opacity: 0.5;
+
+        }
+
+        .student-period {
+
+            background-color: red;
+            opacity: 0.5;
+
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -353,10 +386,13 @@
                                                             <td>{{notification[3]}}</td>
                                                             <td>{{notification[5]}} week</td>
                                                             <td>{{notification[6]}}</td>
-                                                            <td class="button-container">
-                                                                <button class="confirm">confirm</button>
-                                                                <button class="reject">reject</button>
-                                                            </td>
+                                                            <form method="GET">
+                                                                <td class="button-container">
+                                                                    <button class="confirm"
+                                                                        onclick="location.href = '/confirm_notification/{{ user[0] }}/{{ notification[0] }}';">confirm</button>
+                                                                    <button class="reject" onclick="location.href = '/reject_notification/{{ user[0] }}/{{ notification[0] }}';">reject</button>
+                                                                </td>
+                                                            </form>
                                                         </tr>
                                                         {% endfor %}
 
@@ -389,7 +425,17 @@
 
 
                                     <div class="schedule-content">
+                                        <!--<div id="schedule-table"></div>-->
+                                        
+                                        <div id="table-container"></div>
+
+                                        <!-- INSERTION POINT -->
+                                        
                                         <!-- Table 1 -->
+
+                                        
+                                        
+                                        <hr>
                                         <table class="timeline-table">
                                             <thead>
                                                 <tr>
@@ -402,22 +448,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-
+                                        
                                                 <tr>
                                                     <th>08:00 am</th>
+                                                    
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
+                                                    
+
                                                 </tr>
                                                 <tr>
                                                     <th>09:00 am</th>
+                                                    
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
+                                                   
                                                 </tr>
                                                 <tr>
                                                     <th>10:00 am</th>
@@ -427,7 +478,7 @@
                                                     <td class="timeline-item"></td>
                                                     <td class="timeline-item"></td>
                                                 </tr>
-                                                <!-- Add more rows for each hour -->
+                                                 
                                                 <tr>
                                                     <th>11:00 am</th>
                                                     <td class="timeline-item"></td>
@@ -486,9 +537,10 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-
+                                        
+                                        
                                         <hr>
-
+            
                                         <!-- Table 2 -->
                                         <table>
                                             <thead>
@@ -726,7 +778,157 @@
         }
     </script>
 
+    <!-- 
+    <script>
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+        var student_schedule = {};  // Replace with actual student schedule data
+        var job_schedule = {};      // Replace with actual job schedule data
+
+        var html_table = '<table>';
+        html_table += '<thead><tr><th></th>';
+
+        for (var i = 0; i < days.length; i++) {
+            html_table += '<th>' + days[i] + '</th>';
+        }
+
+        html_table += '</tr></thead><tbody>';
+
+        for (var time = 8; time < 18; time++) {  // Assuming 8 AM to 5 PM schedule
+            var hour = ('0' + time).slice(-2) + ':00';  // Format the hour as 'HH:00'
+
+            // Start a new row for each hour
+            html_table += '<tr><th>' + hour + '</th>';
+
+            for (var j = 0; j < days.length; j++) {
+                var day = days[j];
+                var student_slots = student_schedule[day];
+                var job_slots = job_schedule[day];
+                var cell_class = 'timeline-item';
+
+                for (var k = 0; k < job_slots.length; k++) {
+                    var job_slot = job_slots[k];
+                    var job_start = job_slot.split(' - ')[0];
+                    var job_end = job_slot.split(' - ')[1];
+                    var job_start_hour = parseInt(job_start.split(':')[0]);
+                    var job_end_hour = parseInt(job_end.split(':')[0]);
+
+                    if (time >= job_start_hour && time < job_end_hour) {
+                        cell_class = 'job-period';
+                    }
+                }
+
+                for (var l = 0; l < student_slots.length; l++) {
+                    var student_slot = student_slots[l];
+                    var student_start = student_slot.split(' - ')[0];
+                    var student_end = student_slot.split(' - ')[1];
+                    var student_start_hour = parseInt(student_start.split(':')[0]);
+                    var student_end_hour = parseInt(student_end.split(':')[0]);
+
+                    if (time >= student_start_hour && time < student_end_hour) {
+                        cell_class = 'student-period';
+                    }
+                }
+
+                html_table += '<td class="' + cell_class + '"></td>';
+            }
+
+            html_table += '</tr>';
+        }
+
+        html_table += '</tbody></table>';
+
+        // Set the contents of the table-container element to the generated html_table
+        document.getElementById('table-container').innerHTML = html_table;
+    </script>
+    -->
+    
+     
+
+    <script>
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+        
+    
+        // Make an HTTP request to the Flask server's endpoint to retrieve the schedules
+        fetch('/schedules', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            
+        })
+            .then(response => response.json())
+            .then(data => {
+                var student_schedule = data.student_schedule;
+                var job_schedule = data.job_schedule;
+                var cell_class2 = 'timeline-table';
+ 
+                var html_table = '<table class="' + cell_class2 + '">';
+                html_table += '<thead><tr><th></th>';
+    
+                for (var i = 0; i < days.length; i++) {
+                    html_table += '<th>' + days[i] + '</th>';
+                }
+    
+                html_table += '</tr></thead><tbody>';
+    
+                for (var time = 8; time < 18; time++) {  // Assuming 8 AM to 5 PM schedule
+                    var hour = ('0' + time).slice(-2) + ':00';  // Format the hour as 'HH:00'
+    
+                    // Start a new row for each hour
+                    html_table += '<tr><th>' + hour + '</th>';
+    
+                    for (var j = 0; j < days.length; j++) {
+                        var day = days[j];
+                        var student_slots = student_schedule[day];
+                        var job_slots = job_schedule[day];
+                        var cell_class = 'timeline-item';
+    
+                        for (var k = 0; k < job_slots.length; k++) {
+                            var job_slot = job_slots[k];
+                            var job_start = job_slot.split(' - ')[0];
+                            var job_end = job_slot.split(' - ')[1];
+                            var job_start_hour = parseInt(job_start.split(':')[0]);
+                            var job_end_hour = parseInt(job_end.split(':')[0]);
+    
+                            if (time >= job_start_hour && time < job_end_hour) {
+                                cell_class = 'job-period';
+                            }
+                        }
+    
+                        for (var l = 0; l < student_slots.length; l++) {
+                            var student_slot = student_slots[l];
+                            var student_start = student_slot.split(' - ')[0];
+                            var student_end = student_slot.split(' - ')[1];
+                            var student_start_hour = parseInt(student_start.split(':')[0]);
+                            var student_end_hour = parseInt(student_end.split(':')[0]);
+    
+                            if (time >= student_start_hour && time < student_end_hour) {
+                                cell_class = 'student-period';
+                            }
+                        }
+    
+                        html_table += '<td class="' + cell_class + '"></td>';
+                    }
+    
+                    html_table += '</tr>';
+                }
+    
+                html_table += '</tbody></table>';
+    
+                // Set the contents of the table-container element to the generated html_table
+                
+                document.getElementById('table-container').innerHTML = html_table;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+
+
+
+
 </body>
+
 
 
 <script>
