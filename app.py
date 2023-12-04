@@ -479,23 +479,45 @@ def student():
             job_id = job_id_tuple[0] if job_id_tuple else None
             print(job_id)
             print("2")
-            cursor.execute("SELECT * FROM job_times  WHERE time_id = ?", (job_id,))
-            job_times = cursor.fetchall()
+            #cursor.execute("SELECT * FROM job_times  WHERE time_id = ?", (job_id,))
+            #job_times = cursor.fetchall()
 
-            #Visualize_table(user_id,job_id)
             print("3")
+            print("33")
+            '''
+            select_query = SELECT day, student_name, job_start, job_end, student_start, student_end FROM schedule 
+            cursor.execute(select_query)
+            rows2 = cursor.fetchall()
 
+            table_data = []
+            for row in rows2:
+                day, student_name, job_start, job_end, student_start, student_end = row
+                table_data.append({
+                    'day': day,
+                    'student_name': student_name,
+                    'job_start': job_start,
+                    'job_end': job_end,
+                    'student_start': student_start,
+                    'student_end': student_end
+                    })
             
+            '''
+
             print("44")
 
+           
+           
+                
+            
+            
             connection.commit()
             connection.close()
 
-            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications, job_times= job_times)
+            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications)
 
 
         except sqlite3.Error as e:
-            print(f"An error occurred: {e}")
+            print(f"An error occurred1: {e}")
             flash("An error occurred while fetching the form. Please try again.", 'error')
             return redirect(url_for('index'))
     else:
@@ -911,6 +933,7 @@ def makedicforjob(job_data) :
 
         # Move to the next day
         day_index = (day_index + 1) % len(days)
+    print(my_dict)
     return my_dict
 
 
@@ -1504,24 +1527,45 @@ def confirm_notification(student_id,notify_id):
     try:
         print("i")
         confirm = 1
+        
         cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
         print("n")
-        Visualize_table(student_id,job_id)
-        #get_schedules(job_id,student_id)
+        generate_schedule(student_id,job_id)
+        print("tt")
+        
+
         print("t")
         connection.commit()
         connection.close()
 
                
     except sqlite3.Error as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred2: {e}")
         #flash("An error occurred while fetching the job posts. Please try again.", 'error')
         #return redirect(url_for('index'))
     
     
-
     return redirect(url_for('student'))
 
+def student_job(student_id,job_id):
+
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
+    job_time = cursor.fetchone()
+    
+    cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
+    students_time = cursor.fetchall()
+
+    # Retrieve the student_schedule and job_schedule data from your backend
+    student_schedule = makedicforStudents(students_time)  # Replace with your actual logic to fetch student schedule
+    job_schedule = makedicforjob(job_time[4:])
+
+    connection.commit()
+    connection.close()
+
+    return student_schedule,job_schedule
 
 
 @app.route('/reject_notification/<int:student_id>/<int:notify_id>', methods=['GET', 'POST'])
@@ -1676,6 +1720,7 @@ def get_schedules(job_id,student_id):
     # Retrieve the student_schedule and job_schedule data from your backend
     student_schedule = makedicforStudents(students_time)  # Replace with your actual logic to fetch student schedule
     job_schedule = makedicforjob(job_time[4:])     # Replace with your actual logic to fetch job schedule
+    
 
     # Return the schedules as a JSON response
     return jsonify({
@@ -1725,6 +1770,9 @@ def visualize_schedule_html33(student_schedule, job_schedule, student_name):
         # Start a new row for each hour
         html_table += f'<tr><th>{hour}</th>'
 
+    
+        
+
         for day in days:
             student_slots = student_schedule[day]
             job_slots = job_schedule[day]
@@ -1734,17 +1782,29 @@ def visualize_schedule_html33(student_schedule, job_schedule, student_name):
                 student_start, student_end = student_slot.split(" - ")
                 student_start_hour = int(student_start.split(":")[0])
                 student_end_hour = int(student_end.split(":")[0])
+                if time == 13:
+                    time == 1
+                elif time == 14:
+                    time == 2
+                elif time == 15:
+                    time == 3
+                elif time == 16:
+                    time == 4
+                elif time == 17:
+                    time == 5
 
-                if time >= student_start_hour and time < student_end_hour:
-                    cell_class += " student-period"
+                # time >= student_start_hour and time < student_end_hour:
+                    #cell_class = " student-period"
 
-            for job_slot in job_slots:
-                job_start, job_end = job_slot.split(" - ")
-                job_start_hour = int(job_start.split(":")[0])
-                job_end_hour = int(job_end.split(":")[0])
+                for job_slot in job_slots:
+                    job_start, job_end = job_slot.split(" - ")
+                    job_start_hour = int(job_start.split(":")[0])
+                    job_end_hour = int(job_end.split(":")[0])
+                    
+                    if time >= job_start_hour and time < job_end_hour and job_start_hour >= student_start_hour and job_end_hour < student_end_hour:
+                        cell_class = " job-period"
 
-                if time >= job_start_hour and time < job_end_hour:
-                    cell_class += " job-period"
+            
 
             
 
@@ -1759,3 +1819,163 @@ def visualize_schedule_html33(student_schedule, job_schedule, student_name):
 
     # Insert the HTML table into the existing HTML file at the specified insertion point
     insert_into_html_file(html_table, student_name, insertion_point)
+
+
+
+
+
+from datetime import datetime
+def generate_schedule(student_id, job_id):
+
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
+    job_time = cursor.fetchone()
+    
+    cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
+    students_time = cursor.fetchall()
+    print("problem")
+    print(students_time[0])
+    # Retrieve the student_schedule and job_schedule data from your backend
+    student_schedule = makedicforStudents2(students_time)  # Replace with your actual logic to fetch student schedule
+    job_schedule = makedicforjob(job_time[4:])
+
+    
+    overlapping_schedule = {}
+
+    for day in student_schedule:
+        student_schedule2 = student_schedule[day]
+        for time_range in student_schedule2:
+            student_start_time, student_end_time = time_range.split(" - ")
+            student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
+            student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
+            if day in job_schedule:
+                for job_time_range in job_schedule[day]:
+                    job_start_time, job_end_time = job_time_range.split(" - ")
+                    job_start_datetime = datetime.strptime(job_start_time, "%I:%M %p")
+                    job_end_datetime = datetime.strptime(job_end_time, "%I:%M %p")
+                    if student_start_datetime <= job_end_datetime and student_end_datetime >= job_start_datetime:
+                        overlapping_start_time = max(student_start_datetime, job_start_datetime)
+                        overlapping_end_time = min(student_end_datetime, job_end_datetime)
+                        
+                        # Check if the start time and end time are equal
+                        if overlapping_start_time != overlapping_end_time:
+                            overlapping_range = overlapping_start_time.strftime("%I:%M %p") + " - " + overlapping_end_time.strftime("%I:%M %p")
+                            overlapping_schedule.setdefault(day, []).append(overlapping_range)
+
+    # Filter out overlapping ranges where start time and end time are equal
+    overlapping_schedule = {day: overlapping_ranges for day, overlapping_ranges in overlapping_schedule.items() if overlapping_ranges}
+    print("overlapping")
+    print(overlapping_schedule)
+
+    for day, time_slots in overlapping_schedule.items():
+        for time_slot in time_slots:
+            start_time, end_time = time_slot.split(' - ')
+            cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+
+
+               
+    connection.commit()
+    connection.close()
+
+
+
+def makedicforStudents2(students_time) :
+    # Create a dictionary to store the student schedules
+    student_schedules = {}
+
+    # Days of the week
+    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"]
+
+    # Iterate through the list of students
+    for student_data in students_time:
+        # Extract the student index (e.g., 0 or 1)
+        student_index = student_data[0]
+        student_name = student_index
+
+        # Initialize a dictionary to store the schedule for each day
+        student_schedule = {day: [] for day in days}
+
+        day_index = 0
+
+        # Iterate through the student's data in increments of 1 or 2 elements
+        for i in range(1, len(student_data), 3):
+            # Extract the day and time data
+            slots = student_data[i]
+
+            if slots != 0:
+                # Get the current set of 3 elements
+                job_info = student_data[i:i + 3]
+                # Extract the start and end times
+                start_times = student_data[i + 1]
+                end_times = student_data[i + 2]
+                start_times = start_times.split(',')
+                end_times = end_times.split(',')
+
+                # Iterate through the times and add them to the corresponding day's list in the dictionary
+                for start, end in zip(start_times, end_times):
+                    t = start.strip() + " - " + end.strip()
+                    student_schedule[days[day_index]].append(t)
+            else:
+                # If there are no start or end times, store an empty list in the dictionary
+                student_schedule[days[day_index]] = []
+
+            # Move to the next day
+            day_index = (day_index + 1) % len(days)
+
+        student_schedules = student_schedule
+        print(student_schedules)
+
+    return student_schedules
+
+
+
+
+
+
+def visualize_schedule2(student_schedule, job_schedule, student_name):
+    # Create an empty string to store the HTML table
+    table_html = ''
+
+    # Iterate over the days in the schedule
+    for day, student_slots in student_schedule.items():
+        job_slots = job_schedule[day]
+        
+        cell_class2 = "timeline-table"
+   
+
+        # Create a row for each day
+        table_html += f'<tr><td>{day}</td>'
+
+        # Iterate over the job slots
+        for job_slot in job_slots:
+            job_start, job_end = job_slot.split(" - ")
+            job_start_minutes = convert_to_minutes(job_start)
+            job_end_minutes = convert_to_minutes(job_end)
+
+            # Create a cell for each job slot
+            table_html += f'<td style="background-color: lightblue;"></td>'
+
+            for student_slot in student_slots:
+                student_start, student_end = student_slot.split(" - ")
+                student_start_minutes = convert_to_minutes(student_start)
+                student_end_minutes = convert_to_minutes(student_end)
+
+                # Calculate the overlap start and end times
+                overlap_start = max(student_start_minutes, job_start_minutes)
+                overlap_end = min(student_end_minutes, job_end_minutes)
+
+                # Check if there is an overlap
+                if overlap_start < overlap_end:
+                    # Create a cell for each overlapping slot
+                    table_html += f'<td style="background-color: red; opacity: 0.5;"></td>'
+                else:
+                    # Create an empty cell
+                    table_html += '<td></td>'
+
+        # Close the row
+        table_html += '</tr>'
+
+    # Return the HTML table
+    return f'<table class="{cell_class2}">{table_html}</table>'

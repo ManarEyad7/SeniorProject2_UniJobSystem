@@ -2,7 +2,25 @@ import sqlite3
 connection = sqlite3.connect("users_database.db")
 
 cursor = connection.cursor()
-#cursor.execute("""DROP TABLE notifications""")
+#cursor.execute("""DROP TABLE schedule""")
+
+cursor.execute("CREATE TABLE IF NOT EXISTS schedule (schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,day TEXT, start_time TEXT, end_time TEXT,student_id INTEGER,job_id INTEGER, FOREIGN KEY (student_id) REFERENCES users(id),FOREIGN KEY (job_id) REFERENCES job_posts(job_id))")
+'''
+create_table_query = 
+CREATE TABLE IF NOT EXISTS schedule (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    day TEXT,
+    student_name TEXT,
+    job_start TEXT,
+    job_end TEXT,
+    student_start TEXT,
+    student_end TEXT
+);
+
+cursor.execute(create_table_query)
+
+'''
+
 
 '''
 cursor.execute("""
