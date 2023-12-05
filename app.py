@@ -986,7 +986,7 @@ def makedicforStudents(students_time) :
 
     return student_schedules
 # Function to convert time in "hh:mm AM/PM" format to minutes
-def convert_to_minutes(time_str):
+def convert_to_minutes2(time_str):
     # Split time and meridiem (AM/PM)
     time, meridiem = time_str.split()
     hour, minute = time.split(":")
@@ -1039,9 +1039,9 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
                     job_start, job_end = job_slot.split(" - ")
                     
                     # Convert start and end times to minutes
-                    student_start_minutes = convert_to_minutes(student_start)
-                    student_end_minutes = convert_to_minutes(student_end)
-                    job_start_minutes = convert_to_minutes(job_start)
+                    student_start_minutes = convert_to_minutes2(student_start)
+                    student_end_minutes = convert_to_minutes2(student_end)
+                    job_start_minutes = convert_to_minutes2(job_start)
                     job_end_minutes = convert_to_minutes(job_end)
 
                     # Calculate the overlap start and end times
@@ -1058,7 +1058,6 @@ def calculate_alignment_score_with_overlaps(student_schedule, job_schedule):
         (overlap[1] - overlap[0]) for overlaps in student_overlaps.values() for overlap in overlaps
     )
     #print(alignment_score,student_overlaps)
-
    
     return alignment_score, student_overlaps
 
@@ -1730,9 +1729,6 @@ def get_schedules(job_id,student_id):
     })
 
 
-
-
-
 # Function to insert the HTML table into an existing HTML file at a specific insertion point
 def insert_into_html_file(html_table, student_name, insertion_point):
     with open('C:/Users/msi 1/OneDrive/Documents/GitHub/SeniorProject2_UniJobSystem/templates/student.html', 'r') as file:
@@ -1821,9 +1817,6 @@ def visualize_schedule_html33(student_schedule, job_schedule, student_name):
     insert_into_html_file(html_table, student_name, insertion_point)
 
 
-
-
-
 from datetime import datetime
 def generate_schedule(student_id, job_id):
 
@@ -1880,7 +1873,6 @@ def generate_schedule(student_id, job_id):
     connection.close()
 
 
-
 def makedicforStudents2(students_time) :
     # Create a dictionary to store the student schedules
     student_schedules = {}
@@ -1928,11 +1920,6 @@ def makedicforStudents2(students_time) :
         print(student_schedules)
 
     return student_schedules
-
-
-
-
-
 
 def visualize_schedule2(student_schedule, job_schedule, student_name):
     # Create an empty string to store the HTML table
