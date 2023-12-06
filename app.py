@@ -1,3 +1,4 @@
+import time
 from flask import Flask, request, redirect , flash, url_for,render_template, session,send_file,jsonify
 import sqlite3
 from io import BytesIO
@@ -275,8 +276,10 @@ def post_job():
         work_location = request.form['work_location']
         fixed_flexible = request.form['fixed-flexible']
 
-        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, experience, job_duration, positions_available, required_languages,work_location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, job_title, required_major, min_gpa, ','.join(skills), experience, job_duration, positions_available, ','.join(required_languages),work_location))
+        submission_date = datetime.now().strftime('%B %d, %Y')
+
+        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, experience, job_duration, positions_available, required_languages, work_location, submission_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    (user_id, job_title, required_major, min_gpa, ','.join(skills), experience, job_duration, positions_available, ','.join(required_languages), work_location, submission_date))
         # Retrieve the reference key (last inserted row ID)
         reference_key = cursor.lastrowid
 
@@ -360,6 +363,8 @@ def post_job():
         #               (user_id,fixed_flexible,flexible_hours,sunday_periods,','.join(map(str, sundayStarts)),','.join(map(str, sundayEnds)),monday_periods,','.join(map(str, mondayStarts)),','.join(map(str, mondayEnds)),tuesdayـperiods,','.join(map(str, tuesdayStarts)),','.join(map(str, tuesdayEnds)),wednesday_periods,','.join(map(str, wednesdayStarts)),','.join(map(str, wednesdayEnds)),thursday_periods,','.join(map(str, thursdayStarts)),','.join(map(str, thursdayEnds)) ))
         connection.commit()
         connection.close()
+        time.sleep(1.7)
+
         return redirect(url_for("employee"))
 
     cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
@@ -370,12 +375,13 @@ def post_job():
     else:
         flash("User not found. Please log in again.", 'error')
         return redirect(url_for("login"))
-    
-@app.route('/employee')
+from collections import Counter
+
+@app.route('/employee', methods=['GET', 'POST'])
 def employee():
     if 'user_id' in session:
         user_id = session['user_id']
-        
+
         try:
             connection = sqlite3.connect("users_database.db")
             cursor = connection.cursor()
@@ -383,18 +389,33 @@ def employee():
             cursor.execute("SELECT id, password, position, name, email FROM users WHERE id = ?", (user_id,))
             user = cursor.fetchone()
 
+   
             cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
-            jobs = cursor.fetchall()
-            
-            #session['job_id'] = jobs[0]
-            connection.close()
+                
 
+            jobs = cursor.fetchall()  # Convert tuple to a list
+            cursor.execute("""
+                SELECT job_posts.*, notifications.confirm
+                FROM job_posts
+                JOIN notifications ON job_posts.job_id = notifications.id_job
+                WHERE job_posts.user_id = ?
+            """, (user_id,))
+            result = cursor.fetchall()
+
+            # Count occurrences of each job_id
+            job_id_counter = Counter(row[0] for row in result)
+            print(job_id_counter)
+
+            # Append the count to the corresponding job in the jobs list
+            for i, job  in enumerate(jobs):
+                jobs[i] = job + (job_id_counter.get(job[0], 0),)
+            print(jobs)
+            connection.close()
             return render_template('employee.html', jobs=jobs, user=user)
-        
 
         except sqlite3.Error as e:
-            print(f"An error occurred: {e}")
-            flash("An error occurred while fetching the job posts. Please try again.", 'error')
+            print(f"SQLite error: {e}")
+            flash(f"An error occurred while fetching the job posts. Error details: {e}", 'error')
             return redirect(url_for('index'))
     else:
         flash("You are not logged in. Please log in first.", 'error')
@@ -794,6 +815,24 @@ def employeeCancle():
 
     cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
     jobs = cursor.fetchall()
+    
+    cursor.execute("""
+    SELECT job_posts.*, notifications.confirm
+    FROM job_posts
+    JOIN notifications ON job_posts.job_id = notifications.id_job
+    WHERE job_posts.user_id = ?
+    """, (user_id,))
+    result = cursor.fetchall()
+
+    # Count occurrences of each job_id
+    job_id_counter = Counter(row[0] for row in result)
+
+    # Append the count to the corresponding job in the jobs list
+    for i, job  in enumerate(jobs):
+        jobs[i] = job + (job_id_counter.get(job[0], 0),)
+    
+
+
 
     return render_template('employee.html', jobs=jobs, user=user)
 

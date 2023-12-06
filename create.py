@@ -146,5 +146,19 @@ for i in range(196):
     query = "INSERT INTO users VALUES ('{}', '{}', '{}', '{}', '{}')".format(id, password, name, email, user_type)
     cursor.execute(query)
 '''
+""""
+# Modify the job_posts table to include the submission_date column
+# Check if the column exists in the table
+cursor.execute("PRAGMA table_info(job_posts)")
+columns = cursor.fetchall()
+column_names = [column[1] for column in columns]
+if 'submission_date' not in column_names:
+    # If the column doesn't exist, add it
+    cursor.execute('ALTER TABLE job_posts ADD COLUMN submission_date TEXT')
+
 
 connection.commit()
+
+# Close the connection
+"""
+connection.close()
