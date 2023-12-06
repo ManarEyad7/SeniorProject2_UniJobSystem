@@ -18,1645 +18,315 @@
     <link rel="stylesheet" href="{{url_for('static',filename='vendors/select2/select2.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='vendors/feather/feather.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
-    <link rel="stylesheet" href="./static/fold/styleJoblist.css">
-    <link rel="stylesheet" href="../../static/vendors/mdi/css/materialdesignicons.min.css">
 
     <!-- JS files -->
     <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
-
 </head>
-<style>
-    .card {
-        width: 100%;
-        max-width: none;
-        /* Add this line to remove the maximum width constraint */
-    }
-
-
-
-
-    @media (max-width: 600px) {
-
-        .kk {
-            margin-left: 0%;
-            margin-right: 0%;
-        }
-
-        .content-wrapper {
-            padding: 0%;
-        }
-
-        .d {
-            padding: 0%;
-            margin: 0;
-        }
-
-
-        .card {
-            background-color: rgba(0, 0, 0, 0);
-        }
-
-        .job-post-container {
-            min-height: 300px;
-            max-height: fit-content;
-            /* Adjust to fit exactly 4 job postings, you might need to change this */
-            overflow-y: hidden;
-        }
-
-        .welcome-section {
-            display: none;
-        }
-
-    }
-
-    /***/
-    /*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
-    #header {
-        transition: all 0.5s;
-        z-index: 997;
-        transition: all 0.5s;
-        padding: 15px 0;
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
-
-
-    }
-
-    #header.header-transparent {
-        background: transparent;
-    }
-
-    #header.header-scrolled {
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    #header .logo h1 {
-        font-size: 30px;
-        margin: 0;
-        line-height: 1;
-        font-weight: 400;
-        letter-spacing: 2px;
-    }
-
-    /*--------------------------------------------------------------
-# Navigation Menu
---------------------------------------------------------------*/
-    /**
-* Desktop Navigation 
-*/
-    .navbar {
-        padding: 0;
-
-    }
-
-    .navbar ul {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        list-style: none;
-        align-items: center;
-    }
-
-    .navbar li {
-        position: relative;
-    }
-
-    .navbar a,
-    .navbar a:focus {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 0 10px 30px;
-        font-family: "Raleway", sans-serif;
-        font-size: 15px;
-        color: #47536e;
-        white-space: nowrap;
-        transition: 0.3s;
-    }
-
-    .navbar a i,
-    .navbar a:focus i {
-        font-size: 12px;
-        line-height: 0;
-        margin-left: 5px;
-    }
-
-    .navbar a:hover,
-    .navbar .active,
-    .navbar .active:focus,
-    .navbar li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar .getstarted,
-    .navbar .getstarted:focus {
-        background: #5777ba;
-        color: #fff;
-        padding: 12px 25px;
-        margin-left: 30px;
-        color: #fff;
-        line-height: 1;
-        border-radius: 50px;
-    }
-
-    .navbar .getstarted:hover,
-    .navbar .getstarted:focus:hover {
-        background: #748ec6;
-        color: #fff;
-    }
-
-    .navbar .dropdown ul {
-        display: block;
-        position: absolute;
-        left: 14px;
-        top: calc(100% + 30px);
-        margin: 0;
-        padding: 10px 0;
-        z-index: 99;
-        opacity: 0;
-        visibility: hidden;
-        background: #fff;
-        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-        transition: 0.3s;
-        border-radius: 4px;
-    }
-
-    .navbar .dropdown ul li {
-        min-width: 200px;
-    }
-
-    .navbar .dropdown ul a {
-        padding: 10px 20px;
-        font-size: 15px;
-        text-transform: none;
-        font-weight: 600;
-    }
-
-    .navbar .dropdown ul a i {
-        font-size: 12px;
-    }
-
-    .navbar .dropdown ul a:hover,
-    .navbar .dropdown ul .active:hover,
-    .navbar .dropdown ul li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar .dropdown:hover>ul {
-        opacity: 1;
-        top: 100%;
-        visibility: visible;
-    }
-
-    .navbar .dropdown .dropdown ul {
-        top: 0;
-        left: calc(100% - 30px);
-        visibility: hidden;
-    }
-
-    .navbar .dropdown .dropdown:hover>ul {
-        opacity: 1;
-        top: 0;
-        left: 100%;
-        visibility: visible;
-    }
-
-    @media (max-width: 1366px) {
-        .navbar .dropdown .dropdown ul {
-            left: -90%;
-        }
-
-        .navbar .dropdown .dropdown:hover>ul {
-            left: -100%;
-        }
-    }
-
-    /**
-* Mobile Navigation 
-*/
-    .mobile-nav-toggle {
-        color: #47536e;
-        font-size: 28px;
-        cursor: pointer;
-        display: none;
-        line-height: 0;
-        transition: 0.5s;
-    }
-
-    .mobile-nav-toggle.bi-x {
-        color: #fff;
-    }
-
-    @media (max-width: 991px) {
-        .mobile-nav-toggle {
-            display: block;
-        }
-
-        .navbar ul {
-            display: none;
-        }
-    }
-
-    .navbar-mobile {
-        position: fixed;
-        overflow: hidden;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        background: rgba(51, 60, 79, 0.9);
-        transition: 0.3s;
-        z-index: 999;
-    }
-
-    .navbar-mobile .mobile-nav-toggle {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-    }
-
-    .navbar-mobile ul {
-        display: block;
-        position: absolute;
-        top: 55px;
-        right: 15px;
-        bottom: 15px;
-        left: 15px;
-        padding: 10px 0;
-        border-radius: 6px;
-        background-color: #fff;
-        overflow-y: auto;
-        transition: 0.3s;
-    }
-
-    .navbar-mobile a,
-    .navbar-mobile a:focus {
-        padding: 10px 20px;
-        font-size: 15px;
-        color: #47536e;
-    }
-
-    .navbar-mobile a:hover,
-    .navbar-mobile .active,
-    .navbar-mobile li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar-mobile .getstarted,
-    .navbar-mobile .getstarted:focus {
-        margin: 15px;
-    }
-
-    .navbar-mobile .dropdown ul {
-        position: static;
-        display: none;
-        margin: 10px 20px;
-        padding: 10px 0;
-        z-index: 99;
-        opacity: 1;
-        visibility: visible;
-        background: #fff;
-        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-    }
-
-    .navbar-mobile .dropdown ul li {
-        min-width: 200px;
-    }
-
-    .navbar-mobile .dropdown ul a {
-        padding: 10px 20px;
-    }
-
-    .navbar-mobile .dropdown ul a i {
-        font-size: 12px;
-    }
-
-    .navbar-mobile .dropdown ul a:hover,
-    .navbar-mobile .dropdown ul .active:hover,
-    .navbar-mobile .dropdown ul li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar-mobile .dropdown>.dropdown-active {
-        display: block;
-    }
-
-    /*--------------------------------------------------------------
-# Hero Section
---------------------------------------------------------------*/
-    #hero {
-        width: 100%;
-        height: 20px;
-        position: relative;
-        overflow: hidden;
-        padding: 90px 0 100px 0;
-        background: #F5F7FF;
-        z-index: 1;
-        /*
-background-image: url("static/images/5654986r.jpg");
-background-repeat: no-repeat; 
-background-size: cover; 
-background-position: center center; 
-position: relative; 
-*/
-    }
-
-    /*
-    #hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
-
-    }
-*/
-    a {
-        color: #5777ba;
-        text-decoration: none;
-    }
-
-    a:hover {
-        color: #7b94c9;
-        text-decoration: none;
-    }
-
-    .container,
-    .container-fluid,
-    .container-lg,
-    .container-md,
-    .container-sm,
-    .container-xl,
-    .container-xxl {
-        --bs-gutter-x: 1.5rem;
-        --bs-gutter-y: 0;
-        width: 100%;
-        padding-right: calc(var(--bs-gutter-x) * .5);
-        padding-left: calc(var(--bs-gutter-x) * .5);
-        margin-right: auto;
-        margin-left: auto
-    }
-
-    @media (min-width:576px) {
-
-        .container,
-        .container-sm {
-            max-width: 540px
-        }
-    }
-
-    @media (min-width:768px) {
-
-        .container,
-        .container-md,
-        .container-sm {
-            max-width: 720px
-        }
-    }
-
-    @media (min-width:992px) {
-
-        .container,
-        .container-lg,
-        .container-md,
-        .container-sm {
-            max-width: 960px
-        }
-    }
-
-    @media (min-width:1200px) {
-
-        .container,
-        .container-lg,
-        .container-md,
-        .container-sm,
-        .container-xl {
-            max-width: 1140px
-        }
-    }
-
-    @media (min-width:1400px) {
-
-        .container,
-        .container-lg,
-        .container-md,
-        .container-sm,
-        .container-xl,
-        .container-xxl {
-            max-width: 1320px
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .kk {
-            max-width: 1140px;
-        }
-    }
-
-    .dropdown button i {
-        border-radius: 50%;
-        /* Make the icon circular */
-        background-color: #ffffff;
-        /* Set the background color to match your design */
-        padding: 8px;
-        /* Adjust the padding as needed */
-    }
-
-
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
-
-    * {
-        padding: 0;
-        margin: 0;
-    }
-
-    .content-wrapper {
-        /* background-image: url("static/images/b1.png"); /* Set a background image */
-        background-repeat: no-repeat;
-        /* Prevent the background image from repeating */
-        background-size: cover;
-        /* Scale the background image to cover the entire body */
-        background-color: #F5F7FF;
-        background-position: center center;
-        /* Center the background image */
-        position: relative;
-        /* Set the position of the body element to relative */
-    }
-
-    /*
-.content-wrapper::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(75, 73, 172, 0.2); 
-}
-*/
-
-
-    .content-wrapper .container {
-        min-height: 50vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-
-    }
-
-    .container .card {
-        height: 565px;
-        width: 80%;
-        background-color: #fff;
-        position: relative;
-        top: 0;
-        /* box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);*/
-        border-radius: 20px;
-    }
-
-
-
-    .container .card .form {
-        width: 100%;
-        height: 100%;
-
-        display: flex;
-    }
-
-    .container .card .left-side {
-        width: 35%;
-        background-color: #ffffff;
-        height: 100%;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
-        padding: 20px 30px;
-        box-sizing: border-box;
-
-    }
-
-    /*left-side-start*/
-    .left-heading {
-        color: #404145;
-
-
-    }
-
-    .steps-content {
-
-        margin-top: 14px;
-        color: #404145;
-
-    }
-
-
-    .steps-content p {
-        font-size: 0.95rem;
-        display: inline;
-        color: #646464;
-
-
-    }
-
-    .progress-bar {
-        list-style: none;
-        /*color:#fff;*/
-        margin-top: 30px;
-        font-size: 1rem;
-        font-weight: 700;
-        counter-reset: container 0;
-    }
-
-    .progress-bar li {
-        position: relative;
-        margin-left: 40px;
-        margin-top: 50px;
-        counter-increment: container 1;
-        color: #d5d6d6;
-    }
-
-    .progress-bar li::before {
-        content: counter(container);
-        text-align: center;
-        position: absolute;
-        height: 30px;
-        width: 30px;
-        border: 1px solid #d5d6d6;
-        border-radius: 50%;
-        left: -42px;
-        top: -5px;
-        z-index: 10;
-        color: #ffffff;
-        background-color: #d5d6d6;
-
-
-    }
-
-
-    .progress-bar li::after {
-        content: '';
-        position: absolute;
-        height: 90px;
-        width: 2px;
-        background-color: #d5d6d6;
-        z-index: 1;
-        left: -27px;
-        top: -70px;
-    }
-
-
-    .progress-bar li.active::after {
-        background-color: #4B49AC;
-
-    }
-
-    .progress-bar li:first-child:after {
-        display: none;
-    }
-
-    /*.progress-bar li:last-child:after{*/
-    /*  display:none;  */
-    /*}*/
-    .progress-bar li.active::before {
-        color: #ffffff;
-        background-color: #4B49AC;
-        border: 1px solid #4B49AC;
-    }
-
-    .progress-bar li.active {
-        color: #4B49AC;
-    }
-
-    .d-none {
-        display: none;
-    }
-
-    /*left-side-end*/
-    .container .card .right-side {
-        width: 65%;
-        background-color: #fff;
-        height: 100%;
-        border-radius: 20px;
-    }
-
-    /*right-side-start*/
-    .main {
-        display: none;
-    }
-
-    .active {
-        display: block;
-    }
-
-    .main {
-        padding: 40px;
-        padding-top: 20px;
-    }
-
-    .main small {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 0px;
-        height: 10px;
-        width: 100%;
-        background-color: #F5F7FF;
-        border-radius: 2%;
-        color: rgb(18, 18, 18);
-        font-size: 19px;
-    }
-
-    .text {
-        margin-top: 20px;
-    }
-
-    .congrats {
-        text-align: center;
-    }
-
-    .text p {
-        margin-top: 10px;
-        font-size: 13px;
-        font-weight: 700;
-        color: #cbced4;
-    }
-
-    .input-text {
-        margin: 30px 0;
-        display: flex;
-        gap: 20px;
-    }
-
-    .input-text .input-div {
-        width: 100%;
-        position: relative;
-
-    }
-
-
-
-    input[type="text"] {
-        width: 100%;
-        height: 40px;
-        border: none;
-        outline: 0;
-        border-radius: 5px;
-        border: 1px solid #cbced4;
-        gap: 20px;
-        box-sizing: border-box;
-        padding: 0px 10px;
-    }
-
-    select {
-        width: 100%;
-        height: 40px;
-        border: none;
-        outline: 0;
-        border-radius: 5px;
-        border: 1px solid #cbced4;
-        gap: 20px;
-        box-sizing: border-box;
-        padding: 0px 10px;
-    }
-
-    .input-text .input-div span {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        font-size: 14px;
-        transition: all 0.5s;
-    }
-
-    .input-div input:focus~span,
-    .input-div input:valid~span {
-        top: -15px;
-        left: 6px;
-        font-size: 10px;
-        font-weight: 600;
-    }
-
-    .input-div span {
-        top: -15px;
-        left: 6px;
-        font-size: 10px;
-    }
-
-    .buttons button {
-        height: 40px;
-        width: 100px;
-        border: none;
-        border-radius: 10px;
-        background-color: #4B49AC;
-        font-size: 12px;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    .button_space {
-        display: flex;
-        gap: 20px;
-
-    }
-
-    .button_space button:nth-child(1) {
-        background-color: #fff;
-        color: #4B49AC;
-        border: 1px solid#4B49AC;
-    }
-
-    .user_card {
-        margin-top: 20px;
-        margin-bottom: 40px;
-        height: 200px;
-        width: 100%;
-        border: 1px solid #c7d3d9;
-        border-radius: 10px;
-        display: flex;
-        overflow: hidden;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .user_card span {
-        height: 80px;
-        width: 100%;
-        background-color: #dfeeff;
-    }
-
-    .circle {
-        position: absolute;
-        top: 40px;
-        left: 60px;
-    }
-
-    .circle span {
-        height: 70px;
-        width: 70px;
-        background-color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid #fff;
-        border-radius: 50%;
-    }
-
-    .circle span img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .social {
-        display: flex;
-        position: absolute;
-        top: 100px;
-        right: 10px;
-    }
-
-    .social span {
-        height: 30px;
-        width: 30px;
-        border-radius: 7px;
-        background-color: #fff;
-        border: 1px solid #cbd6dc;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 10px;
-        color: #cbd6dc;
-
-    }
-
-    .social span i {
-        cursor: pointer;
-    }
-
-    .heart {
-        color: red !important;
-    }
-
-    .share {
-        color: red !important;
-    }
-
-    .user_name {
-        position: absolute;
-        top: 110px;
-        margin: 10px;
-        padding: 0 30px;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-
-    }
-
-    .user_name h3 {
-        color: #4c5b68;
-    }
-
-    .detail {
-        /*margin-top:10px;*/
-        display: flex;
-        justify-content: space-between;
-        margin-right: 50px;
-    }
-
-    .detail p {
-        font-size: 12px;
-        font-weight: 700;
-
-    }
-
-    .detail p a {
-        text-decoration: none;
-        color: blue;
-    }
-
-
-
-
-
-
-    .checkmark__circle {
-        stroke-dasharray: 166;
-        stroke-dashoffset: 166;
-        stroke-width: 2;
-        stroke-miterlimit: 10;
-        stroke: #7ac142;
-        fill: none;
-        animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-    }
-
-    .checkmark {
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        display: block;
-        stroke-width: 2;
-        stroke: #fff;
-        stroke-miterlimit: 10;
-        margin: 10% auto;
-        box-shadow: inset 0px 0px 0px #7ac142;
-        animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
-    }
-
-    .checkmark__check {
-        transform-origin: 50% 50%;
-        stroke-dasharray: 48;
-        stroke-dashoffset: 48;
-        animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-    }
-
-    @keyframes stroke {
-        100% {
-            stroke-dashoffset: 0;
-        }
-    }
-
-    @keyframes scale {
-
-        0%,
-        100% {
-            transform: none;
-        }
-
-        50% {
-            transform: scale3d(1.1, 1.1, 1);
-        }
-    }
-
-    @keyframes fill {
-        100% {
-            box-shadow: inset 0px 0px 0px 30px #7ac142;
-        }
-    }
-
-    .warning {
-        border: 1px solid red !important;
-    }
-
-
-    /*right-side-end*/
-    @media (max-width:750px) {
-        .container {
-            height: scroll;
-
-
-        }
-
-        .container .card {
-            max-width: 350px;
-            height: auto !important;
-            margin: 30px 0;
-        }
-
-        .container .card .right-side {
-            width: 100%;
-
-        }
-
-        .input-text {
-            display: block;
-        }
-
-        .input-text .input-div {
-            margin-top: 20px;
-
-        }
-
-        .container .card .left-side {
-
-            display: none;
-        }
-    }
-
-    .custom-file-upload-hidden {
-        display: none;
-        visibility: hidden;
-        position: absolute;
-        left: -9999px;
-    }
-
-
-
-
-    .file-upload-button {
-        cursor: pointer;
-        position: relative;
-        display: inline-block;
-        color: #fff;
-        border: none;
-        height: 40px;
-        border-radius: 10px;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        width: 20%;
-        background-color: #4B49AC;
-        /* IE 9 Fix */
-        @include transition(all 0.2s ease-in);
-
-        &:hover {
-            background-color: darken(#4B49AC, 20);
-        }
-
-    }
-
-    .custom-file-upload input[type="text"] {
-        /* Your custom styles for input[type="text"] */
-        text-align: justify;
-        width: 80%;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        color : #444;
-
-    }
-
-    .custom-file-upload input {
-        margin-right: 0px;
-
-    }
-</style>
 
 <body>
-
-    <header id="header" class="fixed-top  ">
-        <div class="container d-flex align-items-center justify-content-between">
-
-            <div class="logo">
-                <a href='/studentCancle'>
-                    <h2 style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC;"> Uni Job</h2>
-                </a>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-            </div>
-
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li class="nav-item nav-profile dropdown d-none d-lg-flex">
-                        <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                            aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" style="justify-content:left">
-                                <i class=" ti-user text-dark " style="margin-right:5px;"></i>
-                                {{ user[3]| title }}
-                            </a>
-                            <a class="dropdown-item">
-                                <i class="ti-email text-primary" style="margin-right:5px;"></i>
-                                {{ user[4] }}
-                            </a>
-                            <a class="dropdown-item" href="{{url_for('login')}}" style="justify-content:left">
-                                <i class="ti-power-off text-primary" style="margin-right:5px;"></i>
-                                Log out
-                            </a>
-                        </div>
-                    </li>
-
-                    <div class="app-header-right">
-
-
-                        <button class="profile-btn">
-                            <span> {{ user[3] | title }}</span>
-                        </button>
-                    </div>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
-
-        </div>
-    </header>
-    <section id="hero" style="padding: 20px 0 40px 0;"> </section>
-
-    <div class="content-wrapper" style="min-height: inherit;">
-        <div class="container">
-            <div class="card">
-                <form id="myForm" class="form" method="POST" enctype="multipart/form-data">
-                    <div class="left-side">
-                        <div class="steps-content" style="margin-top: 0;">
-                            <h6><span class="step-number">1</span>/4</h6>
-
-                        </div>
-                        <div class="left-heading" style="margin-top: 2.5rem;">
-
-                            <h2 style="font-weight: 750; font-size:2.3rem;">Let the matching begin...
-                            </h2>
-                        </div>
-                        <div class="steps-content">
-                            <p class="step-number-content active">This is where you fill us in on the big picture.</p>
-
-                        </div>
-                        <ul class="progress-bar">
-                            <li class="active">Job Information</li>
-                            <li>Qualifications</li>
-                            <li>Work Hours and Schedule</li>
-                            <li>User Photo</li>
-                        </ul>
-
-
-
-                    </div>
-                    <div class="right-side" style="overflow-y: auto;">
-                        <div class="main active">
-                            <small><i class="fa fa-smile-o"></i></small>
-                            <div class="text">
-                                <h2>Job Information</h2>
-                                <p>Enter the job title, description briefly.</p>
-                            </div>
-                            <div class="form-group"> <!-- Name -->
-                                <label for="name" class="font-weight-bold" style="font-size: 15px;">Name:</label>
-                                <input type="text" class="form-control custom-input" id="name" name="name"
-                                    value="{{ user[3] }}" readonly>
-                            </div>
-                            <div class="form-group"> <!-- Phone Number -->
-                                <label for="phoneNumber" class="font-weight-bold" style="font-size: 15px;">Phone
-                                    Number:</label>
-                                <input type="text" class="form-control custom-input" id="phoneNumber" name="phoneNumber"
-                                    pattern="05[0-9]{8}" title="Please enter only numbers" minlength="10" maxlength="10"
-                                    required>
-                                <div id="phoneNumberError" class="error-message" style="color: red;"></div>
-                            </div>
-
-
-
-
-                            <div class="buttons button_space">
-                                <button id="cancel-button" onclick="location.href = '/studentCancle';">Cancel</button>
-
-                                <button class="next_button">Next Step</button>
-                            </div>
-                        </div>
-                        <div class="main">
-                            <small><i class="fa fa-smile-o"></i></small>
-                            <div class="text">
-                                <h2>Qualifications</h2>
-                                <p>What are the main requirements for your work?</p>
-                            </div>
-                            <div class="row" style="margin-left: 0;">
-                                <div class="col-md-6">
-
-                                    <div class="form-group"> <!-- Major -->
-                                        <label class="font-weight-bold" style="font-size: 15px;">Major:</label>
-                                        <select id="major" class="js-example-basic-single content-wrapper w-100"
-                                            style="width: 100%;" name="major" required>
-                                            <option value="" disabled selected>Choose your major </option>
-                                            <option value="Computer Science">Computer Science</option>
-                                            <option value="Artificial Intelligence">Artificial Intelligence</option>
-                                            <option value="Data Science">Data Science</option>
-                                            <option value="Cyber Security">Cyber Security</option>
-                                            <option value="Software Engineering">Software Engineering</option>
-                                            <option value="Computer Engineering">Computer Engineering</option>
-                                            <option value="Marketing">Marketing</option>
-                                            <option value="Applied Sports">Applied Sports</option>
-                                            <option value="Information Systems">Information Systems</option>
-                                            <option value="Informatics Engineering">Informatics Engineering</option>
-                                            <option value="Companies Management">Companies Management</option>
-                                            <option value="Applied Biochemistry">Applied Biochemistry</option>
-                                            <option value="Risk Management and Insurance">Risk Management and Insurance
-                                            </option>
-                                            <option value="Accounting">Accounting</option>
-                                            <option value="Human Medicine">Human Medicine</option>
-                                            <option value="Microbiology">Microbiology</option>
-                                            <option value="Finance and Economics">Finance and Economics</option>
-                                            <option value="Mathematics">Mathematics</option>
-                                            <option value="Industrial chemistry">Industrial chemistry</option>
-                                            <option value="Physics">Physics</option>
-                                            <option value="Electrical and Electronic Engineering">Electrical and
-                                                Electronic Engineering</option>
-                                            <option value="Mechanical Engineering and Materials Engineering">Mechanical
-                                                Engineering and Materials Engineering</option>
-                                            <option value="Administrative information system">Administrative information
-                                                system</option>
-                                            <option value="Health services and hospitals management">Health services and
-                                                hospitals management</option>
-                                            <option value="Chemical Engineering">Chemical Engineering</option>
-                                            <option value="Energy Systems Engineering">Energy Systems Engineering
-                                            </option>
-                                            <option value="Medical Laboratory">Medical Laboratory</option>
-                                            <option value="Geographic Information Systems">Geographic Information
-                                                Systems</option>
-                                            <option value="Social Service">Social Service</option>
-                                            <option value="History and Archeology">History and Archeology</option>
-                                            <option value="Mathematical Sciences">Mathematical Sciences</option>
-                                            <option value="law Department">law Department</option>
-                                            <option value="Judicial Studies">Judicial Studies</option>
-                                            <option value="Digital Media">Digital Media</option>
-                                            <option value="Quranic Sciences">Quranic Sciences</option>
-                                            <option value="Translation Department">Translation Department</option>
-                                            <option value="English Language">English Language</option>
-                                            <option value="International languages">International languages</option>
-                                            <option value="Arabic language Department">Arabic language Department
-                                            </option>
-                                            <option value="Graphic Design">Graphic Design</option>
-                                            <option value="Fashion Design">Fashion Design</option>
-                                            <option value="Interior Design">Interior Design</option>
-                                            <option value="Tourism and hospitality">Tourism and hospitality</option>
-                                            <option value="Architectural Engineering">Architectural Engineering</option>
-                                            <option value="Public Administration">Public Administration</option>
-                                            <option value="History">History</option>
-                                            <option value="Psychology">Psychology</option>
-                                            <option value="Business Management">Business Management</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-6">
-
-                                    <div class="form-group"> <!-- GPA -->
-                                        <label class="font-weight-bold" style="font-size: 15px;">GPA:</label>
-                                        <select id="gpa" class="js-example-basic-single content-wrapper w-100"
-                                            name="gpa" style="width: 100%;" required>
-                                            <option value="" disabled selected>Enter Your GPA</option>
-                                            <option value="5.0">5.0</option>
-                                            <option value="4.9">4.9</option>
-                                            <option value="4.8">4.8</option>
-                                            <option value="4.7">4.7</option>
-                                            <option value="4.6">4.6</option>
-                                            <option value="4.5">4.5</option>
-                                            <option value="4.4">4.4</option>
-                                            <option value="4.3">4.3</option>
-                                            <option value="4.2">4.2</option>
-                                            <option value="4.1">4.1</option>
-                                            <option value="4.0">4.0</option>
-                                            <option value="3.9">3.9</option>
-                                            <option value="3.8">3.8</option>
-                                            <option value="3.7">3.7</option>
-                                            <option value="3.6">3.6</option>
-                                            <option value="3.5">3.5</option>
-                                            <option value="3.4">3.4</option>
-                                            <option value="3.3">3.3</option>
-                                            <option value="3.2">3.2</option>
-                                            <option value="3.1">3.1</option>
-                                            <option value="3.0">3.0</option>
-                                            <option value="2.9">2.9</option>
-                                            <option value="2.8">2.8</option>
-                                            <option value="2.7">2.7</option>
-                                            <option value="2.6">2.6</option>
-                                            <option value="2.5">2.5</option>
-                                            <option value="2.0">2.0</option>
-                                            <option value="1.0">1.0</option>
-                                            <option value="0.0">0.0</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="row" style="margin-left: 0;">
-                                <div class="col-md-12">
-
-                                    <div class="form-group"> <!-- Skills -->
-                                        <label class="font-weight-bold" style="font-size: 15px;">Skills:</label>
-                                        <select id="skills" class="js-example-basic-multiple content-wrapper"
-                                            style="width: 100%;" name="skills" multiple="multiple" required>
-                                            <option value="Programming">Programming</option>
-                                            <option value="Web Development">Web Development</option>
-                                            <option value="Database Management">Database Management</option>
-                                            <option value="Data Science">Data science</option>
-                                            <option value="Graphic Design">Graphic design</option>
-                                            <option value="Writing Contests">Writing contests</option>
-                                            <option value="Communication">Communication</option>
-                                            <option value="Teamwork">Team work</option>
-                                            <option value="Time Management">Time Management</option>
-                                            <option value="Adaptability">Adaptability</option>
-                                            <option value="Technical Knowledge">Technical Knowledge</option>
-                                            <option value="Organization">Organization</option>
-                                            <option value="Problem solving">Problem solving</option>
-                                            <option value="Leadership">Leadership</option>
-                                            <option value="Thrive under pressure">Thrive under pressure</option>
-                                            <option value="Assertiveness skill">Assertiveness skill</option>
-                                            <option value="Research">Research</option>
-                                            <option value="Writing">Writing</option>
-                                            <option value="Subject knowledge">Subject knowledge</option>
-                                            <option value="Proofreading">Proofreading</option>
-                                            <option value="Attention to details">Attention to details</option>
-                                            <option value="Curriculum planning">Curriculum planning</option>
-                                            <option value="Computer skills">Computer skills</option>
-                                            <option value="Microsoft PowerPoint">Microsoft PowerPoint</option>
-                                            <option value="WordPress">WordPress</option>
-                                            <option value="Microsoft Excel">Microsoft Excel</option>
-                                            <option value="R programming language">R programming language</option>
-                                            <option value="Machine learning">Machine learning</option>
-                                            <option value="SQL">SQL</option>
-                                            <option value="Data analysis">Data analysis</option>
-                                            <option value="Decision-making">Decision-making</option>
-                                            <option value="Interpersonal skills ">Interpersonal skills </option>
-                                            <option value="Stress management">Stress management</option>
-                                            <option value="Dependability">Dependability</option>
-                                            <option value="Critical thinking">Critical thinking</option>
-                                            <option value="Customer service">Customer service</option>
-                                            <option value="Sales">Sales</option>
-                                            <option value="Project management">Project management</option>
-                                            <option value="Presentation skills">Presentation skills</option>
-                                            <option value="Public speaking">Public speaking</option>
-                                            <option value="Creativity">Creativity</option>
-                                            <option value="Photoshop">Photoshop</option>
-                                            <option value="Illustrator">Illustrator</option>
-                                            <option value="Editior">Editior</option>
-                                            <option value="Digital publishing">Digital publishing</option>
-                                            <option value="Fashion Design">Fashion Design</option>
-                                            <option value="Public Relations and Institutional Communication Management">
-                                                Public Relations and Institutional Communication Management</option>
-                                            <option value="Quality and food safety management">Quality and food safety
-                                                management</option>
-                                            <option value="Marketing tourist destinations">Marketing tourist
-                                                destinations</option>
-                                            <option value="Developing hotel sales">Developing hotel sales</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-left: 0;">
-                                <div class="col-md-12">
-                                    <div class="form-group"> <!-- Languages -->
-                                        <label class="font-weight-bold" style="font-size: 15px;">Languages:</label>
-                                        <select id="languages" class="js-example-basic-multiple content-wrapper"
-                                            name="Languages" style="width: 100%;" multiple="multiple" required>
-                                            <option value="Arabic">Arabic</option>
-                                            <option value="English">English</option>
-                                            <option value="Turkish">Turkish</option>
-                                            <option value="Chinese">Chinese</option>
-                                            <option value="Spanish">Spanish</option>
-                                            <option value="Korean">Korean</option>
-                                            <option value="Japanese">Japanese</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="row" style="margin-left: 0;">
-                                <div class="col-md-12">
-
-
-                                    <div class="form-group"> <!-- Experience -->
-                                        <label class="font-weight-bold" style="font-size: 15px;">Do You Have Previous
-                                            Work Experience?</label>
-                                        <select class="js-example-basic-single content-wrapper" required
-                                            name="experience" style="width: 100%;">
-                                            <option value="" disabled selected hidden Re>Choose One</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="buttons button_space">
-                                <button class="back_button">Back</button>
-                                <button class="next_button">Next Step</button>
-                            </div>
-                        </div>
-                        <div class="main">
-                            <small><i class="fa fa-smile-o"></i></small>
-                            <div class="text">
-                                <h2>Work Hours and Schedule</h2>
-                                <p>Please share details about work time</p>
-                            </div>
-
-                            <div class="row" style="margin-left: 0;">
-                                <div class="col-md-12">
-                                    <div class="form-group"> <!-- Duration -->
-                                        <label class="font-weight-bold" style="font-size: 15px;">Number of weeks You
-                                            Want To Work:</label>
-                                        <input type="number" class="form-control" name="work_duration"
-                                            placeholder="Number of Weeks" pattern="\d*" min="1" max="10"
-                                            style="width: 100%;" required>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="row" style="margin-left: 0;">
-                                <div class="form-group"> <!-- Availability -->
-                                    <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold"
-                                        style="font-size: 15px;">Availability:</label>
-                                    <div class="availability-container">
-                                        <div class="day" style="margin-left: 20px;">
-                                            <p class="font-weight-bold"> Please enter the number of periods available
-                                                during the day and the corresponding times</p>
-                                        </div>
-                                        <hr>
-
-                                        <div class="day"> <!-- Sunday availability -->
-                                            <label for="sunday" class="font-weight-bold">Sunday:</label>
-                                            <input style="max-width: 97%;" type="number" class="interval"
-                                                id="sunday-interval" name="sunday-interval" min="0" max="5"
-                                                placeholder="Number of Available Periods" required>
-                                            <div id="sunday-periods"></div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="day"> <!-- Monday availability -->
-                                            <label for="monday" class="font-weight-bold">Monday:</label>
-                                            <input style="max-width: 97%;" type="number" class="interval"
-                                                id="monday-interval" name="monday-interval" min="0" max="5"
-                                                placeholder="Number of Available Periods" required>
-                                            <div id="monday-periods"></div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="day"> <!-- Tuesday availability -->
-                                            <label for="tuesday" class="font-weight-bold">Tuesday:</label>
-                                            <input style="max-width: 97%;" type="number" class="interval"
-                                                id="tuesday-interval" name="tuesday-interval" min="0" max="5"
-                                                placeholder="Number of Available Periods" required>
-                                            <div id="tuesday-periods"></div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="day"> <!-- Wednesday availability -->
-                                            <label for="wednesday" class="font-weight-bold">Wednesday:</label>
-                                            <input style="max-width: 97%;" type="number" class="interval"
-                                                id="wednesday-interval" name="wednesday-interval" min="0" max="5"
-                                                placeholder="Number of Available Periods" required>
-                                            <div id="wednesday-periods"></div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="day"> <!-- Thursday availability -->
-                                            <label for="thursday" class="font-weight-bold">Thursday:</label>
-                                            <input style="max-width: 97%;" type="number" class="interval"
-                                                id="thursday-interval" name="thursday-interval" min="0" max="5"
-                                                placeholder="Number of Available Periods" required>
-                                            <div id="thursday-periods"></div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="buttons button_space">
-                                <button class="back_button">Back</button>
-                                <button id="submit-button" onclick="myFunction()">Next Step</button>
-                            </div>
-                        </div>
-
-
-
-                        <div class="main">
-                            <small><i class="fa fa-smile-o"></i></small>
-                            <div class="text">
-                                <h2>Position Details</h2>
-                                <p>Enter job duration, work location, and positions available per week.</p>
-                            </div>
-                            <div class="form-group"> <!-- Duration -->
-                                <label class="font-weight-bold" style="font-size: 15px;">Job
-                                    Duration (in weeks):</label>
-                                <input type="number" class="form-control" name="job_duration"
-                                    placeholder="Job duration (in weeks)" pattern="\d*" min="1" max="10"
-                                    style="width: 100%;" required>
-                            </div>
-
-                            <div class="row" style="margin-left: 0;">
-                                <div class="col-md-12">
-                                    <div class="form-group"> <!-- Work preference -->
-                                        <label class="font-weight-bold" style="font-size: 15px;">Work
-                                            preference:</label>
-                                        <select id="experience" class="js-example-basic-single content-wrapper"
-                                            name="work_preference" style="width: 100%;" required>
-                                            <option value="" disabled selected hidden>Choose One</option>
-                                            <option value="remote">Remote</option>
-                                            <option value="onsite">Onsite</option>
-                                            <option value="No Preference">No Preference</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" style="margin-left: 0;">
-                                <div class="col-md-12">
-                                    <div class="form-group"> <!-- Upload CV -->
-                                        <label class="font-weight-bold" style="font-size: 15px;">Upload CV (PDF only):</label><br>
-
-                                        <div class="custom-file-upload">
-                                            <!--<label for="file">File: </label>-->
-                                            <input type="file" id="file" name="pdf_file" accept=".pdf" />
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="buttons button_space">
-                                    <button class="back_button">Back</button>
-                                    <button type="submit" class="submit_button btn btn-primary mr-2"
-                                        style="font-size: 15px;">Submit</button>
-                                </div>
-                            </div>
-                            <div class="main ">
-                                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
-                                    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                                </svg>
-
-                                <div class="text congrats">
-                                    <h2>Congratulations!</h2>
-                                    <h4 style="margin: 1rem; color: #676767;">Your job is posted</h4>
-
-
-                                </div>
-                            </div>
-
-
-
-
-
-
-                        </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <div class="container-scroller ">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex ">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <div class="navbar-brand brand-logo mr-5"><img src="static/images/logo1d.svg" class="mr-2" alt="logo" />
+                </div>
+                <div class="navbar-brand brand-logo-mini"><img src="static/images/U.svg" alt="logo" /></div>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+
+                <div class="dropdown" style="margin-right: 2.5em; ">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Student
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <li> <p style="border-bottom: 1px solid;">{{ user[4] }}</p>
+                        </li>
+                        <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
 
+        <div class="container-fluid page-body-wrapper w-100 ">
+            <div class="content-wrapper" style="min-height: inherit;">
+                <div class="container">
+                    <div class="row mt-5">
+                        <div class="col-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body" style="margin: 1rem;">
+                                    <h4 class="card-title" style="font-size: 20px;">Find Job</h4>
+                                    <p class="card-description" style="color:  #222831; font-size: 15px;"> Fill out this form to search for a Part Time job </p>
+                                    <hr style="margin-bottom: 1.5rem;">
+                                    <form id="myForm" class="forms-sample" method="POST" enctype="multipart/form-data">
+                                        <div class="form-group" > <!-- Name -->
+                                            <label for="name" class="font-weight-bold" style="font-size: 15px;">Name:</label>
+                                            <input type="text" class="form-control custom-input" id="name" name="name" value="{{ user[3] }}" readonly>
+                                        </div>
 
+                                        <div class="form-group"> <!-- Phone Number -->
+                                            <label for="phoneNumber" class="font-weight-bold" style="font-size: 15px;">Phone Number:</label>
+                                            <input type="text" class="form-control custom-input" id="phoneNumber" name="phoneNumber" pattern="05[0-9]{8}"
+                                            title="Please enter only numbers" minlength="10" maxlength="10" required>
+                                            <div id="phoneNumberError" class="error-message" style="color: red;"></div>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Major -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">Major:</label>
+                                            <select id="major" class="js-example-basic-single content-wrapper w-100" style="width: 100%;" name="major" required>
+                                                <option value="" disabled selected>Options</option>
+                                                <option value="Computer Science">Computer Science</option>
+                                                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                                <option value="Data Science">Data Science</option>
+                                                <option value="Cyber Security">Cyber Security</option>
+                                                <option value="Software Engineering">Software Engineering</option>
+                                                <option value="Computer Engineering">Computer Engineering</option>
+                                                <option value="Marketing">Marketing</option>
+                                                <option value="Applied Sports">Applied Sports</option>
+                                                <option value="Information Systems">Information Systems</option>
+                                                <option value="Informatics Engineering">Informatics Engineering</option>
+                                                <option value="Companies Management">Companies Management</option>
+                                                <option value="Applied Biochemistry">Applied Biochemistry</option>
+                                                <option value="Risk Management and Insurance">Risk Management and Insurance</option>
+                                                <option value="Accounting">Accounting</option>
+                                                <option value="Human Medicine">Human Medicine</option>
+                                                <option value="Microbiology">Microbiology</option>
+                                                <option value="Finance and Economics">Finance and Economics</option>
+                                                <option value="Mathematics">Mathematics</option>
+                                                <option value="Industrial chemistry">Industrial chemistry</option>
+                                                <option value="Physics">Physics</option>
+                                                <option value="Electrical and Electronic Engineering">Electrical and Electronic Engineering</option>
+                                                <option value="Mechanical Engineering and Materials Engineering">Mechanical Engineering and Materials Engineering</option>
+                                                <option value="Administrative information system">Administrative information system</option>
+                                                <option value="Health services and hospitals management">Health services and hospitals management</option>
+                                                <option value="Chemical Engineering">Chemical Engineering</option>
+                                                <option value="Energy Systems Engineering">Energy Systems Engineering</option>
+                                                <option value="Medical Laboratory">Medical Laboratory</option>
+                                                <option value="Geographic Information Systems">Geographic Information Systems</option>
+                                                <option value="Social Service">Social Service</option>
+                                                <option value="History and Archeology">History and Archeology</option>
+                                                <option value="Mathematical Sciences">Mathematical Sciences</option>
+                                                <option value="law Department">law Department</option>
+                                                <option value="Judicial Studies">Judicial Studies</option>
+                                                <option value="Digital Media">Digital Media</option>
+                                                <option value="Quranic Sciences">Quranic Sciences</option>
+                                                <option value="Translation Department">Translation Department</option>
+                                                <option value="English Language">English Language</option>
+                                                <option value="International languages">International languages</option>
+                                                <option value="Arabic language Department">Arabic language Department</option>
+                                                <option value="Graphic Design">Graphic Design</option>
+                                                <option value="Fashion Design">Fashion Design</option>
+                                                <option value="Interior Design">Interior Design</option>
+                                                <option value="Tourism and hospitality">Tourism and hospitality</option>
+                                                <option value="Architectural Engineering">Architectural Engineering</option>
+                                                <option value="Public Administration">Public Administration</option>
+                                                <option value="History">History</option>
+                                                <option value="Psychology">Psychology</option>
+                                                <option value="Business Management">Business Management</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group"> <!-- GPA -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">GPA:</label>
+                                            <select id="gpa" class="js-example-basic-single content-wrapper w-100" name="gpa" style="width: 100%;" required>
+                                                <option value="" disabled selected>Enter Your GPA</option>
+                                                <option value="5.0">5.0</option>
+                                                <option value="4.9">4.9</option>
+                                                <option value="4.8">4.8</option>
+                                                <option value="4.7">4.7</option>
+                                                <option value="4.6">4.6</option>
+                                                <option value="4.5">4.5</option>
+                                                <option value="4.4">4.4</option>
+                                                <option value="4.3">4.3</option>
+                                                <option value="4.2">4.2</option>
+                                                <option value="4.1">4.1</option>
+                                                <option value="4.0">4.0</option>
+                                                <option value="3.9">3.9</option>
+                                                <option value="3.8">3.8</option>
+                                                <option value="3.7">3.7</option>
+                                                <option value="3.6">3.6</option>
+                                                <option value="3.5">3.5</option>
+                                                <option value="3.4">3.4</option>
+                                                <option value="3.3">3.3</option>
+                                                <option value="3.2">3.2</option>
+                                                <option value="3.1">3.1</option>
+                                                <option value="3.0">3.0</option>
+                                                <option value="2.9">2.9</option>
+                                                <option value="2.8">2.8</option>
+                                                <option value="2.7">2.7</option>
+                                                <option value="2.6">2.6</option>
+                                                <option value="2.5">2.5</option>
+                                                <option value="2.0">2.0</option>
+                                                <option value="1.0">1.0</option>
+                                                <option value="0.0">0.0</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Skills -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">Skills:</label>
+                                            <select id="skills" class="js-example-basic-multiple content-wrapper w-100" style="width: 100%;" name="skills" multiple="multiple" required>
+                                                <option value="Programming">Programming</option>
+                                                <option value="Web Development">Web Development</option>
+                                                <option value="Database Management">Database Management</option>
+                                                <option value="Data Science">Data science</option>
+                                                <option value="Graphic Design">Graphic design</option>
+                                                <option value="Writing Contests">Writing contests</option>
+                                                <option value="Communication">Communication</option>
+                                                <option value="Teamwork">Team work</option>
+                                                <option value="Time Management">Time Management</option>
+                                                <option value="Adaptability">Adaptability</option>
+                                                <option value="Technical Knowledge">Technical Knowledge</option>
+                                                <option value="Organization">Organization</option>
+                                                <option value="Problem solving">Problem solving</option>
+                                                <option value="Leadership">Leadership</option>
+                                                <option value="Thrive under pressure">Thrive under pressure</option>
+                                                <option value="Assertiveness skill">Assertiveness skill</option>
+                                                <option value="Research">Research</option>
+                                                <option value="Writing">Writing</option>
+                                                <option value="Subject knowledge">Subject knowledge</option>
+                                                <option value="Proofreading">Proofreading</option>
+                                                <option value="Attention to details">Attention to details</option>
+                                                <option value="Curriculum planning">Curriculum planning</option>
+                                                <option value="Computer skills">Computer skills</option>
+                                                <option value="Microsoft PowerPoint">Microsoft PowerPoint</option>
+                                                <option value="WordPress">WordPress</option>
+                                                <option value="Microsoft Excel">Microsoft Excel</option>
+                                                <option value="R programming language">R programming language</option>
+                                                <option value="Machine learning">Machine learning</option>
+                                                <option value="SQL">SQL</option>
+                                                <option value="Data analysis">Data analysis</option>
+                                                <option value="Decision-making">Decision-making</option>
+                                                <option value="Interpersonal skills ">Interpersonal skills </option>
+                                                <option value="Stress management">Stress management</option>
+                                                <option value="Dependability">Dependability</option>
+                                                <option value="Critical thinking">Critical thinking</option>
+                                                <option value="Customer service">Customer service</option>
+                                                <option value="Sales">Sales</option>
+                                                <option value="Project management">Project management</option>
+                                                <option value="Presentation skills">Presentation skills</option>
+                                                <option value="Public speaking">Public speaking</option>
+                                                <option value="Creativity">Creativity</option>
+                                                <option value="Photoshop">Photoshop</option>
+                                                <option value="Illustrator">Illustrator</option>
+                                                <option value="Editior">Editior</option>
+                                                <option value="Digital publishing">Digital publishing</option>
+                                                <option value="Fashion Design">Fashion Design</option>
+                                                <option value="Public Relations and Institutional Communication Management">Public Relations and Institutional Communication Management</option>
+                                                <option value="Quality and food safety management">Quality and food safety management</option>
+                                                <option value="Marketing tourist destinations">Marketing tourist destinations</option>
+                                                <option value="Developing hotel sales">Developing hotel sales</option>
+                                            </select>
+                                        </div>
+                                    
+                                        <div class="form-group"> <!-- Languages -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">Languages:</label>
+                                            <select id="languages" class="js-example-basic-multiple content-wrapper w-100" name="Languages" style="width: 100%;"  multiple="multiple"
+                                                required>
+                                                <option value="Arabic">Arabic</option>
+                                                <option value="English">English</option>
+                                                <option value="Turkish">Turkish</option>
+                                                <option value="Chinese">Chinese</option>
+                                                <option value="Spanish">Spanish</option>
+                                                <option value="Korean">Korean</option>
+                                                <option value="Japanese">Japanese</option> 
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Experience -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">Do You Have Previous Work Experience?</label>
+                                            <select class="js-example-basic-single content-wrapper w-100" name="experience" style="width: 100%;"  >
+                                                <option value="" disabled selected hidden>Choose One</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Availability -->
+                                            <label for="exampleInputHours" class="col-sm-3 col-form-label font-weight-bold" style="font-size: 15px;">Availability:</label>
+                                            <div class="availability-container">
+                                                <div class="day" style="margin-left: 20px;">
+                                                    <p class="font-weight-bold"> Please enter the number of periods available during the day and the corresponding times</p>
+                                                </div>
+                                                <hr>
+                                                
+                                                <div class="day"> <!-- Sunday availability -->
+                                                    <label for="sunday" class="font-weight-bold">Sunday:</label>
+                                                    <input style="max-width: 97%;"   type="number" class="interval" id="sunday-interval" name="sunday-interval" min="0" max="5" placeholder="Number of Available Periods"  required>
+                                                    <div id="sunday-periods"></div>
+                                                </div>
+                                                <hr>
+
+                                                <div class="day"> <!-- Monday availability -->
+                                                    <label for="monday" class="font-weight-bold">Monday:</label>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="monday-interval" name="monday-interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="monday-periods"></div>
+                                                </div>
+                                                <hr>
+
+                                                <div class="day"> <!-- Tuesday availability -->
+                                                    <label for="tuesday" class="font-weight-bold">Tuesday:</label>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="tuesday-interval" name="tuesday-interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="tuesday-periods"></div>
+                                                </div>
+                                                <hr>
+
+                                                <div class="day"> <!-- Wednesday availability -->
+                                                    <label for="wednesday" class="font-weight-bold">Wednesday:</label>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="wednesday-interval" name="wednesday-interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="wednesday-periods"></div>
+                                                </div>
+                                                <hr>
+                                                   
+                                                <div class="day"> <!-- Thursday availability -->
+                                                    <label for="thursday" class="font-weight-bold">thursday:</label>
+                                                    <input style="max-width: 97%;" type="number" class="interval" id="thursday-interval" name="thursday-interval" min="0" max="5" placeholder="Number of Available Periods" required>
+                                                    <div id="thursday-periods"></div>
+                                                </div>
+                                                  
+                                            </div>
+                                            
+                                        </div>
+
+                                        <div class="form-group"> <!-- Duration -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">Number of Weeks You Want To Work:</label>
+                                            <input type="number" class="form-control" name="work_duration" placeholder="Number of Weeks" 
+                                            pattern="\d*" min="1" max="10" style="width: 100%;">
+                                        </div>
+
+                                        <div class="form-group"> <!-- Work preference -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">Work preference:</label>
+                                            <select id="experience" class="js-example-basic-single content-wrapper w-100" name="work_preference" style="width: 100%;"  required>
+                                                <option value="" disabled selected hidden>Choose One</option>
+                                                <option value="remote">Remote</option>
+                                                <option value="onsite">Onsite</option>
+                                                <option value="No Preference">No Preference</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group"> <!-- Upload CV -->
+                                            <label class="font-weight-bold" style="font-size: 15px;">Upload CV (PDF only):</label><br>
+                                            <input class="" type="file"  id="my_file" name="pdf_file" accept=".pdf">
+                                        </div>
+                                        <p id="demo"></p>
+                                        <div class="text-center"> <!-- Buttons -->
+                                            <button id="submit-button" type="submit" class="btn btn-primary mr-2" style="font-size: 15px;" onclick="myFunction()" >Submit</button>
+                                            <button id="cancel-button"  onclick="location.href = '/studentCancle';" class="btn btn-light" style="font-size: 15px;">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 <!-- Core JS files -->
 <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
-<script>
-    //Reference: 
-    //https://www.onextrapixel.com/2012/12/10/how-to-create-a-custom-file-input-with-jquery-css3-and-php/
-    ; (function ($) {
 
-        // Browser supports HTML5 multiple file?
-        var multipleSupport = typeof $('<input/>')[0].multiple !== 'undefined',
-            isIE = /msie/i.test(navigator.userAgent);
-
-        $.fn.customFile = function () {
-
-            return this.each(function () {
-
-                var $file = $(this).addClass('custom-file-upload-hidden'), // the original file input
-                    $wrap = $('<div class="file-upload-wrapper">'),
-                    $input = $('<input type="text" class="file-upload-input" />'),
-                    // Button that will be used in non-IE browsers
-                    $button = $('<button type="button" class="file-upload-button">Upload</button>'),
-                    // Hack for IE
-                    $label = $('<label class="file-upload-button" for="' + $file[0].id + '">Upload</label>');
-
-                // Hide by shifting to the left so we
-                // can still trigger events
-                $file.css({
-                    position: 'absolute',
-                    left: '-9999px'
-                });
-
-                $wrap.insertAfter($file)
-                    .append($file, $input, (isIE ? $label : $button));
-
-                // Prevent focus
-                $file.attr('tabIndex', -1);
-                $button.attr('tabIndex', -1);
-
-                $button.click(function () {
-                    $file.focus().click(); // Open dialog
-                });
-
-                $file.change(function () {
-
-                    var files = [], fileArr, filename;
-
-                    // If multiple is supported then extract
-                    // all filenames from the file array
-                    if (multipleSupport) {
-                        fileArr = $file[0].files;
-                        for (var i = 0, len = fileArr.length; i < len; i++) {
-                            files.push(fileArr[i].name);
-                        }
-                        filename = files.join(', ');
-
-                        // If not supported then just take the value
-                        // and remove the path to just show the filename
-                    } else {
-                        filename = $file.val().split('\\').pop();
-                    }
-
-                    $input.val(filename) // Set the value
-                        .attr('title', filename) // Show filename in title tootlip
-                        .focus(); // Regain focus
-
-                });
-
-                $input.on({
-                    blur: function () { $file.trigger('blur'); },
-                    keydown: function (e) {
-                        if (e.which === 13) { // Enter
-                            if (!isIE) { $file.trigger('click'); }
-                        } else if (e.which === 8 || e.which === 46) { // Backspace & Del
-                            // On some browsers the value is read-only
-                            // with this trick we remove the old input and add
-                            // a clean clone with all the original events attached
-                            $file.replaceWith($file = $file.clone(true));
-                            $file.trigger('change');
-                            $input.val('');
-                        } else if (e.which === 9) { // TAB
-                            return;
-                        } else { // All other keys
-                            return false;
-                        }
-                    }
-                });
-
-            });
-
-        };
-
-        // Old browser fallback
-        if (!multipleSupport) {
-            $(document).on('change', 'input.customfile', function () {
-
-                var $this = $(this),
-                    // Create a unique ID so we
-                    // can attach the label to the input
-                    uniqId = 'customfile_' + (new Date()).getTime(),
-                    $wrap = $this.parent(),
-
-                    // Filter empty input
-                    $inputs = $wrap.siblings().find('.file-upload-input')
-                        .filter(function () { return !this.value }),
-
-                    $file = $('<input type="file" id="' + uniqId + '" name="' + $this.attr('name') + '"/>');
-
-                // 1ms timeout so it runs after all other events
-                // that modify the value have triggered
-                setTimeout(function () {
-                    // Add a new input
-                    if ($this.val()) {
-                        // Check for empty fields to prevent
-                        // creating new inputs when changing files
-                        if (!$inputs.length) {
-                            $wrap.after($file);
-                            $file.customFile();
-                        }
-                        // Remove and reorganize inputs
-                    } else {
-                        $inputs.parent().remove();
-                        // Move the input so it's always last on the list
-                        $wrap.appendTo($wrap.parent());
-                        $wrap.find('input').focus();
-                    }
-                }, 1);
-
-            });
-        }
-
-    }(jQuery));
-
-    $('input[type=file]').customFile();
-</script>
 
 <!-- Page-specific plugin JS -->
 <script src="../../static/typeahead.js/typeahead.bundle.min.js"></script>
@@ -1669,28 +339,26 @@ position: relative;
 
 </html>
 
-
-
 <script> /*customize the error message for the phone number input*/
     // Get the phone number input element
     var phoneNumberInput = document.getElementById('phoneNumber');
-
+  
     // Get the error message element
-    var phoneNumberError = document.getElementById('phoneNumberError');
-
+    var phoneNumberError = document.getElementById('phoneNumberError');  
+    
     // Add an event listener for input validation
-    phoneNumberInput.addEventListener('input', function () {
-        // Check if the input value is valid
-        if (!phoneNumberInput.checkValidity()) {
-            // Display the custom error message
-            phoneNumberError.textContent = 'Please enter a valid phone number starting with 05';
-            phoneNumberInput.classList.add('error-input');
+    phoneNumberInput.addEventListener('input', function() {
+      // Check if the input value is valid
+      if (!phoneNumberInput.checkValidity()) {
+        // Display the custom error message
+        phoneNumberError.textContent = 'Please enter a valid phone number starting with 05';
+        phoneNumberInput.classList.add('error-input');
         } else {
-            // Clear the error message
-            phoneNumberError.textContent = '';
-            // Remove the red border
-            phoneNumberInput.classList.remove('error-input');
-        }
+        // Clear the error message
+        phoneNumberError.textContent = '';
+        // Remove the red border
+        phoneNumberInput.classList.remove('error-input');
+      }
     });
 </script>
 
@@ -1723,7 +391,7 @@ position: relative;
                 }
             </style>
         `);
-
+    
         document.querySelectorAll(".time-pickable").forEach((timePickable) => {
             let activePicker = null;
             timePickable.addEventListener("focus", () => {
@@ -1734,97 +402,97 @@ position: relative;
                         target === activePicker ||
                         target === timePickable ||
                         activePicker.contains(target)
-                    ) {
-                        return;
-                    }
-                    document.removeEventListener("mousedown", onClickAway);
-                    document.body.removeChild(activePicker);
-                    activePicker = null;
+                        ) {
+                            return;
+                        }
+                        document.removeEventListener("mousedown", onClickAway);
+                        document.body.removeChild(activePicker);
+                        activePicker = null;
                 };
                 document.addEventListener("mousedown", onClickAway);
             });
         });
+            
+            const intervalInputs = document.querySelectorAll("[id$='-interval']");
+            intervalInputs.forEach((intervalInput) => {
+                intervalInput.addEventListener("change", () => {
+                    const containerId = intervalInput.id.replace("-interval", "-periods");
+                    const container = document.getElementById(containerId);
+                    const numPeriods = parseInt(intervalInput.value);
+                    // Clear existing period containers
+                    container.innerHTML = "";
 
-        const intervalInputs = document.querySelectorAll("[id$='-interval']");
-        intervalInputs.forEach((intervalInput) => {
-            intervalInput.addEventListener("change", () => {
-                const containerId = intervalInput.id.replace("-interval", "-periods");
-                const container = document.getElementById(containerId);
-                const numPeriods = parseInt(intervalInput.value);
-                // Clear existing period containers
-                container.innerHTML = "";
+                    // Generate period containers with start and end time inputs
+                    for (let i = 0; i < numPeriods; i++) {
+                        const periodContainer = document.createElement("div");
+                        periodContainer.classList.add("period");
 
-                // Generate period containers with start and end time inputs
-                for (let i = 0; i < numPeriods; i++) {
-                    const periodContainer = document.createElement("div");
-                    periodContainer.classList.add("period");
+                        const periodLabel = document.createElement("label");
+                        periodLabel.textContent = `Period ${i + 1}:`;
+                        periodLabel.style.margin = "8px 5px 5px 5px";
 
-                    const periodLabel = document.createElement("label");
-                    periodLabel.textContent = `Period ${i + 1}:`;
-                    periodLabel.style.margin = "8px 5px 5px 5px";
+                        const startInput = document.createElement("input");
+                        startInput.type = "text";
+                        startInput.classList.add("time-pickable", "start-time");
+                        //startInput.id = "start-time"
+                        startInput.id = `${intervalInput.id}-start-time-${i}`; // Unique ID for start time input
+                        startInput.name = `${intervalInput.id}-start-time-${i}`; // Unique name for start time input
+                        startInput.placeholder = "Start Time (hour:minute)";
+                        startInput.style.border = "1px solid rgb(207, 212, 217)";
+                        startInput.style.margin = "5px 5px 5px 5px";
+                        startInput.pattern = "(0[1-9]|1[0-2]):[0-5][0-9] (am|pm)"
+                        startInput.style.borderRadius = "4px";
+                        startInput.required = true;
 
-                    const startInput = document.createElement("input");
-                    startInput.type = "text";
-                    startInput.classList.add("time-pickable", "start-time");
-                    //startInput.id = "start-time"
-                    startInput.id = `${intervalInput.id}-start-time-${i}`; // Unique ID for start time input
-                    startInput.name = `${intervalInput.id}-start-time-${i}`; // Unique name for start time input
-                    startInput.placeholder = "Start Time (hour:minute)";
-                    startInput.style.border = "1px solid rgb(207, 212, 217)";
-                    startInput.style.margin = "5px 5px 5px 5px";
-                    startInput.pattern = "(0[1-9]|1[0-2]):[0-5][0-9] (am|pm)"
-                    startInput.style.borderRadius = "4px";
-                    startInput.required = true;
+                        const endInput = document.createElement("input");
+                        endInput.type = "text";
+                        endInput.classList.add("time-pickable", "end-time");
+                        //endInput.id = "end-time"
+                        endInput.id = `${intervalInput.id}-end-time-${i}`; // Unique ID for end time input
+                        endInput.name = `${intervalInput.id}-end-time-${i}`; // Unique name for end time input
+                        endInput.placeholder = "End Time (hour:minute)";
+                        endInput.style.border = "1px solid rgb(207, 212, 217)";
+                        endInput.style.margin = "5px 5px 5px 5px";
+                        startInput.pattern = "(0[1-9]|1[0-2]):[0-5][0-9] (am|pm)"
+                        endInput.style.borderRadius = "4px";
+                        endInput.required = true;
 
-                    const endInput = document.createElement("input");
-                    endInput.type = "text";
-                    endInput.classList.add("time-pickable", "end-time");
-                    //endInput.id = "end-time"
-                    endInput.id = `${intervalInput.id}-end-time-${i}`; // Unique ID for end time input
-                    endInput.name = `${intervalInput.id}-end-time-${i}`; // Unique name for end time input
-                    endInput.placeholder = "End Time (hour:minute)";
-                    endInput.style.border = "1px solid rgb(207, 212, 217)";
-                    endInput.style.margin = "5px 5px 5px 5px";
-                    startInput.pattern = "(0[1-9]|1[0-2]):[0-5][0-9] (am|pm)"
-                    endInput.style.borderRadius = "4px";
-                    endInput.required = true;
+                        periodContainer.appendChild(periodLabel);
+                        periodContainer.appendChild(startInput);
+                        periodContainer.appendChild(endInput);
 
-                    periodContainer.appendChild(periodLabel);
-                    periodContainer.appendChild(startInput);
-                    periodContainer.appendChild(endInput);
+                        container.appendChild(periodContainer);
 
-                    container.appendChild(periodContainer);
+                    }
 
-                }
+                    // Activate the time picker for the new inputs
+                    activate();
 
-                // Activate the time picker for the new inputs
-                activate();
-
+                });
             });
-        });
 
     }
-
-
+    
+    
     function show(timePickable) {
         const picker = buildPicker(timePickable);
         const left = timePickable.offsetLeft + picker.offsetWidth;
         const top = timePickable.offsetTop;
 
-        picker.style.left = `${left + 150}px`;
-        picker.style.top = `${top + 90}px`;
+        picker.style.left = `${left+150}px`;
+        picker.style.top = `${top+90}px`;
 
         document.body.appendChild(picker);
 
         return picker;
     }
-
+    
     function buildPicker(timePickable) {
         const picker = document.createElement("div");
         const hourOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(numberToOption);
-        const minuteOptions = [0, 10, 20, 30, 40, 50].map(numberToOption);
-
-
+	    const minuteOptions = [0, 10, 20, 30, 40, 50].map(numberToOption);
+        
+    
         picker.classList.add("time-picker");
         picker.innerHTML = `
             <select class="time-picker__select">
@@ -1839,54 +507,54 @@ position: relative;
                 <option value="pm">pm</option>
             </select>
         `;
-
+    
         const selects = getSelectsFromPicker(picker);
-
+    
         selects.hour.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
         selects.minute.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
         selects.meridiem.addEventListener("change", () => timePickable.value = getTimeStringFromPicker(picker));
 
         if (timePickable.value) {
-            const { hour, minute, meridiem } = getTimePartsFromPickable(timePickable);
-
+            const { hour, minute,meridiem } = getTimePartsFromPickable(timePickable);
+    
             selects.hour.value = hour;
             selects.minute.value = minute;
             selects.meridiem.value = meridiem;
         }
-
+    
         return picker;
     }
-
+    
     function getTimePartsFromPickable(timePickable) {
         const pattern = /^(\d+):(\d+) (am|pm)$/;
-        const [hour, minute, meridiem] = Array.from(timePickable.value.match(pattern)).splice(1);
-
+        const [hour, minute,meridiem] = Array.from(timePickable.value.match(pattern)).splice(1);
+    
         return {
             hour,
             minute,
             meridiem
         };
     }
-
+    
     function getSelectsFromPicker(timePicker) {
-        const [hour, minute, meridiem] = timePicker.querySelectorAll(".time-picker__select");
-
+        const [hour, minute,meridiem] = timePicker.querySelectorAll(".time-picker__select");
+    
         return {
             hour,
             minute,
             meridiem
         };
     }
-
+    
     function getTimeStringFromPicker(timePicker) {
         const selects = getSelectsFromPicker(timePicker);
-
+    
         return `${selects.hour.value}:${selects.minute.value} ${selects.meridiem.value}`;
     }
-
+    
     function numberToOption(number) {
         const padded = number.toString().padStart(2, "0");
-
+    
         return `<option value="${padded}">${padded}</option>`;
     }
 
@@ -1897,7 +565,7 @@ position: relative;
 
     // Custom validation
     const submitButton = document.getElementById("submit-button");
-    submitButton.addEventListener("click", () => {
+    submitButton.addEventListener("click",() => {
 
         const periodContainers = document.querySelectorAll(".period");
         let isValid = true;
@@ -1922,9 +590,9 @@ position: relative;
             const workingHoursEnd = 16; // 4 PM
 
             //Check if the chosen time is within working hours
+            
 
-
-
+            
             // Check if the start time is before the end time
             if (
                 (startMeridiem === "pm" && endMeridiem === "am") ||
@@ -1951,7 +619,7 @@ position: relative;
                     errorMessage.textContent = "Invalid start or end times.";
                     periodContainer.appendChild(errorMessage);
                 }
-            }
+            } 
             if (isValid) {
                 periodContainer.style.removeProperty("border");
                 periodContainer.style.removeProperty("padding");
@@ -1966,19 +634,11 @@ position: relative;
         if (!isValid) {
             // Display a message to the user indicating validation error
             alert("Please ensure that the start time comes before the end time, and that the entered times fall within the allowed working hours.");
+            submitButton.disabled = true; // Disable the submit button
             document.getElementById("start-time").value = "";
             document.getElementById("end-time").value = "";
-        }
+        } 
         submitButton.disabled = false; // Disable the submit button if validation fails, enable it if validation passes
-        if (!validateform()) {
-            return false
-        }
-
-
-        formnumber++;
-        updateform();
-        progress_forward();
-        contentchange();
     });
 
 
@@ -1987,138 +647,17 @@ position: relative;
 
 <script>
 
-    /*********** Cancle Button Event  *************/
+        /*********** Cancle Button Event  *************/
 
-    const cancelButton = document.getElementById("cancel-button");
-    var form = document.getElementById("myForm");
-    // Function to navigate to the previous page
-    function Freset() {
+        const cancelButton = document.getElementById("cancel-button");
+        var form = document.getElementById("myForm");
+        // Function to navigate to the previous page
+        function Freset() {
         // Use the history object to go back to the previous page
         form.reset();
         //window.location.href = "/post_job';";
-    }
-    // Add event listener to the cancel button
-    cancelButton.addEventListener("click", Freset);
-
-</script>
-
-
-
-<script>
-    var next_click = document.querySelectorAll(".next_button");
-    var main_form = document.querySelectorAll(".main");
-    var step_list = document.querySelectorAll(".progress-bar li");
-    var num = document.querySelector(".step-number");
-    let formnumber = 0;
-
-    next_click.forEach(function (next_click_form) {
-        next_click_form.addEventListener('click', function () {
-            if (!validateform()) {
-                return false
-            }
-            formnumber++;
-            updateform();
-            progress_forward();
-            contentchange();
-        });
-    });
-
-    var back_click = document.querySelectorAll(".back_button");
-    back_click.forEach(function (back_click_form) {
-        back_click_form.addEventListener('click', function () {
-            formnumber--;
-            updateform();
-            progress_backward();
-            contentchange();
-        });
-    });
-
-    var username = document.querySelector("#user_name");
-    var shownname = document.querySelector(".shown_name");
-
-
-    var submit_click = document.querySelectorAll(".submit_button");
-    submit_click.forEach(function (submit_click_form) {
-        submit_click_form.addEventListener('click', function () {
-            if (!validateform()) {
-                return false
-            }
-
-            formnumber++;
-            updateform();
-        });
-    });
-
-    var heart = document.querySelector(".fa-heart");
-    heart.addEventListener('click', function () {
-        heart.classList.toggle('heart');
-    });
-
-
-    var share = document.querySelector(".fa-share-alt");
-    share.addEventListener('click', function () {
-        share.classList.toggle('share');
-    });
-
-
-
-    function updateform() {
-        main_form.forEach(function (mainform_number) {
-            mainform_number.classList.remove('active');
-        })
-        main_form[formnumber].classList.add('active');
-    }
-
-    function progress_forward() {
-        // step_list.forEach(list => {
-
-        //     list.classList.remove('active');
-
-        // }); 
-
-
-        num.innerHTML = formnumber + 1;
-        step_list[formnumber].classList.add('active');
-    }
-
-    function progress_backward() {
-        var form_num = formnumber + 1;
-        step_list[form_num].classList.remove('active');
-        num.innerHTML = form_num;
-    }
-
-    var step_num_content = document.querySelectorAll(".step-number-content");
-
-    function contentchange() {
-        step_num_content.forEach(function (content) {
-            content.classList.remove('active');
-            content.classList.add('d-none');
-        });
-        step_num_content[formnumber].classList.add('active');
-    }
-
-
-    function validateform() {
-
-        validate = true;
-        // Get the phone number input element
-        var phoneNumberInput = document.getElementById('phoneNumber');
-
-        var validate_inputs = document.querySelectorAll(".main.active input, .main.active textarea, .main.active select ");
-        validate_inputs.forEach(function (validate_input) {
-            if (validate_input.hasAttribute('required')) {
-                if (validate_input.value.trim().length === 0) {
-                    validate = false;
-                }
-
-            }
-            if (!phoneNumberInput.checkValidity()) {
-                // Display the custom error message
-                validate = false;
-            }
-        });
-
-        return validate;
-    }
+        }
+        // Add event listener to the cancel button
+        cancelButton.addEventListener("click",Freset);
 
 </script>

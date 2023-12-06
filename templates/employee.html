@@ -7,12 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Employee</title>
-
-
-
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
-    <link rel="stylesheet" href="../../static/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../static\vendors\mdi\css\materialdesignicons.min.css">
 
 
     <!-- inject:css -->
@@ -23,14 +20,7 @@
 
     <!-- Website icon -->
     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
-
-    <link rel="stylesheet" href="./static/fold/styleJoblist.css">
-
-    <!-- Vendor CSS Files -->
-    <!-- Template Main CSS File -->
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
-
         .job-post-container {
             min-height: 300px;
             max-height: 400px;
@@ -78,696 +68,119 @@
                 /* Adjust to fit exactly 4 job postings, you might need to change this */
                 overflow-y: hidden;
             }
-
             .welcome-section {
-                display: none;
-            }
+        display: none;
+    }
 
-        }
-
-        /***/
-        /*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
-        #header {
-            transition: all 0.5s;
-            z-index: 997;
-            transition: all 0.5s;
-            padding: 15px 0;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
-
-
-        }
-
-        #header.header-transparent {
-            background: transparent;
-        }
-
-        #header.header-scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        #header .logo h1 {
-            font-size: 30px;
-            margin: 0;
-            line-height: 1;
-            font-weight: 400;
-            letter-spacing: 2px;
-        }
-
-        /*--------------------------------------------------------------
-# Navigation Menu
---------------------------------------------------------------*/
-        /**
-* Desktop Navigation 
-*/
-        .navbar {
-            padding: 0;
-
-        }
-
-        .navbar ul {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            list-style: none;
-            align-items: center;
-        }
-
-        .navbar li {
-            position: relative;
-        }
-
-        .navbar a,
-        .navbar a:focus {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0 10px 30px;
-            font-family: "Raleway", sans-serif;
-            font-size: 15px;
-            color: #47536e;
-            white-space: nowrap;
-            transition: 0.3s;
-        }
-
-        .navbar a i,
-        .navbar a:focus i {
-            font-size: 12px;
-            line-height: 0;
-            margin-left: 5px;
-        }
-
-        .navbar a:hover,
-        .navbar .active,
-        .navbar .active:focus,
-        .navbar li:hover>a {
-            color: #5777ba;
-        }
-
-        .navbar .getstarted,
-        .navbar .getstarted:focus {
-            background: #5777ba;
-            color: #fff;
-            padding: 12px 25px;
-            margin-left: 30px;
-            color: #fff;
-            line-height: 1;
-            border-radius: 50px;
-        }
-
-        .navbar .getstarted:hover,
-        .navbar .getstarted:focus:hover {
-            background: #748ec6;
-            color: #fff;
-        }
-
-        .navbar .dropdown ul {
-            display: block;
-            position: absolute;
-            left: 14px;
-            top: calc(100% + 30px);
-            margin: 0;
-            padding: 10px 0;
-            z-index: 99;
-            opacity: 0;
-            visibility: hidden;
-            background: #fff;
-            box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-            transition: 0.3s;
-            border-radius: 4px;
-        }
-
-        .navbar .dropdown ul li {
-            min-width: 200px;
-        }
-
-        .navbar .dropdown ul a {
-            padding: 10px 20px;
-            font-size: 15px;
-            text-transform: none;
-            font-weight: 600;
-        }
-
-        .navbar .dropdown ul a i {
-            font-size: 12px;
-        }
-
-        .navbar .dropdown ul a:hover,
-        .navbar .dropdown ul .active:hover,
-        .navbar .dropdown ul li:hover>a {
-            color: #5777ba;
-        }
-
-        .navbar .dropdown:hover>ul {
-            opacity: 1;
-            top: 100%;
-            visibility: visible;
-        }
-
-        .navbar .dropdown .dropdown ul {
-            top: 0;
-            left: calc(100% - 30px);
-            visibility: hidden;
-        }
-
-        .navbar .dropdown .dropdown:hover>ul {
-            opacity: 1;
-            top: 0;
-            left: 100%;
-            visibility: visible;
-        }
-
-        @media (max-width: 1366px) {
-            .navbar .dropdown .dropdown ul {
-                left: -90%;
-            }
-
-            .navbar .dropdown .dropdown:hover>ul {
-                left: -100%;
-            }
-        }
-
-        /**
-* Mobile Navigation 
-*/
-        .mobile-nav-toggle {
-            color: #47536e;
-            font-size: 28px;
-            cursor: pointer;
-            display: none;
-            line-height: 0;
-            transition: 0.5s;
-        }
-
-        .mobile-nav-toggle.bi-x {
-            color: #fff;
-        }
-
-        @media (max-width: 991px) {
-            .mobile-nav-toggle {
-                display: block;
-            }
-
-            .navbar ul {
-                display: none;
-            }
-        }
-
-        .navbar-mobile {
-            position: fixed;
-            overflow: hidden;
-            top: 0;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            background: rgba(51, 60, 79, 0.9);
-            transition: 0.3s;
-            z-index: 999;
-        }
-
-        .navbar-mobile .mobile-nav-toggle {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-        }
-
-        .navbar-mobile ul {
-            display: block;
-            position: absolute;
-            top: 55px;
-            right: 15px;
-            bottom: 15px;
-            left: 15px;
-            padding: 10px 0;
-            border-radius: 6px;
-            background-color: #fff;
-            overflow-y: auto;
-            transition: 0.3s;
-        }
-
-        .navbar-mobile a,
-        .navbar-mobile a:focus {
-            padding: 10px 20px;
-            font-size: 15px;
-            color: #47536e;
-        }
-
-        .navbar-mobile a:hover,
-        .navbar-mobile .active,
-        .navbar-mobile li:hover>a {
-            color: #5777ba;
-        }
-
-        .navbar-mobile .getstarted,
-        .navbar-mobile .getstarted:focus {
-            margin: 15px;
-        }
-
-        .navbar-mobile .dropdown ul {
-            position: static;
-            display: none;
-            margin: 10px 20px;
-            padding: 10px 0;
-            z-index: 99;
-            opacity: 1;
-            visibility: visible;
-            background: #fff;
-            box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-        }
-
-        .navbar-mobile .dropdown ul li {
-            min-width: 200px;
-        }
-
-        .navbar-mobile .dropdown ul a {
-            padding: 10px 20px;
-        }
-
-        .navbar-mobile .dropdown ul a i {
-            font-size: 12px;
-        }
-
-        .navbar-mobile .dropdown ul a:hover,
-        .navbar-mobile .dropdown ul .active:hover,
-        .navbar-mobile .dropdown ul li:hover>a {
-            color: #5777ba;
-        }
-
-        .navbar-mobile .dropdown>.dropdown-active {
-            display: block;
-        }
-
-        /*--------------------------------------------------------------
-# Hero Section
---------------------------------------------------------------*/
-        #hero {
-            width: 100%;
-            height: 20px;
-            position: relative;
-            overflow: hidden;
-            padding: 90px 0 100px 0;
-            background: #F5F7FF;
-            z-index: 1;
-            /*
- background-image: url("static/images/5654986r.jpg");
- background-repeat: no-repeat; 
-  background-size: cover; 
-  background-position: center center; 
-  position: relative; 
-*/
-        }
-
-        /*
-        #hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-
-        }
-*/
-        a {
-            color: #5777ba;
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: #7b94c9;
-            text-decoration: none;
-        }
-
-        .container,
-        .container-fluid,
-        .container-lg,
-        .container-md,
-        .container-sm,
-        .container-xl,
-        .container-xxl {
-            --bs-gutter-x: 1.5rem;
-            --bs-gutter-y: 0;
-            width: 100%;
-            padding-right: calc(var(--bs-gutter-x) * .5);
-            padding-left: calc(var(--bs-gutter-x) * .5);
-            margin-right: auto;
-            margin-left: auto
-        }
-
-        @media (min-width:576px) {
-
-            .container,
-            .container-sm {
-                max-width: 540px
-            }
-        }
-
-        @media (min-width:768px) {
-
-            .container,
-            .container-md,
-            .container-sm {
-                max-width: 720px
-            }
-        }
-
-        @media (min-width:992px) {
-
-            .container,
-            .container-lg,
-            .container-md,
-            .container-sm {
-                max-width: 960px
-            }
-        }
-
-        @media (min-width:1200px) {
-
-            .container,
-            .container-lg,
-            .container-md,
-            .container-sm,
-            .container-xl {
-                max-width: 1140px
-            }
-        }
-
-        @media (min-width:1400px) {
-
-            .container,
-            .container-lg,
-            .container-md,
-            .container-sm,
-            .container-xl,
-            .container-xxl {
-                max-width: 1320px
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .kk {
-                max-width: 1140px;
-            }
-        }
-
-        .dropdown button i {
-            border-radius: 50%;
-            /* Make the icon circular */
-            background-color: #ffffff;
-            /* Set the background color to match your design */
-            padding: 8px;
-            /* Adjust the padding as needed */
         }
     </style>
-
-
 </head>
 
 <body>
-
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top  ">
-        <div class="container d-flex align-items-center justify-content-between">
-
-            <div class="logo">
-                <a href="{{url_for('index')}}">
-                    <h2 style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC;"> Uni Job</h2>
-                </a>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+    <div class="container-scroller ">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex ">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <div class="navbar-brand brand-logo mr-5"><img src="static/images/logo1d.svg" class="mr-2" alt="logo" />
+                </div>
+                <div class="navbar-brand brand-logo-mini"><img src="static/images/U.svg" alt="logo" /></div>
             </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
 
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li class="nav-item nav-profile dropdown d-none d-lg-flex">
-                        <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                            aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" style="justify-content:left">
-                                <i class=" ti-user text-dark " style="margin-right:5px;"></i>
-                                {{ user[3]| title }}
-                            </a>
-                            <a class="dropdown-item">
-                                <i class="ti-email text-primary" style="margin-right:5px;"></i>
-                                {{ user[4] }}
-                            </a>
-                            <a class="dropdown-item" href="{{url_for('login')}}" style="justify-content:left">
-                                <i class="ti-power-off text-primary" style="margin-right:5px;"></i>
-                                Log out
-                            </a>
-                        </div>
-                    </li>
+                <div class="dropdown" style="margin-right: 2.5em;">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Employee
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
+                        <li> {{ user[3]| title  }}
+                        </li>
+                        <div style="margin-bottom: 2%;"></div>
 
-                    <div class="app-header-right">
+                        <li> {{ user[4] }}
+                        </li>
+                        <div class="dropdown-divider"></div>
 
-
-                        <button class="profile-btn">
-                            <span> {{ user[3] | title }}</span>
-                        </button>
+                        <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
                     </div>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
-
-        </div>
-    </header>
+                </div>
+            </div>
+        </nav>
 
 
-    <!-- End Header -->
+        <div class="container-fluid page-body-wrapper w-100 ">
+            <div class="content-wrapper" style="min-height: inherit;">
+                <div class="container kk  ">
+                    <div class=" row mt-5 ">
+                        <div class=" col-12 col-xl-12 mb-4 mb-xl-0 welcome-section" >
+                    <h4 class="font-weight-bold left-margin " style="font-size: 27px;">Welcome</h4>
+                    <h4 class="left-margin " style="margin-bottom: 1.5rem; font-size: 21px;">{{ user[3] | title }} </h4>
+                </div>
 
-    <section id="hero" style="padding: 40px 0 40px 0;"> </section>
-    <div class="content-wrapper" style="padding-top:0.5rem;">
-        <div class="container   ">
-            <div class="row " style="margin-left: 0; margin-right: 0;">
-                <div class="col-md-12 grid-margin" style="margin-bottom: 15px;">
-                    <div class="row" style="margin-left: 0; margin-right: 0; margin-bottom: 0;">
-                        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                            <h4 class="font-weight-bold left-margin " style="font-size: 27px;">Welcome {{
-                                user[3].split(' ')[0] | title }}</h4>
-                            <h6 class="font-weight-normal left-margin ">Explore opportunities and find the perfect match
-                                for your job needs</h6>
-                        </div>
-                        <div class="col-12 col-xl-4">
-                            <div class="justify-content-end d-flex">
+                <div class="col-12 grid-margin stretch-card d">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="justify-content-between d-flex ">
+                                <div>
+                                    <h4 class="font-weight-bold left-margin "
+                                        style="margin-top: 1.8rem; margin-bottom: 1rem; font-size: 22px;"> Your
+                                        Postings </h4>
+                                </div>
                                 <form action="{{ url_for('post_job') }}">
-                                    <button id="postJob-button" class="btn btn-primary btn-rounded btn-fw" "
-                                    style=" border-radius: 20px; align-items: center; justify-content: center; height:
-                                        40px; display: flex; "
-                                    onclick=" location.href='/post_job' ;" type="button" aria-expanded="true"><i
-                                            class="ti ti-plus" style="margin-right: 8px;"></i> Post a new job </button>
+                                    <button id="postJob-button" class="btn btn-inverse-primary btn-fw "
+                                        style="height: 50px; margin: 1rem; display: inline-block;"
+                                        onclick="location.href = '/post_job';" type="button" aria-expanded="true">Post
+                                        job </button>
 
                                 </form>
-
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row d-flex align-items-stretch" style="margin-left: 0; margin-right: 0;">
-                <div class="col-md-9 grid-margin stretch-card">
-                    <div class="projects-section">
-                        <div class="projects-section-header">
-                            <p>All job posts </p>
 
-
-                        </div>
-                        <div class="projects-section-line">
-                            <div class="projects-status">
-                                <div class="item-status">
-                                    <span class="status-number">{{ jobs|length }}</span>
-                                    <span class="status-type">In Progress</span>
-                                </div>
-                                <div class="item-status">
-                                    <span class="status-number">0</span>
-                                    <span class="status-type">Filled</span>
-                                </div>
-                                <div class="item-status">
-                                    <span class="status-number">{{ jobs|length }}</span>
-                                    <span class="status-type">Total Jobs</span>
-                                </div>
-                            </div>
-                            <div class="view-actions">
-                                <button class="view-btn list-view" title="List View">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-list">
-                                        <line x1="8" y1="6" x2="21" y2="6" />
-                                        <line x1="8" y1="12" x2="21" y2="12" />
-                                        <line x1="8" y1="18" x2="21" y2="18" />
-                                        <line x1="3" y1="6" x2="3.01" y2="6" />
-                                        <line x1="3" y1="12" x2="3.01" y2="12" />
-                                        <line x1="3" y1="18" x2="3.01" y2="18" />
-                                    </svg>
-                                </button>
-                                <button class="view-btn grid-view active" title="Grid View">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-grid">
-                                        <rect x="3" y="3" width="7" height="7" />
-                                        <rect x="14" y="3" width="7" height="7" />
-                                        <rect x="14" y="14" width="7" height="7" />
-                                        <rect x="3" y="14" width="7" height="7" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="project-boxes jsGridView">
-                            {% if jobs %}
-                            {% for job in jobs %}
-                            {% set box_colors = ['#fee4cb','#e9e7fd' , '#dbf6fd' , '#ffd3e2' , '#c8f7dc' , '#d5deff' ]
-                            %}
-                            {% set color_index = loop.index0 % box_colors|length %}
-                            {% set pro_colors = ['#ff942e', '#4f3ff0' , '#096c86', '#df3670' , '#34c471' , '#4067f9' ]
-                            %}
-
-                            {% if job[14] == 0 %}
-                            {% set progress_percentage = 10 %}
-                            {% elif job[14]/job[9] < 1 %} {% set progress_percentage=20 %} {% elif job[14]/job[9]==1 %}
-                                {% set progress_percentage=50 %} {% endif %} <div class="project-box-wrapper">
-                                <div class="project-box" style="background-color: {{ box_colors[color_index] }}">
-                                    <div class="project-box-header">
-                                        <span>{{ job[13] }}</span>
-                                        <div class="more-wrapper">
-                                            <button class="project-btn-more" type="button" id="dropdownMenuIconButton1"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-more-vertical">
-                                                    <circle cx="12" cy="12" r="1" />
-                                                    <circle cx="12" cy="5" r="1" />
-                                                    <circle cx="12" cy="19" r="1" />
-                                                </svg>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="get_recommendations/{{ job[0] }}">
-                                                    View Candidates</a>
-                                                <a class="dropdown-item" href="/view_jobs/{{ job[0] }}">View Job</a>
-                                                <a class="dropdown-item" href="/update_post_job/{{ job[0] }}">Update
-                                                    Job</a>
-                                                <a class="dropdown-item" href="/delete_jobs/{{ job[0] }}"> Delete
-                                                    Job</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="project-box-content-header">
-                                        <p class="box-content-header">{{ job[2]|title}} </p>
-                                        <p class="box-content-subheader">{{ job[3]}}</p>
-
-                                    </div>
-                                    <div class="box-progress-wrapper">
-                                        <p class="box-progress-header">Progress</p>
-                                        <div class="box-progress-bar">
-                                            <span class="box-progress"
-                                                style="width: {{ progress_percentage }}%; background-color: {{ pro_colors[color_index] }}"></span>
-                                        </div>
-                                        <p class="box-progress-percentage">{{ progress_percentage }}%</p>
-                                    </div>
-
-                                    <div class="project-box-footer">
-                                        <div class="participants">
-                                            <!-- Your participants images and add participant button -->
-                                        </div>
-                                        <a href="{{ url_for('get_recommendations', job_id=job[0]) }}">
-                                            <button class="days-left"
-                                                style="border-color: transparent; color: {{ job.daysLeftColor }}">View
-                                                Candidates</button>
-                                        </a>
-
-                                    </div>
-                                </div>
-                        </div>
-                        {% endfor %}
-                        {% else %}
-                        <div class="up-card-section text-center" style="padding-top: 100px;">
-                            <h4 class="mb-10">No active job posts</h4>
-                            <p class="px-30 pb-20">Post a job to the marketplace and let talent come to
-                                you.</p>
                             <div>
-                                <a href="/post_job">Post a new job</a>
                             </div>
-                            <style>
-                                .project-boxes.jsGridView {
-                                    display: block;
-                                    /* Hide the project boxes when no active job posts */
-                                }
-                            </style>
+                            <hr>
 
-                        </div>
+                            <div class="job-post-container">
+                                {% if jobs %}
+                                {% for job in jobs %}
+                                <div class="job-post d-flex justify-content-between align-items-center">
 
+                                    <li class="font-weight-bold left-margin text-capitalize"
+                                        style="margin:1rem 0 1rem 3.5rem; flex: 1;">
+                                        <h4 class="font-weight-bold left-margin text-capitalize"
+                                            style="margin-left: 0; flex: 1; display: inline-block;"> {{ job[2]
+                                            }} </h4>
+                                    </li>
 
-                        {% endif %}
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-3 grid-margin transparent">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="projects-section-header" style="margin-bottom: 2px">
-                            <p>Getting started </p>
-                        </div>
-                        <p style="margin-bottom: 20px">Follow these steps to get started:</p>
-                        <div class="list-wrapper pt-2" style="overflow: hidden ; height: auto;">
-                            <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
-                                <li>
-                                    <img src="./static/images/rocket.png" style="width:30px; height: 30px;">
-
-                                    <div class="form-check form-check-flat">
-
-                                        <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
-
-                                            Start your job
-                                        </label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-primary btn-sm dropdown-toggle"
+                                            style="margin-right: 0.9rem; " type="button" id="dropdownMenuIconButton1"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="mdi mdi-format-list-bulleted"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="get_recommendations/{{ job[0] }}">
+                                                View Candidates</a>
+                                            <a class="dropdown-item" href="/view_jobs/{{ job[0] }}">View Job</a>
+                                            <a class="dropdown-item" href="/update_post_job/{{ job[0] }}">Update
+                                                Job</a>
+                                            <a class="dropdown-item" href="/delete_jobs/{{ job[0] }}"> Delete
+                                                Job</a>
+                                        </div>
                                     </div>
-                                </li>
-                                <li>
-                                    <img src="./static/images/select.png" style="width:30px; height: 30px;">
-
-                                    <div class="form-check form-check-flat">
-
-                                        <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
-
-                                            Select Candidates
-                                        </label>
+                                </div>
+                                <hr>
+                                {% endfor %}
+                                {% else %}
+                                <div class="up-card-section text-center" style="padding-top: 100px;">
+                                    <h4 class="mb-10">No active job posts</h4>
+                                    <p class="px-30 pb-20">Post a job to the marketplace and let talent come to
+                                        you.</p>
+                                    <div>
+                                        <a href="/post_job">Post a new job</a>
                                     </div>
-                                </li>
-                                <li>
-                                    <img src="./static/images/candidates1.png" style="width:30px; height: 30px;">
-
-                                    <div class="form-check form-check-flat">
-
-                                        <label style="font-weight: 500; font-size: 0.9rem;" class="form-check-label">
-
-                                            Explore Best Candidates
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="./static/images/form.png" style="width:30px; height: 30px;">
-
-                                    <div class="form-check form-check-flat">
-
-                                        <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
-
-                                            Post a Job
-                                        </label>
-                                    </div>
-                                </li>
-
-
-
-                            </ul>
-
-                        </div>
-                        <div class="card-footer">
-                            <div style="height: 60px;"></div>
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -775,24 +188,13 @@
         </div>
     </div>
     </div>
-
 
 
     <!-- plugins:js -->
     <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
     <!-- endinject -->
 
-    <!-- Vendor JS Files -->
-    <script src="static/assets/vendor/aos/aos.js"></script>
-    <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="static/assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="static/assets/js/main.js"></script>
-
-    <script src="./static/fold/script_joblist.js"></script>
 
 </body>
 

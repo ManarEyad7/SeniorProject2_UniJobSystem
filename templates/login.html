@@ -7,159 +7,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Log In</title>
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
-
-    <!-- Favicons -->
-    <link href="static/assets/img/favicon.png" rel="icon">
-    <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courgette&display=swap">
-
-    <!-- Vendor CSS Files -->
-    <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="static/assets/css/style.css" rel="stylesheet">
-
     <!-- inject:css -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
     <!-- endinject -->
     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
-    <link rel="stylesheet" href="static/css/logincss/stylelogin.css" />
-
 
 </head>
-<style>
-    @import url('https://fonts.cdnfonts.com/css/bauhaus-93');
 
-    #heroo {
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  padding: 140px 0 100px 0;
-  background:  #F5F7FF;
-  z-index: 1;
-  
-}
-
-#heroo::before {
-  content: "";
-  position: absolute;
-  right: -100%;
-  top: 20%;
-  width: 250%;
-  height: 200%;
-  z-index: -1;
-  background-color:  #ffffff;
-  transform: skewY(135deg);
-}
-</style>
-
-<body style="background-color: #F5F7FF;">
-
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top  header-transparent ">
-        <div class="container d-flex align-items-center justify-content-between">
-
-            <div class="logo">
-                <a href="{{url_for('index')}}">
-                    <h2
-                        style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC; line-height: 1.7;">
-                        Uni Job</h2>
-                </a>
+<body>
+    <div class="container-scroller ">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo mr-5 " href="{{url_for('index')}}"><img src="static/images/logo1d.svg"
+                        class="mr-2" alt="logo" /></a>
+                <div class="navbar-brand brand-logo-mini" href="{{url_for('index')}}"><img src="static/images/U.svg"
+                        alt="logo" /></div>
             </div>
-
-
-
-        </div>
-    </header><!-- End Header -->
-
-    <main id="heroo" >
-        <div class="inner-box">
-            <div class="forms-wrap">
-                <form class="sign-in-form" method="POST">
-                    <div class="logoo">
-                    </div>
-
-                    <div class="heading">
-                        <m2>Hello!</m2>
-                        <div></div>
-                        <m2 style="font-size: 1.5em;"> let's get started</m2>
-                        <div></div>
-                        <h6>Log in to continue.</h6>
-                    </div>
-
-                    <div class="actual-form">
-
-                        <div class="input-wrap">
-                            <input name="id" type="id" minlength="4" class="input-field" autocomplete="off"
-                                required="" />
-                            <label>Name</label>
-                        </div>
-
-                        <div class="input-wrap">
-                            <input name="password" type="password" class="input-field" tabindex="1" required="" />
-                            <label>Password</label>
-                        </div>
-
-                        <input type="submit" value="Log In" class="sign-btn" />
-
-                    </div>
-                </form>
-                <center>
-                    {% with errors = get_flashed_messages(category_filter=["error"]) %}
-                    {% if errors %}
-                    <div class="error alert-danger  ">
-
-                        <ul>
-                            {%- for msg in errors %}
-                            <strong>{{ msg }}</strong>
-                            <a class="close" href="#" onclick=delete_flash(this)>x</a>
-                            {% endfor -%}
-                        </ul>
-                    </div>
-                    {% endif %}
-                    {% endwith %}
-                </center>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
 
             </div>
-
-            <div class="carousel">
-                <div class="images-wrapper">
-                    <img src="./static/images/laptop1.png" class="image img-1 show " alt="" />
-                    <img src="./static/images/img2.png" class="image img-2 " alt="" />
-                    <img src="./static/images/img3.png" class="image img-3" alt="" />
-                </div>
-
-                <div class="text-slider">
-                    <div class="text-wrap">
-                        <div class="text-group">
-                            <m2>Post New Jobs</m2>
-                            <m2>Find Best Candidates</m2>
-                            <m2>Improve and Expedite the CV Examination Process</m2>
+        </nav>
+        
+        <div class="container-fluid page-body-wrapper w-100 ">
+            <div class="content-wrapper" style="min-height: inherit;">
+                <div class="container">
+                    <div class="row mt-5">
+                        <div class="col-lg-6" style="float:none;margin:auto;">
+                            <h1 style="margin-bottom: 2rem;     font-size: 60px;">UniJob System</h1>
                         </div>
-                    </div>
+                        <div class="col-lg-6" style="float:none;margin:auto;">
+                            <div class="auth-form-light text-left py-5 px-4 px-sm-5 rounded"
+                                style="background-color: white;">
+                                <h3>Hello! let's get started</h4>
+                                    <h4 style="margin-top: 0.8rem; " class="font-weight-light">Log in to continue.</h6>
+                                        <form class="pt-3" method="POST">
+                                            <div class="form-container" style="margin-top: 2rem;">
+                                                <form-group>
 
-                    <div class="bullets">
-                        <span class="active" data-value="1"></span>
-                        <span data-value="2"></span>
-                        <span data-value="3"></span>
+                                                    <input style="margin-bottom: 1rem;" type="id" class="form-control"
+                                                        name="id" placeholder="  Job number or student number"
+                                                        required="" autofocus="" />
+
+                                                    <input style="margin-bottom: 2.5rem;" type="password"
+                                                        class="form-control" name="password" placeholder="  Password"
+                                                        tabindex="1" required="" />
+                                                    <input type="submit"
+                                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                                                        style="width: 100%;" value="Login" />
+                                                </form-group>
+                                        </form>
+                                        <center>
+                                            {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                                            {% if errors %}
+                                            <div class="alert-message block-message error">
+
+                                                <ul>
+                                                    {%- for msg in errors %}
+                                                    <strong>{{ msg }}</strong>
+                                                    <a class="close" href="#" onclick=delete_flash(this)>x</a>
+                                                    {% endfor -%}
+                                                </ul>
+                                            </div>
+                                            {% endif %}
+                                            {% endwith %}
+                                        </center>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-
-
-
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script>
@@ -168,59 +89,6 @@
         }
     </script>
 
-    <!-- Vendor JS Files -->
-    <script src="static/assets/vendor/aos/aos.js"></script>
-    <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="static/assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="static/assets/js/main.js"></script>
-
-    <script>
-        const inputs = document.querySelectorAll(".input-field");
-        const toggle_btn = document.querySelectorAll(".toggle");
-        const main = document.querySelector("main");
-        const bullets = document.querySelectorAll(".bullets span");
-        const images = document.querySelectorAll(".image");
-
-        inputs.forEach((inp) => {
-            inp.addEventListener("focus", () => {
-                inp.classList.add("active");
-            });
-            inp.addEventListener("blur", () => {
-                if (inp.value != "") return;
-                inp.classList.remove("active");
-            });
-        });
-
-        toggle_btn.forEach((btn) => {
-            btn.addEventListener("click", () => {
-                main.classList.toggle("sign-up-mode");
-            });
-        });
-
-        function moveSlider() {
-            let index = this.dataset.value;
-
-            let currentImage = document.querySelector(`.img-${index}`);
-            images.forEach((img) => img.classList.remove("show"));
-            currentImage.classList.add("show");
-
-            const textSlider = document.querySelector(".text-group");
-            textSlider.style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
-
-            bullets.forEach((bull) => bull.classList.remove("active"));
-            this.classList.add("active");
-        }
-
-        bullets.forEach((bullet) => {
-            bullet.addEventListener("click", moveSlider);
-        });
-
-    </script>
-    
 </body>
 
 

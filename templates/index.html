@@ -2,280 +2,54 @@
 <html lang="en">
 
 <head>
-
-
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Home Page</title>
     <!-- inject:css -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
     <!-- endinject -->
     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
 
-
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courgette&display=swap">
-
-    <!-- Vendor CSS Files -->
-    <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="static/assets/css/style.css" rel="stylesheet">
-
-
 </head>
 
-<style>
-/* inverse buttons */
-.btn-inverse-primary {
-  background-color: rgba(75, 73, 172, 0.2);
-  background-image: none;
-  border-color: rgba(75, 73, 172, 0);
-}
-
-.btn-inverse-primary:not(.btn-inverse-light) {
-  color: #4B49AC;
-}
-
-.btn-inverse-primary:hover {
-  color: #ffffff;
-  background-color: #4B49AC;
-  border-color: #4B49AC;
-}
-
-.btn-inverse-primary.focus, .btn-inverse-primary:focus {
-  box-shadow: 0 0 0 3px rgba(75, 73, 172, 0.5);
-}
-
-.btn-inverse-primary.disabled, .btn-inverse-primary:disabled {
-  color: #4B49AC;
-  background-color: transparent;
-}
-
-.btn-inverse-primary.active, .btn-inverse-primary:active,
-.show > .btn-inverse-primary.dropdown-toggle {
-  color: #ffffff;
-  background-color: #4B49AC;
-  border-color: #4B49AC;
-}
-
-    @keyframes fadeInSlide {
-        0% {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .fade-in-slide {
-        animation: fadeInSlide 1s ease-out;
-    }
-
-    .image-container {
-        position: relative;
-        overflow: hidden;
-        /* Ensure the pseudo-element is not hidden by overflow */
-    }
-
-    @keyframes slideInFromRight {
-        0% {
-            opacity: 0;
-            transform: translateX(30%);
-        }
-
-        100% {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-
-    @import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-
-
-    .container p {
-        font-size: 1.4rem;
-        font-weight: bold;
-        letter-spacing: 0.1rem;
-        text-align: left;
-        overflow: hidden;
-        color: #515f7d;
-    }
-
-    .container p span.typed-text {
-        font-weight: normal;
-        color: #FF9966;
-    }
-
-    .container p span.cursor {
-        display: inline-block;
-        background-color: #ccc;
-        margin-left: 0.1rem;
-        width: 3px;
-        animation: blink 1s infinite;
-    }
-
-    .container p span.cursor.typing {
-        animation: none;
-    }
-
-    @keyframes blink {
-        0% {
-            background-color: #ccc;
-        }
-
-        49% {
-            background-color: #ccc;
-        }
-
-        50% {
-            background-color: transparent;
-        }
-
-        99% {
-            background-color: transparent;
-        }
-
-        100% {
-            background-color: #ccc;
-        }
-    }
-  
-</style>
-
-
-
 <body>
+    <div class="container-scroller ">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <div class="navbar-brand brand-logo mr-5"><img src="static/images/logo1d.svg" class="mr-2" alt="logo" />
+                </div>
+                <div class="navbar-brand brand-logo-mini"><img src="static\images/U.svg" alt="logo" /></div>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top  header-transparent ">
-        <div class="container d-flex align-items-center justify-content-between">
-
-            <div class="logo">
-                <a href="{{url_for('index')}}"><h2 style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC;" > Uni Job</h2></a>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
             </div>
 
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><button type="button" 
-                        style=" padding: 12px 25px;margin-left: 30px; line-height: 0.9; border-radius: 50px;"  
-                        class="btn btn-inverse-primary btn-fw" onclick="location.href = '/login'; ">Get Started</button></li>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
+        </nav>
 
-        </div>
-    </header><!-- End Header -->
+        <div class="container-fluid page-body-wrapper w-100">
+            <div class="content-wrapper" style="min-height: inherit;">
+                <div class="container">
+                    <div class="row mt-5">
+                        <div class="col-lg-6" style="float:none;margin:auto;">
+                            <div class="auth-form-light text-center py-5 px-4 px-sm-5 rounded"
+                                style="background-color: rgba(255, 255, 255, 0.863);   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);">
+                                <h1 style="margin-bottom: 1.8rem; margin-top: 2rem; "> UniJob System </h1>
+                                <h3 style="margin-bottom: 1rem;">Are you looking for a part time job?</h3>
+                                <p>Let's Get Started</p>
+                                <button class="btn btn-primary btn-lg " style="margin-top: 1.8rem; margin-bottom: 2rem;"
+                                    onclick="location.href = '/login';" type="button">Login</button>
+                            </div>
 
-    <!-- ======= Hero Section ======= -->
-    <section id="hero" class="d-flex align-items-center">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 d-lg-flex flex-lg-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1"
-                    data-aos="fade-up">
-                    <div>
-                        <h1 style="color: #151111; font-family:'Courgette', cursive; font-size: 4rem;">UniJob System
-                        </h1>
-                        <p style="padding-top: 2rem; margin: 0; color: #151111 ; font-family:'Poppins', sans-serif ;">Are you looking for a <span
-                                class="typed-text"></span><span class="cursor">&nbsp;</span>
-                        </p>
-                        <h2 style="padding-top: 0.3rem;font-family: 'Ralewa', sans-serif; color: #bababa;">Let's Get Started!</h2>
-
-
-                        <button class="download-btn" onclick="location.href = '/login'; " type="button" > <i class="bx bx-log-in-circle"></i> Log In
-                        </button>
-
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
-                    data-aos="fade-up">
-                    <img src="static/images/landing page.svg" class="img-fluid" alt="">
+
                 </div>
             </div>
         </div>
-
-    </section><!-- End Hero -->
-
-
-        <!-- Vendor JS Files -->
-        <script src="static/assets/vendor/aos/aos.js"></script>
-        <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
-        <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
-        <script src="static/assets/vendor/php-email-form/validate.js"></script>
-
-        <!-- Template Main JS File -->
-        <script src="static/assets/js/main.js"></script>
-        <script>
-            const typedTextSpan = document.querySelector(".typed-text");
-            const cursorSpan = document.querySelector(".cursor");
-
-            const textArray = ["part-time job? ", "candidate to fill vacancy job ?"];
-            const typingDelay = 200;
-            const erasingDelay = 100;
-            const newTextDelay = 2000; // Delay between current and next text
-            let textArrayIndex = 0;
-            let charIndex = 0;
-
-            function type() {
-                if (charIndex < textArray[textArrayIndex].length) {
-                    if (!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
-                    typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
-                    charIndex++;
-                    setTimeout(type, typingDelay);
-                }
-                else {
-                    cursorSpan.classList.remove("typing");
-                    setTimeout(erase, newTextDelay);
-                }
-            }
-
-            function erase() {
-                if (charIndex > 0) {
-                    if (!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
-                    typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
-                    charIndex--;
-                    setTimeout(erase, erasingDelay);
-                }
-                else {
-                    cursorSpan.classList.remove("typing");
-                    textArrayIndex++;
-                    if (textArrayIndex >= textArray.length) textArrayIndex = 0;
-                    setTimeout(type, typingDelay + 1100);
-                }
-            }
-
-            document.addEventListener("DOMContentLoaded", function () { // On DOM Load initiate the effect
-                if (textArray.length) setTimeout(type, newTextDelay + 250);
-            });
-        </script>
-
-
 
 
 </body>
-
 
 </html>
