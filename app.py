@@ -1223,7 +1223,7 @@ def get_recommendations(job_id):
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
         
         cursor.execute("SELECT * FROM notifications WHERE id_job = ? ", (job_id,))
-        notifications = cursor.fetchone()
+        notifications = cursor.fetchall()
     
     
 
