@@ -354,7 +354,7 @@
                                                         <th>GPA</th>
                                                         <th>Skills</th>
                                                         <th>Score</th>
-                                                        <th>Status</th>
+                                                        <th></th>
 
                                                     </tr>
                                                 </thead>
@@ -404,61 +404,22 @@
                                                             {% endif %}
                                                         </td>
                                                         <td>{{ recommendation['score'] | float | round(2) }} %</td>
-
-                                                    
-                                                   
-                                                        
                                                         <td>
-                                                            
-                                                            
-                                                            {% if notifications%} 
-                                                            {% for notification in notifications %}
-                                                            {% if notification[1]== recommendation['name'][2] %} 
-                                                            
-                                                            {% if notification[7]==1  %}
-                                                            confirm <i id="check-icon"
+                                                            <i id="check-icon"
                                                                 class="fa-regular fa-circle-check fa-2xl clickable-icon"
                                                                 style="color: #26bb02; margin-right: 10px;"></i>
-                                                            {% elif notification[7]==2 %}
-                                                            reject <i id="xmark-icon"
+                                                            <i id="xmark-icon"
                                                                 class="fa-regular fa-circle-xmark fa-2xl clickable-icon"
                                                                 style="color: #e91619;"></i>
-                                                            {% elif notification[7]==0 %}
-                                                            underproccess
-                                                            {% else %}
-                                                            not sent 
-                                                            
-                                                            {% endif %}
-                                                            
-
-                                                            {% endif %}
-                                                            {% endfor %}
-                                                            
-                                                            {% else %}
-                                                            not sent notification yet
-                                                            {% endif %}
-                                                            
-
-                                            
-
-                                                            
-
                                                         </td>
-                                                        
-                                                    
-
                                                     </tr>
                                                     {% endfor %}
-
-
                                                     {% else %}
                                                     <tr>
                                                         <td colspan="7">No recommended students found for this job.</td>
                                                     </tr>
                                                     {% endif %}
                                                 </tbody>
-
-                                                
 
 
                                             </table>
@@ -481,10 +442,8 @@
                     <h3 class="student-name" id="student-name"></h3>
 
                     <div id="l" style="flex-grow: 1; display: flex; flex-wrap: wrap; justify-content: flex-end; ">
-                        <button class="btn btn-outline-primary btn-rounded btn-fw btn-sm" id="send-notification-button"
-                            style="padding-left: 30px; padding-right: 30px; margin-bottom: 10px;">
-                            <span style="display: -ms-inline-flexbox; text-align: center; width: 100%;">Send
-                                Notification</span>
+                        <button class="btn btn-outline-primary btn-rounded btn-fw btn-sm" id="send-notification-button" style="padding-left: 30px; padding-right: 30px; margin-bottom: 10px;">
+                            <span style="display: -ms-inline-flexbox; text-align: center; width: 100%;">Send Notification</span>
                         </button>
 
                         <button class="btn btn-inverse-primary btn btn-rounded btn-fw btn-sm"
@@ -818,19 +777,19 @@
                 'Content-Type': 'application/json'
             }
         })
-            .then(response => {
-                if (response.status === 200) {
-                    alert('Notification sent successfully!');
-                    closeCandidateInfo(); // Close the candidate info form after sending the notification
-                } else if (response.status === 300) {
-                    alert('Cannot send notification. Maximum positions filled.');
-                } else {
-                    alert('Failed to send notification. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        .then(response => {
+            if (response.status === 200) {
+                alert('Notification sent successfully!');
+                closeCandidateInfo(); // Close the candidate info form after sending the notification
+            } else if(response.status === 300){
+                alert('Cannot send notification. Maximum positions filled.');
+            } else {
+                alert('Failed to send notification. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 
     // Add a click event listener to the "Send Notification" button
