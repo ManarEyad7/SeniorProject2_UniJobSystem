@@ -18,38 +18,531 @@
     <link rel="stylesheet" href="{{url_for('static',filename='vendors/select2/select2.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='vendors/feather/feather.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
+    <link rel="stylesheet" href="../../static/fold/styleJoblist.css">
+    <link rel="stylesheet" href="../../static/vendors/mdi/css/materialdesignicons.min.css">
+
 
     <!-- JS files -->
     <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
 </head>
+<style>
+    .card {
+        width: 100%;
+        max-width: none;
+        /* Add this line to remove the maximum width constraint */
+    }
+
+ 
+
+
+    @media (max-width: 600px) {
+
+        .kk {
+            margin-left: 0%;
+            margin-right: 0%;
+        }
+
+        .content-wrapper {
+            padding: 0%;
+        }
+
+        .d {
+            padding: 0%;
+            margin: 0;
+        }
+
+
+        .card {
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        .job-post-container {
+            min-height: 300px;
+            max-height: fit-content;
+            /* Adjust to fit exactly 4 job postings, you might need to change this */
+            overflow-y: hidden;
+        }
+
+        .welcome-section {
+            display: none;
+        }
+
+    }
+
+    /***/
+    /*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+    #header {
+        transition: all 0.5s;
+        z-index: 997;
+        transition: all 0.5s;
+        padding: 15px 0;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
+
+
+    }
+
+    #header.header-transparent {
+        background: transparent;
+    }
+
+    #header.header-scrolled {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    #header .logo h1 {
+        font-size: 30px;
+        margin: 0;
+        line-height: 1;
+        font-weight: 400;
+        letter-spacing: 2px;
+    }
+
+    /*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+    /**
+* Desktop Navigation 
+*/
+    .navbar {
+        padding: 0;
+
+    }
+
+    .navbar ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style: none;
+        align-items: center;
+    }
+
+    .navbar li {
+        position: relative;
+    }
+
+    .navbar a,
+    .navbar a:focus {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0 10px 30px;
+        font-family: "Raleway", sans-serif;
+        font-size: 15px;
+        color: #47536e;
+        white-space: nowrap;
+        transition: 0.3s;
+    }
+
+    .navbar a i,
+    .navbar a:focus i {
+        font-size: 12px;
+        line-height: 0;
+        margin-left: 5px;
+    }
+
+    .navbar a:hover,
+    .navbar .active,
+    .navbar .active:focus,
+    .navbar li:hover>a {
+        color: #5777ba;
+    }
+
+    .navbar .getstarted,
+    .navbar .getstarted:focus {
+        background: #5777ba;
+        color: #fff;
+        padding: 12px 25px;
+        margin-left: 30px;
+        color: #fff;
+        line-height: 1;
+        border-radius: 50px;
+    }
+
+    .navbar .getstarted:hover,
+    .navbar .getstarted:focus:hover {
+        background: #748ec6;
+        color: #fff;
+    }
+
+    .navbar .dropdown ul {
+        display: block;
+        position: absolute;
+        left: 14px;
+        top: calc(100% + 30px);
+        margin: 0;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 0;
+        visibility: hidden;
+        background: #fff;
+        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+        transition: 0.3s;
+        border-radius: 4px;
+    }
+
+    .navbar .dropdown ul li {
+        min-width: 200px;
+    }
+
+    .navbar .dropdown ul a {
+        padding: 10px 20px;
+        font-size: 15px;
+        text-transform: none;
+        font-weight: 600;
+    }
+
+    .navbar .dropdown ul a i {
+        font-size: 12px;
+    }
+
+    .navbar .dropdown ul a:hover,
+    .navbar .dropdown ul .active:hover,
+    .navbar .dropdown ul li:hover>a {
+        color: #5777ba;
+    }
+
+    .navbar .dropdown:hover>ul {
+        opacity: 1;
+        top: 100%;
+        visibility: visible;
+    }
+
+    .navbar .dropdown .dropdown ul {
+        top: 0;
+        left: calc(100% - 30px);
+        visibility: hidden;
+    }
+
+    .navbar .dropdown .dropdown:hover>ul {
+        opacity: 1;
+        top: 0;
+        left: 100%;
+        visibility: visible;
+    }
+
+    @media (max-width: 1366px) {
+        .navbar .dropdown .dropdown ul {
+            left: -90%;
+        }
+
+        .navbar .dropdown .dropdown:hover>ul {
+            left: -100%;
+        }
+    }
+
+    /**
+* Mobile Navigation 
+*/
+    .mobile-nav-toggle {
+        color: #47536e;
+        font-size: 28px;
+        cursor: pointer;
+        display: none;
+        line-height: 0;
+        transition: 0.5s;
+    }
+
+    .mobile-nav-toggle.bi-x {
+        color: #fff;
+    }
+
+    @media (max-width: 991px) {
+        .mobile-nav-toggle {
+            display: block;
+        }
+
+        .navbar ul {
+            display: none;
+        }
+    }
+
+    .navbar-mobile {
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: rgba(51, 60, 79, 0.9);
+        transition: 0.3s;
+        z-index: 999;
+    }
+
+    .navbar-mobile .mobile-nav-toggle {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+    .navbar-mobile ul {
+        display: block;
+        position: absolute;
+        top: 55px;
+        right: 15px;
+        bottom: 15px;
+        left: 15px;
+        padding: 10px 0;
+        border-radius: 6px;
+        background-color: #fff;
+        overflow-y: auto;
+        transition: 0.3s;
+    }
+
+    .navbar-mobile a,
+    .navbar-mobile a:focus {
+        padding: 10px 20px;
+        font-size: 15px;
+        color: #47536e;
+    }
+
+    .navbar-mobile a:hover,
+    .navbar-mobile .active,
+    .navbar-mobile li:hover>a {
+        color: #5777ba;
+    }
+
+    .navbar-mobile .getstarted,
+    .navbar-mobile .getstarted:focus {
+        margin: 15px;
+    }
+
+    .navbar-mobile .dropdown ul {
+        position: static;
+        display: none;
+        margin: 10px 20px;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 1;
+        visibility: visible;
+        background: #fff;
+        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    }
+
+    .navbar-mobile .dropdown ul li {
+        min-width: 200px;
+    }
+
+    .navbar-mobile .dropdown ul a {
+        padding: 10px 20px;
+    }
+
+    .navbar-mobile .dropdown ul a i {
+        font-size: 12px;
+    }
+
+    .navbar-mobile .dropdown ul a:hover,
+    .navbar-mobile .dropdown ul .active:hover,
+    .navbar-mobile .dropdown ul li:hover>a {
+        color: #5777ba;
+    }
+
+    .navbar-mobile .dropdown>.dropdown-active {
+        display: block;
+    }
+
+    /*--------------------------------------------------------------
+# Hero Section
+--------------------------------------------------------------*/
+    #hero {
+        width: 100%;
+        height: 20px;
+        position: relative;
+        overflow: hidden;
+        padding: 90px 0 100px 0;
+        background: #F5F7FF;
+        z-index: 1;
+        /*
+background-image: url("static/images/5654986r.jpg");
+background-repeat: no-repeat; 
+background-size: cover; 
+background-position: center center; 
+position: relative; 
+*/
+    }
+
+    /*
+    #hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
+
+    }
+*/
+    a {
+        color: #5777ba;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #7b94c9;
+        text-decoration: none;
+    }
+
+    #header .container,
+    #header .container-fluid,
+    #header .container-lg,
+    #header .container-md,
+    #header .container-sm,
+    #header .container-xl,
+    #header .container-xxl {
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 0;
+        width: 100%;
+        padding-right: calc(var(--bs-gutter-x) * .5);
+        padding-left: calc(var(--bs-gutter-x) * .5);
+        margin-right: auto;
+        margin-left: auto
+    }
+
+    @media (min-width:576px) {
+
+        #header .container,
+        #header .container-sm {
+            max-width: 540px
+        }
+    }
+
+    @media (min-width:768px) {
+
+        #header .container,
+        #header .container-md,
+        #header .container-sm {
+            max-width: 720px
+        }
+    }
+
+    @media (min-width:992px) {
+
+        #header .container,
+        #header .container-lg,
+        #header .container-md,
+        #header .container-sm {
+            max-width: 960px
+        }
+    }
+
+    @media (min-width:1200px) {
+
+        #header .container,
+        #header .container-lg,
+        #header .container-md,
+        #header .container-sm,
+        #header .container-xl {
+            max-width: 1140px
+        }
+    }
+
+    @media (min-width:1400px) {
+
+        #header .container,
+        #header .container-lg,
+        #header .container-md,
+        #header .container-sm,
+        #header .container-xl,
+        #header .container-xxl {
+            max-width: 1320px
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .kk {
+            max-width: 1140px;
+        }
+    }
+
+    .dropdown button i {
+        border-radius: 50%;
+        /* Make the icon circular */
+        background-color: #ffffff;
+        /* Set the background color to match your design */
+        padding: 8px;
+        /* Adjust the padding as needed */
+    }
+
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+ئ
+
+  
+    /*
+.content-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(75, 73, 172, 0.2); 
+}
+*/
+
+
+
+
+</style>
 
 <body>
     <div class="container-scroller ">
         <!-- partial:partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex ">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <div class="navbar-brand brand-logo mr-5"><img src="../../static/images/logo1d.svg" class="mr-2" alt="logo" />
+        <header id="header" class="fixed-top  ">
+            <div class="container d-flex align-items-center justify-content-between">
+    
+                <div class="logo">
+                    <a href='/studentCancle'>
+                        <h2 style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC;"> Uni Job</h2>
+                    </a>
+                    <!-- Uncomment below if you prefer to use an image logo -->
+                    <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
                 </div>
-                <div class="navbar-brand brand-logo-mini"><img src="../../static/images/U.svg" alt="logo" /></div>
-            </div>
-            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-
-                <div class="dropdown" style="margin-right: 2.5em; ">
-                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuSizeButton3"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Student
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSizeButton3">
-                        <li> <p style="border-bottom: 1px solid;">{{ user[4] }}</p>
+    
+                <nav id="navbar" class="navbar">
+                    <ul>
+                        <li class="nav-item nav-profile dropdown d-none d-lg-flex">
+                            <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
+                                <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                                aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" style="justify-content:left">
+                                    <i class=" ti-user text-dark " style="margin-right:5px;"></i>
+                                    {{ user[3]| title }}
+                                </a>
+                                <a class="dropdown-item">
+                                    <i class="ti-email text-primary" style="margin-right:5px;"></i>
+                                    {{ user[4] }}
+                                </a>
+                                <a class="dropdown-item"  href="{{url_for('login')}}" style="justify-content:left">
+                                    <i class="ti-power-off text-primary"  style="margin-right:5px;"></i>
+                                    Log out
+                                </a>
+                            </div>
                         </li>
-                        <a class="dropdown-item" href="{{url_for('login')}}">Log out</a>
-                    </div>
-                </div>
+    
+                        <div class="app-header-right">
+    
+    
+                            <button class="profile-btn">
+                                <span> {{ user[3] | title }}</span>
+                            </button>
+                        </div>
+                    </ul>
+                    <i class="bi bi-list mobile-nav-toggle"></i>
+                </nav><!-- .navbar -->
+    
             </div>
-        </nav>
+        </header>
+        <section id="hero" style="padding: 10px 0 10px 0;"> </section>
+    
 
-
-        <div class="container-fluid page-body-wrapper w-100 ">
             <div class="content-wrapper" style="min-height: inherit;">
                 <div class="container">
                     <div class="row mt-5">
@@ -403,7 +896,6 @@
                 </div>
             </div>
 
-        </div>
     </div>
 
 

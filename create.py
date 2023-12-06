@@ -2,7 +2,25 @@ import sqlite3
 connection = sqlite3.connect("users_database.db")
 
 cursor = connection.cursor()
-#cursor.execute("""DROP TABLE notifications""")
+#cursor.execute("""DROP TABLE schedule""")
+
+cursor.execute("CREATE TABLE IF NOT EXISTS schedule (schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,day TEXT, start_time TEXT, end_time TEXT,student_id INTEGER,job_id INTEGER, FOREIGN KEY (student_id) REFERENCES users(id),FOREIGN KEY (job_id) REFERENCES job_posts(job_id))")
+'''
+create_table_query = 
+CREATE TABLE IF NOT EXISTS schedule (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    day TEXT,
+    student_name TEXT,
+    job_start TEXT,
+    job_end TEXT,
+    student_start TEXT,
+    student_end TEXT
+);
+
+cursor.execute(create_table_query)
+
+'''
+
 
 '''
 cursor.execute("""
@@ -15,7 +33,8 @@ CREATE TABLE notifications (
     duration_of_job TEXT,
     work_location TEXT,
     confirm INTEGER,
-               
+    current_date DATE,
+    end_date DATE,         
     FOREIGN KEY (student_id) REFERENCES users(id),
     FOREIGN KEY (id_job) REFERENCES job_posts(job_id),
     FOREIGN KEY (title_job) REFERENCES job_posts(job_title),
@@ -65,30 +84,31 @@ CREATE TABLE notifications (
 #)
 #""")
 
-#cursor.execute("""
-#CREATE TABLE job_times (
- #   job_time_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  #  time_id INTEGER,
-   # fixed_flexible TEXT,
-    #flexible_hours INTEGER
-#    sunday_job_periods INTEGER,
- #   sunday_start TEXT,
-  #  sunday_end TEXT,
-   # monday_job_periods INTEGER,
-    #monday_start TEXT,
-#    monday_end TEXT,
- #   tuesdayـjob_periods INTEGER,
-  #  tuesday_start TEXT,
-   # tuesday_end TEXT,
-    #wednesday_job_periods INTEGER,
-#    wednesday_start TEXT,
- #   wednesday_end TEXT,
-  #  thursday_job_periods INTEGER,
-   # thursday_start TEXT,
-    #thursday_end TEXT,
-#    FOREIGN KEY (time_id) REFERENCES job_posts(job_id)
-#)""")
-
+'''
+cursor.execute("""
+CREATE TABLE job_times (
+    job_time_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_id INTEGER,
+    fixed_flexible TEXT,
+    flexible_hours INTEGER
+    sunday_job_periods INTEGER,
+    sunday_start TEXT,
+    sunday_end TEXT,
+    monday_job_periods INTEGER,
+    monday_start TEXT,
+    monday_end TEXT,
+    tuesdayـjob_periods INTEGER,
+    tuesday_start TEXT,
+    tuesday_end TEXT,
+    wednesday_job_periods INTEGER,
+    wednesday_start TEXT,
+    wednesday_end TEXT,
+    thursday_job_periods INTEGER,
+    thursday_start TEXT,
+    thursday_end TEXT,
+    FOREIGN KEY (time_id) REFERENCES job_posts(job_id)
+)""")
+'''
 
 #cursor.execute("""
 #CREATE TABLE files (
@@ -146,5 +166,21 @@ for i in range(196):
     query = "INSERT INTO users VALUES ('{}', '{}', '{}', '{}', '{}')".format(id, password, name, email, user_type)
     cursor.execute(query)
 '''
+
+
+# Modify the job_posts table to include the submission_date column
+# Check if the column exists in the table
+cursor.execute("PRAGMA table_info(job_posts)")
+columns = cursor.fetchall()
+column_names = [column[1] for column in columns]
+if 'submission_date' not in column_names:
+    # If the column doesn't exist, add it
+    cursor.execute('ALTER TABLE job_posts ADD COLUMN submission_date TEXT')
+
+
+connection.commit()
+
+# Close the connection
+
 
 connection.commit()
