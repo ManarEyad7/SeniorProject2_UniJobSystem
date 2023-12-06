@@ -403,40 +403,6 @@ def employee():
         return redirect(url_for("login"))
 
 
-def is_job_time(row, day, hour):
-    connection = sqlite3.connect("users_database.db")
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM job_times")
-    job_times = cursor.fetchall()
-    for entry in job_times:
-        if entry['day'] == day and entry['hour'] == hour:
-            return True
-    return False
-
-# Define the is_job_time function
-def is_job_time2(job_times, day, hour):
-    for job_time in job_times:
-        if (
-            (day == 0 and job_time['sunday_job_periods'] > 0 and hour >= job_time['sunday_start'] and hour <= job_time['sunday_end']) or
-            (day == 1 and job_time['monday_job_periods'] > 0 and hour >= job_time['monday_start'] and hour <= job_time['monday_end']) or
-            (day == 2 and job_time['tuesday_job_periods'] > 0 and hour >= job_time['tuesday_start'] and hour <= job_time['tuesday_end']) or
-            (day == 3 and job_time['wednesday_job_periods'] > 0 and hour >= job_time['wednesday_start'] and hour <= job_time['wednesday_end']) or
-            (day == 4 and job_time['thursday_job_periods'] > 0 and hour >= job_time['thursday_start'] and hour <= job_time['thursday_end'])
-        ):
-            return True
-    return False
-
-def is_job_time3(job_times, day, hour):
-    for job_time in job_times:
-        if (
-            (day == 0 and int(job_time[2]) > 0 and int(hour) >= int(job_time[3]) and int(hour) <= int(job_time[4])) or
-            (day == 1 and int(job_time[5]) > 0 and int(hour) >= int(job_time[6]) and int(hour) <= int(job_time[7])) or
-            (day == 2 and int(job_time[8]) > 0 and int(hour) >= int(job_time[9]) and int(hour) <= int(job_time[10])) or
-            (day == 3 and int(job_time[11]) > 0 and int(hour) >= int(job_time[12]) and int(hour) <= int(job_time[13])) or
-            (day == 4 and int(job_time[14]) > 0 and int(hour) >= int(job_time[15]) and int(hour) <= int(job_time[16]))
-        ):
-            return True
-    return False
 @app.route('/student')
 def student():
     if 'user_id' in session:
