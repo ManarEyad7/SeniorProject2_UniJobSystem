@@ -406,7 +406,6 @@
                                                         <td>{{ recommendation['score'] | float | round(2) }} %</td>
                                                         <td>
                                                             
-                                                            
                                                             {% if notifications[7]==1 and  notifications[1] == recommendation['name'][2]%}
                                                             confirm <i id="check-icon" class="fa-regular fa-circle-check fa-2xl clickable-icon"
                                                             style="color: #26bb02; margin-right: 10px;"></i>
@@ -418,12 +417,6 @@
                                                             {% else %}
                                                             not sent notification yet
                                                             {% endif %}
-                                                            
-                                                            
-                                                            
-
-
-
                                                         </td>
                                                     </tr>
                                                     {% endfor %}

@@ -469,7 +469,8 @@ def student():
             cursor.execute("SELECT * FROM notifications WHERE student_id = ? AND confirm = ?", (user_id,confirm))
             notifications = cursor.fetchall()
 
-            
+            cursor.execute("SELECT * FROM schedule WHERE student_id = ?", (user_id,))
+            schedule = cursor.fetchall()
 
             confirm1 = 1
             print("1")
@@ -505,15 +506,10 @@ def student():
 
             print("44")
 
-           
-           
-                
-            
-            
             connection.commit()
             connection.close()
 
-            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications)
+            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications, schedule=schedule)
 
 
         except sqlite3.Error as e:
@@ -1511,6 +1507,7 @@ def notify(student_id,job_id):
 
 @app.route('/confirm_notification/<int:student_id>/<int:notify_id>', methods=['GET', 'POST'])
 def confirm_notification(student_id,notify_id):
+    print("djhdhdh")
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
 
@@ -1527,9 +1524,9 @@ def confirm_notification(student_id,notify_id):
         print("i")
         confirm = 1
         
+        generate_schedule(student_id,job_id)
         cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
         print("n")
-        generate_schedule(student_id,job_id)
         print("tt")
         
 
@@ -1605,7 +1602,9 @@ def generate_schedule(student_id, job_id):
 
     cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
     job_time = cursor.fetchone()
-    
+        
+    cursor.execute("SELECT * FROM job_posts WHERE job_id = ?", (job_id,))
+    job_title = cursor.fetchone()
     cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
     students_time = cursor.fetchall()
     print("problem")
@@ -1645,7 +1644,7 @@ def generate_schedule(student_id, job_id):
     for day, time_slots in overlapping_schedule.items():
         for time_slot in time_slots:
             start_time, end_time = time_slot.split(' - ')
-            cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+            cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title))
 
 
                
