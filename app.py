@@ -449,7 +449,8 @@ def student():
             print("2")
             #cursor.execute("SELECT * FROM job_times  WHERE time_id = ?", (job_id,))
             #job_times = cursor.fetchall()
-
+            cursor.execute("SELECT * FROM schedule WHERE student_id = ?", (user_id,))
+            schedule = cursor.fetchall()
             print("3")
             print("33")
             '''
@@ -472,16 +473,11 @@ def student():
             '''
 
             print("44")
-
-           
-           
-                
-            
             
             connection.commit()
             connection.close()
 
-            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications)
+            return render_template('student.html', seekerForms=seekerForms, user=user, notifications=notifications,schedule=schedule)
 
 
         except sqlite3.Error as e:
