@@ -390,15 +390,18 @@
                                                             <td>{{notification[3]}}</td>
                                                             <td>{{notification[5]}} week</td>
                                                             <td>{{notification[6]}}</td>
+
                                                             <form method="GET"
                                                                 action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}">
-                                                                <td>
+                                                                <td class="button-container">
                                                                     <button type="submit"
                                                                         class="confirm">Confirm</button>
+                                                                    <form method="GET" action="{{ url_for('reject_notification', student_id=user[0], notify_id=notification[0]) }}"> 
+                                                                        <button type="submit" class="reject">reject</button>
+                                                                    </form>
                                                                 </td>
                                                             </form>
-                                                            <button class="reject"
-                                                            onclick="location.href = '/reject_notification/{{ user[0] }}/{{ notification[0] }}';">reject</button>
+
                                                         </tr>
                                                         {% endfor %}
 
@@ -535,9 +538,8 @@
                                         </table>
 
 >-->
-                                        <hr>
-
-                                        <!-- Table 2 -->
+<!-- 
+    
                                         {% if schedule %}
                                         <table>
                                             <thead>
@@ -551,56 +553,234 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {% for schedule1 in schedule %}
+                                                <tr> 
+                                                    <td class="time">8:00</td>
+                                                    {% for day in range(5) %}
+                                                    <td class =" {% if day == 'Tuesday' and time == '10:00 am' %} highlight {% endif %}">
+
+                                                    </td>
+                                                    
+                                                    {% endfor %}
+                                                </tr>
+                                                {% endfor %}
+                                        {% endif %}
+
+-->
+
+<!-- 
+                                    {% if schedule %}
+                                    
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Time</th>
+                                                    <th>Sunday</th>
+                                                    <th>Monday</th>
+                                                    <th>Tuesday</th>
+                                                    <th>Wednesday</th>
+                                                    <th>Thursday</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for time_slot in ['08:00 AM', '09:00 AM','10:00 AM','11:00 AM','12:00 PM','01:00 PM','02:00 PM','03:00 PM','04:00 PM'] %}
+                                                    <tr>
+                                                        <td class="time">{{ time_slot }}</td>
+                                                        {% for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'] %}
+                                                            <td class="{% for schedule1 in schedule %}{% if schedule1[1] == day and schedule1[2] == time_slot %}highlight{% endif %}{% endfor %}">
+                                                                {% for schedule1 in schedule %}
+                                                                    {% if schedule1[1] == day and schedule1[2] == time_slot %}
+                                                                        {{ schedule1[6] }}<br>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </td>
+                                                        {% endfor %}
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% else %}
+                                        <p>No schedule data available.</p>
+                                    {% endif %}
+-->
+
+                                    {% if schedule %}
+                                    
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Sunday</th>
+                                                <th>Monday</th>
+                                                <th>Tuesday</th>
+                                                <th>Wednesday</th>
+                                                <th>Thursday</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for time_slot in ['08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'] %}
+                                                {% set time_slot_parts = time_slot.split(':') %}
+                                                {% set time_slot_hour = time_slot_parts[0] | int %}
+                                                {% set time_slot_minute = time_slot_parts[1][:2] | int %}
+                                                {% set time_slot_ampm = time_slot[-2:] %}
+                                                <tr>
+                                                    <td class="time">{{ time_slot }}</td>
+                                                    {% for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'] %}
+                                                        <td class="{% for schedule1 in schedule %}
+                                                            {% set start_time_parts = schedule1[2].split(':') %}
+                                                            {% set end_time_parts = schedule1[3].split(':') %}
+                                                            {% set start_hour = start_time_parts[0] | int %}
+                                                            {% set start_minute = start_time_parts[1][:2] | int %}
+                                                            {% set start_ampm = schedule1[2][-2:] %}
+                                                            {% set end_hour = end_time_parts[0] | int %}
+                                                            {% set end_minute = end_time_parts[1][:2] | int %}
+                                                            {% set end_ampm = schedule1[3][-2:] %}
+                                                            {% if schedule1[1] == day and ((time_slot_hour >= start_hour and time_slot_hour < end_hour) or (time_slot_hour <= end_hour and end_minute !=0) or (time_slot_hour >= start_hour and start_ampm=='AM' and end_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour < start_hour and time_slot_hour < end_hour)) %}
+                                                                {% if (time_slot_hour == start_hour and time_slot_minute >= start_minute and start_ampm == time_slot_ampm) or
+                                                                    (time_slot_hour == end_hour and time_slot_minute <= end_minute and end_ampm == time_slot_ampm) or
+                                                                    (time_slot_hour > start_hour and time_slot_hour < end_hour) or
+                                                                    (time_slot_hour >= start_hour and time_slot_hour > end_hour and start_ampm=='AM'  and end_ampm=='PM') %}
+                                                                    highlight
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}">
+                                                            {% for schedule1 in schedule %}
+                                                            {% set start_time_parts = schedule1[2].split(':') %}
+                                                            {% set end_time_parts = schedule1[3].split(':') %}
+                                                            {% set start_hour = start_time_parts[0] | int %}
+                                                            {% set start_minute = start_time_parts[1][:2] | int %}
+                                                            {% set start_ampm = schedule1[2][-2:] %}
+                                                            {% set end_hour = end_time_parts[0] | int %}
+                                                            {% set end_minute = end_time_parts[1][:2] | int %}
+                                                            {% set end_ampm = schedule1[3][-2:] %}
+                                                            {% if schedule1[1] == day and ((time_slot_hour >= start_hour and time_slot_hour < end_hour ) or (time_slot_hour <= end_hour and end_minute !=0) or (time_slot_hour >= start_hour and start_ampm=='AM' and end_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour < start_hour and time_slot_hour < end_hour)) %}
+                                                            {% if (time_slot_hour == start_hour and time_slot_minute >= start_minute and start_ampm == time_slot_ampm) or
+                                                                (time_slot_hour == end_hour and time_slot_minute <= end_minute and end_ampm == time_slot_ampm) or
+                                                                (time_slot_hour > start_hour and time_slot_hour < end_hour) or
+                                                                (time_slot_hour >= start_hour and time_slot_hour > end_hour and start_ampm=='AM'  and end_ampm=='PM') %}
+                                                                    <p> {{ schedule1[6] }} </p>  <p> {{ schedule1[2] }} {{ schedule1[3] }} </p>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            {% endfor %}
+
+                                                        </td>
+                                                    {% endfor %}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <p>No schedule data available.</p>
+                                {% endif %}
+
+                                
+                                
+                                        <hr>
+
+                                        <!-- Table 2 
+                                        {% if schedule %}
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Time</th>
+                                                    <th>Sunday</th>
+                                                    <th>Monday</th>
+                                                    <th>Tuesday</th>
+                                                    <th>Wednesday</th>
+                                                    <th>Thursday </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for schedule1 in schedule  %} 
                                                 <tr>
                                                     <td class="time">08:00 am</td>
-                                                    <td class="{% if schedule[0][1] == 'Sunday' and schedule[0][2] == '08:00 AM' %}highlight{% endif %}">
-                                                        {% if schedule[1] == 'Sunday' %} 
-                                                        1
+                                                    <td class="{% if schedule1[1] == 'Sunday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
+                                                        {% if schedule1[1] == 'Sunday' and schedule1[2] == '08:00 AM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td> 
+                                                    <td class="{% if schedule1[1] == 'Monday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
+                                                        {% if schedule1[1] == 'Monday' and schedule1[2] == '08:00 AM' %}
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td> 
+                                                    <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}"></td>
+                                                        {% if schedule1[1] == 'Tuesday' and schedule1[2] == '08:00 AM' %} 
+                                                            {{ schedule1[6] }}
                                                         {% endif %}
                                                     </td>
-                                                    <td class="{% if schedule[0][1] == 'Monday' and schedule[0][2] == '08:00 AM' %}highlight{% endif %}">
-                                                        {% if schedule[0][1] == 'Monday' and schedule[0][2] == '08:00 AM' %}
-                                                            {{ schedule[0][6] }}
+                                                    <td class="{% if schedule1[1] == 'Wednesday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
+                                                        {% if schedule1[1] == 'Wednesday' and schedule1[2] == '08:00 AM' %} 
+                                                            {{ schedule1[6] }}
                                                         {% endif %}
                                                     </td>
-                                                    <td>
-                                                        {% if schedule[1] == 'Tuesday'%} 
+                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}"></td>
+                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '08:00 AM' %} 
+                                                            {{ schedule1[6] }}
                                                         {% endif %}
                                                     </td>
-                                                    <td>
-                                                        {% if schedule[1] == 'Wednesday'%} 
-                                                        {% endif %}
-                                                    </td>
-                                                    <td>
-                                                        {% if schedule[1] == 'Thursday'%} 
-                                                        {% endif %}
-                                                    </td>
+                                                    
                                                 </tr>
                                                 <tr>
                                                     <td class="time">09:00 am</td>
-                                                    <td>1</td>
-                                                    <td class="{% if schedule[0][1] == 'Monday' and schedule[0][2] == '09:00 AM' %}highlight{% endif %}">
-                                                        
+                                                    <td class="{% if schedule1[1] == 'Sunday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
+                                                        {% if schedule1[1] == 'Sunday' and schedule1[2] == '09:00 AM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td> 
+                                                    <td class="{% if schedule1[1] == 'Monday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
+                                                        {% if schedule1[1] == 'Monday' and schedule1[2] == '09:00 AM' %}
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td> 
+                                                    <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}"></td>
+                                                        {% if schedule1[1] == 'Tuesday' and schedule1[2] == '09:00 AM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
                                                     </td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td class="{% if schedule1[1] == 'Wednesday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
+                                                        {% if schedule1[1] == 'Wednesday' and schedule1[2] == '09:00 AM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}"></td>
+                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '09:00 AM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td>
                                                 </tr>
-                                                <tr>
+                                                <tr> 
+                                                    
                                                     <td class="time">10:00 am</td>
                                                     <td>1</td>
+                                                    <td></td>                                                    
+                                                    <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '10:00 AM' %}highlight{% endif %}"></td>
+                                                    {% if schedule1[1] == 'Tuesday' and schedule1[2] == '10:00 AM' %} 
+                                                        {{ schedule1[6] }}
+                                                    {% endif %}
+                                                    </td> 
                                                     <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '10:00 AM' %}highlight{% endif %}"></td>
+                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '10:00 AM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="time">11:00 am</td>
                                                     <td></td>
                                                     <td></td>
+                                                    <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '11:00 AM' %}highlight{% endif %}"></td>
+                                                        {% if schedule1[1] == 'Tuesday' and schedule1[2] == '11:00 AM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td>
                                                     <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '11:00 AM' %}highlight{% endif %}"></td>
+                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '11:00 AM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="time">12:00 pm</td>
@@ -608,7 +788,11 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td></td>
+                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '12:00 PM' %}highlight{% endif %}"></td>
+                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '12:00 PM' %} 
+                                                            {{ schedule1[6] }}
+                                                        {% endif %}
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="time">01:00 pm</td>
@@ -650,11 +834,11 @@
                                                     <td></td>
                                                     <td></td>
                                                 </tr>
-                                                <!-- Add more rows for each hour -->
+                                                {% endfor %} 
                                             </tbody>
                                         </table>
                                         {% endif %}
-                                        
+                                        -->
                                     </div>
                                     <hr>
 
@@ -860,8 +1044,7 @@
     </script>
     -->
 
-
-
+  
     <script>
         var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
 
