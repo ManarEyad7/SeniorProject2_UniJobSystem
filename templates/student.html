@@ -390,11 +390,11 @@
                                                             <td>{{notification[3]}}</td>
                                                             <td>{{notification[5]}} week</td>
                                                             <td>{{notification[6]}}</td>
-                                                            <form method="GET" action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}">
-                                                                <td class="button-container">
-                                                                    <button class="confirm"
-                                                                        onclick="location.href = '/confirm_notification/{{ user[0] }}/{{ notification[0] }}';">confirm</button>
-                                                                   
+                                                            <form method="GET"
+                                                                action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}">
+                                                                <td>
+                                                                    <button type="submit"
+                                                                        class="confirm">Confirm</button>
                                                                 </td>
                                                             </form>
                                                             <button class="reject"
@@ -579,7 +579,7 @@
                                                 <tr>
                                                     <td class="time">09:00 am</td>
                                                     <td>1</td>
-                                                    <td class="{% if schedule[0][1] == 'Monday' and schedule[0][2] == '08:00 AM' %}highlight{% endif %}">
+                                                    <td class="{% if schedule[0][1] == 'Monday' and schedule[0][2] == '09:00 AM' %}highlight{% endif %}">
                                                         
                                                     </td>
                                                     <td></td>

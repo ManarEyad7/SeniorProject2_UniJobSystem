@@ -1523,7 +1523,7 @@ def confirm_notification(student_id,notify_id):
     try:
         print("i")
         confirm = 1
-        
+        print("jsjsj",confirm)
         generate_schedule(student_id,job_id)
         cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
         print("n")
@@ -1603,8 +1603,9 @@ def generate_schedule(student_id, job_id):
     cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
     job_time = cursor.fetchone()
         
-    cursor.execute("SELECT * FROM job_posts WHERE job_id = ?", (job_id,))
+    cursor.execute("SELECT job_title FROM job_posts WHERE job_id = ?", (job_id,))
     job_title = cursor.fetchone()
+
     cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
     students_time = cursor.fetchall()
     print("problem")
@@ -1616,40 +1617,47 @@ def generate_schedule(student_id, job_id):
     
     overlapping_schedule = {}
 
-    for day in student_schedule:
-        student_schedule2 = student_schedule[day]
-        for time_range in student_schedule2:
-            student_start_time, student_end_time = time_range.split(" - ")
-            student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
-            student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
-            if day in job_schedule:
-                for job_time_range in job_schedule[day]:
-                    job_start_time, job_end_time = job_time_range.split(" - ")
-                    job_start_datetime = datetime.strptime(job_start_time, "%I:%M %p")
-                    job_end_datetime = datetime.strptime(job_end_time, "%I:%M %p")
-                    if student_start_datetime <= job_end_datetime and student_end_datetime >= job_start_datetime:
-                        overlapping_start_time = max(student_start_datetime, job_start_datetime)
-                        overlapping_end_time = min(student_end_datetime, job_end_datetime)
-                        
-                        # Check if the start time and end time are equal
-                        if overlapping_start_time != overlapping_end_time:
-                            overlapping_range = overlapping_start_time.strftime("%I:%M %p") + " - " + overlapping_end_time.strftime("%I:%M %p")
-                            overlapping_schedule.setdefault(day, []).append(overlapping_range)
+    try:
+        for day in student_schedule:
+            student_schedule2 = student_schedule[day]
+            for time_range in student_schedule2:
+                student_start_time, student_end_time = time_range.split(" - ")
+                student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
+                student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
+                if day in job_schedule:
+                    for job_time_range in job_schedule[day]:
+                        job_start_time, job_end_time = job_time_range.split(" - ")
+                        job_start_datetime = datetime.strptime(job_start_time, "%I:%M %p")
+                        job_end_datetime = datetime.strptime(job_end_time, "%I:%M %p")
+                        if student_start_datetime <= job_end_datetime and student_end_datetime >= job_start_datetime:
+                            overlapping_start_time = max(student_start_datetime, job_start_datetime)
+                            overlapping_end_time = min(student_end_datetime, job_end_datetime)
+                            
+                            # Check if the start time and end time are equal
+                            if overlapping_start_time != overlapping_end_time:
+                                overlapping_range = overlapping_start_time.strftime("%I:%M %p") + " - " + overlapping_end_time.strftime("%I:%M %p")
+                                overlapping_schedule.setdefault(day, []).append(overlapping_range)
 
-    # Filter out overlapping ranges where start time and end time are equal
-    overlapping_schedule = {day: overlapping_ranges for day, overlapping_ranges in overlapping_schedule.items() if overlapping_ranges}
-    print("overlapping")
-    print(overlapping_schedule)
+        # Filter out overlapping ranges where start time and end time are equal
+        overlapping_schedule = {day: overlapping_ranges for day, overlapping_ranges in overlapping_schedule.items() if overlapping_ranges}
+        print("overlapping")
+        print(overlapping_schedule)
 
-    for day, time_slots in overlapping_schedule.items():
-        for time_slot in time_slots:
-            start_time, end_time = time_slot.split(' - ')
-            cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title))
+        for day, time_slots in overlapping_schedule.items():
+            for time_slot in time_slots:
+                start_time, end_time = time_slot.split(' - ')
+                print('day',day)
+                print('job_title',job_title)
+
+                cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title[0]))
 
 
-               
-    connection.commit()
-    connection.close()
+                
+        connection.commit()
+        connection.close()
+
+    except sqlite3.Error as e:
+        print(f"An error occurred333: {e}")
 
 
 def makedicforStudents2(students_time) :
