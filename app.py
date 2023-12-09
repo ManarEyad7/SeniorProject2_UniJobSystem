@@ -1228,7 +1228,7 @@ def get_recommendations(job_id):
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
         
         cursor.execute("SELECT * FROM notifications WHERE id_job = ? ", (job_id,))
-        notifications = cursor.fetchall()
+        notifications = cursor.fetchone()
     
     
 
@@ -1531,10 +1531,10 @@ def confirm_notification(student_id,notify_id):
     try:
         print("i")
         confirm = 1
-        
+        generate_schedule(student_id,job_id)
         cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
         print("n")
-        generate_schedule(student_id,job_id)
+        
         print("tt")
         
 

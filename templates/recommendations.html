@@ -902,37 +902,27 @@ position: relative;
                                                 <td>
                                                     
                                                     
-                                                    {% if notifications%} 
-                                                    {% for notification in notifications %}
-                                                    {% if notification[1]== recommendation['name'][2] %} 
+                                                                 
                                                     
-                                                    {% if notification[7]==1  %}
-                                                    confirm <i id="check-icon"
+                                                    {% if notifications[7]==1 and notifications[1]== recommendation['name'][2] %}
+                                                    Confirmed <i id="check-icon"
                                                         class="fa-regular fa-circle-check fa-2xl clickable-icon"
                                                         style="color: #26bb02; margin-right: 10px;"></i>
-                                                    {% elif notification[7]==2 %}
-                                                    reject <i id="xmark-icon"
+                                                    {% elif notifications[7]==2 and notifications[1]== recommendation['name'][2]%}
+                                                    Rejected <i id="xmark-icon"
                                                         class="fa-regular fa-circle-xmark fa-2xl clickable-icon"
                                                         style="color: #e91619;"></i>
-                                                    {% elif notification[7]==0 %}
-                                                    underproccess
+                                                    {% elif notifications[7]==0 and notifications[1]== recommendation['name'][2] %}
+                                                    Underproccess
                                                     {% else %}
-                                                    not sent 
+                                                    Not Sent 
                                                     
                                                     {% endif %}
                                                     
 
-                                                    {% endif %}
-                                                    {% endfor %}
                                                     
-                                                    {% else %}
-                                                    not sent notification yet
-                                                    {% endif %}
                                                     
-
-                                    
-
-                                                    
+                                                                  
 
                                                 </td>
                                                 

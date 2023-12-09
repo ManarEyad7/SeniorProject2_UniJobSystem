@@ -1093,10 +1093,10 @@ position: relative;
 
                         </div>
                         <ul class="progress-bar">
-                            <li class="active">Job Information</li>
+                            <li class="active">Personal Information</li>
                             <li>Qualifications</li>
                             <li>Work Hours and Schedule</li>
-                            <li>User Photo</li>
+                            <li>Preference</li>
                         </ul>
 
 
@@ -1106,8 +1106,8 @@ position: relative;
                         <div class="main active">
                             <small><i class="fa fa-smile-o"></i></small>
                             <div class="text">
-                                <h2>Job Information</h2>
-                                <p>Enter the job title, description briefly.</p>
+                                <h2>Personal Information</h2>
+                                <p>Enter your Personal Information.</p>
                             </div>
                             <div class="form-group"> <!-- Name -->
                                 <label for="name" class="font-weight-bold" style="font-size: 15px;">Name:</label>
@@ -1118,7 +1118,7 @@ position: relative;
                                 <label for="phoneNumber" class="font-weight-bold" style="font-size: 15px;">Phone
                                     Number:</label>
                                 <input type="text" class="form-control custom-input" id="phoneNumber" name="phoneNumber"
-                                    pattern="05[0-9]{8}" title="Please enter only numbers" minlength="10" maxlength="10"
+                                    pattern="05[0-9]{8}" title="Please enter only numbers" autocomplete="off" minlength="10" maxlength="10"
                                     required>
                                 <div id="phoneNumberError" class="error-message" style="color: red;"></div>
                             </div>
@@ -1136,7 +1136,7 @@ position: relative;
                             <small><i class="fa fa-smile-o"></i></small>
                             <div class="text">
                                 <h2>Qualifications</h2>
-                                <p>What are the main requirements for your work?</p>
+                                <p> Enter your Qualifications.</p>
                             </div>
                             <div class="row" style="margin-left: 0;">
                                 <div class="col-md-6">
@@ -1357,8 +1357,8 @@ position: relative;
                         <div class="main">
                             <small><i class="fa fa-smile-o"></i></small>
                             <div class="text">
-                                <h2>Work Hours and Schedule</h2>
-                                <p>Please share details about work time</p>
+                                <h2>Availability</h2>
+                                <p>Please share your Availabe Times</p>
                             </div>
 
                             <div class="row" style="margin-left: 0;">
@@ -1448,12 +1448,12 @@ position: relative;
                         <div class="main">
                             <small><i class="fa fa-smile-o"></i></small>
                             <div class="text">
-                                <h2>Position Details</h2>
-                                <p>Enter job duration, work location, and positions available per week.</p>
+                                <h2>Preference and CV</h2>
+                                <p>Enter your preferences for the job , and upload your CV (if you have).</p>
                             </div>
                             <div class="form-group"> <!-- Duration -->
                                 <label class="font-weight-bold" style="font-size: 15px;">Job
-                                    Duration (in weeks):</label>
+                                    Duration ():</label>
                                 <input type="number" class="form-control" name="job_duration"
                                     placeholder="Job duration (in weeks)" pattern="\d*" min="1" max="10"
                                     style="width: 100%;" required>
