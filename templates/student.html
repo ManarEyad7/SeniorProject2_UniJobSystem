@@ -1062,45 +1062,9 @@ position: relative;
 
 -->
 
-<!-- 
                                 {% if schedule %}
                                 
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Time</th>
-                                                <th>Sunday</th>
-                                                <th>Monday</th>
-                                                <th>Tuesday</th>
-                                                <th>Wednesday</th>
-                                                <th>Thursday</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for time_slot in ['08:00 AM', '09:00 AM','10:00 AM','11:00 AM','12:00 PM','01:00 PM','02:00 PM','03:00 PM','04:00 PM'] %}
-                                                <tr>
-                                                    <td class="time">{{ time_slot }}</td>
-                                                    {% for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'] %}
-                                                        <td class="{% for schedule1 in schedule %}{% if schedule1[1] == day and schedule1[2] == time_slot %}highlight{% endif %}{% endfor %}">
-                                                            {% for schedule1 in schedule %}
-                                                                {% if schedule1[1] == day and schedule1[2] == time_slot %}
-                                                                    {{ schedule1[6] }}<br>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </td>
-                                                    {% endfor %}
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                {% else %}
-                                    <p>No schedule data available.</p>
-                                {% endif %}
--->
-
-                                {% if schedule %}
-                                
-                                <table>
+                                <table class="timeline-table">
                                     <thead>
                                         <tr>
                                             <th>Time</th>
