@@ -1089,10 +1089,10 @@ position: relative;
                                                         {% set end_time_parts = schedule1[3].split(':') %}
                                                         {% set start_hour = start_time_parts[0] | int %}
                                                         {% set start_minute = start_time_parts[1][:2] | int %}
-                                                        {% set start_ampm = schedule1[2][-2:] %}
+                                                        {% set start_ampm = schedule1[2][-2:].upper() %}
                                                         {% set end_hour = end_time_parts[0] | int %}
                                                         {% set end_minute = end_time_parts[1][:2] | int %}
-                                                        {% set end_ampm = schedule1[3][-2:] %}
+                                                        {% set end_ampm = schedule1[3][-2:].upper() %}
                                                         {% if schedule1[1] == day and ((time_slot_hour >= start_hour and time_slot_hour < end_hour) or (time_slot_hour <= end_hour and end_minute !=0) or (time_slot_hour >= start_hour and start_ampm=='AM' and end_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour < start_hour and time_slot_hour < end_hour)) %}
                                                             {% if (time_slot_hour == start_hour and time_slot_minute >= start_minute and start_ampm == time_slot_ampm) or
                                                                 (time_slot_hour == end_hour and time_slot_minute <= end_minute and end_ampm == time_slot_ampm) or
