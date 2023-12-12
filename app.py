@@ -1658,18 +1658,23 @@ def generate_schedule(student_id, job_id):
     elif job_time[2] == "Flexible":
         H = job_time[3] 
         job_period = timedelta(hours=H)
-
         occupied_ranges = {}
-        total_hours = sum([(datetime.strptime(end_time, "%I:%M %p") - datetime.strptime(start_time, "%I:%M %p"))
-                        for schedule in student_schedule.values()
-                        for time_range in schedule
-                        for start_time, end_time in [time_range.split(" - ")]
-                        if start_time and end_time], timedelta())
+        total_hours = sum(
+            [
+                (datetime.strptime(end_time, "%I:%M %p") - datetime.strptime(start_time, "%I:%M %p"))
+                for schedule in student_schedule.values()
+                for time_range in schedule
+                for start_time, end_time in [time_range.split(" - ")]
+                if start_time and end_time
+            ],
+            timedelta(),
+        )
 
         if job_period > total_hours:
             print("There is a conflict: Job period is greater than total student schedule hours.")
         else:
             remaining_hours = job_period
+            assigned_hours = timedelta()
 
             for day, schedule in student_schedule.items():
                 for time_range in schedule:
@@ -1678,14 +1683,52 @@ def generate_schedule(student_id, job_id):
                     student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
 
                     occupied_period = student_end_datetime - student_start_datetime
+                    if assigned_hours >= job_period:
+                        break
+
                     if occupied_period <= remaining_hours:
                         if day not in occupied_ranges:
                             occupied_ranges[day] = []
                         occupied_ranges[day].append(f"{student_start_time.upper()} - {student_end_time.upper()}")
-                        remaining_hours -= occupied_period
+                        assigned_hours += occupied_period
+                        remaining_hours -= occupied_period  # Subtract the assigned period from remaining_hours
+                    else:
+                        if day not in occupied_ranges:
+                            occupied_ranges[day] = []
+                        occupied_ranges[day].append(f"{student_start_time.upper()} - {student_start_datetime + remaining_hours:%I:%M %p}")
+                        assigned_hours += remaining_hours
+                        remaining_hours = timedelta(hours=0)  # Set remaining_hours to 0 to break the loop
+                        break
+
+            # Assign additional time ranges to complete the job period if necessary
+            if assigned_hours < job_period and remaining_hours > timedelta(hours=0):
+                for day, schedule in student_schedule.items():
+                    for time_range in schedule:
+                        if assigned_hours >= job_period:
+                            break
+                            
+                        student_start_time, student_end_time = time_range.split(" - ")
+                        student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
+                        student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
+                        
+                        occupied_period = student_end_datetime - student_start_datetime
+                        if occupied_period > remaining_hours:
+                            if day not in occupied_ranges:
+                                occupied_ranges[day] = []
+                            occupied_ranges[day].append(f"{student_start_time.upper()} - {student_start_datetime + remaining_hours:%I:%M %p}")
+                            assigned_hours += remaining_hours
+                            remaining_hours = timedelta(hours=0)
+                            break
+                        elif occupied_period > timedelta(hours=0):
+                            if day not in occupied_ranges:
+                                occupied_ranges[day] = []
+                            occupied_ranges[day].append(f"{student_start_time.upper()} - {student_end_time.upper()}")
+                            assigned_hours += occupied_period
+                            remaining_hours -= occupied_period
 
             # Print the occupied_ranges dictionary
             print("overlapping2")
+            print(H)
             print(occupied_ranges)
             for day, time_slots in occupied_ranges.items():
                 for time_slot in time_slots:
