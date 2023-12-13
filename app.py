@@ -463,19 +463,19 @@ def student():
             
 
             confirm1 = 1
-            print("1")
+            #print("1")
             cursor.execute("SELECT id_job FROM notifications WHERE student_id = ? AND confirm = ?", (user_id,confirm1))
             #job_id = cursor.fetchone()
             job_id_tuple = cursor.fetchone()
             job_id = job_id_tuple[0] if job_id_tuple else None
-            print(job_id)
-            print("2")
+            #print(job_id)
+            #print("2")
             #cursor.execute("SELECT * FROM job_times  WHERE time_id = ?", (job_id,))
             #job_times = cursor.fetchall()
             cursor.execute("SELECT * FROM schedule WHERE student_id = ?", (user_id,))
             schedule = cursor.fetchall()
-            print("3")
-            print("33")
+            #print("3")
+            #print("33")
             '''
             select_query = SELECT day, student_name, job_start, job_end, student_start, student_end FROM schedule 
             cursor.execute(select_query)
@@ -495,7 +495,7 @@ def student():
             
             '''
 
-            print("44")
+            print("schedule",schedule)
             
             connection.commit()
             connection.close()
