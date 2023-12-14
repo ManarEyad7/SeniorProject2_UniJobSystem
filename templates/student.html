@@ -3,749 +3,938 @@
 
 <head>
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Student</title>
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
-
-    <!-- inject:css -->
-    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
-    <!-- endinject -->
-
-    <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
-    <link rel="stylesheet" href="../../static/fold/styleJoblist.css">
-    <link rel="stylesheet" href="../../static/vendors/mdi/css/materialdesignicons.min.css">
-
-    <!-- Website icon -->
-    <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
-    <style>
-        .block-d {
-            justify-content: space-between;
-            display: flex;
-        }
-
-        #findJob-button {
-
-            margin: 1.5rem;
-
-
-        }
-
-        #viewForm-button {
-            margin: 1.5rem 0.5rem
-        }
-
-        #updateForm-button {
-            margin: 1.5rem 0.5rem
-        }
-
-        #deleteForm-button {
-            margin: 1.5rem 0.5rem
-        }
-
-
-        @media (max-width: 600px) {
-
-            #findJob-button {
-                width: 100%;
-                justify-items: center;
-                margin: 1.5rem 0;
-                /* Add margin to separate it from other buttons and align it to the center */
-                display: block;
-                /* Set to block to ensure full width */
-                padding: 0%;
-                margin: 0.5rem 0rem;
-            }
-
-            #viewForm-button {
-                width: 100%;
-                justify-items: center;
-                margin: 1.5rem 0;
-                /* Add margin to separate it from other buttons and align it to the center */
-                display: block;
-                /* Set to block to ensure full width */
-                padding: 0%;
-                margin: 0.5rem 0rem;
-            }
-
-            #updateForm-button {
-                width: 100%;
-                justify-items: center;
-                margin: 1.5rem 0;
-                /* Add margin to separate it from other buttons and align it to the center */
-                display: block;
-                /* Set to block to ensure full width */
-                padding: 0%;
-                margin: 0.5rem 0rem;
-            }
-
-            #deleteForm-button {
-                width: 100%;
-                justify-items: center;
-                margin: 1.5rem 0;
-                /* Add margin to separate it from other buttons and align it to the center */
-                display: block;
-                /* Set to block to ensure full width */
-                padding: 0%;
-                margin: 0.5rem 0rem;
-            }
-
-
-
-            .block-d {
-                display: block;
-                justify-content: center;
-            }
-
-
-
-
-        }
-    </style>
-
-    <!-- For table 1 -->
-    <style>
-        .timeline-item {
-            position: relative;
-            margin-bottom: 50px;
-        }
-
-        .timeline-date {
-            position: absolute;
-            top: -22px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #000;
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .timeline-content {
-            padding: 15px;
-            background-color: #f2f2f2;
-            border-radius: 4px;
-        }
-
-        .timeline-table {
-            width: 80%;
-            border-collapse: collapse;
-            margin: auto;
-        }
-
-        .timeline-table th,
-        .timeline-table td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: center;
-        }
-
-        .timeline-table th {
-            background-color: rgba(75, 73, 172, 0.135);
-            padding: 15px;
-            /*#f2f2f2*/
-        }
-    </style>
-
-    <!-- For table 2 -->
-    <style>
-        .highlight {
-            background-color: #c8f7dc;
-
-        }
-
-        table {
-            margin: auto;
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f987;
-            width: 90%;
-            border-collapse: collapse;
-        }
-
-        th {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-            border-right: 1px solid #ddd;
-            ;
-            border-left: 1px solid #ddd;
-        }
-
-        td {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #dddddd50;
-            border-right: 1px solid #ddd;
-            border-left: 1px solid #ddd;
-
-        }
-
-        th {
-            background-color: rgba(91, 89, 165, 0.071);
-            width: 15%;
-        }
-
-        .day {
-            position: relative;
-            width: 0px;
-        }
-
-
-        .time {
-            color: #686767;
-        }
-
-        .event {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .description {
-            color: #666;
-        }
-    </style>
-
-    <!-- this style for notifications table -->
-    <title>Table with Buttons</title>
-    <style>
-        .table-container {
-            width: 100%;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 8px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-        }
-
-        .button-container button {
-            margin-left: 5px;
-            padding: 8px 12px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .button-container button.confirm {
-            background-color: #26bb02;
-        }
-
-        .button-container button.reject {
-            background-color: #f44336;
-        }
-    </style>
-
-    <style>
-        table {
-
-            border-collapse: collapse;
-
-        }
-
-        th,
-        td {
-
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-
-        }
-
-        .job-period {
-
-            background-color: green;
-            opacity: 0.5;
-
-        }
-
-        .student-period {
-
-            background-color: red;
-            opacity: 0.5;
-
-        }
-    </style>
-<style>
-    .card {
-        width: 100%;
-        max-width: none;
-        /* Add this line to remove the maximum width constraint */
-    }
-
+     <!-- Required meta tags -->
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <title>Student</title>
+     <!-- Plugin css for this page -->
+     <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
  
-
-
-    @media (max-width: 600px) {
-
-        .kk {
-            margin-left: 0%;
-            margin-right: 0%;
-        }
-
-        .content-wrapper {
-            padding: 0%;
-        }
-
-        .d {
-            padding: 0%;
-            margin: 0;
-        }
-
-
-        .card {
-            background-color: rgba(0, 0, 0, 0);
-        }
-
-        .job-post-container {
-            min-height: 300px;
-            max-height: fit-content;
-            /* Adjust to fit exactly 4 job postings, you might need to change this */
-            overflow-y: hidden;
-        }
-
-        .welcome-section {
-            display: none;
-        }
-
-    }
-
-    /***/
-    /*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
-    #header {
-        transition: all 0.5s;
-        z-index: 997;
-        transition: all 0.5s;
-        padding: 15px 0;
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
-
-
-    }
-
-    #header.header-transparent {
-        background: transparent;
-    }
-
-    #header.header-scrolled {
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    #header .logo h1 {
-        font-size: 30px;
-        margin: 0;
-        line-height: 1;
-        font-weight: 400;
-        letter-spacing: 2px;
-    }
-
-    /*--------------------------------------------------------------
-# Navigation Menu
---------------------------------------------------------------*/
-    /**
-* Desktop Navigation 
-*/
-    .navbar {
-        padding: 0;
-
-    }
-
-    .navbar ul {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        list-style: none;
-        align-items: center;
-    }
-
-    .navbar li {
-        position: relative;
-    }
-
-    .navbar a,
-    .navbar a:focus {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 0 10px 30px;
-        font-family: "Raleway", sans-serif;
-        font-size: 15px;
-        color: #47536e;
-        white-space: nowrap;
-        transition: 0.3s;
-    }
-
-    .navbar a i,
-    .navbar a:focus i {
-        font-size: 12px;
-        line-height: 0;
-        margin-left: 5px;
-    }
-
-    .navbar a:hover,
-    .navbar .active,
-    .navbar .active:focus,
-    .navbar li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar .getstarted,
-    .navbar .getstarted:focus {
-        background: #5777ba;
-        color: #fff;
-        padding: 12px 25px;
-        margin-left: 30px;
-        color: #fff;
-        line-height: 1;
-        border-radius: 50px;
-    }
-
-    .navbar .getstarted:hover,
-    .navbar .getstarted:focus:hover {
-        background: #748ec6;
-        color: #fff;
-    }
-
-    .navbar .dropdown ul {
-        display: block;
-        position: absolute;
-        left: 14px;
-        top: calc(100% + 30px);
-        margin: 0;
-        padding: 10px 0;
-        z-index: 99;
-        opacity: 0;
-        visibility: hidden;
-        background: #fff;
-        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-        transition: 0.3s;
-        border-radius: 4px;
-    }
-
-    .navbar .dropdown ul li {
-        min-width: 200px;
-    }
-
-    .navbar .dropdown ul a {
-        padding: 10px 20px;
-        font-size: 15px;
-        text-transform: none;
-        font-weight: 600;
-    }
-
-    .navbar .dropdown ul a i {
-        font-size: 12px;
-    }
-
-    .navbar .dropdown ul a:hover,
-    .navbar .dropdown ul .active:hover,
-    .navbar .dropdown ul li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar .dropdown:hover>ul {
-        opacity: 1;
-        top: 100%;
-        visibility: visible;
-    }
-
-    .navbar .dropdown .dropdown ul {
-        top: 0;
-        left: calc(100% - 30px);
-        visibility: hidden;
-    }
-
-    .navbar .dropdown .dropdown:hover>ul {
-        opacity: 1;
-        top: 0;
-        left: 100%;
-        visibility: visible;
-    }
-
-    @media (max-width: 1366px) {
-        .navbar .dropdown .dropdown ul {
-            left: -90%;
-        }
-
-        .navbar .dropdown .dropdown:hover>ul {
-            left: -100%;
-        }
-    }
-
-    /**
-* Mobile Navigation 
-*/
-    .mobile-nav-toggle {
-        color: #47536e;
-        font-size: 28px;
-        cursor: pointer;
-        display: none;
-        line-height: 0;
-        transition: 0.5s;
-    }
-
-    .mobile-nav-toggle.bi-x {
-        color: #fff;
-    }
-
-    @media (max-width: 991px) {
-        .mobile-nav-toggle {
-            display: block;
-        }
-
-        .navbar ul {
-            display: none;
-        }
-    }
-
-    .navbar-mobile {
-        position: fixed;
-        overflow: hidden;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        background: rgba(51, 60, 79, 0.9);
-        transition: 0.3s;
-        z-index: 999;
-    }
-
-    .navbar-mobile .mobile-nav-toggle {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-    }
-
-    .navbar-mobile ul {
-        display: block;
-        position: absolute;
-        top: 55px;
-        right: 15px;
-        bottom: 15px;
-        left: 15px;
-        padding: 10px 0;
-        border-radius: 6px;
-        background-color: #fff;
-        overflow-y: auto;
-        transition: 0.3s;
-    }
-
-    .navbar-mobile a,
-    .navbar-mobile a:focus {
-        padding: 10px 20px;
-        font-size: 15px;
-        color: #47536e;
-    }
-
-    .navbar-mobile a:hover,
-    .navbar-mobile .active,
-    .navbar-mobile li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar-mobile .getstarted,
-    .navbar-mobile .getstarted:focus {
-        margin: 15px;
-    }
-
-    .navbar-mobile .dropdown ul {
-        position: static;
-        display: none;
-        margin: 10px 20px;
-        padding: 10px 0;
-        z-index: 99;
-        opacity: 1;
-        visibility: visible;
-        background: #fff;
-        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-    }
-
-    .navbar-mobile .dropdown ul li {
-        min-width: 200px;
-    }
-
-    .navbar-mobile .dropdown ul a {
-        padding: 10px 20px;
-    }
-
-    .navbar-mobile .dropdown ul a i {
-        font-size: 12px;
-    }
-
-    .navbar-mobile .dropdown ul a:hover,
-    .navbar-mobile .dropdown ul .active:hover,
-    .navbar-mobile .dropdown ul li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar-mobile .dropdown>.dropdown-active {
-        display: block;
-    }
-
-    /*--------------------------------------------------------------
-# Hero Section
---------------------------------------------------------------*/
-    #hero {
-        width: 100%;
-        height: 20px;
-        position: relative;
-        overflow: hidden;
-        padding: 90px 0 100px 0;
-        background: #F5F7FF;
-        z-index: 1;
-        /*
-background-image: url("static/images/5654986r.jpg");
-background-repeat: no-repeat; 
-background-size: cover; 
-background-position: center center; 
-position: relative; 
-*/
-    }
-
-    /*
-    #hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
-
-    }
-*/
-    a {
-        color: #5777ba;
-        text-decoration: none;
-    }
-
-    a:hover {
-        color: #7b94c9;
-        text-decoration: none;
-    }
-
-    #header .container,
-    #header .container-fluid,
-    #header .container-lg,
-    #header .container-md,
-    #header .container-sm,
-    #header .container-xl,
-    #header .container-xxl {
-        --bs-gutter-x: 1.5rem;
-        --bs-gutter-y: 0;
-        width: 100%;
-        padding-right: calc(var(--bs-gutter-x) * .5);
-        padding-left: calc(var(--bs-gutter-x) * .5);
-        margin-right: auto;
-        margin-left: auto
-    }
-
-    @media (min-width:576px) {
-
-        #header .container,
-        #header .container-sm {
-            max-width: 540px
-        }
-    }
-
-    @media (min-width:768px) {
-
-        #header .container,
-        #header .container-md,
-        #header .container-sm {
-            max-width: 720px
-        }
-    }
-
-    @media (min-width:992px) {
-
-        #header .container,
-        #header .container-lg,
-        #header .container-md,
-        #header .container-sm {
-            max-width: 960px
-        }
-    }
-
-    @media (min-width:1200px) {
-
-        #header .container,
-        #header .container-lg,
-        #header .container-md,
-        #header .container-sm,
-        #header .container-xl {
-            max-width: 1140px
-        }
-    }
-
-    @media (min-width:1400px) {
-
-        #header .container,
-        #header .container-lg,
-        #header .container-md,
-        #header .container-sm,
-        #header .container-xl,
-        #header .container-xxl {
-            max-width: 1320px
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .kk {
-            max-width: 1140px;
-        }
-    }
-
-    .dropdown button i {
-        border-radius: 50%;
-        /* Make the icon circular */
-        background-color: #ffffff;
-        /* Set the background color to match your design */
-        padding: 8px;
-        /* Adjust the padding as needed */
-    }
-
-
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
-
-ئ
-
-  
-    /*
-.content-wrapper::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(75, 73, 172, 0.2); 
-}
-*/
-
-
-
-
-</style>
-
-
+     <!-- inject:css -->
+     <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
+     <!-- endinject -->
+ 
+     <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
+     <link rel="stylesheet" href="../../static/fold/styleJoblist.css">
+     <link rel="stylesheet" href="../../static/vendors/mdi/css/materialdesignicons.min.css">
+ 
+     <!-- Website icon -->
+     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+     <style>
+         .block-d {
+             justify-content: space-between;
+             display: flex;
+         }
+ 
+         #findJob-button {
+ 
+             margin: 1.5rem;
+ 
+ 
+         }
+ 
+         #viewForm-button {
+             margin: 1.5rem 0.5rem
+         }
+ 
+         #updateForm-button {
+             margin: 1.5rem 0.5rem
+         }
+ 
+         #deleteForm-button {
+             margin: 1.5rem 0.5rem
+         }
+ 
+ 
+         @media (max-width: 600px) {
+ 
+             #findJob-button {
+                 width: 100%;
+                 justify-items: center;
+                 margin: 1.5rem 0;
+                 /* Add margin to separate it from other buttons and align it to the center */
+                 display: block;
+                 /* Set to block to ensure full width */
+                 padding: 0%;
+                 margin: 0.5rem 0rem;
+             }
+ 
+             #viewForm-button {
+                 width: 100%;
+                 justify-items: center;
+                 margin: 1.5rem 0;
+                 /* Add margin to separate it from other buttons and align it to the center */
+                 display: block;
+                 /* Set to block to ensure full width */
+                 padding: 0%;
+                 margin: 0.5rem 0rem;
+             }
+ 
+             #updateForm-button {
+                 width: 100%;
+                 justify-items: center;
+                 margin: 1.5rem 0;
+                 /* Add margin to separate it from other buttons and align it to the center */
+                 display: block;
+                 /* Set to block to ensure full width */
+                 padding: 0%;
+                 margin: 0.5rem 0rem;
+             }
+ 
+             #deleteForm-button {
+                 width: 100%;
+                 justify-items: center;
+                 margin: 1.5rem 0;
+                 /* Add margin to separate it from other buttons and align it to the center */
+                 display: block;
+                 /* Set to block to ensure full width */
+                 padding: 0%;
+                 margin: 0.5rem 0rem;
+             }
+ 
+ 
+ 
+             .block-d {
+                 display: block;
+                 justify-content: center;
+             }
+ 
+ 
+ 
+ 
+         }
+     </style>
+ 
+     <!-- For table 1 -->
+     <style>
+         .timeline-item {
+             position: relative;
+             margin-bottom: 50px;
+         }
+ 
+         .timeline-date {
+             position: absolute;
+             top: -22px;
+             left: 50%;
+             transform: translateX(-50%);
+             background-color: #000;
+             color: #fff;
+             padding: 6px 12px;
+             border-radius: 4px;
+             font-size: 14px;
+         }
+ 
+         .timeline-content {
+             padding: 15px;
+             background-color: #f2f2f2;
+             border-radius: 4px;
+         }
+ 
+         .timeline-table {
+             width: 80%;
+             border-collapse: collapse;
+             margin: auto;
+         }
+ 
+         .timeline-table th,
+         .timeline-table td {
+             border: 1px solid #000;
+             padding: 8px;
+             text-align: center;
+         }
+ 
+         .timeline-table th {
+             background-color: rgba(75, 73, 172, 0.135);
+             padding: 15px;
+             /*#f2f2f2*/
+         }
+     </style>
+ 
+     <!-- For table 2 -->
+     <style>
+         .highlight {
+             background-color: #c8f7dc;
+ 
+         }
+ 
+         .table1 .table {
+             margin: auto;
+             font-family: Arial, sans-serif;
+             background-color: #f9f9f987;
+             width: 90%;
+             border-collapse: collapse;
+         }
+ 
+         .table1 .th {
+             padding: 15px;
+             text-align: center;
+             border-bottom: 1px solid #ddd;
+             border-right: 1px solid #ddd;
+             ;
+             border-left: 1px solid #ddd;
+         }
+ 
+         .table1 .td {
+             padding: 20px;
+             text-align: center;
+             border-bottom: 1px solid #dddddd50;
+             border-right: 1px solid #ddd;
+             border-left: 1px solid #ddd;
+ 
+         }
+ 
+         .table1 .th {
+             background-color: rgba(91, 89, 165, 0.071);
+             width: 15%;
+         }
+ 
+         .table1 .day {
+             position: relative;
+             width: 0px;
+         }
+ 
+ 
+         .table1 .time {
+             color: #686767;
+         }
+ 
+         .table1 .event {
+             font-weight: bold;
+             color: #333;
+         }
+ 
+         .table1 .description {
+             color: #666;
+         }
+     </style>
+ 
+     <!-- this style for notifications table -->
+     <title>Table with Buttons</title>
+     <style>
+         .table-container {
+             width: 100%;
+         }
+ 
+         .table1 .table {
+             width: 100%;
+             border-collapse: collapse;
+         }
+ 
+         .table1 .th,
+         .table1 .td {
+             padding: 8px;
+             text-align: center;
+             border-bottom: 1px solid #ddd;
+         }
+ 
+         .table1 .button-container {
+             display: flex;
+             justify-content: center;
+         }
+ 
+         .button-container button {
+             margin-left: 5px;
+             padding: 8px 12px;
+             background-color: #4CAF50;
+             color: white;
+             border: none;
+             cursor: pointer;
+         }
+ 
+         .button-container button.confirm {
+             background-color: #26bb02;
+             border: none;
+ 
+             border-radius: 15px;
+         }
+ 
+         .button-container button.reject {
+             background-color: #f44336;
+             border: none;
+             border-radius: 15px;
+ 
+         }
+     </style>
+ 
+     <style>
+         .table1 .table {
+ 
+             border-collapse: collapse;
+ 
+         }
+ 
+         .table1 .th,
+         .table1 .td {
+ 
+             border: 1px solid black;
+             padding: 8px;
+             text-align: center;
+ 
+         }
+ 
+         .table1 .job-period {
+ 
+             background-color: green;
+             opacity: 0.5;
+ 
+         }
+ 
+         .table1 .student-period {
+ 
+             background-color: red;
+             opacity: 0.5;
+ 
+         }
+     </style>
+     <style>
+         .card {
+             width: 100%;
+             max-width: none;
+             /* Add this line to remove the maximum width constraint */
+         }
+ 
+ 
+ 
+ 
+         @media (max-width: 600px) {
+ 
+             .kk {
+                 margin-left: 0%;
+                 margin-right: 0%;
+             }
+ 
+             .content-wrapper {
+                 padding: 0%;
+             }
+ 
+             .d {
+                 padding: 0%;
+                 margin: 0;
+             }
+ 
+ 
+             .card {
+                 background-color: rgba(0, 0, 0, 0);
+             }
+ 
+             .job-post-container {
+                 min-height: 300px;
+                 max-height: fit-content;
+                 /* Adjust to fit exactly 4 job postings, you might need to change this */
+                 overflow-y: hidden;
+             }
+ 
+             .welcome-section {
+                 display: none;
+             }
+ 
+         }
+ 
+         /***/
+         /*--------------------------------------------------------------
+ # Header
+ --------------------------------------------------------------*/
+         #header {
+             transition: all 0.5s;
+             z-index: 997;
+             transition: all 0.5s;
+             padding: 15px 0;
+             background: rgba(255, 255, 255, 0.95);
+             box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
+ 
+ 
+         }
+ 
+         #header.header-transparent {
+             background: transparent;
+         }
+ 
+         #header.header-scrolled {
+             background: rgba(255, 255, 255, 0.95);
+             box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+         }
+ 
+         #header .logo h1 {
+             font-size: 30px;
+             margin: 0;
+             line-height: 1;
+             font-weight: 400;
+             letter-spacing: 2px;
+         }
+ 
+         /*--------------------------------------------------------------
+ # Navigation Menu
+ --------------------------------------------------------------*/
+         /**
+ * Desktop Navigation 
+ */
+         .navbar {
+             padding: 0;
+ 
+         }
+ 
+         .navbar ul {
+             margin: 0;
+             padding: 0;
+             display: flex;
+             list-style: none;
+             align-items: center;
+         }
+ 
+         .navbar li {
+             position: relative;
+         }
+ 
+         .navbar a,
+         .navbar a:focus {
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             padding: 10px 0 10px 30px;
+             font-family: "Raleway", sans-serif;
+             font-size: 15px;
+             color: #47536e;
+             white-space: nowrap;
+             transition: 0.3s;
+         }
+ 
+         .navbar a i,
+         .navbar a:focus i {
+             font-size: 12px;
+             line-height: 0;
+             margin-left: 5px;
+         }
+ 
+         .navbar a:hover,
+         .navbar .active,
+         .navbar .active:focus,
+         .navbar li:hover>a {
+             color: #5777ba;
+         }
+ 
+         .navbar .getstarted,
+         .navbar .getstarted:focus {
+             background: #5777ba;
+             color: #fff;
+             padding: 12px 25px;
+             margin-left: 30px;
+             color: #fff;
+             line-height: 1;
+             border-radius: 50px;
+         }
+ 
+         .navbar .getstarted:hover,
+         .navbar .getstarted:focus:hover {
+             background: #748ec6;
+             color: #fff;
+         }
+ 
+         .navbar .dropdown ul {
+             display: block;
+             position: absolute;
+             left: 14px;
+             top: calc(100% + 30px);
+             margin: 0;
+             padding: 10px 0;
+             z-index: 99;
+             opacity: 0;
+             visibility: hidden;
+             background: #fff;
+             box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+             transition: 0.3s;
+             border-radius: 4px;
+         }
+ 
+         .navbar .dropdown ul li {
+             min-width: 200px;
+         }
+ 
+         .navbar .dropdown ul a {
+             padding: 10px 20px;
+             font-size: 15px;
+             text-transform: none;
+             font-weight: 600;
+         }
+ 
+         .navbar .dropdown ul a i {
+             font-size: 12px;
+         }
+ 
+         .navbar .dropdown ul a:hover,
+         .navbar .dropdown ul .active:hover,
+         .navbar .dropdown ul li:hover>a {
+             color: #5777ba;
+         }
+ 
+         .navbar .dropdown:hover>ul {
+             opacity: 1;
+             top: 100%;
+             visibility: visible;
+         }
+ 
+         .navbar .dropdown .dropdown ul {
+             top: 0;
+             left: calc(100% - 30px);
+             visibility: hidden;
+         }
+ 
+         .navbar .dropdown .dropdown:hover>ul {
+             opacity: 1;
+             top: 0;
+             left: 100%;
+             visibility: visible;
+         }
+ 
+         @media (max-width: 1366px) {
+             .navbar .dropdown .dropdown ul {
+                 left: -90%;
+             }
+ 
+             .navbar .dropdown .dropdown:hover>ul {
+                 left: -100%;
+             }
+         }
+ 
+         /**
+ * Mobile Navigation 
+ */
+         .mobile-nav-toggle {
+             color: #47536e;
+             font-size: 28px;
+             cursor: pointer;
+             display: none;
+             line-height: 0;
+             transition: 0.5s;
+         }
+ 
+         .mobile-nav-toggle.bi-x {
+             color: #fff;
+         }
+ 
+         @media (max-width: 991px) {
+             .mobile-nav-toggle {
+                 display: block;
+             }
+ 
+             .navbar ul {
+                 display: none;
+             }
+         }
+ 
+         .navbar-mobile {
+             position: fixed;
+             overflow: hidden;
+             top: 0;
+             right: 0;
+             left: 0;
+             bottom: 0;
+             background: rgba(51, 60, 79, 0.9);
+             transition: 0.3s;
+             z-index: 999;
+         }
+ 
+         .navbar-mobile .mobile-nav-toggle {
+             position: absolute;
+             top: 15px;
+             right: 15px;
+         }
+ 
+         .navbar-mobile ul {
+             display: block;
+             position: absolute;
+             top: 55px;
+             right: 15px;
+             bottom: 15px;
+             left: 15px;
+             padding: 10px 0;
+             border-radius: 6px;
+             background-color: #fff;
+             overflow-y: auto;
+             transition: 0.3s;
+         }
+ 
+         .navbar-mobile a,
+         .navbar-mobile a:focus {
+             padding: 10px 20px;
+             font-size: 15px;
+             color: #47536e;
+         }
+ 
+         .navbar-mobile a:hover,
+         .navbar-mobile .active,
+         .navbar-mobile li:hover>a {
+             color: #5777ba;
+         }
+ 
+         .navbar-mobile .getstarted,
+         .navbar-mobile .getstarted:focus {
+             margin: 15px;
+         }
+ 
+         .navbar-mobile .dropdown ul {
+             position: static;
+             display: none;
+             margin: 10px 20px;
+             padding: 10px 0;
+             z-index: 99;
+             opacity: 1;
+             visibility: visible;
+             background: #fff;
+             box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+         }
+ 
+         .navbar-mobile .dropdown ul li {
+             min-width: 200px;
+         }
+ 
+         .navbar-mobile .dropdown ul a {
+             padding: 10px 20px;
+         }
+ 
+         .navbar-mobile .dropdown ul a i {
+             font-size: 12px;
+         }
+ 
+         .navbar-mobile .dropdown ul a:hover,
+         .navbar-mobile .dropdown ul .active:hover,
+         .navbar-mobile .dropdown ul li:hover>a {
+             color: #5777ba;
+         }
+ 
+         .navbar-mobile .dropdown>.dropdown-active {
+             display: block;
+         }
+ 
+         /*--------------------------------------------------------------
+ # Hero Section
+ --------------------------------------------------------------*/
+         #hero {
+             width: 100%;
+             height: 20px;
+             position: relative;
+             overflow: hidden;
+             padding: 90px 0 100px 0;
+             background: #F5F7FF;
+             z-index: 1;
+             /*
+ background-image: url("static/images/5654986r.jpg");
+ background-repeat: no-repeat; 
+ background-size: cover; 
+ background-position: center center; 
+ position: relative; 
+ */
+         }
+ 
+         /*
+     #hero::before {
+         content: "";
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.2);
+ 
+     }
+ */
+         a {
+             color: #5777ba;
+             text-decoration: none;
+         }
+ 
+         a:hover {
+             color: #7b94c9;
+             text-decoration: none;
+         }
+ 
+         #header .container,
+         #header .container-fluid,
+         #header .container-lg,
+         #header .container-md,
+         #header .container-sm,
+         #header .container-xl,
+         #header .container-xxl {
+             --bs-gutter-x: 1.5rem;
+             --bs-gutter-y: 0;
+             width: 100%;
+             padding-right: calc(var(--bs-gutter-x) * .5);
+             padding-left: calc(var(--bs-gutter-x) * .5);
+             margin-right: auto;
+             margin-left: auto
+         }
+ 
+         @media (min-width:576px) {
+ 
+             #header .container,
+             #header .container-sm {
+                 max-width: 540px
+             }
+         }
+ 
+         @media (min-width:768px) {
+ 
+             #header .container,
+             #header .container-md,
+             #header .container-sm {
+                 max-width: 720px
+             }
+         }
+ 
+         @media (min-width:992px) {
+ 
+             #header .container,
+             #header .container-lg,
+             #header .container-md,
+             #header .container-sm {
+                 max-width: 960px
+             }
+         }
+ 
+         @media (min-width:1200px) {
+ 
+             #header .container,
+             #header .container-lg,
+             #header .container-md,
+             #header .container-sm,
+             #header .container-xl {
+                 max-width: 1140px
+             }
+         }
+ 
+         @media (min-width:1400px) {
+ 
+             #header .container,
+             #header .container-lg,
+             #header .container-md,
+             #header .container-sm,
+             #header .container-xl,
+             #header .container-xxl {
+                 max-width: 1320px
+             }
+         }
+ 
+         @media (min-width: 1200px) {
+             .kk {
+                 max-width: 1140px;
+             }
+         }
+ 
+ 
+ 
+ 
+         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+ 
+ 
+ 
+ 
+         /*
+ .content-wrapper::before {
+   content: "";
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(75, 73, 172, 0.2); 
+ }
+ */
+ 
+         .ti-user:before {
+             margin-right: 0.5rem
+         }
+ 
+         .icon1 {
+             cursor: pointer;
+             margin-right: 50px;
+             line-height: 60px
+         }
+ 
+         .icon1 span {
+             background: #f00;
+             padding: 7px;
+             border-radius: 50%;
+             color: #fff;
+             vertical-align: top;
+             margin-left: -25px
+         }
+ 
+         .icon1 img {
+             display: inline-block;
+             width: 26px;
+             margin-top: 4px
+         }
+ 
+         .icon1:hover {
+             opacity: .7
+         }
+ 
+ 
+ 
+         .notifications1 {
+             width: 300px;
+             height: 0px;
+             opacity: 0;
+             position: absolute;
+             top: 63px;
+             right: 62px;
+             border-radius: 5px 0px 5px 5px;
+             background-color: #fff;
+             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+         }
+ 
+         .notifications1 h2 {
+             font-size: 14px;
+             padding: 10px;
+             border-bottom: 1px solid #eee;
+             color: #999
+         }
+ 
+         .notifications1 h2 span {
+             color: #f00
+         }
+ 
+         .notifications1-item {
+             display: flex;
+             border-bottom: 1px solid #eee;
+             padding: 6px 9px;
+             margin-bottom: 0px;
+             cursor: pointer
+         }
+ 
+         .notifications1-item:hover {
+             background-color: #eee
+         }
+ 
+         .notifications1-item img {
+             display: block;
+             width: 50px;
+             height: 50px;
+             margin-right: 9px;
+             border-radius: 50%;
+             margin-top: 2px
+         }
+ 
+         .notifications1-item .text h4 {
+             color: #777;
+             font-size: 16px;
+             margin-top: 3px
+         }
+ 
+         .notifications1-item .text p {
+             color: #aaa;
+             font-size: 12px
+         }
+ 
+         /* nav */
+ 
+         .k .card {
+             padding: 0;
+         }
+ 
+         .k .card a.active {
+             border-bottom: 2px solid #55c57a;
+         }
+ 
+         .k .card .nav-link {
+             color: rgb(110, 110, 110);
+             font-weight: 500;
+         }
+ 
+         .k .card .nav-link:hover {
+             color: #55c57a;
+         }
+ 
+         .k .card .nav-pillss .nav-link.active {
+             color: black;
+             background-color: white;
+             border-radius: 0.5rem 0.5rem 0 0;
+             font-weight: 600;
+         }
+ 
+         .k .card .tab-content {
+             padding-bottom: 1.3rem;
+         }
+ 
+         .k .card .form-control {
+             background-color: rgb(241, 243, 247);
+             border: none;
+         }
+ 
+         /* 3nd card */
+         .k .card span {
+             margin-left: 0.5rem;
+             padding: 1px 10px;
+             color: white;
+             background-color: rgb(143, 143, 143);
+             border-radius: 4px;
+             font-weight: 600;
+         }
+ 
+         .k .card .third {
+             padding: 0 1.5rem 0 1.5rem;
+         }
+ 
+         .k .card label {
+             font-weight: 500;
+             color: rgb(104, 104, 104);
+         }
+ 
+         .k .card .btn-success {
+             float: right;
+         }
+ 
+         .k .card .form-control:focus {
+             box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 7px rgba(0, 0, 0, 0.2);
+         }
+ 
+         .k .card select {
+             -webkit-appearance: none;
+             -moz-appearance: none;
+             text-indent: 1px;
+             text-overflow: "";
+         }
+ 
+         /* 1st card */
+ 
+         .k .card ul {
+             list-style: none;
+             margin-top: 1rem;
+             padding-inline-start: 0;
+         }
+ 
+         .k .card .search {
+             padding: 0 1rem 0 1rem;
+         }
+ 
+         .k .card .ccontent li .wrapp {
+             padding: 0.3rem 1rem 0.001rem 1rem;
+         }
+ 
+         .card .ccontent li .wrapp div {
+             font-weight: 600;
+         }
+ 
+         .k .card .ccontent li .wrapp p {
+             font-weight: 360;
+         }
+ 
+         .k .card .ccontent li:hover {
+             background-color: rgb(117, 93, 255);
+             color: white;
+         }
+ 
+         /* 2nd card */
+ 
+         .k .card .addinfo {
+             padding: 0 1rem;
+         }
+ 
+         .card {
+             min-height: 450px;
+         }
+     </style>
+ 
+ 
 
 </head>
 
@@ -755,55 +944,613 @@ position: relative;
    
         <header id="header" class="fixed-top  ">
             <div class="container d-flex align-items-center justify-content-between">
-    
+
                 <div class="logo">
                     <a href='/studentCancle'>
-                        <h2 style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC;"> Uni Job</h2>
+                        <h2 style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC;"> Uni Job
+                        </h2>
                     </a>
                     <!-- Uncomment below if you prefer to use an image logo -->
                     <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
                 </div>
-    
+
                 <nav id="navbar" class="navbar">
                     <ul>
+
+
+
                         <li class="nav-item nav-profile dropdown d-none d-lg-flex">
-                            <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
-                                <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
+                            <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown"
+                                style="position: relative;">
+                                <i class="mdi mdi-bell-outline" style="font-size: 1.8rem; color: #4b4b4b;">
+                                    {% if notifications|length > 0 %}
+                                    <span class="badge badge-danger"
+                                        style="position: absolute; padding: 0; top: -5; right: 0; height: 14px; width: 14px; line-height: 14px; border-radius: 50%; font-size: 0.5rem; text-align: center;">{{
+                                        notifications|length }}</span>
+                                    {% endif %}
+                                </i>
                             </a>
+
+
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                                aria-labelledby="profileDropdown">
+                                aria-labelledby="profileDropdown" style="text-align:left;">
+                                <h6 class="dropdown-header">Notifications - <span style="color: red;">{{
+                                        notifications|length }}</span></h6>
+                                <div class="dropdown-divider" style="margin-top: 0; padding-top: 0;"></div>
+
+                                {% if notifications|length == 0 %}
+                                <p class="dropdown-item" style="justify-content:left; color: gray;">
+                                    No notifications
+                                </p>
+                                {% else %}
+                                {% for notification in notifications %}
                                 <a class="dropdown-item" style="justify-content:left">
-                                    <i class=" ti-user text-dark " style="margin-right:5px;"></i>
-                                    {{ user[3]| title }}
+                                    {{ notification[4] }} for {{ notification[3] }}
                                 </a>
-                                <a class="dropdown-item">
-                                    <i class="ti-email text-primary" style="margin-right:5px;"></i>
-                                    {{ user[4] }}
-                                </a>
-                                <a class="dropdown-item"  href="{{url_for('login')}}" style="justify-content:left">
-                                    <i class="ti-power-off text-primary"  style="margin-right:5px;"></i>
-                                    Log out
-                                </a>
+
+                                {% endfor %}
+                                {% endif %}
+
                             </div>
+
                         </li>
-    
+
+
                         <div class="app-header-right">
-    
-    
-                            <button class="profile-btn">
+
+
+                            <button class="profile-btn" style="padding-left: 0;">
+                                <li class="nav-item nav-profile dropdown d-none d-lg-flex">
+                                    <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown"
+                                        style="padding: 0; padding-right: 0.5rem;">
+                                        <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                                        aria-labelledby="profileDropdown">
+                                        <a class="dropdown-item" style="justify-content:left">
+                                            <i class=" ti-user text-dark " style="margin-right:5px;"></i>
+                                            {{ user[3]| title }}
+                                        </a>
+                                        <a class="dropdown-item">
+                                            <i class="ti-email text-primary" style="margin-right:5px;"></i>
+                                            {{ user[4] }}
+                                        </a>
+                                        <a class="dropdown-item" href="{{url_for('login')}}"
+                                            style="justify-content:left">
+                                            <i class="ti-power-off text-primary" style="margin-right:5px;"></i>
+                                            Log out
+                                        </a>
+                                    </div>
+
+                                </li>
                                 <span> {{ user[3] | title }}</span>
                             </button>
                         </div>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav><!-- .navbar -->
-    
+
             </div>
         </header>
         <section id="hero" style="padding: 10px 0 10px 0;"> </section>
     
         <div class="content-wrapper" style="min-height: inherit;">
             <div class="container">
+
+                <div class="k">
+
+                    <div class="container card  d-flex  mt-5">
+
+                        <div class=" block-d" style="margin-top: 1rem;">
+
+                            <div>
+                                <h4 class="font-weight-bold left-margin" style="margin-top: 1.5rem; font-size: 27px;">
+                                    Welcome</h4>
+                                <h4 class="left-margin " style="margin-bottom: 1.5rem; font-size: 21px;">{{
+                                    user[3] }} </h4>
+                            </div>
+                            <form class="j" action="{{ url_for('post_job') }}"  style="margin-right: 1.5rem;">
+                                {% if seekerForms %}
+                                {% for form in seekerForms %}
+                                {% if form[1] == 1 %}
+                                <button id="findJob-button" class="btn btn-inverse-primary btn-fw "
+                                    style="height: 50px;  display: none;" onclick="location.href = '/find_job';"
+                                    type="button" aria-expanded="true">Seek job </button>
+                                <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "
+                                    style="height: 50px;  display: inline-block;"
+                                    onclick="location.href = '/view_form/{{ form[0] }}';" type="button"
+                                    aria-expanded="true">View Profile</button>
+                                <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "
+                                    style="height: 50px;  display: inline-block;"
+                                    onclick="location.href = '/update_find_job/{{ form[0] }}';" type="button"
+                                    aria-expanded="true">Update Profile</button>
+                                <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "
+                                    style="height: 50px;  display: inline-block;"
+                                    onclick="location.href = '/delete_form/{{ form[0] }}/{{ form[2] }}';" type="button"
+                                    aria-expanded="true">Delete Profile</button>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <button id="findJob-button" class="btn btn-inverse-primary btn-fw "
+                                    style="height: 50px;  display: inline-block;" onclick="location.href = '/find_job';"
+                                    type="button" aria-expanded="true">Seek job </button>
+                                <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "
+                                    style="height: 50px;  display: none;" type="button" aria-expanded="true">View
+                                    Profile</button>
+                                <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "
+                                    style="height: 50px;  display: none;" type="button" aria-expanded="true">Update
+                                    Profile</button>
+                                <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "
+                                    style="height: 50px;  display: none;" type="button" aria-expanded="true">Delete
+                                    Profile</button>
+                                {% endif %}
+
+                            </form>
+
+                        </div>
+                        <!-- nav options -->
+                        <ul class="nav nav-pillss shadow-sm" id="pills-tab" role="tablist">
+                            <li class="nav-item ">
+                                <a class="nav-link " id="pills-home-tab" data-toggle="pill" href="#pills-home"
+                                    role="tab" aria-controls="pills-home" aria-selected="true">Job Offers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active " id="pills-profile-tab" data-toggle="pill"
+                                    href="#pills-profile" role="tab" aria-controls="pills-profile"
+                                    aria-selected="false">Schedule</a>
+                            </li>
+
+                        </ul>
+
+                        <!-- content -->
+                        <div class="tab-content" id="pills-tabContent p-3">
+                            <!-- 1st card -->
+                            <div class="tab-pane fade " id="pills-home" role="tabpanel"
+                                aria-labelledby="pills-home-tab">
+
+                                <div class="notification-content text-center" style="padding-top: 0rem;">
+                                    <div class="notification-content text-center" style="padding-top: 0rem">
+                                        {% if seekerForms %}
+                                        {% if notifications %}
+
+                                        <div class="table-container">
+                                            <table class="table table-hover" style="text-align: left;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Job Title</th>
+                                                        <th>Duration of The Job</th>
+                                                        <th>Job Location</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    {% for notification in notifications %}
+                                                    <tr>
+                                                        <td>{{notification[3]|title}}</td>
+                                                        <td>{{notification[5]}} Week</td>
+                                                        <td>{{notification[6]|title}}</td>
+
+                                                        <td class="button-container">
+                                                            <form method="GET" action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}" style="display: inline-block;">
+                                                                <button type="submit" class="confirm" id="confirmButton">Confirm</button>
+                                                            </form>
+                                                            <form method="GET" action="{{ url_for('reject_notification', student_id=user[0], notify_id=notification[0]) }}" style="display: inline-block;">
+                                                                <button type="submit" class="reject">Reject</button>
+                                                            </form>
+                                                        </td>
+                                                        
+
+
+
+                                                    </tr>
+                                                    {% endfor %}
+
+
+                                                    <!-- Add more rows as needed -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <div id="flashMessage"></div>
+                                        {% else %}
+                                        <h6 style="margin-top: 6rem;">  No notifications at the moment.</h6>
+                                        
+                                        <br>
+                                        {% endif %}
+
+
+                                        {% else %}
+                                        <h6 style="margin-top: 6rem;">  No notifications at the moment.</h6>
+                                        
+                                        <br>
+                                        If you are seeking part-time work, press the "Seek Job" button to explore
+                                        opportunities.
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 2nd card -->
+                            <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
+                                aria-labelledby="pills-profile-tab" >
+                              
+                                <div class="schedule-content" style="margin-top: 2rem;">
+                                    <!--<
+                                                                        <table class="timeline-table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th></th>
+                                                                                    <th>Sunday</th>
+                                                                                    <th>Monday</th>
+                                                                                    <th>Tuesday</th>
+                                                                                    <th>Wednesday</th>
+                                                                                    <th>Thursday</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                    
+                                                                                <tr>
+                                                                                    <th>08:00 am</th>
+                                    
+                                                                                    <td class="timeline-item">1</td>
+                                                                                    <td class="timeline-item">2</td>
+                                                                                    <td class="timeline-item">3</td>
+                                                                                    <td class="timeline-item">4</td>
+                                                                                    <td class="timeline-item">5</td>
+                                    
+                                    
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>09:00 am</th>
+                                    
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                    
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>10:00 am</th>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                </tr>
+                                    
+                                                                                <tr>
+                                                                                    <th>11:00 am</th>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>12:00 pm</th>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>01:00 pm</th>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>02:00 pm</th>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>03:00 pm</th>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>04:00 pm</th>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>05:00 pm</th>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                    <td class="timeline-item"></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                    
+                                    >-->
+                                    <!-- 
+                                    
+                                                                        {% if schedule %}
+                                                                        <table>
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Time</th>
+                                                                                    <th>Sunday</th>
+                                                                                    <th>Monday</th>
+                                                                                    <th>Tuesday</th>
+                                                                                    <th>Wednesday</th>
+                                                                                    <th>Thursday </th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for schedule1 in schedule %}
+                                                                                <tr> 
+                                                                                    <td class="time">8:00</td>
+                                                                                    {% for day in range(5) %}
+                                                                                    <td class =" {% if day == 'Tuesday' and time == '10:00 am' %} highlight {% endif %}">
+                                    
+                                                                                    </td>
+                                                                                    
+                                                                                    {% endfor %}
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                        {% endif %}
+                                    
+                                    -->
+                                    
+                                                                    {% if schedule %}
+                                                                    
+                                                                    <table class="timeline-table">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Time</th>
+                                                                                <th>Sunday</th>
+                                                                                <th>Monday</th>
+                                                                                <th>Tuesday</th>
+                                                                                <th>Wednesday</th>
+                                                                                <th>Thursday</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {% for time_slot in ['08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'] %}
+                                                                                {% set time_slot_parts = time_slot.split(':') %}
+                                                                                {% set time_slot_hour = time_slot_parts[0] | int %}
+                                                                                {% set time_slot_minute = time_slot_parts[1][:2] | int %}
+                                                                                {% set time_slot_ampm = time_slot[-2:] %}
+                                                                                <tr>
+                                                                                    <td class="time">{{ time_slot }}</td>
+                                                                                    {% for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'] %}
+                                                                                        <td class="{% for schedule1 in schedule %}
+                                                                                            {% set start_time_parts = schedule1[2].split(':') %}
+                                                                                            {% set end_time_parts = schedule1[3].split(':') %}
+                                                                                            {% set start_hour = start_time_parts[0] | int %}
+                                                                                            {% set start_minute = start_time_parts[1][:2] | int %}
+                                                                                            {% set start_ampm = schedule1[2][-2:].upper() %}
+                                                                                            {% set end_hour = end_time_parts[0] | int %}
+                                                                                            {% set end_minute = end_time_parts[1][:2] | int %}
+                                                                                            {% set end_ampm = schedule1[3][-2:].upper() %}
+                                                                                            {% if schedule1[1] == day and ((time_slot_hour >= start_hour and time_slot_hour < end_hour) or (time_slot_hour >= start_hour and start_hour == 12 and start_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour <= end_hour and end_minute !=0) or (time_slot_hour >= start_hour and start_ampm=='AM' and end_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour < start_hour and time_slot_hour < end_hour)) %}
+                                                                                                {% if (time_slot_hour == start_hour and time_slot_minute >= start_minute and start_ampm == time_slot_ampm) or
+                                                                                                    (time_slot_hour == end_hour and time_slot_minute <= end_minute and end_ampm == time_slot_ampm) or
+                                                                                                    (time_slot_hour > start_hour and time_slot_hour < end_hour) or
+                                                                                                    (time_slot_hour >= start_hour and time_slot_hour > end_hour and start_ampm=='AM'  and end_ampm=='PM') %}
+                                                                                                    highlight
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}">
+                                                                                            {% for schedule1 in schedule %}
+                                                                                            {% set start_time_parts = schedule1[2].split(':') %}
+                                                                                            {% set end_time_parts = schedule1[3].split(':') %}
+                                                                                            {% set start_hour = start_time_parts[0] | int %}
+                                                                                            {% set start_minute = start_time_parts[1][:2] | int %}
+                                                                                            {% set start_ampm = schedule1[2][-2:] %}
+                                                                                            {% set end_hour = end_time_parts[0] | int %}
+                                                                                            {% set end_minute = end_time_parts[1][:2] | int %}
+                                                                                            {% set end_ampm = schedule1[3][-2:] %}
+                                                                                            {% if schedule1[1] == day and ((time_slot_hour >= start_hour and time_slot_hour < end_hour ) or (time_slot_hour >= start_hour and start_hour == 12 and start_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour <= end_hour and end_minute !=0) or (time_slot_hour >= start_hour and start_ampm=='AM' and end_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour < start_hour and time_slot_hour < end_hour)) %}
+                                                                                            {% if (time_slot_hour == start_hour and time_slot_minute >= start_minute and start_ampm == time_slot_ampm) or
+                                                                                                (time_slot_hour == end_hour and time_slot_minute <= end_minute and end_ampm == time_slot_ampm) or
+                                                                                                (time_slot_hour > start_hour and time_slot_hour < end_hour) or
+                                                                                                (time_slot_hour >= start_hour and time_slot_hour > end_hour and start_ampm=='AM'  and end_ampm=='PM') %}
+                                                                                                    <p> {{ schedule1[6] }} </p>  <p> {{ schedule1[2] }} {{ schedule1[3] }} </p>
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                            {% endfor %}
+                                    
+                                                                                        </td>
+                                                                                    {% endfor %}
+                                                                                </tr>
+                                                                            {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                {% else %}
+                                                                    <p style="text-align:center; margin-top: 5rem;">No schedule data available.</p>
+                                                                {% endif %}
+                                    
+                                                                
+                                                                
+                                                                    
+                                    
+                                                                        <!-- Table 2 
+                                                                        {% if schedule %}
+                                                                        <table>
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Time</th>
+                                                                                    <th>Sunday</th>
+                                                                                    <th>Monday</th>
+                                                                                    <th>Tuesday</th>
+                                                                                    <th>Wednesday</th>
+                                                                                    <th>Thursday </th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for schedule1 in schedule  %} 
+                                                                                <tr>
+                                                                                    <td class="time">08:00 am</td>
+                                                                                    <td class="{% if schedule1[1] == 'Sunday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
+                                                                                        {% if schedule1[1] == 'Sunday' and schedule1[2] == '08:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td> 
+                                                                                    <td class="{% if schedule1[1] == 'Monday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
+                                                                                        {% if schedule1[1] == 'Monday' and schedule1[2] == '08:00 AM' %}
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td> 
+                                                                                    <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}"></td>
+                                                                                        {% if schedule1[1] == 'Tuesday' and schedule1[2] == '08:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                    <td class="{% if schedule1[1] == 'Wednesday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
+                                                                                        {% if schedule1[1] == 'Wednesday' and schedule1[2] == '08:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}"></td>
+                                                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '08:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                    
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="time">09:00 am</td>
+                                                                                    <td class="{% if schedule1[1] == 'Sunday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
+                                                                                        {% if schedule1[1] == 'Sunday' and schedule1[2] == '09:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td> 
+                                                                                    <td class="{% if schedule1[1] == 'Monday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
+                                                                                        {% if schedule1[1] == 'Monday' and schedule1[2] == '09:00 AM' %}
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td> 
+                                                                                    <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}"></td>
+                                                                                        {% if schedule1[1] == 'Tuesday' and schedule1[2] == '09:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                    <td class="{% if schedule1[1] == 'Wednesday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
+                                                                                        {% if schedule1[1] == 'Wednesday' and schedule1[2] == '09:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}"></td>
+                                                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '09:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr> 
+                                                                                    
+                                                                                    <td class="time">10:00 am</td>
+                                                                                    <td>1</td>
+                                                                                    <td></td>                                                    
+                                                                                    <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '10:00 AM' %}highlight{% endif %}"></td>
+                                                                                    {% if schedule1[1] == 'Tuesday' and schedule1[2] == '10:00 AM' %} 
+                                                                                        {{ schedule1[6] }}
+                                                                                    {% endif %}
+                                                                                    </td> 
+                                                                                    <td></td>
+                                                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '10:00 AM' %}highlight{% endif %}"></td>
+                                                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '10:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="time">11:00 am</td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '11:00 AM' %}highlight{% endif %}"></td>
+                                                                                        {% if schedule1[1] == 'Tuesday' and schedule1[2] == '11:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                    <td></td>
+                                                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '11:00 AM' %}highlight{% endif %}"></td>
+                                                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '11:00 AM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="time">12:00 pm</td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '12:00 PM' %}highlight{% endif %}"></td>
+                                                                                        {% if schedule1[1] == 'Thursday' and schedule1[2] == '12:00 PM' %} 
+                                                                                            {{ schedule1[6] }}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="time">01:00 pm</td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="time">02:00 pm</td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="time">03:00 pm</td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="time">04:00 pm</td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td class="time">05:00 pm</td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                </tr>
+                                                                                {% endfor %} 
+                                                                            </tbody>
+                                                                        </table>
+                                                                        {% endif %}
+                                                                        -->
+                                                                    </div>
+                            </div>
+                            <!-- 3nd card -->
+                        </div>
+                    </div>
+                </div>
                 <div class="row mt-5">
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
@@ -1501,92 +2248,88 @@ position: relative;
     -->
 
   
-    <script>
-        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
-
-
-        // Make an HTTP request to the Flask server's endpoint to retrieve the schedules
-        fetch('/schedules', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-
-        })
-            .then(response => response.json())
-            .then(data => {
-                var student_schedule = data.student_schedule;
-                var job_schedule = data.job_schedule;
-                var cell_class2 = 'timeline-table';
-
-                var html_table = '<table class="' + cell_class2 + '">';
-                html_table += '<thead><tr><th></th>';
-
-                for (var i = 0; i < days.length; i++) {
-                    html_table += '<th>' + days[i] + '</th>';
-                }
-
-                html_table += '</tr></thead><tbody>';
-
-                for (var time = 8; time < 18; time++) {  // Assuming 8 AM to 5 PM schedule
-                    var hour = ('0' + time).slice(-2) + ':00';  // Format the hour as 'HH:00'
-
-                    // Start a new row for each hour
-                    html_table += '<tr><th>' + hour + '</th>';
-
-                    for (var j = 0; j < days.length; j++) {
-                        var day = days[j];
-                        var student_slots = student_schedule[day];
-                        var job_slots = job_schedule[day];
-                        var cell_class = 'timeline-item';
-
-                        for (var k = 0; k < job_slots.length; k++) {
-                            var job_slot = job_slots[k];
-                            var job_start = job_slot.split(' - ')[0];
-                            var job_end = job_slot.split(' - ')[1];
-                            var job_start_hour = parseInt(job_start.split(':')[0]);
-                            var job_end_hour = parseInt(job_end.split(':')[0]);
-
-                            if (time >= job_start_hour && time < job_end_hour) {
-                                cell_class = 'job-period';
-                            }
-                        }
-
-                        for (var l = 0; l < student_slots.length; l++) {
-                            var student_slot = student_slots[l];
-                            var student_start = student_slot.split(' - ')[0];
-                            var student_end = student_slot.split(' - ')[1];
-                            var student_start_hour = parseInt(student_start.split(':')[0]);
-                            var student_end_hour = parseInt(student_end.split(':')[0]);
-
-                            if (time >= student_start_hour && time < student_end_hour) {
-                                cell_class = 'student-period';
-                            }
-                        }
-
-                        html_table += '<td class="' + cell_class + '"></td>';
-                    }
-
-                    html_table += '</tr>';
-                }
-
-                html_table += '</tbody></table>';
-
-                // Set the contents of the table-container element to the generated html_table
-
-                document.getElementById('table-container').innerHTML = html_table;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    </script>
-
-
-
-
 </body>
 
 
+<script>
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+
+
+    // Make an HTTP request to the Flask server's endpoint to retrieve the schedules
+    fetch('/schedules', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+    })
+        .then(response => response.json())
+        .then(data => {
+            var student_schedule = data.student_schedule;
+            var job_schedule = data.job_schedule;
+            var cell_class2 = 'timeline-table';
+
+            var html_table = '<table class="' + cell_class2 + '">';
+            html_table += '<thead><tr><th></th>';
+
+            for (var i = 0; i < days.length; i++) {
+                html_table += '<th>' + days[i] + '</th>';
+            }
+
+            html_table += '</tr></thead><tbody>';
+
+            for (var time = 8; time < 18; time++) {  // Assuming 8 AM to 5 PM schedule
+                var hour = ('0' + time).slice(-2) + ':00';  // Format the hour as 'HH:00'
+
+                // Start a new row for each hour
+                html_table += '<tr><th>' + hour + '</th>';
+
+                for (var j = 0; j < days.length; j++) {
+                    var day = days[j];
+                    var student_slots = student_schedule[day];
+                    var job_slots = job_schedule[day];
+                    var cell_class = 'timeline-item';
+
+                    for (var k = 0; k < job_slots.length; k++) {
+                        var job_slot = job_slots[k];
+                        var job_start = job_slot.split(' - ')[0];
+                        var job_end = job_slot.split(' - ')[1];
+                        var job_start_hour = parseInt(job_start.split(':')[0]);
+                        var job_end_hour = parseInt(job_end.split(':')[0]);
+
+                        if (time >= job_start_hour && time < job_end_hour) {
+                            cell_class = 'job-period';
+                        }
+                    }
+
+                    for (var l = 0; l < student_slots.length; l++) {
+                        var student_slot = student_slots[l];
+                        var student_start = student_slot.split(' - ')[0];
+                        var student_end = student_slot.split(' - ')[1];
+                        var student_start_hour = parseInt(student_start.split(':')[0]);
+                        var student_end_hour = parseInt(student_end.split(':')[0]);
+
+                        if (time >= student_start_hour && time < student_end_hour) {
+                            cell_class = 'student-period';
+                        }
+                    }
+
+                    html_table += '<td class="' + cell_class + '"></td>';
+                }
+
+                html_table += '</tr>';
+            }
+
+            html_table += '</tbody></table>';
+
+            // Set the contents of the table-container element to the generated html_table
+
+            document.getElementById('table-container').innerHTML = html_table;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+</script>
 
 <script>
     /*   // Function to show the form content
