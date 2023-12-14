@@ -502,39 +502,39 @@
             </div>
 
             <nav id="navbar" class="navbar" style="-webkit-box-shadow:none;box-shadow:none; ">
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li class="nav-item nav-profile dropdown d-none d-lg-flex">
-                        <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                            aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" style="justify-content:left">
-                                <i class=" ti-user text-dark " style="margin-right:5px;"></i>
-                                {{ user[3]| title }}
+                <nav id="navbar" class="navbar">
+                    <ul>
+                        <li class="nav-item nav-profile dropdown d-none d-lg-flex">
+                            <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
+                                <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
                             </a>
-                            <a class="dropdown-item">
-                                <i class="ti-email text-primary" style="margin-right:5px;"></i>
-                                {{ user[4] }}
-                            </a>
-                            <a class="dropdown-item" href="{{url_for('login')}}" style="justify-content:left">
-                                <i class="ti-power-off text-primary" style="margin-right:5px;"></i>
-                                Log out
-                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                                aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" style="justify-content:left">
+                                    <i class=" ti-user text-dark " style="margin-right:5px;"></i>
+                                    {{ user[3]| title }}
+                                </a>
+                                <a class="dropdown-item">
+                                    <i class="ti-email text-primary" style="margin-right:5px;"></i>
+                                    {{ user[4] }}
+                                </a>
+                                <a class="dropdown-item" href="{{url_for('login')}}" style="justify-content:left">
+                                    <i class="ti-power-off text-primary" style="margin-right:5px;"></i>
+                                    Log out
+                                </a>
+                            </div>
+                        </li>
+
+                        <div class="app-header-right">
+
+
+                            <button class="profile-btn">
+                                <span> {{ user[3] | title }}</span>
+                            </button>
                         </div>
-                    </li>
-
-                    <div class="app-header-right">
-
-
-                        <button class="profile-btn">
-                            <span> {{ user[3] | title }}</span>
-                        </button>
-                    </div>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
+                    </ul>
+                    <i class="bi bi-list mobile-nav-toggle"></i>
+                </nav><!-- .navbar -->
 
         </div>
     </header>
@@ -581,11 +581,11 @@
                         <div class="projects-section-line">
                             <div class="projects-status">
                                 <div class="item-status">
-                                    <span class="status-number">{{ jobs|length }}</span>
+                                    <span class="status-number">{{ jobs|length-filled_jobs }}</span>
                                     <span class="status-type">In Progress</span>
                                 </div>
                                 <div class="item-status">
-                                    <span class="status-number">0</span>
+                                    <span class="status-number">{{filled_jobs}}</span>
                                     <span class="status-type">Filled</span>
                                 </div>
                                 <div class="item-status">
@@ -620,6 +620,10 @@
                         </div>
                         <div class="project-boxes jsGridView">
                             {% if jobs %}
+                            {% set in_progress_count = 0 %}
+                            {% set filled_count = 0 %}
+                            {% set total_jobs_count = jobs|length %}
+                    
                             {% for job in jobs %}
                             {% set box_colors = ['#fee4cb','#e9e7fd' , '#dbf6fd' , '#ffd3e2' , '#c8f7dc' , '#d5deff' ]
                             %}
@@ -627,154 +631,179 @@
                             {% set pro_colors = ['#ff942e', '#4f3ff0' , '#096c86', '#df3670' , '#34c471' , '#4067f9' ]
                             %}
 
-                            {% if job[14] == 0 %}
+                            {% if job[15] == 0 %}
                             {% set progress_percentage = 10 %}
-                            {% elif job[14]/job[9] < 1 %} {% set progress_percentage=20 %} {% elif job[14]/job[9]==1 %}
-                                {% set progress_percentage=50 %} {% endif %} <div class="project-box-wrapper">
-                                <div class="project-box" style="background-color: {{ box_colors[color_index] }}">
-                                    <div class="project-box-header">
-                                        <span>{{ job[13] }}</span>
-                                        <div class="more-wrapper">
-                                            <button class="project-btn-more" type="button" id="dropdownMenuIconButton1"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-more-vertical">
-                                                    <circle cx="12" cy="12" r="1" />
-                                                    <circle cx="12" cy="5" r="1" />
-                                                    <circle cx="12" cy="19" r="1" />
-                                                </svg>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="get_recommendations/{{ job[0] }}">
-                                                    View Candidates</a>
-                                                <a class="dropdown-item" href="/view_jobs/{{ job[0] }}">View Job</a>
-                                                <a class="dropdown-item" href="/update_post_job/{{ job[0] }}">Update
-                                                    Job</a>
-                                                <a class="dropdown-item" href="/delete_jobs/{{ job[0] }}"> Delete
-                                                    Job</a>
+                            {% endif %}
+
+                            {% if job[15] < job[9] and job[16]==0 %} {% set progress_percentage=20 %} {% endif %} {% if
+                                job[15] / job[9]==1 %} {% set progress_percentage=30 %} {% endif %} {% if job[15] <
+                                job[9] and job[16]> 0 %}
+                                {% set progress_percentage = 40 %}
+                                {% endif %}
+
+                                {% if job[15] == job[9] and job[16] == 0 %}
+                                {% set progress_percentage = 50 %}
+                                {% endif %}
+
+                                {% if job[16] > 0 and job[17] == 0 %}
+                                {% set progress_percentage = 60 %}
+                                {% endif %}
+
+                                {% if job[16] == job[9] %}
+                                {% set filled_count = filled_count + 1 %}
+                                {% set progress_percentage = 100 %}
+                                {% endif %}
+            {% if job[15] < job[9] and job[16] > 0 %}
+                {% set in_progress_count = in_progress_count + 1 %}
+            {% endif %}
+
+                                <div class="project-box-wrapper">
+                                    <div class="project-box" style="background-color: {{ box_colors[color_index] }}">
+                                        <div class="project-box-header">
+                                            <span>{{ job[13] }}</span>
+                                            <div class="more-wrapper">
+                                                <button class="project-btn-more" type="button"
+                                                    id="dropdownMenuIconButton1" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-more-vertical">
+                                                        <circle cx="12" cy="12" r="1" />
+                                                        <circle cx="12" cy="5" r="1" />
+                                                        <circle cx="12" cy="19" r="1" />
+                                                    </svg>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="get_recommendations/{{ job[0] }}">
+                                                        View Candidates</a>
+                                                    <a class="dropdown-item" href="/view_jobs/{{ job[0] }}">View Job</a>
+                                                    <a class="dropdown-item" href="/update_post_job/{{ job[0] }}">Update
+                                                        Job</a>
+                                                    <a class="dropdown-item" href="/delete_jobs/{{ job[0] }}"> Delete
+                                                        Job</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="project-box-content-header">
-                                        <p class="box-content-header">{{ job[2]|title}} </p>
-                                        <p class="box-content-subheader">{{ job[3]}}</p>
+                                        <div class="project-box-content-header">
+                                            <p class="box-content-header">{{ job[2]|title}} </p>
+                                            <p class="box-content-subheader">{{ job[3]}}</p>
 
-                                    </div>
-                                    <div class="box-progress-wrapper">
-                                        <p class="box-progress-header">Progress</p>
-                                        <div class="box-progress-bar">
-                                            <span class="box-progress"
-                                                style="width: {{ progress_percentage }}%; background-color: {{ pro_colors[color_index] }}"></span>
                                         </div>
-                                        <p class="box-progress-percentage">{{ progress_percentage }}%</p>
-                                    </div>
-
-                                    <div class="project-box-footer">
-                                        <div class="participants">
-                                            <!-- Your participants images and add participant button -->
+                                        <div class="box-progress-wrapper">
+                                            <p class="box-progress-header">Progress</p>
+                                            <div class="box-progress-bar">
+                                                <span class="box-progress"
+                                                    style="width: {{ progress_percentage }}%; background-color: {{ pro_colors[color_index] }}"></span>
+                                            </div>
+                                            <p class="box-progress-percentage">{{ progress_percentage }}%</p>
                                         </div>
-                                        <a href="{{ url_for('get_recommendations', job_id=job[0]) }}">
-                                            <button class="days-left"
-                                                style="border-color: transparent; color: {{ job.daysLeftColor }}">View
-                                                Candidates</button>
-                                        </a>
 
+                                        <div class="project-box-footer">
+                                            <div class="participants">
+                                                <!-- Your participants images and add participant button -->
+                                            </div>
+                                            <a href="{{ url_for('get_recommendations', job_id=job[0]) }}">
+                                                <button class="days-left"
+                                                    style="border-color: transparent; color: {{ job.daysLeftColor }}">View
+                                                    Candidates</button>
+                                            </a>
+
+                                        </div>
                                     </div>
                                 </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="up-card-section text-center" style="padding-top: 100px;">
+                                    <h4 class="mb-10">No active job posts</h4>
+                                    <p class="px-30 pb-20">Post a job to the marketplace and let talent come to
+                                        you.</p>
+                                    <div>
+                                        <a href="/post_job">Post a new job</a>
+                                    </div>
+                                    <style>
+                                        .project-boxes.jsGridView {
+                                            display: block;
+                                            /* Hide the project boxes when no active job posts */
+                                        }
+                                    </style>
+
+                                </div>
+
+
+                                {% endif %}
                         </div>
-                        {% endfor %}
-                        {% else %}
-                        <div class="up-card-section text-center" style="padding-top: 100px;">
-                            <h4 class="mb-10">No active job posts</h4>
-                            <p class="px-30 pb-20">Post a job to the marketplace and let talent come to
-                                you.</p>
-                            <div>
-                                <a href="/post_job">Post a new job</a>
-                            </div>
-                            <style>
-                                .project-boxes.jsGridView {
-                                    display: block;
-                                    /* Hide the project boxes when no active job posts */
-                                }
-                            </style>
-
-                        </div>
-
-
-                        {% endif %}
                     </div>
+
                 </div>
+                <div class="col-md-3 grid-margin transparent">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="projects-section-header" style="margin-bottom: 2px">
+                                <p>Getting started </p>
+                            </div>
+                            <p style="margin-bottom: 20px">Follow these steps to get started:</p>
+                            <div class="list-wrapper pt-2" style="overflow: hidden ; height: auto;">
+                                <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
+                                    <li>
+                                        <img src="./static/images/rocket.png" style="width:30px; height: 30px;">
 
-            </div>
-            <div class="col-md-3 grid-margin transparent">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="projects-section-header" style="margin-bottom: 2px">
-                            <p>Getting started </p>
-                        </div>
-                        <p style="margin-bottom: 20px">Follow these steps to get started:</p>
-                        <div class="list-wrapper pt-2" style="overflow: hidden ; height: auto;">
-                            <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
-                                <li>
-                                    <img src="./static/images/rocket.png" style="width:30px; height: 30px;">
+                                        <div class="form-check form-check-flat">
 
-                                    <div class="form-check form-check-flat">
+                                            <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
 
-                                        <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
+                                                Start your job
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <img src="./static/images/select.png" style="width:30px; height: 30px;">
 
-                                            Start your job
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="./static/images/select.png" style="width:30px; height: 30px;">
+                                        <div class="form-check form-check-flat">
 
-                                    <div class="form-check form-check-flat">
+                                            <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
 
-                                        <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
+                                                Select Candidates
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <img src="./static/images/candidates1.png" style="width:30px; height: 30px;">
 
-                                            Select Candidates
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="./static/images/candidates1.png" style="width:30px; height: 30px;">
+                                        <div class="form-check form-check-flat">
 
-                                    <div class="form-check form-check-flat">
+                                            <label style="font-weight: 500; font-size: 0.9rem;"
+                                                class="form-check-label">
 
-                                        <label style="font-weight: 500; font-size: 0.9rem;" class="form-check-label">
+                                                Explore Best Candidates
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <img src="./static/images/form.png" style="width:30px; height: 30px;">
 
-                                            Explore Best Candidates
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img src="./static/images/form.png" style="width:30px; height: 30px;">
+                                        <div class="form-check form-check-flat">
 
-                                    <div class="form-check form-check-flat">
+                                            <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
 
-                                        <label style="font-weight: 500; font-size: 1rem;" class="form-check-label">
-
-                                            Post a Job
-                                        </label>
-                                    </div>
-                                </li>
-
+                                                Post a Job
+                                            </label>
+                                        </div>
+                                    </li>
 
 
-                            </ul>
 
-                        </div>
-                        <div class="card-footer">
-                            <div style="height: 60px;"></div>
+                                </ul>
+
+                            </div>
+                            <div class="card-footer">
+                                <div style="height: 60px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
 

@@ -3,629 +3,629 @@
 
 <head>
 
-     <!-- Required meta tags -->
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-     <title>Student</title>
-     <!-- Plugin css for this page -->
-     <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
- 
-     <!-- inject:css -->
-     <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
-     <!-- endinject -->
- 
-     <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
-     <link rel="stylesheet" href="../../static/fold/styleJoblist.css">
-     <link rel="stylesheet" href="../../static/vendors/mdi/css/materialdesignicons.min.css">
- 
-     <!-- Website icon -->
-     <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
-     <style>
-         .block-d {
-             justify-content: space-between;
-             display: flex;
-         }
- 
-         #findJob-button {
- 
-             margin: 1.5rem;
- 
- 
-         }
- 
-         #viewForm-button {
-             margin: 1.5rem 0.5rem
-         }
- 
-         #updateForm-button {
-             margin: 1.5rem 0.5rem
-         }
- 
-         #deleteForm-button {
-             margin: 1.5rem 0.5rem
-         }
- 
- 
-         @media (max-width: 600px) {
- 
-             #findJob-button {
-                 width: 100%;
-                 justify-items: center;
-                 margin: 1.5rem 0;
-                 /* Add margin to separate it from other buttons and align it to the center */
-                 display: block;
-                 /* Set to block to ensure full width */
-                 padding: 0%;
-                 margin: 0.5rem 0rem;
-             }
- 
-             #viewForm-button {
-                 width: 100%;
-                 justify-items: center;
-                 margin: 1.5rem 0;
-                 /* Add margin to separate it from other buttons and align it to the center */
-                 display: block;
-                 /* Set to block to ensure full width */
-                 padding: 0%;
-                 margin: 0.5rem 0rem;
-             }
- 
-             #updateForm-button {
-                 width: 100%;
-                 justify-items: center;
-                 margin: 1.5rem 0;
-                 /* Add margin to separate it from other buttons and align it to the center */
-                 display: block;
-                 /* Set to block to ensure full width */
-                 padding: 0%;
-                 margin: 0.5rem 0rem;
-             }
- 
-             #deleteForm-button {
-                 width: 100%;
-                 justify-items: center;
-                 margin: 1.5rem 0;
-                 /* Add margin to separate it from other buttons and align it to the center */
-                 display: block;
-                 /* Set to block to ensure full width */
-                 padding: 0%;
-                 margin: 0.5rem 0rem;
-             }
- 
- 
- 
-             .block-d {
-                 display: block;
-                 justify-content: center;
-             }
- 
- 
- 
- 
-         }
-     </style>
- 
-     <!-- For table 1 -->
-     <style>
-         .timeline-item {
-             position: relative;
-             margin-bottom: 50px;
-         }
- 
-         .timeline-date {
-             position: absolute;
-             top: -22px;
-             left: 50%;
-             transform: translateX(-50%);
-             background-color: #000;
-             color: #fff;
-             padding: 6px 12px;
-             border-radius: 4px;
-             font-size: 14px;
-         }
- 
-         .timeline-content {
-             padding: 15px;
-             background-color: #f2f2f2;
-             border-radius: 4px;
-         }
- 
-         .timeline-table {
-             width: 80%;
-             border-collapse: collapse;
-             margin: auto;
-         }
- 
-         .timeline-table th,
-         .timeline-table td {
-             border: 1px solid #000;
-             padding: 8px;
-             text-align: center;
-         }
- 
-         .timeline-table th {
-             background-color: rgba(75, 73, 172, 0.135);
-             padding: 15px;
-             /*#f2f2f2*/
-         }
-     </style>
- 
-     <!-- For table 2 -->
-     <style>
-         .highlight {
-             background-color: #c8f7dc;
- 
-         }
- 
-         .table1 .table {
-             margin: auto;
-             font-family: Arial, sans-serif;
-             background-color: #f9f9f987;
-             width: 90%;
-             border-collapse: collapse;
-         }
- 
-         .table1 .th {
-             padding: 15px;
-             text-align: center;
-             border-bottom: 1px solid #ddd;
-             border-right: 1px solid #ddd;
-             ;
-             border-left: 1px solid #ddd;
-         }
- 
-         .table1 .td {
-             padding: 20px;
-             text-align: center;
-             border-bottom: 1px solid #dddddd50;
-             border-right: 1px solid #ddd;
-             border-left: 1px solid #ddd;
- 
-         }
- 
-         .table1 .th {
-             background-color: rgba(91, 89, 165, 0.071);
-             width: 15%;
-         }
- 
-         .table1 .day {
-             position: relative;
-             width: 0px;
-         }
- 
- 
-         .table1 .time {
-             color: #686767;
-         }
- 
-         .table1 .event {
-             font-weight: bold;
-             color: #333;
-         }
- 
-         .table1 .description {
-             color: #666;
-         }
-     </style>
- 
-     <!-- this style for notifications table -->
-     <title>Table with Buttons</title>
-     <style>
-         .table-container {
-             width: 100%;
-         }
- 
-         .table1 .table {
-             width: 100%;
-             border-collapse: collapse;
-         }
- 
-         .table1 .th,
-         .table1 .td {
-             padding: 8px;
-             text-align: center;
-             border-bottom: 1px solid #ddd;
-         }
- 
-         .table1 .button-container {
-             display: flex;
-             justify-content: center;
-         }
- 
-         .button-container button {
-             margin-left: 5px;
-             padding: 8px 12px;
-             background-color: #4CAF50;
-             color: white;
-             border: none;
-             cursor: pointer;
-         }
- 
-         .button-container button.confirm {
-             background-color: #26bb02;
-             border: none;
- 
-             border-radius: 15px;
-         }
- 
-         .button-container button.reject {
-             background-color: #f44336;
-             border: none;
-             border-radius: 15px;
- 
-         }
-     </style>
- 
-     <style>
-         .table1 .table {
- 
-             border-collapse: collapse;
- 
-         }
- 
-         .table1 .th,
-         .table1 .td {
- 
-             border: 1px solid black;
-             padding: 8px;
-             text-align: center;
- 
-         }
- 
-         .table1 .job-period {
- 
-             background-color: green;
-             opacity: 0.5;
- 
-         }
- 
-         .table1 .student-period {
- 
-             background-color: red;
-             opacity: 0.5;
- 
-         }
-     </style>
-     <style>
-         .card {
-             width: 100%;
-             max-width: none;
-             /* Add this line to remove the maximum width constraint */
-         }
- 
- 
- 
- 
-         @media (max-width: 600px) {
- 
-             .kk {
-                 margin-left: 0%;
-                 margin-right: 0%;
-             }
- 
-             .content-wrapper {
-                 padding: 0%;
-             }
- 
-             .d {
-                 padding: 0%;
-                 margin: 0;
-             }
- 
- 
-             .card {
-                 background-color: rgba(0, 0, 0, 0);
-             }
- 
-             .job-post-container {
-                 min-height: 300px;
-                 max-height: fit-content;
-                 /* Adjust to fit exactly 4 job postings, you might need to change this */
-                 overflow-y: hidden;
-             }
- 
-             .welcome-section {
-                 display: none;
-             }
- 
-         }
- 
-         /***/
-         /*--------------------------------------------------------------
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Student</title>
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{url_for('static',filename='vendors/ti-icons/css/themify-icons.css')}}">
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/vertical-layout-light/style.css')}}">
+    <!-- endinject -->
+
+    <script type="text/javascript" src="{{url_for('static',filename='vendors/css/vendor.bundle.base.css')}}"></script>
+    <link rel="stylesheet" href="../../static/fold/styleJoblist.css">
+    <link rel="stylesheet" href="../../static/vendors/mdi/css/materialdesignicons.min.css">
+
+    <!-- Website icon -->
+    <link rel="icon" href="{{url_for('static',filename='images/U.svg')}}">
+    <style>
+        .block-d {
+            justify-content: space-between;
+            display: flex;
+        }
+
+        #findJob-button {
+
+            margin: 1.5rem;
+
+
+        }
+
+        #viewForm-button {
+            margin: 1.5rem 0.5rem
+        }
+
+        #updateForm-button {
+            margin: 1.5rem 0.5rem
+        }
+
+        #deleteForm-button {
+            margin: 1.5rem 0.5rem
+        }
+
+
+        @media (max-width: 600px) {
+
+            #findJob-button {
+                width: 100%;
+                justify-items: center;
+                margin: 1.5rem 0;
+                /* Add margin to separate it from other buttons and align it to the center */
+                display: block;
+                /* Set to block to ensure full width */
+                padding: 0%;
+                margin: 0.5rem 0rem;
+            }
+
+            #viewForm-button {
+                width: 100%;
+                justify-items: center;
+                margin: 1.5rem 0;
+                /* Add margin to separate it from other buttons and align it to the center */
+                display: block;
+                /* Set to block to ensure full width */
+                padding: 0%;
+                margin: 0.5rem 0rem;
+            }
+
+            #updateForm-button {
+                width: 100%;
+                justify-items: center;
+                margin: 1.5rem 0;
+                /* Add margin to separate it from other buttons and align it to the center */
+                display: block;
+                /* Set to block to ensure full width */
+                padding: 0%;
+                margin: 0.5rem 0rem;
+            }
+
+            #deleteForm-button {
+                width: 100%;
+                justify-items: center;
+                margin: 1.5rem 0;
+                /* Add margin to separate it from other buttons and align it to the center */
+                display: block;
+                /* Set to block to ensure full width */
+                padding: 0%;
+                margin: 0.5rem 0rem;
+            }
+
+
+
+            .block-d {
+                display: block;
+                justify-content: center;
+            }
+
+
+
+
+        }
+    </style>
+
+    <!-- For table 1 -->
+    <style>
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .timeline-date {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #000;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .timeline-content {
+            padding: 15px;
+            background-color: #f2f2f2;
+            border-radius: 4px;
+        }
+
+        .timeline-table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        .timeline-table th,
+        .timeline-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .timeline-table th {
+            background-color: rgba(75, 73, 172, 0.135);
+            padding: 15px;
+            /*#f2f2f2*/
+        }
+    </style>
+
+    <!-- For table 2 -->
+    <style>
+        .highlight {
+            background-color: #c8f7dc;
+
+        }
+
+        .table1 .table {
+            margin: auto;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f987;
+            width: 90%;
+            border-collapse: collapse;
+        }
+
+        .table1 .th {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            ;
+            border-left: 1px solid #ddd;
+        }
+
+        .table1 .td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #dddddd50;
+            border-right: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+
+        }
+
+        .table1 .th {
+            background-color: rgba(91, 89, 165, 0.071);
+            width: 15%;
+        }
+
+        .table1 .day {
+            position: relative;
+            width: 0px;
+        }
+
+
+        .table1 .time {
+            color: #686767;
+        }
+
+        .table1 .event {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .table1 .description {
+            color: #666;
+        }
+    </style>
+
+    <!-- this style for notifications table -->
+    <title>Table with Buttons</title>
+    <style>
+        .table-container {
+            width: 100%;
+        }
+
+        .table1 .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table1 .th,
+        .table1 .td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table1 .button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button-container button {
+            margin-left: 5px;
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button-container button.confirm {
+            background-color: #26bb02;
+            border: none;
+
+            border-radius: 15px;
+        }
+
+        .button-container button.reject {
+            background-color: #f44336;
+            border: none;
+            border-radius: 15px;
+
+        }
+    </style>
+
+    <style>
+        .table1 .table {
+
+            border-collapse: collapse;
+
+        }
+
+        .table1 .th,
+        .table1 .td {
+
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+
+        }
+
+        .table1 .job-period {
+
+            background-color: green;
+            opacity: 0.5;
+
+        }
+
+        .table1 .student-period {
+
+            background-color: red;
+            opacity: 0.5;
+
+        }
+    </style>
+    <style>
+        .card {
+            width: 100%;
+            max-width: none;
+            /* Add this line to remove the maximum width constraint */
+        }
+
+
+
+
+        @media (max-width: 600px) {
+
+            .kk {
+                margin-left: 0%;
+                margin-right: 0%;
+            }
+
+            .content-wrapper {
+                padding: 0%;
+            }
+
+            .d {
+                padding: 0%;
+                margin: 0;
+            }
+
+
+            .card {
+                background-color: rgba(0, 0, 0, 0);
+            }
+
+            .job-post-container {
+                min-height: 300px;
+                max-height: fit-content;
+                /* Adjust to fit exactly 4 job postings, you might need to change this */
+                overflow-y: hidden;
+            }
+
+            .welcome-section {
+                display: none;
+            }
+
+        }
+
+        /***/
+        /*--------------------------------------------------------------
  # Header
  --------------------------------------------------------------*/
-         #header {
-             transition: all 0.5s;
-             z-index: 997;
-             transition: all 0.5s;
-             padding: 15px 0;
-             background: rgba(255, 255, 255, 0.95);
-             box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
- 
- 
-         }
- 
-         #header.header-transparent {
-             background: transparent;
-         }
- 
-         #header.header-scrolled {
-             background: rgba(255, 255, 255, 0.95);
-             box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-         }
- 
-         #header .logo h1 {
-             font-size: 30px;
-             margin: 0;
-             line-height: 1;
-             font-weight: 400;
-             letter-spacing: 2px;
-         }
- 
-         /*--------------------------------------------------------------
+        #header {
+            transition: all 0.5s;
+            z-index: 997;
+            transition: all 0.5s;
+            padding: 15px 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
+
+
+        }
+
+        #header.header-transparent {
+            background: transparent;
+        }
+
+        #header.header-scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #header .logo h1 {
+            font-size: 30px;
+            margin: 0;
+            line-height: 1;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        /*--------------------------------------------------------------
  # Navigation Menu
  --------------------------------------------------------------*/
-         /**
+        /**
  * Desktop Navigation 
  */
-         .navbar {
-             padding: 0;
- 
-         }
- 
-         .navbar ul {
-             margin: 0;
-             padding: 0;
-             display: flex;
-             list-style: none;
-             align-items: center;
-         }
- 
-         .navbar li {
-             position: relative;
-         }
- 
-         .navbar a,
-         .navbar a:focus {
-             display: flex;
-             align-items: center;
-             justify-content: space-between;
-             padding: 10px 0 10px 30px;
-             font-family: "Raleway", sans-serif;
-             font-size: 15px;
-             color: #47536e;
-             white-space: nowrap;
-             transition: 0.3s;
-         }
- 
-         .navbar a i,
-         .navbar a:focus i {
-             font-size: 12px;
-             line-height: 0;
-             margin-left: 5px;
-         }
- 
-         .navbar a:hover,
-         .navbar .active,
-         .navbar .active:focus,
-         .navbar li:hover>a {
-             color: #5777ba;
-         }
- 
-         .navbar .getstarted,
-         .navbar .getstarted:focus {
-             background: #5777ba;
-             color: #fff;
-             padding: 12px 25px;
-             margin-left: 30px;
-             color: #fff;
-             line-height: 1;
-             border-radius: 50px;
-         }
- 
-         .navbar .getstarted:hover,
-         .navbar .getstarted:focus:hover {
-             background: #748ec6;
-             color: #fff;
-         }
- 
-         .navbar .dropdown ul {
-             display: block;
-             position: absolute;
-             left: 14px;
-             top: calc(100% + 30px);
-             margin: 0;
-             padding: 10px 0;
-             z-index: 99;
-             opacity: 0;
-             visibility: hidden;
-             background: #fff;
-             box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-             transition: 0.3s;
-             border-radius: 4px;
-         }
- 
-         .navbar .dropdown ul li {
-             min-width: 200px;
-         }
- 
-         .navbar .dropdown ul a {
-             padding: 10px 20px;
-             font-size: 15px;
-             text-transform: none;
-             font-weight: 600;
-         }
- 
-         .navbar .dropdown ul a i {
-             font-size: 12px;
-         }
- 
-         .navbar .dropdown ul a:hover,
-         .navbar .dropdown ul .active:hover,
-         .navbar .dropdown ul li:hover>a {
-             color: #5777ba;
-         }
- 
-         .navbar .dropdown:hover>ul {
-             opacity: 1;
-             top: 100%;
-             visibility: visible;
-         }
- 
-         .navbar .dropdown .dropdown ul {
-             top: 0;
-             left: calc(100% - 30px);
-             visibility: hidden;
-         }
- 
-         .navbar .dropdown .dropdown:hover>ul {
-             opacity: 1;
-             top: 0;
-             left: 100%;
-             visibility: visible;
-         }
- 
-         @media (max-width: 1366px) {
-             .navbar .dropdown .dropdown ul {
-                 left: -90%;
-             }
- 
-             .navbar .dropdown .dropdown:hover>ul {
-                 left: -100%;
-             }
-         }
- 
-         /**
+        .navbar {
+            padding: 0;
+
+        }
+
+        .navbar ul {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar a,
+        .navbar a:focus {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0 10px 30px;
+            font-family: "Raleway", sans-serif;
+            font-size: 15px;
+            color: #47536e;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .navbar a i,
+        .navbar a:focus i {
+            font-size: 12px;
+            line-height: 0;
+            margin-left: 5px;
+        }
+
+        .navbar a:hover,
+        .navbar .active,
+        .navbar .active:focus,
+        .navbar li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar .getstarted,
+        .navbar .getstarted:focus {
+            background: #5777ba;
+            color: #fff;
+            padding: 12px 25px;
+            margin-left: 30px;
+            color: #fff;
+            line-height: 1;
+            border-radius: 50px;
+        }
+
+        .navbar .getstarted:hover,
+        .navbar .getstarted:focus:hover {
+            background: #748ec6;
+            color: #fff;
+        }
+
+        .navbar .dropdown ul {
+            display: block;
+            position: absolute;
+            left: 14px;
+            top: calc(100% + 30px);
+            margin: 0;
+            padding: 10px 0;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            background: #fff;
+            box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+            transition: 0.3s;
+            border-radius: 4px;
+        }
+
+        .navbar .dropdown ul li {
+            min-width: 200px;
+        }
+
+        .navbar .dropdown ul a {
+            padding: 10px 20px;
+            font-size: 15px;
+            text-transform: none;
+            font-weight: 600;
+        }
+
+        .navbar .dropdown ul a i {
+            font-size: 12px;
+        }
+
+        .navbar .dropdown ul a:hover,
+        .navbar .dropdown ul .active:hover,
+        .navbar .dropdown ul li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar .dropdown:hover>ul {
+            opacity: 1;
+            top: 100%;
+            visibility: visible;
+        }
+
+        .navbar .dropdown .dropdown ul {
+            top: 0;
+            left: calc(100% - 30px);
+            visibility: hidden;
+        }
+
+        .navbar .dropdown .dropdown:hover>ul {
+            opacity: 1;
+            top: 0;
+            left: 100%;
+            visibility: visible;
+        }
+
+        @media (max-width: 1366px) {
+            .navbar .dropdown .dropdown ul {
+                left: -90%;
+            }
+
+            .navbar .dropdown .dropdown:hover>ul {
+                left: -100%;
+            }
+        }
+
+        /**
  * Mobile Navigation 
  */
-         .mobile-nav-toggle {
-             color: #47536e;
-             font-size: 28px;
-             cursor: pointer;
-             display: none;
-             line-height: 0;
-             transition: 0.5s;
-         }
- 
-         .mobile-nav-toggle.bi-x {
-             color: #fff;
-         }
- 
-         @media (max-width: 991px) {
-             .mobile-nav-toggle {
-                 display: block;
-             }
- 
-             .navbar ul {
-                 display: none;
-             }
-         }
- 
-         .navbar-mobile {
-             position: fixed;
-             overflow: hidden;
-             top: 0;
-             right: 0;
-             left: 0;
-             bottom: 0;
-             background: rgba(51, 60, 79, 0.9);
-             transition: 0.3s;
-             z-index: 999;
-         }
- 
-         .navbar-mobile .mobile-nav-toggle {
-             position: absolute;
-             top: 15px;
-             right: 15px;
-         }
- 
-         .navbar-mobile ul {
-             display: block;
-             position: absolute;
-             top: 55px;
-             right: 15px;
-             bottom: 15px;
-             left: 15px;
-             padding: 10px 0;
-             border-radius: 6px;
-             background-color: #fff;
-             overflow-y: auto;
-             transition: 0.3s;
-         }
- 
-         .navbar-mobile a,
-         .navbar-mobile a:focus {
-             padding: 10px 20px;
-             font-size: 15px;
-             color: #47536e;
-         }
- 
-         .navbar-mobile a:hover,
-         .navbar-mobile .active,
-         .navbar-mobile li:hover>a {
-             color: #5777ba;
-         }
- 
-         .navbar-mobile .getstarted,
-         .navbar-mobile .getstarted:focus {
-             margin: 15px;
-         }
- 
-         .navbar-mobile .dropdown ul {
-             position: static;
-             display: none;
-             margin: 10px 20px;
-             padding: 10px 0;
-             z-index: 99;
-             opacity: 1;
-             visibility: visible;
-             background: #fff;
-             box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-         }
- 
-         .navbar-mobile .dropdown ul li {
-             min-width: 200px;
-         }
- 
-         .navbar-mobile .dropdown ul a {
-             padding: 10px 20px;
-         }
- 
-         .navbar-mobile .dropdown ul a i {
-             font-size: 12px;
-         }
- 
-         .navbar-mobile .dropdown ul a:hover,
-         .navbar-mobile .dropdown ul .active:hover,
-         .navbar-mobile .dropdown ul li:hover>a {
-             color: #5777ba;
-         }
- 
-         .navbar-mobile .dropdown>.dropdown-active {
-             display: block;
-         }
- 
-         /*--------------------------------------------------------------
+        .mobile-nav-toggle {
+            color: #47536e;
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+            line-height: 0;
+            transition: 0.5s;
+        }
+
+        .mobile-nav-toggle.bi-x {
+            color: #fff;
+        }
+
+        @media (max-width: 991px) {
+            .mobile-nav-toggle {
+                display: block;
+            }
+
+            .navbar ul {
+                display: none;
+            }
+        }
+
+        .navbar-mobile {
+            position: fixed;
+            overflow: hidden;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: rgba(51, 60, 79, 0.9);
+            transition: 0.3s;
+            z-index: 999;
+        }
+
+        .navbar-mobile .mobile-nav-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .navbar-mobile ul {
+            display: block;
+            position: absolute;
+            top: 55px;
+            right: 15px;
+            bottom: 15px;
+            left: 15px;
+            padding: 10px 0;
+            border-radius: 6px;
+            background-color: #fff;
+            overflow-y: auto;
+            transition: 0.3s;
+        }
+
+        .navbar-mobile a,
+        .navbar-mobile a:focus {
+            padding: 10px 20px;
+            font-size: 15px;
+            color: #47536e;
+        }
+
+        .navbar-mobile a:hover,
+        .navbar-mobile .active,
+        .navbar-mobile li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar-mobile .getstarted,
+        .navbar-mobile .getstarted:focus {
+            margin: 15px;
+        }
+
+        .navbar-mobile .dropdown ul {
+            position: static;
+            display: none;
+            margin: 10px 20px;
+            padding: 10px 0;
+            z-index: 99;
+            opacity: 1;
+            visibility: visible;
+            background: #fff;
+            box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+        }
+
+        .navbar-mobile .dropdown ul li {
+            min-width: 200px;
+        }
+
+        .navbar-mobile .dropdown ul a {
+            padding: 10px 20px;
+        }
+
+        .navbar-mobile .dropdown ul a i {
+            font-size: 12px;
+        }
+
+        .navbar-mobile .dropdown ul a:hover,
+        .navbar-mobile .dropdown ul .active:hover,
+        .navbar-mobile .dropdown ul li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar-mobile .dropdown>.dropdown-active {
+            display: block;
+        }
+
+        /*--------------------------------------------------------------
  # Hero Section
  --------------------------------------------------------------*/
-         #hero {
-             width: 100%;
-             height: 20px;
-             position: relative;
-             overflow: hidden;
-             padding: 90px 0 100px 0;
-             background: #F5F7FF;
-             z-index: 1;
-             /*
+        #hero {
+            width: 100%;
+            height: 20px;
+            position: relative;
+            overflow: hidden;
+            padding: 90px 0 100px 0;
+            background: #F5F7FF;
+            z-index: 1;
+            /*
  background-image: url("static/images/5654986r.jpg");
  background-repeat: no-repeat; 
  background-size: cover; 
  background-position: center center; 
  position: relative; 
  */
-         }
- 
-         /*
+        }
+
+        /*
      #hero::before {
          content: "";
          position: absolute;
@@ -637,97 +637,97 @@
  
      }
  */
-         a {
-             color: #5777ba;
-             text-decoration: none;
-         }
- 
-         a:hover {
-             color: #7b94c9;
-             text-decoration: none;
-         }
- 
-         #header .container,
-         #header .container-fluid,
-         #header .container-lg,
-         #header .container-md,
-         #header .container-sm,
-         #header .container-xl,
-         #header .container-xxl {
-             --bs-gutter-x: 1.5rem;
-             --bs-gutter-y: 0;
-             width: 100%;
-             padding-right: calc(var(--bs-gutter-x) * .5);
-             padding-left: calc(var(--bs-gutter-x) * .5);
-             margin-right: auto;
-             margin-left: auto
-         }
- 
-         @media (min-width:576px) {
- 
-             #header .container,
-             #header .container-sm {
-                 max-width: 540px
-             }
-         }
- 
-         @media (min-width:768px) {
- 
-             #header .container,
-             #header .container-md,
-             #header .container-sm {
-                 max-width: 720px
-             }
-         }
- 
-         @media (min-width:992px) {
- 
-             #header .container,
-             #header .container-lg,
-             #header .container-md,
-             #header .container-sm {
-                 max-width: 960px
-             }
-         }
- 
-         @media (min-width:1200px) {
- 
-             #header .container,
-             #header .container-lg,
-             #header .container-md,
-             #header .container-sm,
-             #header .container-xl {
-                 max-width: 1140px
-             }
-         }
- 
-         @media (min-width:1400px) {
- 
-             #header .container,
-             #header .container-lg,
-             #header .container-md,
-             #header .container-sm,
-             #header .container-xl,
-             #header .container-xxl {
-                 max-width: 1320px
-             }
-         }
- 
-         @media (min-width: 1200px) {
-             .kk {
-                 max-width: 1140px;
-             }
-         }
- 
- 
- 
- 
-         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
- 
- 
- 
- 
-         /*
+        a {
+            color: #5777ba;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #7b94c9;
+            text-decoration: none;
+        }
+
+        #header .container,
+        #header .container-fluid,
+        #header .container-lg,
+        #header .container-md,
+        #header .container-sm,
+        #header .container-xl,
+        #header .container-xxl {
+            --bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            width: 100%;
+            padding-right: calc(var(--bs-gutter-x) * .5);
+            padding-left: calc(var(--bs-gutter-x) * .5);
+            margin-right: auto;
+            margin-left: auto
+        }
+
+        @media (min-width:576px) {
+
+            #header .container,
+            #header .container-sm {
+                max-width: 540px
+            }
+        }
+
+        @media (min-width:768px) {
+
+            #header .container,
+            #header .container-md,
+            #header .container-sm {
+                max-width: 720px
+            }
+        }
+
+        @media (min-width:992px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm {
+                max-width: 960px
+            }
+        }
+
+        @media (min-width:1200px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm,
+            #header .container-xl {
+                max-width: 1140px
+            }
+        }
+
+        @media (min-width:1400px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm,
+            #header .container-xl,
+            #header .container-xxl {
+                max-width: 1320px
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .kk {
+                max-width: 1140px;
+            }
+        }
+
+
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+
+
+
+        /*
  .content-wrapper::before {
    content: "";
    position: absolute;
@@ -738,210 +738,890 @@
    background-color: rgba(75, 73, 172, 0.2); 
  }
  */
- 
-         .ti-user:before {
-             margin-right: 0.5rem
-         }
- 
-         .icon1 {
-             cursor: pointer;
-             margin-right: 50px;
-             line-height: 60px
-         }
- 
-         .icon1 span {
-             background: #f00;
-             padding: 7px;
-             border-radius: 50%;
-             color: #fff;
-             vertical-align: top;
-             margin-left: -25px
-         }
- 
-         .icon1 img {
-             display: inline-block;
-             width: 26px;
-             margin-top: 4px
-         }
- 
-         .icon1:hover {
-             opacity: .7
-         }
- 
- 
- 
-         .notifications1 {
-             width: 300px;
-             height: 0px;
-             opacity: 0;
-             position: absolute;
-             top: 63px;
-             right: 62px;
-             border-radius: 5px 0px 5px 5px;
-             background-color: #fff;
-             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
-         }
- 
-         .notifications1 h2 {
-             font-size: 14px;
-             padding: 10px;
-             border-bottom: 1px solid #eee;
-             color: #999
-         }
- 
-         .notifications1 h2 span {
-             color: #f00
-         }
- 
-         .notifications1-item {
-             display: flex;
-             border-bottom: 1px solid #eee;
-             padding: 6px 9px;
-             margin-bottom: 0px;
-             cursor: pointer
-         }
- 
-         .notifications1-item:hover {
-             background-color: #eee
-         }
- 
-         .notifications1-item img {
-             display: block;
-             width: 50px;
-             height: 50px;
-             margin-right: 9px;
-             border-radius: 50%;
-             margin-top: 2px
-         }
- 
-         .notifications1-item .text h4 {
-             color: #777;
-             font-size: 16px;
-             margin-top: 3px
-         }
- 
-         .notifications1-item .text p {
-             color: #aaa;
-             font-size: 12px
-         }
- 
-         /* nav */
- 
-         .k .card {
-             padding: 0;
-         }
- 
-         .k .card a.active {
-             border-bottom: 2px solid #55c57a;
-         }
- 
-         .k .card .nav-link {
-             color: rgb(110, 110, 110);
-             font-weight: 500;
-         }
- 
-         .k .card .nav-link:hover {
-             color: #55c57a;
-         }
- 
-         .k .card .nav-pillss .nav-link.active {
-             color: black;
-             background-color: white;
-             border-radius: 0.5rem 0.5rem 0 0;
-             font-weight: 600;
-         }
- 
-         .k .card .tab-content {
-             padding-bottom: 1.3rem;
-         }
- 
-         .k .card .form-control {
-             background-color: rgb(241, 243, 247);
-             border: none;
-         }
- 
-         /* 3nd card */
-         .k .card span {
-             margin-left: 0.5rem;
-             padding: 1px 10px;
-             color: white;
-             background-color: rgb(143, 143, 143);
-             border-radius: 4px;
-             font-weight: 600;
-         }
- 
-         .k .card .third {
-             padding: 0 1.5rem 0 1.5rem;
-         }
- 
-         .k .card label {
-             font-weight: 500;
-             color: rgb(104, 104, 104);
-         }
- 
-         .k .card .btn-success {
-             float: right;
-         }
- 
-         .k .card .form-control:focus {
-             box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 7px rgba(0, 0, 0, 0.2);
-         }
- 
-         .k .card select {
-             -webkit-appearance: none;
-             -moz-appearance: none;
-             text-indent: 1px;
-             text-overflow: "";
-         }
- 
-         /* 1st card */
- 
-         .k .card ul {
-             list-style: none;
-             margin-top: 1rem;
-             padding-inline-start: 0;
-         }
- 
-         .k .card .search {
-             padding: 0 1rem 0 1rem;
-         }
- 
-         .k .card .ccontent li .wrapp {
-             padding: 0.3rem 1rem 0.001rem 1rem;
-         }
- 
-         .card .ccontent li .wrapp div {
-             font-weight: 600;
-         }
- 
-         .k .card .ccontent li .wrapp p {
-             font-weight: 360;
-         }
- 
-         .k .card .ccontent li:hover {
-             background-color: rgb(117, 93, 255);
-             color: white;
-         }
- 
-         /* 2nd card */
- 
-         .k .card .addinfo {
-             padding: 0 1rem;
-         }
- 
-         .card {
-             min-height: 450px;
-         }
-     </style>
- 
- 
+
+        .ti-user:before {
+            margin-right: 0.5rem
+        }
+
+        .icon1 {
+            cursor: pointer;
+            margin-right: 50px;
+            line-height: 60px
+        }
+
+        .icon1 span {
+            background: #f00;
+            padding: 7px;
+            border-radius: 50%;
+            color: #fff;
+            vertical-align: top;
+            margin-left: -25px
+        }
+
+        .icon1 img {
+            display: inline-block;
+            width: 26px;
+            margin-top: 4px
+        }
+
+        .icon1:hover {
+            opacity: .7
+        }
+
+
+
+        .notifications1 {
+            width: 300px;
+            height: 0px;
+            opacity: 0;
+            position: absolute;
+            top: 63px;
+            right: 62px;
+            border-radius: 5px 0px 5px 5px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+        }
+
+        .notifications1 h2 {
+            font-size: 14px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            color: #999
+        }
+
+        .notifications1 h2 span {
+            color: #f00
+        }
+
+        .notifications1-item {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 6px 9px;
+            margin-bottom: 0px;
+            cursor: pointer
+        }
+
+        .notifications1-item:hover {
+            background-color: #eee
+        }
+
+        .notifications1-item img {
+            display: block;
+            width: 50px;
+            height: 50px;
+            margin-right: 9px;
+            border-radius: 50%;
+            margin-top: 2px
+        }
+
+        .notifications1-item .text h4 {
+            color: #777;
+            font-size: 16px;
+            margin-top: 3px
+        }
+
+        .notifications1-item .text p {
+            color: #aaa;
+            font-size: 12px
+        }
+
+        /* nav */
+
+        .k .card {
+            padding: 0;
+        }
+
+        .k .card a.active {
+            border-bottom: 2px solid #55c57a;
+        }
+
+        .k .card .nav-link {
+            color: rgb(110, 110, 110);
+            font-weight: 500;
+        }
+
+        .k .card .nav-link:hover {
+            color: #55c57a;
+        }
+
+        .k .card .nav-pillss .nav-link.active {
+            color: black;
+            background-color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+            font-weight: 600;
+        }
+
+        .k .card .tab-content {
+            padding-bottom: 1.3rem;
+        }
+
+        .k .card .form-control {
+            background-color: rgb(241, 243, 247);
+            border: none;
+        }
+
+        /* 3nd card */
+        .k .card span {
+            margin-left: 0.5rem;
+            padding: 1px 10px;
+            color: white;
+            background-color: rgb(143, 143, 143);
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .k .card .third {
+            padding: 0 1.5rem 0 1.5rem;
+        }
+
+        .k .card label {
+            font-weight: 500;
+            color: rgb(104, 104, 104);
+        }
+
+        .k .card .btn-success {
+            float: right;
+        }
+
+        .k .card .form-control:focus {
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 7px rgba(0, 0, 0, 0.2);
+        }
+
+        .k .card select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: "";
+        }
+
+        /* 1st card */
+
+        .k .card ul {
+            list-style: none;
+            margin-top: 1rem;
+            padding-inline-start: 0;
+        }
+
+        .k .card .search {
+            padding: 0 1rem 0 1rem;
+        }
+
+        .k .card .ccontent li .wrapp {
+            padding: 0.3rem 1rem 0.001rem 1rem;
+        }
+
+        .card .ccontent li .wrapp div {
+            font-weight: 600;
+        }
+
+        .k .card .ccontent li .wrapp p {
+            font-weight: 360;
+        }
+
+        .k .card .ccontent li:hover {
+            background-color: rgb(117, 93, 255);
+            color: white;
+        }
+
+        /* 2nd card */
+
+        .k .card .addinfo {
+            padding: 0 1rem;
+        }
+
+        .card {
+            min-height: 450px;
+        }
+    </style>
+    <style>
+        .clickable-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .clickable-icon:hover,
+        .clickable-icon:active {
+            transform: scale(1.2);
+        }
+
+        .student-row:hover {
+            cursor: pointer;
+        }
+
+        /* Add CSS for the card */
+        #student-info-form {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background-color: white;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: -4px 0px 8px 0 rgba(0, 0, 0, 0.2);
+            z-index: 99999;
+            overflow: auto;
+        }
+
+        #job-details {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background-color: white;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: -4px 0px 8px 0 rgba(0, 0, 0, 0.2);
+            z-index: 99999;
+            overflow: auto;
+        }
+
+        /* Media query for small screens */
+        @media (max-width: 768px) {
+            #job-details {
+                width: 100%;
+                /* Set the width to 100% for small screens */
+                height: 100vh;
+                /* Set the height to 100% of viewport height for small screens */
+                overflow-y: auto;
+            }
+        }
+
+        body {
+            min-height: 100vh;
+            /* This ensures the page has at least the height of the viewport */
+        }
+
+        /* Style the big border section */
+        #student-info-container {
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Style sub-sections */
+        .sub-section {
+            border-top: 1px solid #ccc;
+            /* Line to separate sub-sections */
+            padding: 10px 0;
+            margin-bottom: 10px;
+            overflow: auto;
+
+        }
+
+        /* Style section titles */
+        .sub-section h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+
+        /* Add some spacing */
+        .sub-section p {
+            margin-bottom: 5px;
+        }
+
+        /* Add CSS to display "skills-label" and "student-skills" inline */
+        .inline-label {
+            display: inline-block;
+            margin-right: 10px;
+            /* Adjust the margin as needed for spacing */
+        }
+
+
+        /* Create an overlay to darken the background */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Adjust the opacity as needed */
+            z-index: 9999;
+            /* Ensure it's below the form */
+
+        }
+
+        .close-button {
+            position: absolute;
+            bottom: 20px;
+            /* Adjust the bottom value as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            /* Center horizontally */
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            #student-info-form {
+                width: 100%;
+                /* Set the width to 100% for small screens */
+                height: 100vh;
+                max-height: 100vh;
+                /* Adjust the height as needed */
+                overflow: auto;
+            }
+
+
+        }
+
+
+
+
+        /* Media query for smaller screens */
+        @media (max-width: 500px) {
+
+            #kjjj {
+                display: -ms-grid;
+            }
+
+
+
+            .btn.btn-rounded {
+                width: 100%;
+                max-width: 400px;
+            }
+
+        }
+
+        /* Media query for smaller screens */
+        @media (min-width: 501px) {
+
+            #kjjj {
+                display: flex;
+            }
+
+
+        }
+
+        /* Media query for small screens */
+        @media (max-width: 768px) {
+
+            /* Hide columns you want to hide on small screens */
+            .custom-table-responsive th:nth-child(3),
+            .custom-table-responsive td:nth-child(3),
+            .custom-table-responsive th:nth-child(4),
+            .custom-table-responsive td:nth-child(4),
+            .custom-table-responsive th:nth-child(5),
+            .custom-table-responsive td:nth-child(5),
+            .custom-table-responsive th:nth-child(6),
+            .custom-table-responsive td:nth-child(6) {
+                display: none;
+            }
+
+            .small-b {
+                padding: 0px 0px 0px 0px;
+            }
+
+
+
+            /* Hide the description text */
+            .card-description {
+                display: none;
+            }
+
+            .close-button1 {
+                width: 100%;
+            }
+
+            .student-name {
+                margin-bottom: 5%;
+            }
+
+        }
+
+        @media (max-width: 415px) {
+
+            .custom-table-responsive th,
+            .custom-table-responsive th:nth-child(2),
+            .custom-table-responsive td:nth-child(2) {
+                display: none;
+            }
+
+
+        }
+
+        @media (max-height: 740px) {
+
+            .close-button1 {
+                width: 100%;
+            }
+
+
+        }
+    </style>
+    <style>
+        .card {
+            width: 100%;
+            max-width: none;
+            /* Add this line to remove the maximum width constraint */
+        }
+
+
+
+
+        @media (max-width: 600px) {
+
+            .kk {
+                margin-left: 0%;
+                margin-right: 0%;
+            }
+
+            .content-wrapper {
+                padding: 0%;
+            }
+
+            .d {
+                padding: 0%;
+                margin: 0;
+            }
+
+
+            .card {
+                background-color: rgba(0, 0, 0, 0);
+            }
+
+            .job-post-container {
+                min-height: 300px;
+                max-height: fit-content;
+                /* Adjust to fit exactly 4 job postings, you might need to change this */
+                overflow-y: hidden;
+            }
+
+            .welcome-section {
+                display: none;
+            }
+
+        }
+
+        /***/
+        /*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+        #header {
+            transition: all 0.5s;
+            z-index: 997;
+            transition: all 0.5s;
+            padding: 15px 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
+
+
+        }
+
+        #header.header-transparent {
+            background: transparent;
+        }
+
+        #header.header-scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #header .logo h1 {
+            font-size: 30px;
+            margin: 0;
+            line-height: 1;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        /*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+        /**
+* Desktop Navigation 
+*/
+        .navbar {
+            padding: 0;
+
+        }
+
+        .navbar ul {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar a,
+        .navbar a:focus {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0 10px 30px;
+            font-family: "Raleway", sans-serif;
+            font-size: 15px;
+            color: #47536e;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .navbar a i,
+        .navbar a:focus i {
+            font-size: 12px;
+            line-height: 0;
+            margin-left: 5px;
+        }
+
+        .navbar a:hover,
+        .navbar .active,
+        .navbar .active:focus,
+        .navbar li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar .getstarted,
+        .navbar .getstarted:focus {
+            background: #5777ba;
+            color: #fff;
+            padding: 12px 25px;
+            margin-left: 30px;
+            color: #fff;
+            line-height: 1;
+            border-radius: 50px;
+        }
+
+        .navbar .getstarted:hover,
+        .navbar .getstarted:focus:hover {
+            background: #748ec6;
+            color: #fff;
+        }
+
+        .navbar .dropdown ul {
+            display: block;
+            position: absolute;
+            left: 14px;
+            top: calc(100% + 30px);
+            margin: 0;
+            padding: 10px 0;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            background: #fff;
+            box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+            transition: 0.3s;
+            border-radius: 4px;
+        }
+
+        .navbar .dropdown ul li {
+            min-width: 200px;
+        }
+
+        .navbar .dropdown ul a {
+            padding: 10px 20px;
+            font-size: 15px;
+            text-transform: none;
+            font-weight: 600;
+        }
+
+        .navbar .dropdown ul a i {
+            font-size: 12px;
+        }
+
+        .navbar .dropdown ul a:hover,
+        .navbar .dropdown ul .active:hover,
+        .navbar .dropdown ul li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar .dropdown:hover>ul {
+            opacity: 1;
+            top: 100%;
+            visibility: visible;
+        }
+
+        .navbar .dropdown .dropdown ul {
+            top: 0;
+            left: calc(100% - 30px);
+            visibility: hidden;
+        }
+
+        .navbar .dropdown .dropdown:hover>ul {
+            opacity: 1;
+            top: 0;
+            left: 100%;
+            visibility: visible;
+        }
+
+        @media (max-width: 1366px) {
+            .navbar .dropdown .dropdown ul {
+                left: -90%;
+            }
+
+            .navbar .dropdown .dropdown:hover>ul {
+                left: -100%;
+            }
+        }
+
+        /**
+* Mobile Navigation 
+*/
+        .mobile-nav-toggle {
+            color: #47536e;
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+            line-height: 0;
+            transition: 0.5s;
+        }
+
+        .mobile-nav-toggle.bi-x {
+            color: #fff;
+        }
+
+        @media (max-width: 991px) {
+            .mobile-nav-toggle {
+                display: block;
+            }
+
+            .navbar ul {
+                display: none;
+            }
+        }
+
+        .navbar-mobile {
+            position: fixed;
+            overflow: hidden;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: rgba(51, 60, 79, 0.9);
+            transition: 0.3s;
+            z-index: 999;
+        }
+
+        .navbar-mobile .mobile-nav-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .navbar-mobile ul {
+            display: block;
+            position: absolute;
+            top: 55px;
+            right: 15px;
+            bottom: 15px;
+            left: 15px;
+            padding: 10px 0;
+            border-radius: 6px;
+            background-color: #fff;
+            overflow-y: auto;
+            transition: 0.3s;
+        }
+
+        .navbar-mobile a,
+        .navbar-mobile a:focus {
+            padding: 10px 20px;
+            font-size: 15px;
+            color: #47536e;
+        }
+
+        .navbar-mobile a:hover,
+        .navbar-mobile .active,
+        .navbar-mobile li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar-mobile .getstarted,
+        .navbar-mobile .getstarted:focus {
+            margin: 15px;
+        }
+
+        .navbar-mobile .dropdown ul {
+            position: static;
+            display: none;
+            margin: 10px 20px;
+            padding: 10px 0;
+            z-index: 99;
+            opacity: 1;
+            visibility: visible;
+            background: #fff;
+            box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+        }
+
+        .navbar-mobile .dropdown ul li {
+            min-width: 200px;
+        }
+
+        .navbar-mobile .dropdown ul a {
+            padding: 10px 20px;
+        }
+
+        .navbar-mobile .dropdown ul a i {
+            font-size: 12px;
+        }
+
+        .navbar-mobile .dropdown ul a:hover,
+        .navbar-mobile .dropdown ul .active:hover,
+        .navbar-mobile .dropdown ul li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar-mobile .dropdown>.dropdown-active {
+            display: block;
+        }
+
+        /*--------------------------------------------------------------
+# Hero Section
+--------------------------------------------------------------*/
+        #hero {
+            width: 100%;
+            height: 20px;
+            position: relative;
+            overflow: hidden;
+            padding: 90px 0 100px 0;
+            background: #F5F7FF;
+            z-index: 1;
+            /*
+background-image: url("static/images/5654986r.jpg");
+background-repeat: no-repeat; 
+background-size: cover; 
+background-position: center center; 
+position: relative; 
+*/
+        }
+
+        /*
+#hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+
+}
+*/
+        a {
+            color: #5777ba;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #7b94c9;
+            text-decoration: none;
+        }
+
+        #header .container,
+        #header .container-fluid,
+        #header .container-lg,
+        #header .container-md,
+        #header .container-sm,
+        #header .container-xl,
+        #header .container-xxl {
+            --bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            width: 100%;
+            padding-right: calc(var(--bs-gutter-x) * .5);
+            padding-left: calc(var(--bs-gutter-x) * .5);
+            margin-right: auto;
+            margin-left: auto
+        }
+
+        @media (min-width:576px) {
+
+            #header .container,
+            #header .container-sm {
+                max-width: 540px
+            }
+        }
+
+        @media (min-width:768px) {
+
+            #header .container,
+            #header .container-md,
+            #header .container-sm {
+                max-width: 720px
+            }
+        }
+
+        @media (min-width:992px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm {
+                max-width: 960px
+            }
+        }
+
+        @media (min-width:1200px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm,
+            #header .container-xl {
+                max-width: 1140px
+            }
+        }
+
+        @media (min-width:1400px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm,
+            #header .container-xl,
+            #header .container-xxl {
+                max-width: 1320px
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .kk {
+                max-width: 1140px;
+            }
+        }
+
+        .dropdown button i {
+            border-radius: 50%;
+            /* Make the icon circular */
+            background-color: #ffffff;
+            /* Set the background color to match your design */
+            padding: 8px;
+            /* Adjust the padding as needed */
+        }
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+
+        /*
+.content-wrapper::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(75, 73, 172, 0.2); 
+}
+*/
+    </style>
+
+
 
 </head>
 
 <body>
     <div class="container-scroller ">
         <!-- partial:partials/_navbar.html -->
-   
+
         <header id="header" class="fixed-top  ">
             <div class="container d-flex align-items-center justify-content-between">
 
@@ -974,7 +1654,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                                 aria-labelledby="profileDropdown" style="text-align:left;">
-                                <h6 class="dropdown-header">Notifications - <span style="color: red;">{{
+                                <h6 class="dropdown-header">Notifications <span style="color: red;">{{
                                         notifications|length }}</span></h6>
                                 <div class="dropdown-divider" style="margin-top: 0; padding-top: 0;"></div>
 
@@ -1033,7 +1713,7 @@
             </div>
         </header>
         <section id="hero" style="padding: 10px 0 10px 0;"> </section>
-    
+
         <div class="content-wrapper" style="min-height: inherit;">
             <div class="container">
 
@@ -1049,7 +1729,7 @@
                                 <h4 class="left-margin " style="margin-bottom: 1.5rem; font-size: 21px;">{{
                                     user[3] }} </h4>
                             </div>
-                            <form class="j" action="{{ url_for('post_job') }}"  style="margin-right: 1.5rem;">
+                            <form class="j" action="{{ url_for('post_job') }}" style="margin-right: 1.5rem;">
                                 {% if seekerForms %}
                                 {% for form in seekerForms %}
                                 {% if form[1] == 1 %}
@@ -1112,6 +1792,7 @@
                                     <div class="notification-content text-center" style="padding-top: 0rem">
                                         {% if seekerForms %}
                                         {% if notifications %}
+                                        <div onclick="closeCandidateInfo()" class="overlay" id="overlay"></div>
 
                                         <div class="table-container">
                                             <table class="table table-hover" style="text-align: left;">
@@ -1120,26 +1801,33 @@
                                                         <th>Job Title</th>
                                                         <th>Duration of The Job</th>
                                                         <th>Job Location</th>
+                                                        <th>contact info. </th>
+
                                                         <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
 
                                                     {% for notification in notifications %}
-                                                    <tr>
+                                                    <tr class="student-row" data-recommendation="{{ notification[2]}}">
                                                         <td>{{notification[3]|title}}</td>
                                                         <td>{{notification[5]}} Week</td>
                                                         <td>{{notification[6]|title}}</td>
-
+                                                        <td>{{notification[10]}}</td>
                                                         <td class="button-container">
-                                                            <form method="GET" action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}" style="display: inline-block;">
-                                                                <button type="submit" class="confirm" id="confirmButton">Confirm</button>
+                                                            <form method="GET"
+                                                                action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}"
+                                                                style="display: inline-block;">
+                                                                <button type="submit" class="confirm"
+                                                                    id="confirmButton">Confirm</button>
                                                             </form>
-                                                            <form method="GET" action="{{ url_for('reject_notification', student_id=user[0], notify_id=notification[0]) }}" style="display: inline-block;">
+                                                            <form method="GET"
+                                                                action="{{ url_for('reject_notification', student_id=user[0], notify_id=notification[0]) }}"
+                                                                style="display: inline-block;">
                                                                 <button type="submit" class="reject">Reject</button>
                                                             </form>
                                                         </td>
-                                                        
+
 
 
 
@@ -1155,15 +1843,15 @@
 
                                         <div id="flashMessage"></div>
                                         {% else %}
-                                        <h6 style="margin-top: 6rem;">  No notifications at the moment.</h6>
-                                        
+                                        <h6 style="margin-top: 6rem;"> No notifications at the moment.</h6>
+
                                         <br>
                                         {% endif %}
 
 
                                         {% else %}
-                                        <h6 style="margin-top: 6rem;">  No notifications at the moment.</h6>
-                                        
+                                        <h6 style="margin-top: 6rem;"> No notifications at the moment.</h6>
+
                                         <br>
                                         If you are seeking part-time work, press the "Seek Job" button to explore
                                         opportunities.
@@ -1173,8 +1861,8 @@
                             </div>
                             <!-- 2nd card -->
                             <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
-                                aria-labelledby="pills-profile-tab" >
-                              
+                                aria-labelledby="pills-profile-tab">
+
                                 <div class="schedule-content" style="margin-top: 2rem;">
                                     <!--<
                                                                         <table class="timeline-table">
@@ -1309,30 +1997,32 @@
                                                                         {% endif %}
                                     
                                     -->
-                                    
-                                                                    {% if schedule %}
-                                                                    
-                                                                    <table class="timeline-table">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Time</th>
-                                                                                <th>Sunday</th>
-                                                                                <th>Monday</th>
-                                                                                <th>Tuesday</th>
-                                                                                <th>Wednesday</th>
-                                                                                <th>Thursday</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            {% for time_slot in ['08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'] %}
-                                                                                {% set time_slot_parts = time_slot.split(':') %}
-                                                                                {% set time_slot_hour = time_slot_parts[0] | int %}
-                                                                                {% set time_slot_minute = time_slot_parts[1][:2] | int %}
-                                                                                {% set time_slot_ampm = time_slot[-2:] %}
-                                                                                <tr>
-                                                                                    <td class="time">{{ time_slot }}</td>
-                                                                                    {% for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'] %}
-                                                                                        <td class="{% for schedule1 in schedule %}
+
+                                    {% if schedule %}
+
+                                    <table class="timeline-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Sunday</th>
+                                                <th>Monday</th>
+                                                <th>Tuesday</th>
+                                                <th>Wednesday</th>
+                                                <th>Thursday</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for time_slot in ['08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00
+                                            PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'] %}
+                                            {% set time_slot_parts = time_slot.split(':') %}
+                                            {% set time_slot_hour = time_slot_parts[0] | int %}
+                                            {% set time_slot_minute = time_slot_parts[1][:2] | int %}
+                                            {% set time_slot_ampm = time_slot[-2:] %}
+                                            <tr>
+                                                <td class="time">{{ time_slot }}</td>
+                                                {% for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday']
+                                                %}
+                                                <td class="{% for schedule1 in schedule %}
                                                                                             {% set start_time_parts = schedule1[2].split(':') %}
                                                                                             {% set end_time_parts = schedule1[3].split(':') %}
                                                                                             {% set start_hour = start_time_parts[0] | int %}
@@ -1350,40 +2040,52 @@
                                                                                                 {% endif %}
                                                                                             {% endif %}
                                                                                         {% endfor %}">
-                                                                                            {% for schedule1 in schedule %}
-                                                                                            {% set start_time_parts = schedule1[2].split(':') %}
-                                                                                            {% set end_time_parts = schedule1[3].split(':') %}
-                                                                                            {% set start_hour = start_time_parts[0] | int %}
-                                                                                            {% set start_minute = start_time_parts[1][:2] | int %}
-                                                                                            {% set start_ampm = schedule1[2][-2:] %}
-                                                                                            {% set end_hour = end_time_parts[0] | int %}
-                                                                                            {% set end_minute = end_time_parts[1][:2] | int %}
-                                                                                            {% set end_ampm = schedule1[3][-2:] %}
-                                                                                            {% if schedule1[1] == day and ((time_slot_hour >= start_hour and time_slot_hour < end_hour ) or (time_slot_hour >= start_hour and start_hour == 12 and start_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour <= end_hour and end_minute !=0) or (time_slot_hour >= start_hour and start_ampm=='AM' and end_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour < start_hour and time_slot_hour < end_hour)) %}
-                                                                                            {% if (time_slot_hour == start_hour and time_slot_minute >= start_minute and start_ampm == time_slot_ampm) or
-                                                                                                (time_slot_hour == end_hour and time_slot_minute <= end_minute and end_ampm == time_slot_ampm) or
-                                                                                                (time_slot_hour > start_hour and time_slot_hour < end_hour) or
-                                                                                                (time_slot_hour >= start_hour and time_slot_hour > end_hour and start_ampm=='AM'  and end_ampm=='PM') %}
-                                                                                                    <p> {{ schedule1[6] }} </p>  <p> {{ schedule1[2] }} {{ schedule1[3] }} </p>
-                                                                                                {% endif %}
-                                                                                            {% endif %}
-                                                                                            {% endfor %}
-                                    
-                                                                                        </td>
-                                                                                    {% endfor %}
-                                                                                </tr>
-                                                                            {% endfor %}
-                                                                        </tbody>
-                                                                    </table>
-                                                                {% else %}
-                                                                    <p style="text-align:center; margin-top: 5rem;">No schedule data available.</p>
-                                                                {% endif %}
-                                    
-                                                                
-                                                                
-                                                                    
-                                    
-                                                                        <!-- Table 2 
+                                                    {% for schedule1 in schedule %}
+                                                    {% set start_time_parts = schedule1[2].split(':') %}
+                                                    {% set end_time_parts = schedule1[3].split(':') %}
+                                                    {% set start_hour = start_time_parts[0] | int %}
+                                                    {% set start_minute = start_time_parts[1][:2] | int %}
+                                                    {% set start_ampm = schedule1[2][-2:] %}
+                                                    {% set end_hour = end_time_parts[0] | int %}
+                                                    {% set end_minute = end_time_parts[1][:2] | int %}
+                                                    {% set end_ampm = schedule1[3][-2:] %}
+                                                    {% if schedule1[1] == day and ((time_slot_hour >= start_hour and
+                                                    time_slot_hour < end_hour ) or (time_slot_hour>= start_hour and
+                                                        start_hour == 12 and start_ampm=='PM' and time_slot_hour >
+                                                        end_hour) or (time_slot_hour <= end_hour and end_minute !=0) or
+                                                            (time_slot_hour>= start_hour and start_ampm=='AM' and
+                                                            end_ampm=='PM' and time_slot_hour > end_hour) or
+                                                            (time_slot_hour < start_hour and time_slot_hour < end_hour))
+                                                                %} {% if (time_slot_hour==start_hour and
+                                                                time_slot_minute>= start_minute and start_ampm ==
+                                                                time_slot_ampm) or
+                                                                (time_slot_hour == end_hour and time_slot_minute <=
+                                                                    end_minute and end_ampm==time_slot_ampm) or
+                                                                    (time_slot_hour> start_hour and time_slot_hour <
+                                                                        end_hour) or (time_slot_hour>= start_hour and
+                                                                        time_slot_hour > end_hour and start_ampm=='AM'
+                                                                        and end_ampm=='PM') %}
+                                                                        <p> {{ schedule1[6] }} </p>
+                                                                        <p> {{ schedule1[2] }} {{ schedule1[3] }} </p>
+                                                                        {% endif %}
+                                                                        {% endif %}
+                                                                        {% endfor %}
+
+                                                </td>
+                                                {% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                    <p style="text-align:center; margin-top: 5rem;">No schedule data available.</p>
+                                    {% endif %}
+
+
+
+
+
+                                    <!-- Table 2 
                                                                         {% if schedule %}
                                                                         <table>
                                                                             <thead>
@@ -1545,7 +2247,7 @@
                                                                         </table>
                                                                         {% endif %}
                                                                         -->
-                                                                    </div>
+                                </div>
                             </div>
                             <!-- 3nd card -->
                         </div>
@@ -1568,17 +2270,16 @@
                                         {% for form in seekerForms %}
                                         {% if form[1] == 1 %}
                                         <button id="findJob-button" class="btn btn-inverse-primary btn-fw "
-                                            style="height: 50px;  display: none;"
-                                            onclick="location.href = '/find_job';" type="button"
-                                            aria-expanded="true">Seek job </button>
+                                            style="height: 50px;  display: none;" onclick="location.href = '/find_job';"
+                                            type="button" aria-expanded="true">Seek job </button>
                                         <button id="viewForm-button" class="btn btn-inverse-primary btn-fw "
                                             style="height: 50px;  display: inline-block;"
                                             onclick="location.href = '/view_form/{{ form[0] }}';" type="button"
                                             aria-expanded="true">View Profile</button>
                                         <button id="updateForm-button" class="btn btn-inverse-primary btn-fw "
                                             style="height: 50px;  display: inline-block;"
-                                            onclick="location.href = '/update_find_job/{{ form[0] }}';"
-                                            type="button" aria-expanded="true">Update Profile</button>
+                                            onclick="location.href = '/update_find_job/{{ form[0] }}';" type="button"
+                                            aria-expanded="true">Update Profile</button>
                                         <button id="deleteForm-button" class="btn btn-inverse-primary btn-fw "
                                             style="height: 50px;  display: inline-block;"
                                             onclick="location.href = '/delete_form/{{ form[0] }}/{{ form[2] }}';"
@@ -1635,9 +2336,9 @@
                                                         <form method="GET"
                                                             action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}">
                                                             <td class="button-container">
-                                                                <button type="submit"
-                                                                    class="confirm">Confirm</button>
-                                                                <form method="GET" action="{{ url_for('reject_notification', student_id=user[0], notify_id=notification[0]) }}"> 
+                                                                <button type="submit" class="confirm">Confirm</button>
+                                                                <form method="GET"
+                                                                    action="{{ url_for('reject_notification', student_id=user[0], notify_id=notification[0]) }}">
                                                                     <button type="submit" class="reject">reject</button>
                                                                 </form>
                                                             </td>
@@ -1675,7 +2376,7 @@
 
 
                                 <div class="schedule-content">
-<!--<
+                                    <!--<
                                     <table class="timeline-table">
                                         <thead>
                                             <tr>
@@ -1779,7 +2480,7 @@
                                     </table>
 
 >-->
-<!-- 
+                                    <!-- 
 
                                     {% if schedule %}
                                     <table>
@@ -1809,29 +2510,31 @@
 
 -->
 
-                                {% if schedule %}
-                                
-                                <table class="timeline-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Time</th>
-                                            <th>Sunday</th>
-                                            <th>Monday</th>
-                                            <th>Tuesday</th>
-                                            <th>Wednesday</th>
-                                            <th>Thursday</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for time_slot in ['08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'] %}
+                                    {% if schedule %}
+
+                                    <table class="timeline-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Sunday</th>
+                                                <th>Monday</th>
+                                                <th>Tuesday</th>
+                                                <th>Wednesday</th>
+                                                <th>Thursday</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for time_slot in ['08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00
+                                            PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'] %}
                                             {% set time_slot_parts = time_slot.split(':') %}
                                             {% set time_slot_hour = time_slot_parts[0] | int %}
                                             {% set time_slot_minute = time_slot_parts[1][:2] | int %}
                                             {% set time_slot_ampm = time_slot[-2:] %}
                                             <tr>
                                                 <td class="time">{{ time_slot }}</td>
-                                                {% for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'] %}
-                                                    <td class="{% for schedule1 in schedule %}
+                                                {% for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday']
+                                                %}
+                                                <td class="{% for schedule1 in schedule %}
                                                         {% set start_time_parts = schedule1[2].split(':') %}
                                                         {% set end_time_parts = schedule1[3].split(':') %}
                                                         {% set start_hour = start_time_parts[0] | int %}
@@ -1849,37 +2552,49 @@
                                                             {% endif %}
                                                         {% endif %}
                                                     {% endfor %}">
-                                                        {% for schedule1 in schedule %}
-                                                        {% set start_time_parts = schedule1[2].split(':') %}
-                                                        {% set end_time_parts = schedule1[3].split(':') %}
-                                                        {% set start_hour = start_time_parts[0] | int %}
-                                                        {% set start_minute = start_time_parts[1][:2] | int %}
-                                                        {% set start_ampm = schedule1[2][-2:] %}
-                                                        {% set end_hour = end_time_parts[0] | int %}
-                                                        {% set end_minute = end_time_parts[1][:2] | int %}
-                                                        {% set end_ampm = schedule1[3][-2:] %}
-                                                        {% if schedule1[1] == day and ((time_slot_hour >= start_hour and time_slot_hour < end_hour ) or (time_slot_hour >= start_hour and start_hour == 12 and start_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour <= end_hour and end_minute !=0) or (time_slot_hour >= start_hour and start_ampm=='AM' and end_ampm=='PM' and time_slot_hour > end_hour) or (time_slot_hour < start_hour and time_slot_hour < end_hour)) %}
-                                                        {% if (time_slot_hour == start_hour and time_slot_minute >= start_minute and start_ampm == time_slot_ampm) or
-                                                            (time_slot_hour == end_hour and time_slot_minute <= end_minute and end_ampm == time_slot_ampm) or
-                                                            (time_slot_hour > start_hour and time_slot_hour < end_hour) or
-                                                            (time_slot_hour >= start_hour and time_slot_hour > end_hour and start_ampm=='AM'  and end_ampm=='PM') %}
-                                                                <p> {{ schedule1[6] }} </p>  <p> {{ schedule1[2] }} {{ schedule1[3] }} </p>
-                                                            {% endif %}
-                                                        {% endif %}
-                                                        {% endfor %}
+                                                    {% for schedule1 in schedule %}
+                                                    {% set start_time_parts = schedule1[2].split(':') %}
+                                                    {% set end_time_parts = schedule1[3].split(':') %}
+                                                    {% set start_hour = start_time_parts[0] | int %}
+                                                    {% set start_minute = start_time_parts[1][:2] | int %}
+                                                    {% set start_ampm = schedule1[2][-2:] %}
+                                                    {% set end_hour = end_time_parts[0] | int %}
+                                                    {% set end_minute = end_time_parts[1][:2] | int %}
+                                                    {% set end_ampm = schedule1[3][-2:] %}
+                                                    {% if schedule1[1] == day and ((time_slot_hour >= start_hour and
+                                                    time_slot_hour < end_hour ) or (time_slot_hour>= start_hour and
+                                                        start_hour == 12 and start_ampm=='PM' and time_slot_hour >
+                                                        end_hour) or (time_slot_hour <= end_hour and end_minute !=0) or
+                                                            (time_slot_hour>= start_hour and start_ampm=='AM' and
+                                                            end_ampm=='PM' and time_slot_hour > end_hour) or
+                                                            (time_slot_hour < start_hour and time_slot_hour < end_hour))
+                                                                %} {% if (time_slot_hour==start_hour and
+                                                                time_slot_minute>= start_minute and start_ampm ==
+                                                                time_slot_ampm) or
+                                                                (time_slot_hour == end_hour and time_slot_minute <=
+                                                                    end_minute and end_ampm==time_slot_ampm) or
+                                                                    (time_slot_hour> start_hour and time_slot_hour <
+                                                                        end_hour) or (time_slot_hour>= start_hour and
+                                                                        time_slot_hour > end_hour and start_ampm=='AM'
+                                                                        and end_ampm=='PM') %}
+                                                                        <p> {{ schedule1[6] }} </p>
+                                                                        <p> {{ schedule1[2] }} {{ schedule1[3] }} </p>
+                                                                        {% endif %}
+                                                                        {% endif %}
+                                                                        {% endfor %}
 
-                                                    </td>
+                                                </td>
                                                 {% endfor %}
                                             </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            {% else %}
-                                <p>No schedule data available.</p>
-                            {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% else %}
+                                    <p>No schedule data available.</p>
+                                    {% endif %}
 
-                            
-                            
+
+
                                     <hr>
 
                                     <!-- Table 2 
@@ -2051,6 +2766,96 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
+
+            <div class="card" id="student-info-form" style="display: none; ">
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-between; ">
+                        <h3> Job Details </h3>
+                    </div>
+                    <div style="margin-top: 20px;"> </div>
+                    <div class="sub-section">
+                        <h4>Position Overview</h4>
+
+                        <div style="margin-top: 15px;"> </div>
+                        <p style="font-size: 15px;">Job Title: <span id="job-title"></span></p>
+                        <div style="margin-top: 10px;"> </div>
+
+                        <p style="font-size: 15px;">Job Description: <span id="job_description"></span></p>
+                        <div style="margin-top: 10px;"> </div>
+
+
+                    </div>
+
+
+                    <div id="student-info-container">
+                        <!-- Contact Information Sub-Section -->
+                        <div class="sub-section">
+                            <h4>Job Requirements</h4>
+                            <div style="margin-top: 25px;"></div>
+
+
+                            <p style="font-size: 15px;">Major: <span id="major"></span></p>
+                            <div style="margin-top: 10px;"> </div>
+
+
+                            <p style="font-size: 15px;">Skills: <span id="skills"></span>
+                            </p>
+                            <div style="margin-top:10px;"> </div>
+
+
+                            <p style="font-size: 15px;">Minimum GPA: <span id="gpa"></span></p>
+                            <div style="margin-top: 10px;"> </div>
+
+
+                            <p style="font-size: 15px;">Experience: <span id="experience"></span>
+                            </p>
+                            <div style="margin-top: 10px;"> </div>
+
+
+                            <p style="font-size: 15px;">Required Languages:
+                                <span id="required_languages"></span>
+                            </p>
+                        </div>
+
+                        <!-- Academic Information Sub-Section -->
+                        <div class="sub-section">
+                            <h4>Job Information</h4>
+                            <div style="margin-top: 20px;"> </div>
+
+                            <p style="font-size: 15px;">
+                                Work
+                                Location: <span id="work_location"></span>
+                            </p>
+                            <div style="margin-top: 10px;"> </div>
+
+                            <p style="font-size: 15px;">
+                                Work Time: <span id="work_time"></span>
+                            </p>
+                            <div style="margin-top: 10px;"> </div>
+
+                            <p style="font-size: 15px;">
+                                Job Duration: <span id="job_duration"></span> Week(s)
+                            </p>
+
+                            <div style="margin-top: 10px;"></div>
+
+                            
+                            
+                            <div class="sub-section"
+                                style="display: flex; justify-content: center; align-items: center;">
+                                <button class="btn btn-primary btn-rounded" style="margin-top: 2%;"
+                                    onclick="closeCandidateInfo()">Close</button>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
             </div>
         </div>
 
@@ -2170,20 +2975,20 @@
                 </div>
             </div>
         </div>-->
-    
 
-    <!-- plugins:js -->
-    <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
-    <!-- endinject -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script>
-        function delete_flash(flash) {
-            $(flash).parent().remove()
-        }
-    </script>
+        <!-- plugins:js -->
+        <script type="text/javascript" src="{{url_for('static',filename='vendors/js/vendor.bundle.base.js')}}"></script>
+        <!-- endinject -->
 
-    <!-- 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script>
+            function delete_flash(flash) {
+                $(flash).parent().remove()
+            }
+        </script>
+
+        <!-- 
     <script>
         var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
         var student_schedule = {};  // Replace with actual student schedule data
@@ -2247,7 +3052,7 @@
     </script>
     -->
 
-  
+
 </body>
 
 
@@ -2421,4 +3226,73 @@
             flashMessageElement.textContent = flashMessage;
         }
     });
+</script>
+
+<script>
+
+
+    // Add click event listener to table rows
+    const rows = document.querySelectorAll('.student-row');
+    rows.forEach(row => {
+        row.addEventListener('click', function () {
+            // Extract the candidate's ID from the data attribute
+            const candidateId = row.dataset.recommendation;
+
+            // Make an AJAX request to fetch candidate info
+            // Replace 'your_backend_api_url' with the actual URL of your backend API
+            // Fetch job information using AJAX
+            fetch(`/get_job_info/${candidateId}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    // Add more job details as needed
+                    // Update the job details card/section with the fetched data
+                    document.getElementById('job-title').textContent = data.title.charAt(0).toUpperCase() + data.title.slice(1);
+                    
+                    document.getElementById('job_description').textContent = data.job_description;
+                    document.getElementById('major').textContent = data.major;
+                    document.getElementById('skills').textContent = data.skills;
+                    document.getElementById('gpa').textContent = data.gpa;
+                    document.getElementById('job_duration').textContent = data.job_duration;
+                    document.getElementById('experience').textContent = data.experience;
+                    document.getElementById('required_languages').textContent = data.required_languages;
+                    document.getElementById('work_location').textContent = data.work_location;
+                    document.getElementById('work_time').textContent = data.work_time;
+
+                    // Display the form
+                    // Show the form and overlay
+                    document.getElementById('student-info-form').style.display = 'block';
+                    document.getElementById('overlay').style.display = 'block';
+
+
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+    // Function to close the form
+    // Function to close the job details card
+    function closeCandidateInfo() {
+        // Hide the card and overlay
+        document.getElementById('student-info-form').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none'; // Hide the overlay
+    }
+
+    // Function to close the overlapping info
+    function closeOverlappingInfo() {
+        document.getElementById('overlapping-info-container').style.display = 'none';
+    }
+    function closeTimedInfo() {
+        document.getElementById('timed-info-container').style.display = 'none';
+    }
+
+
+    // Add click event listener to the overlay to close the card
+    document.getElementById('overlay').addEventListener('click', function () {
+        closeCandidateInfo();
+        closeOverlappingInfo(); // Close overlapping info when closing the card
+    });
+
+
+
+
 </script>
