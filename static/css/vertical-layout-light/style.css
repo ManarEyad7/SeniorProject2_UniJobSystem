@@ -24842,6 +24842,7 @@ dl li {
   background: #282f3a;
 }
 
+/**
 .tab-content {
   border: 1px solid #CED4DA;
   border-top: 0;
@@ -24862,7 +24863,7 @@ dl li {
   border: 0;
   padding-left: 0;
 }
-
+*/
 /* Timeline */
 .timeline {
   list-style: none;

@@ -246,346 +246,346 @@
 
         }
     </style>
-<style>
-    .card {
-        width: 100%;
-        max-width: none;
-        /* Add this line to remove the maximum width constraint */
-    }
-
- 
-
-
-    @media (max-width: 600px) {
-
-        .kk {
-            margin-left: 0%;
-            margin-right: 0%;
-        }
-
-        .content-wrapper {
-            padding: 0%;
-        }
-
-        .d {
-            padding: 0%;
-            margin: 0;
-        }
-
-
+    <style>
         .card {
-            background-color: rgba(0, 0, 0, 0);
+            width: 100%;
+            max-width: none;
+            /* Add this line to remove the maximum width constraint */
         }
 
-        .job-post-container {
-            min-height: 300px;
-            max-height: fit-content;
-            /* Adjust to fit exactly 4 job postings, you might need to change this */
-            overflow-y: hidden;
+
+
+
+        @media (max-width: 600px) {
+
+            .kk {
+                margin-left: 0%;
+                margin-right: 0%;
+            }
+
+            .content-wrapper {
+                padding: 0%;
+            }
+
+            .d {
+                padding: 0%;
+                margin: 0;
+            }
+
+
+            .card {
+                background-color: rgba(0, 0, 0, 0);
+            }
+
+            .job-post-container {
+                min-height: 300px;
+                max-height: fit-content;
+                /* Adjust to fit exactly 4 job postings, you might need to change this */
+                overflow-y: hidden;
+            }
+
+            .welcome-section {
+                display: none;
+            }
+
         }
 
-        .welcome-section {
-            display: none;
-        }
-
-    }
-
-    /***/
-    /*--------------------------------------------------------------
+        /***/
+        /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
-    #header {
-        transition: all 0.5s;
-        z-index: 997;
-        transition: all 0.5s;
-        padding: 15px 0;
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
+        #header {
+            transition: all 0.5s;
+            z-index: 997;
+            transition: all 0.5s;
+            padding: 15px 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: rgb(205, 209, 225) 0px 5px 21px -5px;
 
 
-    }
+        }
 
-    #header.header-transparent {
-        background: transparent;
-    }
+        #header.header-transparent {
+            background: transparent;
+        }
 
-    #header.header-scrolled {
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-    }
+        #header.header-scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    #header .logo h1 {
-        font-size: 30px;
-        margin: 0;
-        line-height: 1;
-        font-weight: 400;
-        letter-spacing: 2px;
-    }
+        #header .logo h1 {
+            font-size: 30px;
+            margin: 0;
+            line-height: 1;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
 
-    /*--------------------------------------------------------------
+        /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
-    /**
+        /**
 * Desktop Navigation 
 */
-    .navbar {
-        padding: 0;
+        .navbar {
+            padding: 0;
 
-    }
-
-    .navbar ul {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        list-style: none;
-        align-items: center;
-    }
-
-    .navbar li {
-        position: relative;
-    }
-
-    .navbar a,
-    .navbar a:focus {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 0 10px 30px;
-        font-family: "Raleway", sans-serif;
-        font-size: 15px;
-        color: #47536e;
-        white-space: nowrap;
-        transition: 0.3s;
-    }
-
-    .navbar a i,
-    .navbar a:focus i {
-        font-size: 12px;
-        line-height: 0;
-        margin-left: 5px;
-    }
-
-    .navbar a:hover,
-    .navbar .active,
-    .navbar .active:focus,
-    .navbar li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar .getstarted,
-    .navbar .getstarted:focus {
-        background: #5777ba;
-        color: #fff;
-        padding: 12px 25px;
-        margin-left: 30px;
-        color: #fff;
-        line-height: 1;
-        border-radius: 50px;
-    }
-
-    .navbar .getstarted:hover,
-    .navbar .getstarted:focus:hover {
-        background: #748ec6;
-        color: #fff;
-    }
-
-    .navbar .dropdown ul {
-        display: block;
-        position: absolute;
-        left: 14px;
-        top: calc(100% + 30px);
-        margin: 0;
-        padding: 10px 0;
-        z-index: 99;
-        opacity: 0;
-        visibility: hidden;
-        background: #fff;
-        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-        transition: 0.3s;
-        border-radius: 4px;
-    }
-
-    .navbar .dropdown ul li {
-        min-width: 200px;
-    }
-
-    .navbar .dropdown ul a {
-        padding: 10px 20px;
-        font-size: 15px;
-        text-transform: none;
-        font-weight: 600;
-    }
-
-    .navbar .dropdown ul a i {
-        font-size: 12px;
-    }
-
-    .navbar .dropdown ul a:hover,
-    .navbar .dropdown ul .active:hover,
-    .navbar .dropdown ul li:hover>a {
-        color: #5777ba;
-    }
-
-    .navbar .dropdown:hover>ul {
-        opacity: 1;
-        top: 100%;
-        visibility: visible;
-    }
-
-    .navbar .dropdown .dropdown ul {
-        top: 0;
-        left: calc(100% - 30px);
-        visibility: hidden;
-    }
-
-    .navbar .dropdown .dropdown:hover>ul {
-        opacity: 1;
-        top: 0;
-        left: 100%;
-        visibility: visible;
-    }
-
-    @media (max-width: 1366px) {
-        .navbar .dropdown .dropdown ul {
-            left: -90%;
-        }
-
-        .navbar .dropdown .dropdown:hover>ul {
-            left: -100%;
-        }
-    }
-
-    /**
-* Mobile Navigation 
-*/
-    .mobile-nav-toggle {
-        color: #47536e;
-        font-size: 28px;
-        cursor: pointer;
-        display: none;
-        line-height: 0;
-        transition: 0.5s;
-    }
-
-    .mobile-nav-toggle.bi-x {
-        color: #fff;
-    }
-
-    @media (max-width: 991px) {
-        .mobile-nav-toggle {
-            display: block;
         }
 
         .navbar ul {
-            display: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            list-style: none;
+            align-items: center;
         }
-    }
 
-    .navbar-mobile {
-        position: fixed;
-        overflow: hidden;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        background: rgba(51, 60, 79, 0.9);
-        transition: 0.3s;
-        z-index: 999;
-    }
+        .navbar li {
+            position: relative;
+        }
 
-    .navbar-mobile .mobile-nav-toggle {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-    }
+        .navbar a,
+        .navbar a:focus {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0 10px 30px;
+            font-family: "Raleway", sans-serif;
+            font-size: 15px;
+            color: #47536e;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
 
-    .navbar-mobile ul {
-        display: block;
-        position: absolute;
-        top: 55px;
-        right: 15px;
-        bottom: 15px;
-        left: 15px;
-        padding: 10px 0;
-        border-radius: 6px;
-        background-color: #fff;
-        overflow-y: auto;
-        transition: 0.3s;
-    }
+        .navbar a i,
+        .navbar a:focus i {
+            font-size: 12px;
+            line-height: 0;
+            margin-left: 5px;
+        }
 
-    .navbar-mobile a,
-    .navbar-mobile a:focus {
-        padding: 10px 20px;
-        font-size: 15px;
-        color: #47536e;
-    }
+        .navbar a:hover,
+        .navbar .active,
+        .navbar .active:focus,
+        .navbar li:hover>a {
+            color: #5777ba;
+        }
 
-    .navbar-mobile a:hover,
-    .navbar-mobile .active,
-    .navbar-mobile li:hover>a {
-        color: #5777ba;
-    }
+        .navbar .getstarted,
+        .navbar .getstarted:focus {
+            background: #5777ba;
+            color: #fff;
+            padding: 12px 25px;
+            margin-left: 30px;
+            color: #fff;
+            line-height: 1;
+            border-radius: 50px;
+        }
 
-    .navbar-mobile .getstarted,
-    .navbar-mobile .getstarted:focus {
-        margin: 15px;
-    }
+        .navbar .getstarted:hover,
+        .navbar .getstarted:focus:hover {
+            background: #748ec6;
+            color: #fff;
+        }
 
-    .navbar-mobile .dropdown ul {
-        position: static;
-        display: none;
-        margin: 10px 20px;
-        padding: 10px 0;
-        z-index: 99;
-        opacity: 1;
-        visibility: visible;
-        background: #fff;
-        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-    }
+        .navbar .dropdown ul {
+            display: block;
+            position: absolute;
+            left: 14px;
+            top: calc(100% + 30px);
+            margin: 0;
+            padding: 10px 0;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            background: #fff;
+            box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+            transition: 0.3s;
+            border-radius: 4px;
+        }
 
-    .navbar-mobile .dropdown ul li {
-        min-width: 200px;
-    }
+        .navbar .dropdown ul li {
+            min-width: 200px;
+        }
 
-    .navbar-mobile .dropdown ul a {
-        padding: 10px 20px;
-    }
+        .navbar .dropdown ul a {
+            padding: 10px 20px;
+            font-size: 15px;
+            text-transform: none;
+            font-weight: 600;
+        }
 
-    .navbar-mobile .dropdown ul a i {
-        font-size: 12px;
-    }
+        .navbar .dropdown ul a i {
+            font-size: 12px;
+        }
 
-    .navbar-mobile .dropdown ul a:hover,
-    .navbar-mobile .dropdown ul .active:hover,
-    .navbar-mobile .dropdown ul li:hover>a {
-        color: #5777ba;
-    }
+        .navbar .dropdown ul a:hover,
+        .navbar .dropdown ul .active:hover,
+        .navbar .dropdown ul li:hover>a {
+            color: #5777ba;
+        }
 
-    .navbar-mobile .dropdown>.dropdown-active {
-        display: block;
-    }
+        .navbar .dropdown:hover>ul {
+            opacity: 1;
+            top: 100%;
+            visibility: visible;
+        }
 
-    /*--------------------------------------------------------------
+        .navbar .dropdown .dropdown ul {
+            top: 0;
+            left: calc(100% - 30px);
+            visibility: hidden;
+        }
+
+        .navbar .dropdown .dropdown:hover>ul {
+            opacity: 1;
+            top: 0;
+            left: 100%;
+            visibility: visible;
+        }
+
+        @media (max-width: 1366px) {
+            .navbar .dropdown .dropdown ul {
+                left: -90%;
+            }
+
+            .navbar .dropdown .dropdown:hover>ul {
+                left: -100%;
+            }
+        }
+
+        /**
+* Mobile Navigation 
+*/
+        .mobile-nav-toggle {
+            color: #47536e;
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+            line-height: 0;
+            transition: 0.5s;
+        }
+
+        .mobile-nav-toggle.bi-x {
+            color: #fff;
+        }
+
+        @media (max-width: 991px) {
+            .mobile-nav-toggle {
+                display: block;
+            }
+
+            .navbar ul {
+                display: none;
+            }
+        }
+
+        .navbar-mobile {
+            position: fixed;
+            overflow: hidden;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: rgba(51, 60, 79, 0.9);
+            transition: 0.3s;
+            z-index: 999;
+        }
+
+        .navbar-mobile .mobile-nav-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .navbar-mobile ul {
+            display: block;
+            position: absolute;
+            top: 55px;
+            right: 15px;
+            bottom: 15px;
+            left: 15px;
+            padding: 10px 0;
+            border-radius: 6px;
+            background-color: #fff;
+            overflow-y: auto;
+            transition: 0.3s;
+        }
+
+        .navbar-mobile a,
+        .navbar-mobile a:focus {
+            padding: 10px 20px;
+            font-size: 15px;
+            color: #47536e;
+        }
+
+        .navbar-mobile a:hover,
+        .navbar-mobile .active,
+        .navbar-mobile li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar-mobile .getstarted,
+        .navbar-mobile .getstarted:focus {
+            margin: 15px;
+        }
+
+        .navbar-mobile .dropdown ul {
+            position: static;
+            display: none;
+            margin: 10px 20px;
+            padding: 10px 0;
+            z-index: 99;
+            opacity: 1;
+            visibility: visible;
+            background: #fff;
+            box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+        }
+
+        .navbar-mobile .dropdown ul li {
+            min-width: 200px;
+        }
+
+        .navbar-mobile .dropdown ul a {
+            padding: 10px 20px;
+        }
+
+        .navbar-mobile .dropdown ul a i {
+            font-size: 12px;
+        }
+
+        .navbar-mobile .dropdown ul a:hover,
+        .navbar-mobile .dropdown ul .active:hover,
+        .navbar-mobile .dropdown ul li:hover>a {
+            color: #5777ba;
+        }
+
+        .navbar-mobile .dropdown>.dropdown-active {
+            display: block;
+        }
+
+        /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
-    #hero {
-        width: 100%;
-        height: 20px;
-        position: relative;
-        overflow: hidden;
-        padding: 90px 0 100px 0;
-        background: #F5F7FF;
-        z-index: 1;
-        /*
+        #hero {
+            width: 100%;
+            height: 20px;
+            position: relative;
+            overflow: hidden;
+            padding: 90px 0 100px 0;
+            background: #F5F7FF;
+            z-index: 1;
+            /*
 background-image: url("static/images/5654986r.jpg");
 background-repeat: no-repeat; 
 background-size: cover; 
 background-position: center center; 
 position: relative; 
 */
-    }
+        }
 
-    /*
+        /*
     #hero::before {
         content: "";
         position: absolute;
@@ -597,104 +597,102 @@ position: relative;
 
     }
 */
-    a {
-        color: #5777ba;
-        text-decoration: none;
-    }
-
-    a:hover {
-        color: #7b94c9;
-        text-decoration: none;
-    }
-
-    #header .container,
-    #header .container-fluid,
-    #header .container-lg,
-    #header .container-md,
-    #header .container-sm,
-    #header .container-xl,
-    #header .container-xxl {
-        --bs-gutter-x: 1.5rem;
-        --bs-gutter-y: 0;
-        width: 100%;
-        padding-right: calc(var(--bs-gutter-x) * .5);
-        padding-left: calc(var(--bs-gutter-x) * .5);
-        margin-right: auto;
-        margin-left: auto
-    }
-
-    @media (min-width:576px) {
-
-        #header .container,
-        #header .container-sm {
-            max-width: 540px
+        a {
+            color: #5777ba;
+            text-decoration: none;
         }
-    }
 
-    @media (min-width:768px) {
-
-        #header .container,
-        #header .container-md,
-        #header .container-sm {
-            max-width: 720px
+        a:hover {
+            color: #7b94c9;
+            text-decoration: none;
         }
-    }
-
-    @media (min-width:992px) {
 
         #header .container,
-        #header .container-lg,
-        #header .container-md,
-        #header .container-sm {
-            max-width: 960px
-        }
-    }
-
-    @media (min-width:1200px) {
-
-        #header .container,
-        #header .container-lg,
-        #header .container-md,
-        #header .container-sm,
-        #header .container-xl {
-            max-width: 1140px
-        }
-    }
-
-    @media (min-width:1400px) {
-
-        #header .container,
+        #header .container-fluid,
         #header .container-lg,
         #header .container-md,
         #header .container-sm,
         #header .container-xl,
         #header .container-xxl {
-            max-width: 1320px
+            --bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            width: 100%;
+            padding-right: calc(var(--bs-gutter-x) * .5);
+            padding-left: calc(var(--bs-gutter-x) * .5);
+            margin-right: auto;
+            margin-left: auto
         }
-    }
 
-    @media (min-width: 1200px) {
-        .kk {
-            max-width: 1140px;
+        @media (min-width:576px) {
+
+            #header .container,
+            #header .container-sm {
+                max-width: 540px
+            }
         }
-    }
 
-    .dropdown button i {
-        border-radius: 50%;
-        /* Make the icon circular */
-        background-color: #ffffff;
-        /* Set the background color to match your design */
-        padding: 8px;
-        /* Adjust the padding as needed */
-    }
+        @media (min-width:768px) {
+
+            #header .container,
+            #header .container-md,
+            #header .container-sm {
+                max-width: 720px
+            }
+        }
+
+        @media (min-width:992px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm {
+                max-width: 960px
+            }
+        }
+
+        @media (min-width:1200px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm,
+            #header .container-xl {
+                max-width: 1140px
+            }
+        }
+
+        @media (min-width:1400px) {
+
+            #header .container,
+            #header .container-lg,
+            #header .container-md,
+            #header .container-sm,
+            #header .container-xl,
+            #header .container-xxl {
+                max-width: 1320px
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .kk {
+                max-width: 1140px;
+            }
+        }
+
+        .dropdown button i {
+            border-radius: 50%;
+            /* Make the icon circular */
+            background-color: #ffffff;
+            /* Set the background color to match your design */
+            padding: 8px;
+            /* Adjust the padding as needed */
+        }
 
 
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
-ئ
-
-  
-    /*
+        ئ
+        /*
 .content-wrapper::before {
   content: "";
   position: absolute;
@@ -705,412 +703,425 @@ position: relative;
   background-color: rgba(75, 73, 172, 0.2); 
 }
 */
-
-
-
-
-</style>
+    </style>
 
 
 </head>
 
-<body>    <div class="container-scroller ">
-
-        
-    <!-- partial:partials/_navbar.html -->
-    <header id="header" class="fixed-top  ">
-        <div class="container d-flex align-items-center justify-content-between">
-
-            <div class="logo">
-                <a href='/employeeCancle'>
-                    <h2 style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC;"> Uni Job</h2>
-                </a>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-            </div>
-
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li class="nav-item nav-profile dropdown d-none d-lg-flex">
-                        <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                            aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" style="justify-content:left">
-                                <i class=" ti-user text-dark " style="margin-right:5px;"></i>
-                                {{ user[3]| title }}
-                            </a>
-                            <a class="dropdown-item">
-                                <i class="ti-email text-primary" style="margin-right:5px;"></i>
-                                {{ user[4] }}
-                            </a>
-                            <a class="dropdown-item"  href="{{url_for('login')}}" style="justify-content:left">
-                                <i class="ti-power-off text-primary"  style="margin-right:5px;"></i>
-                                Log out
-                            </a>
-                        </div>
-                    </li>
-
-                    <div class="app-header-right">
+<body>
+    <div class="container-scroller ">
 
 
-                        <button class="profile-btn">
-                            <span> {{ user[3] | title }}</span>
-                        </button>
-                    </div>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
+        <!-- partial:partials/_navbar.html -->
+        <header id="header" class="fixed-top  ">
+            <div class="container d-flex align-items-center justify-content-between">
 
-        </div>
-    </header>
-    <section id="hero" style="padding: 20px 0 40px 0;"> </section>
-
-    <div class="content-wrapper" style="min-height: inherit;">
-        <div class="container">
-
-            <div class="row mt-5"> <!-- headline #3b3d6f-->
-                <div class="col-12 col-xl-12 mb-4 mb-xl-0 ">
-                    <h2 class="font-weight-bold text-center" style="color: darkslateblue;">Recommendations for
-                        the job {{ job_title[0] | capitalize }}</h2>
+                <div class="logo">
+                    <a href='/employeeCancle'>
+                        <h2 style="font-family: 'Bauhaus 93', sans-serif; font-size: 1.3rem; color: #4B49AC;"> Uni Job
+                        </h2>
+                    </a>
+                    <!-- Uncomment below if you prefer to use an image logo -->
+                    <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
                 </div>
-            </div>
-            <div class="row">
-                <!-- Add the return to previous page link here, outside the card -->
-                <a href="/employee" id="return-link" class="btn btn-link " style="color: #3b3a88;">
-                    <i class="fa fa-chevron-circle-left "></i> View all posted jobs
-                </a>
-            </div>
-
-
-            <div class="row" style="margin-top: 0rem;">
-
-                <div class="col-lg-12 grid-margin stretch-card">
-
-
-                    <div class="card custom-card">
-                        <div class="card-body" style="margin: .7rem;">
-                            <div class="row" style="margin-left: 0.5%;">
-
-
-
-
-                                <!---->
-                                <!-- On small screens, "View job details" and "View Unstatisfied Candidates" are above "Top Student Recommendations" -->
-                                <div class="col-sm-12 d-sm-none">
-                                    <a href="/get_Unstaisfied_recommendations/{{job_id}}"
-                                        class="btn btn-link small-b" style="color: #3b3a88;">
-                                        <i class="fa fa-external-link-square"></i> View Unstatisfied Candidates
-                                    </a>
-                                    <a href="#" id="view-more-link" class="btn btn-link small-b"
-                                        style="color: #3b3a88;">
-                                        <i class="fa fa-external-link-square"></i> <span>View job details</span>
-                                    </a>
-                                    <hr>
-                                </div>
-
-                                <!-- On large screens, "Top Student Recommendations" is at the beginning of the row -->
-                                <div class="col-lg-7 col-md-12">
-                                    <h4 class="card-title h">Top Student Recommendations</h4>
-                                    <p class="card-description">
-                                        Discover Ideal Candidates: Top Student Recommendations for This Job
-                                        Opportunity
-                                    </p>
-                                </div>
-
-                                <!-- On small screens, these columns are hidden -->
-                                <div class="col-lg-5 col-md-12 d-none d-sm-block" style="bottom: 15px; ">
-                                    <a href="/get_Unstaisfied_recommendations/{{job_id}}"
-                                        class="btn btn-link small-b" style="color: #3b3a88;">
-                                        <i class="fa fa-external-link-square"></i> View Unsatisfied Candidates
-                                    </a>
-                                    <a href="#" id="view-more-link-l" class="btn btn-link small-b"
-                                        style="color: #3b3a88;">
-                                        <i class="fa fa-external-link-square"></i> <span>View job details</span>
-                                    </a>
-                                </div>
+                <nav id="navbar" class="navbar">
+                    <ul>
+                        <li class="nav-item nav-profile dropdown d-none d-lg-flex">
+                            <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
+                                <i class="mdi mdi-account-circle" style="font-size: 2rem; color: #4b4b4b;"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                                aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" style="justify-content:left">
+                                    <i class=" ti-user text-dark " style="margin-right:5px;"></i>
+                                    {{ user[3]| title }}
+                                </a>
+                                <a class="dropdown-item">
+                                    <i class="ti-email text-primary" style="margin-right:5px;"></i>
+                                    {{ user[4] }}
+                                </a>
+                                <a class="dropdown-item" href="{{url_for('login')}}" style="justify-content:left">
+                                    <i class="ti-power-off text-primary" style="margin-right:5px;"></i>
+                                    Log out
+                                </a>
                             </div>
+                        </li>
+
+                        <div class="app-header-right">
 
 
-                            <div class="job-post d-flex justify-content-between align-items-center">
-                                <div onclick="closeCandidateInfo()" class="overlay" id="overlay"></div>
-                                <div class="table-responsive custom-table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
+                            <button class="profile-btn">
+                                <span> {{ user[3] | title }}</span>
+                            </button>
+                        </div>
+                    </ul>
+                    <i class="bi bi-list mobile-nav-toggle"></i>
+                </nav><!-- .navbar -->
+            </div>
+        </header>
+        <section id="hero" style="padding: 20px 0 40px 0;"> </section>
 
-                                                <th>User</th>
-                                                <th>Major</th>
-                                                <th>GPA</th>
-                                                <th>Skills</th>
-                                                <th>Score</th>
-                                                <th>Status</th>
+        <div class="content-wrapper" style="min-height: inherit;">
+            <div class="container">
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% if recommendations %}
-                                            {% for recommendation in recommendations %}
-                                            <tr class="student-row"
-                                                data-recommendation="{{ recommendation['name'][2] }}">
-                                                <td>{{ recommendation['name'][3] }}</td>
-                                                <td>{{ recommendation['seeker'][0] }}</td>
-                                                <td>{{ recommendation['seeker'][1] }}</td>
-                                                <td class="skill-cell">
-                                                    {% set skills = recommendation['seeker'][2].split(',') %}
-                                                    {% if skills|length > 0 %}
-                                                    <div class="skills-container">
-                                                        {% for skill in skills %}
-                                                        {% if loop.index <= 2 %} <label
-                                                            class="badge badge-warning"
-                                                            style="margin-bottom: 2px ">{{ skill.strip()
-                                                            }}</label>
-                                                            {% endif %}
-                                                            {% endfor %}
-                                                            {% if skills|length > 3 %}
-                                                            <span class="more-skills"
-                                                                onclick="toggleSkills(event, this)">Show
-                                                                more</span>
-                                                            <div class="hidden-skills" style="display: none;">
-                                                                {% for skill in skills %}
-                                                                {% if loop.index > 3 %}
-                                                                {% if loop.index % 3 == 1 %}
-                                                                <div class="skill-row">
-                                                                    {% endif %}
-                                                                    <label class="badge badge-warning"
-                                                                        style="margin-bottom: 2px ">{{
-                                                                        skill.strip() }}</label>
-                                                                    {% if loop.index % 3 == 0 or loop.last %}
-                                                                </div>
-                                                                {% endif %}
+                <div class="row mt-5"> <!-- headline #3b3d6f-->
+                    <div class="col-12 col-xl-12 mb-4 mb-xl-0 ">
+                        <h2 class="font-weight-bold text-center" style="color: darkslateblue;">Recommendations for
+                            the job {{ job_title[0] | capitalize }}</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Add the return to previous page link here, outside the card -->
+                    <a href="/employee" id="return-link" class="btn btn-link " style="color: #3b3a88;">
+                        <i class="fa fa-chevron-circle-left "></i> View all posted jobs
+                    </a>
+                </div>
+
+
+                <div class="row" style="margin-top: 0rem;">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+
+
+                        <div class="card custom-card">
+                            <div class="card-body" style="margin: .7rem;">
+                                <div class="row" style="margin-left: 0.5%;">
+
+
+
+
+                                    <!---->
+                                    <!-- On small screens, "View job details" and "View Unstatisfied Candidates" are above "Top Student Recommendations" -->
+                                    <div class="col-sm-12 d-sm-none">
+                                        <a href="/get_Unstaisfied_recommendations/{{job_id}}"
+                                            class="btn btn-link small-b" style="color: #3b3a88;">
+                                            <i class="fa fa-external-link-square"></i> View Unstatisfied Candidates
+                                        </a>
+                                        <a href="#" id="view-more-link" class="btn btn-link small-b"
+                                            style="color: #3b3a88;">
+                                            <i class="fa fa-external-link-square"></i> <span>View job details</span>
+                                        </a>
+                                        <hr>
+                                    </div>
+
+                                    <!-- On large screens, "Top Student Recommendations" is at the beginning of the row -->
+                                    <div class="col-lg-7 col-md-12">
+                                        <h4 class="card-title h">Top Student Recommendations</h4>
+                                        <p class="card-description">
+                                            Discover Ideal Candidates: Top Student Recommendations for This Job
+                                            Opportunity
+                                        </p>
+                                    </div>
+
+                                    <!-- On small screens, these columns are hidden -->
+                                    <div class="col-lg-5 col-md-12 d-none d-sm-block" style="bottom: 15px; ">
+                                        <a href="/get_Unstaisfied_recommendations/{{job_id}}"
+                                            class="btn btn-link small-b" style="color: #3b3a88;">
+                                            <i class="fa fa-external-link-square"></i> View Unsatisfied Candidates
+                                        </a>
+                                        <a href="#" id="view-more-link-l" class="btn btn-link small-b"
+                                            style="color: #3b3a88;">
+                                            <i class="fa fa-external-link-square"></i> <span>View job details</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <div class="job-post d-flex justify-content-between align-items-center">
+                                    <div onclick="closeCandidateInfo()" class="overlay" id="overlay"></div>
+                                    <div class="table-responsive custom-table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>User</th>
+                                                    <th>Major</th>
+                                                    <th>GPA</th>
+                                                    <th>Skills</th>
+                                                    <th>Score</th>
+                                                    <th>Status</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if recommendations %}
+                                                {% for recommendation in recommendations %}
+                                                <tr class="student-row"
+                                                    data-recommendation="{{ recommendation['name'][2] }}">
+                                                    <td>{{ recommendation['name'][3] }}</td>
+                                                    <td>{{ recommendation['seeker'][0] }}</td>
+                                                    <td>{{ recommendation['seeker'][1] }}</td>
+                                                    <td class="skill-cell">
+                                                        {% set skills = recommendation['seeker'][2].split(',') %}
+                                                        {% if skills|length > 0 %}
+                                                        <div class="skills-container">
+                                                            {% for skill in skills %}
+                                                            {% if loop.index <= 3 %} <label class="badge badge-warning"
+                                                                style="margin-bottom: 2px ">{{ skill.strip()
+                                                                }}</label>
                                                                 {% endif %}
                                                                 {% endfor %}
-                                                            </div>
-                                                            {% endif %}
-                                                    </div>
-                                                    {% else %}
-                                                    <!-- Handle the case when there are no skills -->
-                                                    <span>No skills available</span>
-                                                    {% endif %}
-                                                </td>
-                                                <td>{{ recommendation['score'] | float | round(2) }} %</td>
-
-                                            
-                                           
-                                                
-                                                <td>
-                                                    
-                                                    
-                                                                 
-                                                    
-                                                    {% if notifications[7]==1 and notifications[1]== recommendation['name'][2] %}
-                                                    Confirmed <i id="check-icon"
-                                                        class="fa-regular fa-circle-check fa-2xl clickable-icon"
-                                                        style="color: #26bb02; margin-right: 10px;"></i>
-                                                    {% elif notifications[7]==2 and notifications[1]== recommendation['name'][2]%}
-                                                    Rejected <i id="xmark-icon"
-                                                        class="fa-regular fa-circle-xmark fa-2xl clickable-icon"
-                                                        style="color: #e91619;"></i>
-                                                    {% elif notifications[7]==0 and notifications[1]== recommendation['name'][2] %}
-                                                    Underproccess
-                                                    {% else %}
-                                                    Not Sent 
-                                                    
-                                                    {% endif %}
-                                                    
-
-                                                    
-                                                    
-                                                                  
-
-                                                </td>
-                                                
-                                            
-
-                                            </tr>
-                                            {% endfor %}
+                                                                {% if skills|length > 3 %}
+                                                                <span class="more-skills"
+                                                                    onclick="toggleSkills(event, this)">
+                                                                    more</span>
+                                                                <div class="hidden-skills" style="display: none;">
+                                                                    {% for skill in skills %}
+                                                                    {% if loop.index > 3 %}
+                                                                    {% if loop.index % 3 == 1 %}
+                                                                    <div class="skill-row">
+                                                                        {% endif %}
+                                                                        <label class="badge badge-warning"
+                                                                            style="margin-bottom: 2px ">{{
+                                                                            skill.strip() }}</label>
+                                                                        {% if loop.index % 3 == 0 or loop.last %}
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
+                                                                {% endif %}
+                                                        </div>
+                                                        {% else %}
+                                                        <!-- Handle the case when there are no skills -->
+                                                        <span>No skills available</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ recommendation['score'] | float | round(2) }} %</td>
 
 
-                                            {% else %}
-                                            <tr>
-                                                <td colspan="7">No recommended students found for this job.</td>
-                                            </tr>
-                                            {% endif %}
-                                        </tbody>
-
-                                        
 
 
-                                    </table>
+                                                    <td>
+
+
+
+
+                                                        {% if notifications[7]==1 and notifications[1]==
+                                                        recommendation['name'][2] %}
+                                                        <div class="badge badge-success">Confirmed</div>
+                                                        
+                                                        {% elif notifications[7]==2 and notifications[1]==
+                                                        recommendation['name'][2]%}
+                                                        <div class="badge badge-danger">Rejected</div>
+                                                        
+                                                        {% elif notifications[7]==0 and notifications[1]==
+                                                        recommendation['name'][2] %}
+                                                        <div class="badge badge-warning">Underproccess</div>
+                                                        {% else %}
+                                                        <div class="badge" style="background-color:#F5F7FF;">Not Sent</div>
+
+                                                        
+
+                                                        {% endif %}
+
+
+
+
+
+
+                                                    </td>
+
+
+
+                                                </tr>
+                                                {% endfor %}
+
+
+                                                {% else %}
+                                                <tr>
+                                                    <td colspan="7">No recommended students found for this job.</td>
+                                                </tr>
+                                                {% endif %}
+                                            </tbody>
+
+
+
+
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 
-        <div class="card" id="student-info-form" style="display: none; ">
-            <div class="card-body">
-                <div id="kjjj" style=" justify-content:space-between; flex-wrap: wrap;">
-                    <h3 class="student-name" id="student-name"></h3>
+    <div class="card" id="student-info-form" style="display: none; ">
+        <div class="card-body">
+            <div id="kjjj" style=" justify-content:space-between; flex-wrap: wrap;">
+                <h3 class="student-name" id="student-name"></h3>
 
-                    <div id="l" style="flex-grow: 1; display: flex; flex-wrap: wrap; justify-content: flex-end; ">
-                      
+                <div id="l" style="flex-grow: 1; display: flex; flex-wrap: wrap; justify-content: flex-end; ">
 
-                        <button id="send-notification-button"  class="btn btn-inverse-primary btn btn-rounded btn-fw btn-sm"
-                            style="padding-left: 30px; padding-right: 30px; margin-bottom: 10px; margin-left: 5px;">
-                            <span style="display: -ms-inline-grid; text-align: center; width: 100%; ">Accept</span>
-                        </button>
 
-                    </div>
+                    <button id="send-notification-button" class="btn btn-inverse-primary btn btn-rounded btn-fw btn-sm"
+                        style="padding-left: 30px; padding-right: 30px; margin-bottom: 10px; margin-left: 5px;">
+                        <span style="display: -ms-inline-grid; text-align: center; width: 100%; ">Accept</span>
+                    </button>
+
                 </div>
-                <div style="margin-top: 20px;">
-
-                    <!-- Big Border Section -->
-                    <div id="student-info-container">
-                        <!-- Contact Information Sub-Section -->
-                        <div class="sub-section">
-                            <h4>Contact Information</h4>
-                            <p style="font-size: 15px;">Phone Number: <span id="student-phone"></span></p>
-                            <p style="font-size: 15px;">Email: <span id="student-email"></span></p>
-                        </div>
-
-                        <!-- Academic Information Sub-Section -->
-                        <div class="sub-section">
-                            <h4>Academic Information</h4>
-                            <p style="font-size: 15px;">ID: <span id="student-id"></span></p>
-                            <p style="font-size: 15px;">Major: <span id="student-major"></span></p>
-                            <p style="font-size: 15px;">GPA: <span id="student-gpa"></span></p>
-                            <div style="font-size: 15px;" id="student-skills" class="skills-container">
-                                <p style="font-size: 15px;" id="skills-label">Skills:</p>
-                            </div>
-
-                            <div style="margin-top: 7px;"></div>
-
-                            <p style="font-size: 15px;">Experience: <span id="student-experience"></span>
-                            </p>
-                            <p style="font-size: 15px;">Languages: <span id="student-languages"></span>
-                            </p>
-                        </div>
-                        <div class="sub-section">
-                            <div style="margin-top: 20px;"> </div>
-
-                            <h4 style="float: left;">Curriculum Vitae</h4>
-                            <p style="text-align: right ;">
-                                <a class="btn btn-primary btn-sm" id="cv-download-link" href="#" download>Download
-                                    CV</a>
-                            </p>
-                            <p id="cv-status"></p>
-                            <!-- This paragraph will display the CV status -->
-                        </div>
-                    </div>
-
-                    <div style="margin-top: 20px;"> </div>
-
-                    <!-- Availability Sub-Section -->
-
-                    <div class="sub-section">
-                        <h4 class="">Availability</h4>
-                        <p style="font-size: 15px;">Available Hours(per week): <span id="student-availability"></span>
-                        </p>
-                        <p style="font-size: 15px;">Work Preference: <span id="student-work-preference"></span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="sub-section" style="display: flex; justify-content: center; align-items: center;">
-                    <button class="btn btn-primary btn-rounded close-button1" style="margin-top: 2%;"
-                        onclick="closeCandidateInfo()">Close</button>
-                </div>
-
             </div>
-        </div>
+            <div style="margin-top: 20px;">
 
-        <div class="card" id="job-details" style="display: none; ">
-            <div class="card-body">
-                <div style="display: flex; justify-content: space-between; ">
-                    <h3> Job Details </h3>
-                </div>
-                <div style="margin-top: 20px;"> </div>
-                <div class="sub-section">
-                    <div style="margin-top: 15px;"> </div>
-                    <h4 style="font-size: 20px;"> Job Title : <span id="job-title"></span></h4>
-                </div>
-
-
+                <!-- Big Border Section -->
                 <div id="student-info-container">
                     <!-- Contact Information Sub-Section -->
                     <div class="sub-section">
-                        <h4>Job Requirements</h4>
-                        <div style="margin-top: 25px;"></div>
-
-
-                        <p style="font-size: 15px;">Major: <span id="major"></span></p>
-                        <div style="margin-top: 10px;"> </div>
-
-
-                        <p style="font-size: 15px;">Skills: <span id="skills"></span>
-                        </p>
-                        <div style="margin-top:10px;"> </div>
-
-
-                        <p style="font-size: 15px;">Minimum GPA: <span id="gpa"></span></p>
-                        <div style="margin-top: 10px;"> </div>
-
-
-                        <p style="font-size: 15px;">Experience: <span id="experience"></span>
-                        </p>
-                        <div style="margin-top: 10px;"> </div>
-
-
-                        <p style="font-size: 15px;">Required Languages:
-                            <span id="required_languages"></span>
-                        </p>
+                        <h4>Contact Information</h4>
+                        <p style="font-size: 15px;">Phone Number: <span id="student-phone"></span></p>
+                        <p style="font-size: 15px;">Email: <span id="student-email"></span></p>
                     </div>
 
                     <!-- Academic Information Sub-Section -->
                     <div class="sub-section">
-                        <h4>Job Information</h4>
+                        <h4>Academic Information</h4>
+                        <p style="font-size: 15px;">ID: <span id="student-id"></span></p>
+                        <p style="font-size: 15px;">Major: <span id="student-major"></span></p>
+                        <p style="font-size: 15px;">GPA: <span id="student-gpa"></span></p>
+                        <div style="font-size: 15px;" id="student-skills" class="skills-container">
+                            <p style="font-size: 15px;" id="skills-label">Skills:</p>
+                        </div>
+
+                        <div style="margin-top: 7px;"></div>
+
+                        <p style="font-size: 15px;">Experience: <span id="student-experience"></span>
+                        </p>
+                        <p style="font-size: 15px;">Languages: <span id="student-languages"></span>
+                        </p>
+                        <p style="font-size: 15px;">Work Preference: <span id="student-work-preference"></span>
+                        </p>
+
+                    </div>
+
+                    <div class="sub-section">
                         <div style="margin-top: 20px;"> </div>
 
-
-                        <pstyle="font-size: 15px;">Working Hours:
-                            <span id="working_hours"></span></p>
-                            <div style="margin-top: 10px;"> </div>
-
-
-                            <p style="font-size: 15px;">
-                                Positions
-                                Available: <span id="positions_available"></span>
-                            </p>
-                            <div style="margin-top: 10px;"> </div>
-
-
-                            <p style="font-size: 15px;">
-                                Work
-                                Location: <span id="work_location"></span>
-                            </p>
-                            <div style="margin-top: 10px;"></div>
-                            <div class="sub-section"
-                                style="display: flex; justify-content: center; align-items: center;">
-                                <button class="btn btn-primary btn-rounded" style="margin-top: 2%;"
-                                    onclick="closeJobDetails()">Close</button>
-                            </div>
-
-
+                        <h4 style="float: left;">Curriculum Vitae</h4>
+                        <p style="text-align: right ;">
+                            <a class="btn btn-primary btn-sm" id="cv-download-link" href="#" download>Download
+                                CV</a>
+                        </p>
+                        <p id="cv-status"></p>
+                        <!-- This paragraph will display the CV status -->
                     </div>
                 </div>
 
+                <div style="margin-top: 20px;"> </div>
 
+
+
+                <!-- Availability Sub-Section -->
+
+                <div class="sub-section">
+                    <h4 class="">Availability</h4>
+                    <p style="font-size: 15px;">Available Hours(per week): <span id="student-availability"></span>
+                    </p>
+
+
+                </div>
+                <div class="sub-section">
+
+                    <div style="clear: both;"></div>
+
+                    <div id="timed-info-container"></div>
+                    <div id="overlapping-info-container" style="display: none;">
+                        <!-- The overlapping info will be displayed here dynamically using JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub-section" style="display: flex; justify-content: center; align-items: center;">
+                <button class="btn btn-primary btn-rounded close-button1" style="margin-top: 2%;"
+                    onclick="closeCandidateInfo()">Close</button>
             </div>
 
         </div>
+    </div>
+
+    <div class="card" id="job-details" style="display: none; ">
+        <div class="card-body">
+            <div style="display: flex; justify-content: space-between; ">
+                <h3> Job Details </h3>
+            </div>
+            <div style="margin-top: 20px;"> </div>
+            <div class="sub-section">
+                <div style="margin-top: 15px;"> </div>
+                <h4 style="font-size: 20px;"> Job Title : <span id="job-title"></span></h4>
+            </div>
+
+
+            <div id="student-info-container">
+                <!-- Contact Information Sub-Section -->
+                <div class="sub-section">
+                    <h4>Job Requirements</h4>
+                    <div style="margin-top: 25px;"></div>
+
+
+                    <p style="font-size: 15px;">Major: <span id="major"></span></p>
+                    <div style="margin-top: 10px;"> </div>
+
+
+                    <p style="font-size: 15px;">Skills: <span id="skills"></span>
+                    </p>
+                    <div style="margin-top:10px;"> </div>
+
+
+                    <p style="font-size: 15px;">Minimum GPA: <span id="gpa"></span></p>
+                    <div style="margin-top: 10px;"> </div>
+
+
+                    <p style="font-size: 15px;">Experience: <span id="experience"></span>
+                    </p>
+                    <div style="margin-top: 10px;"> </div>
+
+
+                    <p style="font-size: 15px;">Required Languages:
+                        <span id="required_languages"></span>
+                    </p>
+                </div>
+
+                <!-- Academic Information Sub-Section -->
+                <div class="sub-section">
+                    <h4>Job Information</h4>
+                    <div style="margin-top: 20px;"> </div>
+
+
+                    <p style="font-size: 15px;">Working Hours:
+                        <span id="working_hours"></span>
+                    </p>
+                    <div style="margin-top: 10px;"> </div>
+
+
+                    <p style="font-size: 15px;">
+                        Positions
+                        Available: <span id="positions_available"></span>
+                    </p>
+                    <div style="margin-top: 10px;"> </div>
+
+
+                    <p style="font-size: 15px;">
+                        Work
+                        Location: <span id="work_location"></span>
+                    </p>
+                    <div style="margin-top: 10px;"></div>
+                    <div class="sub-section" style="display: flex; justify-content: center; align-items: center;">
+                        <button class="btn btn-primary btn-rounded" style="margin-top: 2%;"
+                            onclick="closeJobDetails()">Close</button>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
     </div>
 
 
@@ -1167,6 +1178,7 @@ position: relative;
 </script>
 
 <script>
+
     var hiddenSkills = document.querySelector(".hidden-skills");
     var showMoreButton = document.querySelector(".more-skills");
 
@@ -1177,12 +1189,113 @@ position: relative;
         const hiddenSkills = button.nextElementSibling;
         if (hiddenSkills.style.display === "none" || hiddenSkills.style.display === "") {
             hiddenSkills.style.display = "block";
-            button.innerText = "Show less";
+            button.innerText = "less";
         } else {
             hiddenSkills.style.display = "none";
-            button.innerText = "Show more";
+            button.innerText = "more";
         }
     }
+    function displayTimedInfo(timedInfo) {
+        // Clear previous content
+        const timedInfoContainer = document.getElementById('timed-info-container');
+        timedInfoContainer.innerHTML = '';
+
+        // Create a dictionary to collect time slots for each day
+        const daySlots = {};
+
+        // Iterate through the timedInfo tuple
+        timedInfo.forEach(([student, day, time_range]) => {
+            if (!(day in daySlots)) {
+                daySlots[day] = [];
+            }
+
+            daySlots[day].push(`${time_range}`);
+        });
+        const timeElement1 = document.createElement('h4');
+        timeElement1.textContent = `Student Availability Schedule`;
+        timedInfoContainer.appendChild(timeElement1);
+
+
+
+        // Iterate through the days and display the time slots
+        for (const day in daySlots) {
+            const timeElement = document.createElement('p');
+            timeElement.textContent = `${day}: ${daySlots[day].join(', ')}`;
+
+            // Customize styling as needed
+            timeElement.style.fontSize = '16px';
+
+            timedInfoContainer.appendChild(timeElement);
+        }
+
+        // Show the timed info container
+        timedInfoContainer.style.display = 'block';
+    }
+
+    function displayOverlappingInfo(overlappingInfo) {
+        // Clear previous content
+        const overlappingInfoContainer = document.getElementById('overlapping-info-container');
+        overlappingInfoContainer.innerHTML = '';
+
+        // Iterate through the overlappingInfo tuple
+        overlappingInfo.forEach(([student, info]) => {
+            // Display Alignment Score
+            if (info['Alignment Score']) {
+                const workingHoursElement1 = document.createElement('h4');
+                workingHoursElement1.textContent = `Working schedule`;
+                overlappingInfoContainer.appendChild(workingHoursElement1);
+
+                const workingHoursElement = document.createElement('span');
+                workingHoursElement.textContent = `Working Hours: ${info['Alignment Score']}`;
+                overlappingInfoContainer.appendChild(workingHoursElement);
+            }
+
+            // Display Overlaps
+            if ('Overlaps' in info) {
+                const overlapsElement = document.createElement('h5');
+                overlapsElement.textContent = `Work Time : `;
+
+                // Set the color to your desired value, for example, 'red'
+                overlapsElement.style.fontSize = '16px';
+                overlapsElement.style.fontWeight = 'normal';
+                overlapsElement.style.marginTop = '0.5rem';
+
+
+                const dayOverlaps = info['Overlaps'];
+
+                // Filter out days without overlaps
+                const daysWithOverlaps = Object.keys(dayOverlaps).filter(day => dayOverlaps[day].length > 0);
+
+                // Iterate through days with overlaps
+                daysWithOverlaps.forEach(day => {
+                    const dayList = document.createElement('li');
+                    dayList.textContent = `${day}: ${dayOverlaps[day].join(', ')}`;
+
+                    // Set the color of the li element to your desired value, for example, 'blue'
+                    dayList.style.marginTop = '0.5rem';
+                    dayList.style.marginLeft = '2rem';
+
+                    overlapsElement.appendChild(dayList);
+                });
+
+                overlappingInfoContainer.appendChild(overlapsElement);
+            }
+
+        });
+
+        // Show the overlapping info container
+        overlappingInfoContainer.style.display = 'block';
+    }
+
+
+
+
+
+    // Function to close the overlapping info
+    function closeOverlappingInfo() {
+        document.getElementById('overlapping-info-container').style.display = 'none';
+    }
+
 
     // Add click event listener to table rows
     const rows = document.querySelectorAll('.student-row');
@@ -1193,7 +1306,7 @@ position: relative;
 
             // Make an AJAX request to fetch candidate info
             // Replace 'your_backend_api_url' with the actual URL of your backend API
-            fetch(`/get_candidate/${candidateId}`)
+            fetch(`/get_candidate/${candidateId}/{{ job_id }}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('student-id').textContent = data.id;
@@ -1205,6 +1318,23 @@ position: relative;
                     document.getElementById('student-email').textContent = data.email;
 
                     document.getElementById('student-gpa').textContent = data.gpa;
+                    // Check if there is overlapping info
+                    if (data.overlapping_info) {
+                        // Display overlapping info
+                        displayOverlappingInfo(data.overlapping_info);
+                    } else {
+                        // Close overlapping info if there is none
+                        closeOverlappingInfo();
+                    }
+                    if (data.timed) {
+                        // Display timed info
+                        displayTimedInfo(data.timed);
+                    } else {
+                        // Close timed info if there is none
+                        closeTimedInfo();
+                    }
+
+
 
                     // Split the skills by comma
                     const skillsArray = data.skills.split(',').map(skill => skill.trim());
@@ -1242,6 +1372,7 @@ position: relative;
                     const cvDownloadLink = document.getElementById('cv-download-link');
                     const cvStatus = document.getElementById('cv-status');
 
+
                     // Check if there is a value in data.cv
                     if (data.cv) {
                         // If data.cv has a value, set the link and display "Download CV"
@@ -1272,14 +1403,30 @@ position: relative;
     function closeCandidateInfo() {
         // Hide the card and overlay
         document.getElementById('student-info-form').style.display = 'none';
-
-        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none'; // Hide the overlay
     }
 
+    // Function to close the overlapping info
+    function closeOverlappingInfo() {
+        document.getElementById('overlapping-info-container').style.display = 'none';
+    }
+    function closeTimedInfo() {
+        document.getElementById('timed-info-container').style.display = 'none';
+    }
+
+
     // Add click event listener to the overlay to close the card
-    document.getElementById('overlay').addEventListener('click', closeCandidateInfo);
-    // Add click event listener to the "Show more" button
+    document.getElementById('overlay').addEventListener('click', function () {
+        closeCandidateInfo();
+        closeOverlappingInfo(); // Close overlapping info when closing the card
+    });
+
     showMoreButton.addEventListener('click', toggleSkills);
+
+
+
+
+
 </script>
 <script>
     // Function to handle the "Send Notification" button click
