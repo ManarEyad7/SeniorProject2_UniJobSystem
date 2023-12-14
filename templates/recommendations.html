@@ -900,44 +900,27 @@ position: relative;
                                                         {% if notifications[7]==1 and notifications[1]==
                                                         recommendation['name'][2] %}
                                                         <div class="badge badge-success">Confirmed</div>
-                                                        
+
                                                         {% elif notifications[7]==2 and notifications[1]==
                                                         recommendation['name'][2]%}
                                                         <div class="badge badge-danger">Rejected</div>
-                                                        
+
                                                         {% elif notifications[7]==0 and notifications[1]==
                                                         recommendation['name'][2] %}
                                                         <div class="badge badge-warning">Underproccess</div>
                                                         {% else %}
-                                                        <div class="badge" style="background-color:#F5F7FF;">Not Sent</div>
-
-                                                        
-
+                                                        <div class="badge" style="background-color:#F5F7FF;">Not Sent
+                                                        </div>
                                                         {% endif %}
-
-
-
-
-
-
                                                     </td>
-
-
-
                                                 </tr>
                                                 {% endfor %}
-
-
                                                 {% else %}
                                                 <tr>
                                                     <td colspan="7">No recommended students found for this job.</td>
                                                 </tr>
                                                 {% endif %}
                                             </tbody>
-
-
-
-
                                         </table>
                                     </div>
                                 </div>

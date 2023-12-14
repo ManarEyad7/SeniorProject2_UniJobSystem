@@ -269,6 +269,7 @@ def post_job():
     if request.method == 'POST':
         job_title = request.form['job_title']
         required_major = request.form['required_major']
+        job_description = request.form['job_description']
         min_gpa = request.form['min_gpa']
         skills = request.form.getlist('skills')
         #working_hours = request.form['working_hours']
@@ -281,8 +282,8 @@ def post_job():
 
         submission_date = datetime.now().strftime('%B %d, %Y')
 
-        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, experience, job_duration, positions_available, required_languages, work_location, submission_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    (user_id, job_title, required_major, min_gpa, ','.join(skills), experience, job_duration, positions_available, ','.join(required_languages), work_location, submission_date))
+        cursor.execute("INSERT INTO job_posts (user_id, job_title, required_major, min_gpa, skills, experience, job_duration, positions_available, required_languages, work_location, submission_date ,job_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)", 
+                    (user_id, job_title, required_major, min_gpa, ','.join(skills), experience, job_duration, positions_available, ','.join(required_languages), work_location, submission_date , job_description))
         # Retrieve the reference key (last inserted row ID)
         reference_key = cursor.lastrowid
 
@@ -397,25 +398,36 @@ def employee():
             cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
                 
 
-            jobs = cursor.fetchall()  # Convert tuple to a list
+            jobs = cursor.fetchall()  
             cursor.execute("""
-                SELECT job_posts.*, notifications.confirm
+                SELECT job_posts.job_id, notifications.confirm
                 FROM job_posts
                 JOIN notifications ON job_posts.job_id = notifications.id_job
                 WHERE job_posts.user_id = ?
             """, (user_id,))
-            result = cursor.fetchall()
+            result = cursor.fetchall()       
 
-            # Count occurrences of each job_id
-            job_id_counter = Counter(row[0] for row in result)
-            print(job_id_counter)
+            # Create a nested Counter to count occurrences of values (0, 1, 2) for each job_id
+            job_id_value_counter = {}
+            for job_id, value in result:
+                if job_id not in job_id_value_counter:
+                    job_id_value_counter[job_id] = Counter()
+                job_id_value_counter[job_id][value] += 1
 
-            # Append the count to the corresponding job in the jobs list
-            for i, job  in enumerate(jobs):
-                jobs[i] = job + (job_id_counter.get(job[0], 0),)
-            print(jobs)
+            # Append the counts to the corresponding job in the jobs list
+            for i, job in enumerate(jobs):
+                job_id = job[0]  # Assuming job_id is at index 0
+                counts = [job_id_value_counter.get(job_id, Counter()).get(val, 0) for val in [0, 1, 2]]
+                jobs[i] = job + tuple(counts)
+            
+            
+            # Count jobs where positions equal the number of confirmed users 
+            count_matching_jobs = sum(1 for job in jobs if job[9] == job[16])
+
+
+
             connection.close()
-            return render_template('employee.html', jobs=jobs, user=user)
+            return render_template('employee.html', jobs=jobs, user=user , filled_jobs = count_matching_jobs)
 
         except sqlite3.Error as e:
             print(f"SQLite error: {e}")
@@ -456,11 +468,20 @@ def student():
                 if end_date <= current_date:
                     # Delete the row where end_date has passed
                     cursor.execute("DELETE FROM notifications WHERE end_date = ?", (row[0],))
+            
+            #cursor.execute("SELECT * FROM notifications WHERE student_id = ? AND confirm = ?", (user_id,confirm))
+            #notifications = cursor.fetchall()
 
-            cursor.execute("SELECT * FROM notifications WHERE student_id = ? AND confirm = ?", (user_id,confirm))
+            cursor.execute("""
+                SELECT notifications.*, users.email as sender_email
+                FROM notifications
+                JOIN job_posts ON notifications.id_job = job_posts.job_id
+                JOIN users ON job_posts.user_id = users.id
+                WHERE notifications.student_id = ? AND notifications.confirm = ?
+            """, (user_id, confirm))
+
             notifications = cursor.fetchall()
 
-            
 
             confirm1 = 1
             #print("1")
@@ -872,27 +893,34 @@ def employeeCancle():
     user = cursor.fetchone()
 
     cursor.execute("SELECT * FROM job_posts WHERE user_id = ?", (user_id,))
-    jobs = cursor.fetchall()
+    jobs = cursor.fetchall()  
+    
     
     cursor.execute("""
-    SELECT job_posts.*, notifications.confirm
-    FROM job_posts
-    JOIN notifications ON job_posts.job_id = notifications.id_job
-    WHERE job_posts.user_id = ?
-    """, (user_id,))
-    result = cursor.fetchall()
+                SELECT job_posts.job_id, notifications.confirm FROM job_posts JOIN notifications ON job_posts.job_id = notifications.id_job WHERE job_posts.user_id = ?
+            """, (user_id,))
+    result = cursor.fetchall()       
 
-    # Count occurrences of each job_id
-    job_id_counter = Counter(row[0] for row in result)
+    # Create a nested Counter to count occurrences of values (0, 1, 2) for each job_id
+    job_id_value_counter = {}
+    for job_id, value in result:
+        if job_id not in job_id_value_counter:
+            job_id_value_counter[job_id] = Counter()
+            job_id_value_counter[job_id][value] += 1
 
-    # Append the count to the corresponding job in the jobs list
-    for i, job  in enumerate(jobs):
-        jobs[i] = job + (job_id_counter.get(job[0], 0),)
-    
+            # Append the counts to the corresponding job in the jobs list
+    for i, job in enumerate(jobs):
+        job_id = job[0]  # Assuming job_id is at index 0
+        counts = [job_id_value_counter.get(job_id, Counter()).get(val, 0) for val in [0, 1, 2]]
+        jobs[i] = job + tuple(counts)
+            
+            
+    # Count jobs where positions equal the number of confirmed users 
+    count_matching_jobs = sum(1 for job in jobs if job[9] == job[16])
 
 
 
-    return render_template('employee.html', jobs=jobs, user=user)
+    return render_template('employee.html', jobs=jobs, user=user , filled_jobs = count_matching_jobs)
 
 '''    ------------------------   recommendetion system trying   ------------------------    '''
 
@@ -1228,10 +1256,10 @@ def get_recommendations(job_id):
             recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
         
         cursor.execute("SELECT * FROM notifications WHERE id_job = ? ", (job_id,))
-        notifications = cursor.fetchone()
-    
-    
-
+        notifications = cursor.fetchall()
+        print("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+        print(recommended_seekers)
+        print(notifications)
         cursor.close()
         conn.close()
 
@@ -1488,6 +1516,10 @@ def get_job_info(id):
 
         cursor.execute("SELECT * FROM job_posts WHERE job_id = ?", (id,))
         job = cursor.fetchone()
+        
+        cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (id,))
+        job_time = cursor.fetchone()
+
         print(job[5])
         connection.close()
 
@@ -1497,15 +1529,16 @@ def get_job_info(id):
         # Return the job information as JSON
         return jsonify({
             'title': job[2],
+            'job_description' : job[14],
             'major': job[3],
             'skills': job[5],
             'gpa' : job[4],
-            'working_hours' : job[6],
             'job_duration' : job[7],
             'experience' : job[8],
             'positions_available' : job[9],
             'required_languages' : job[10],
-            'work_location' : job[11]
+            'work_location' : job[11],
+            'work_time' : job_time[2]
 
         })
     except Exception as e:

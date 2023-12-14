@@ -170,17 +170,18 @@ for i in range(196):
 
 # Modify the job_posts table to include the submission_date column
 # Check if the column exists in the table
+# Check if the column 'job' exists
+'''
 cursor.execute("PRAGMA table_info(job_posts)")
 columns = cursor.fetchall()
 column_names = [column[1] for column in columns]
-if 'submission_date' not in column_names:
-    # If the column doesn't exist, add it
-    cursor.execute('ALTER TABLE job_posts ADD COLUMN submission_date TEXT')
 
+if 'job' in column_names:
+    # If the column exists, drop it
+    cursor.execute('ALTER TABLE job_posts DROP COLUMN job')
 
-connection.commit()
 
 # Close the connection
-
+'''
 
 connection.commit()
