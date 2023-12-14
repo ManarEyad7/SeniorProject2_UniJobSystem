@@ -1579,7 +1579,7 @@ def notify(student_id,job_id):
 def confirm_notification(student_id,notify_id):
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
-
+    
     print(f"Sending notification to student with ID: {student_id}")
     print(f"Sending notification ID2: {notify_id}")
     print("p")
@@ -1588,17 +1588,15 @@ def confirm_notification(student_id,notify_id):
     job_id_tuple = cursor.fetchone()
     job_id = job_id_tuple[0] if job_id_tuple else None
     print(job_id)
+    
     print("r")
     try:
-        print("i")
-        confirm = 1
-        generate_schedule(student_id,job_id)
-        cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
-        print("n")
-        
-        print("tt")
-        
 
+        print("i")
+        
+        generate_schedule(student_id,job_id,notify_id)
+        print("tt")
+                  
         print("t")
         connection.commit()
         connection.close()
@@ -1663,7 +1661,7 @@ def reject_notification(student_id,notify_id):
     return redirect(url_for('student'))
 
 from datetime import datetime, timedelta
-def generate_schedule(student_id, job_id):
+def generate_schedule(student_id, job_id,notify_id):
 
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
@@ -1678,127 +1676,355 @@ def generate_schedule(student_id, job_id):
     # Retrieve the student_schedule and job_schedule data from your backend
     student_schedule = makedicforStudents2(students_time)  # Replace with your actual logic to fetch student schedule
     
+    cursor.execute("SELECT * FROM schedule WHERE student_id = ?", (student_id,))
+    #schedule = cursor.fetchall()
+    schedule = cursor.fetchone()
+    job_id2 = schedule[5] if schedule else None
+    print(job_id2)
 
-    if job_time[2] == "Fixed":
+    if schedule:
+        
+        remaining_time_range = remaining_time_ranges(student_id, job_id2)
+        if job_time[2] == "Fixed":
 
-        print("job_time[4:]", job_time[4:])
-        job_schedule = makedicforjob(job_time[4:])
+            print("job_time[4:]", job_time[4:])
+            job_schedule = makedicforjob(job_time[4:])
 
-        overlapping_schedule = {}
+            overlapping_schedule = {}
 
-        for day in student_schedule:
-            student_schedule2 = student_schedule[day]
-            for time_range in student_schedule2:
-                student_start_time, student_end_time = time_range.split(" - ")
-                student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
-                student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
-                if day in job_schedule:
-                    for job_time_range in job_schedule[day]:
-                        job_start_time, job_end_time = job_time_range.split(" - ")
-                        job_start_datetime = datetime.strptime(job_start_time, "%I:%M %p")
-                        job_end_datetime = datetime.strptime(job_end_time, "%I:%M %p")
-                        if student_start_datetime <= job_end_datetime and student_end_datetime >= job_start_datetime:
-                            overlapping_start_time = max(student_start_datetime, job_start_datetime)
-                            overlapping_end_time = min(student_end_datetime, job_end_datetime)
-                            
-                            # Check if the start time and end time are equal
-                            if overlapping_start_time != overlapping_end_time:
-                                overlapping_range = overlapping_start_time.strftime("%I:%M %p") + " - " + overlapping_end_time.strftime("%I:%M %p")
-                                overlapping_schedule.setdefault(day, []).append(overlapping_range)
-
-        # Filter out overlapping ranges where start time and end time are equal
-        overlapping_schedule = {day: overlapping_ranges for day, overlapping_ranges in overlapping_schedule.items() if overlapping_ranges}
-        print("overlapping")
-        print(overlapping_schedule)
-
-        for day, time_slots in overlapping_schedule.items():
-            for time_slot in time_slots:
-                start_time, end_time = time_slot.split(' - ')
-                cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
-
-    elif job_time[2] == "Flexible":
-        H = job_time[3] 
-        job_period = timedelta(hours=H)
-        occupied_ranges = {}
-        total_hours = sum(
-            [
-                (datetime.strptime(end_time, "%I:%M %p") - datetime.strptime(start_time, "%I:%M %p"))
-                for schedule in student_schedule.values()
-                for time_range in schedule
-                for start_time, end_time in [time_range.split(" - ")]
-                if start_time and end_time
-            ],
-            timedelta(),
-        )
-
-        if job_period > total_hours:
-            print("There is a conflict: Job period is greater than total student schedule hours.")
-        else:
-            remaining_hours = job_period
-            assigned_hours = timedelta()
-
-            for day, schedule in student_schedule.items():
-                for time_range in schedule:
+            for day in remaining_time_range:
+                student_schedule2 = remaining_time_range[day]
+                for time_range in student_schedule2:
                     student_start_time, student_end_time = time_range.split(" - ")
                     student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
                     student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
+                    if day in job_schedule:
+                        for job_time_range in job_schedule[day]:
+                            job_start_time, job_end_time = job_time_range.split(" - ")
+                            job_start_datetime = datetime.strptime(job_start_time, "%I:%M %p")
+                            job_end_datetime = datetime.strptime(job_end_time, "%I:%M %p")
+                            if student_start_datetime <= job_end_datetime and student_end_datetime >= job_start_datetime:
+                                overlapping_start_time = max(student_start_datetime, job_start_datetime)
+                                overlapping_end_time = min(student_end_datetime, job_end_datetime)
+                                
+                                # Check if the start time and end time are equal
+                                if overlapping_start_time != overlapping_end_time:
+                                    overlapping_range = overlapping_start_time.strftime("%I:%M %p") + " - " + overlapping_end_time.strftime("%I:%M %p")
+                                    overlapping_schedule.setdefault(day, []).append(overlapping_range)
 
-                    occupied_period = student_end_datetime - student_start_datetime
-                    if assigned_hours >= job_period:
-                        break
+            # Filter out overlapping ranges where start time and end time are equal
+            overlapping_schedule = {day: overlapping_ranges for day, overlapping_ranges in overlapping_schedule.items() if overlapping_ranges}
+            print("overlapping")
+            print(overlapping_schedule)
 
-                    if occupied_period <= remaining_hours:
-                        if day not in occupied_ranges:
-                            occupied_ranges[day] = []
-                        occupied_ranges[day].append(f"{student_start_time.upper()} - {student_end_time.upper()}")
-                        assigned_hours += occupied_period
-                        remaining_hours -= occupied_period  # Subtract the assigned period from remaining_hours
-                    else:
-                        if day not in occupied_ranges:
-                            occupied_ranges[day] = []
-                        occupied_ranges[day].append(f"{student_start_time.upper()} - {student_start_datetime + remaining_hours:%I:%M %p}")
-                        assigned_hours += remaining_hours
-                        remaining_hours = timedelta(hours=0)  # Set remaining_hours to 0 to break the loop
-                        break
+            for day, time_slots in overlapping_schedule.items():
+                for time_slot in time_slots:
+                    start_time, end_time = time_slot.split(' - ')
+                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+            confirm = 1
+            cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+            print("nn")
+            connection.commit()
 
-            # Assign additional time ranges to complete the job period if necessary
-            if assigned_hours < job_period and remaining_hours > timedelta(hours=0):
-                for day, schedule in student_schedule.items():
+        elif job_time[2] == "Flexible":
+            H = job_time[3] 
+            job_period = timedelta(hours=H)
+            occupied_ranges = {}
+            total_hours = sum(
+                [
+                    (datetime.strptime(end_time, "%I:%M %p") - datetime.strptime(start_time, "%I:%M %p"))
+                    for schedule in remaining_time_range.values()
+                    for time_range in schedule
+                    for start_time, end_time in [time_range.split(" - ")]
+                    if start_time and end_time
+                ],
+                timedelta(),
+            )
+
+            if job_period > total_hours:
+                confirm2 = 2
+                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm2,notify_id,student_id))
+                print("nn") 
+                print("There is a conflict: Job period is greater than total student schedule hours.")
+                connection.commit()
+                return "There is a conflict: Job period is greater than total student schedule hours." , 200
+            else:
+                remaining_hours = job_period
+                assigned_hours = timedelta()
+
+                for day, schedule in remaining_time_range.items():
                     for time_range in schedule:
-                        if assigned_hours >= job_period:
-                            break
-                            
                         student_start_time, student_end_time = time_range.split(" - ")
                         student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
                         student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
-                        
+
                         occupied_period = student_end_datetime - student_start_datetime
-                        if occupied_period > remaining_hours:
-                            if day not in occupied_ranges:
-                                occupied_ranges[day] = []
-                            occupied_ranges[day].append(f"{student_start_time.upper()} - {student_start_datetime + remaining_hours:%I:%M %p}")
-                            assigned_hours += remaining_hours
-                            remaining_hours = timedelta(hours=0)
+                        if assigned_hours >= job_period:
                             break
-                        elif occupied_period > timedelta(hours=0):
+
+                        if occupied_period <= remaining_hours:
                             if day not in occupied_ranges:
                                 occupied_ranges[day] = []
                             occupied_ranges[day].append(f"{student_start_time.upper()} - {student_end_time.upper()}")
                             assigned_hours += occupied_period
-                            remaining_hours -= occupied_period
+                            remaining_hours -= occupied_period  # Subtract the assigned period from remaining_hours
+                        else:
+                            if day not in occupied_ranges:
+                                occupied_ranges[day] = []
+                            occupied_ranges[day].append(f"{student_start_time.upper()} - {student_start_datetime + remaining_hours:%I:%M %p}")
+                            assigned_hours += remaining_hours
+                            remaining_hours = timedelta(hours=0)  # Set remaining_hours to 0 to break the loop
+                            break
 
-            # Print the occupied_ranges dictionary
-            print("overlapping2")
-            print(H)
-            print(occupied_ranges)
-            for day, time_slots in occupied_ranges.items():
+                # Assign additional time ranges to complete the job period if necessary
+                if assigned_hours < job_period and remaining_hours > timedelta(hours=0):
+                    for day, schedule in remaining_time_range.items():
+                        for time_range in schedule:
+                            if assigned_hours >= job_period:
+                                break
+                                
+                            student_start_time, student_end_time = time_range.split(" - ")
+                            student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
+                            student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
+                            
+                            occupied_period = student_end_datetime - student_start_datetime
+                            if occupied_period > remaining_hours:
+                                if day not in occupied_ranges:
+                                    occupied_ranges[day] = []
+                                occupied_ranges[day].append(f"{student_start_time.upper()} - {student_start_datetime + remaining_hours:%I:%M %p}")
+                                assigned_hours += remaining_hours
+                                remaining_hours = timedelta(hours=0)
+                                break
+                            elif occupied_period > timedelta(hours=0):
+                                if day not in occupied_ranges:
+                                    occupied_ranges[day] = []
+                                occupied_ranges[day].append(f"{student_start_time.upper()} - {student_end_time.upper()}")
+                                assigned_hours += occupied_period
+                                remaining_hours -= occupied_period
+
+                # Print the occupied_ranges dictionary
+                print("overlapping2")
+                print(H)
+                print(occupied_ranges)
+                for day, time_slots in occupied_ranges.items():
+                    for time_slot in time_slots:
+                        start_time, end_time = time_slot.split(' - ')
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+                confirm = 1
+                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+                print("nn") 
+                connection.commit()       
+
+    else:
+        if job_time[2] == "Fixed":
+
+            print("job_time[4:]", job_time[4:])
+            job_schedule = makedicforjob(job_time[4:])
+
+            overlapping_schedule = {}
+
+            for day in student_schedule:
+                student_schedule2 = student_schedule[day]
+                for time_range in student_schedule2:
+                    student_start_time, student_end_time = time_range.split(" - ")
+                    student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
+                    student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
+                    if day in job_schedule:
+                        for job_time_range in job_schedule[day]:
+                            job_start_time, job_end_time = job_time_range.split(" - ")
+                            job_start_datetime = datetime.strptime(job_start_time, "%I:%M %p")
+                            job_end_datetime = datetime.strptime(job_end_time, "%I:%M %p")
+                            if student_start_datetime <= job_end_datetime and student_end_datetime >= job_start_datetime:
+                                overlapping_start_time = max(student_start_datetime, job_start_datetime)
+                                overlapping_end_time = min(student_end_datetime, job_end_datetime)
+                                
+                                # Check if the start time and end time are equal
+                                if overlapping_start_time != overlapping_end_time:
+                                    overlapping_range = overlapping_start_time.strftime("%I:%M %p") + " - " + overlapping_end_time.strftime("%I:%M %p")
+                                    overlapping_schedule.setdefault(day, []).append(overlapping_range)
+
+            # Filter out overlapping ranges where start time and end time are equal
+            overlapping_schedule = {day: overlapping_ranges for day, overlapping_ranges in overlapping_schedule.items() if overlapping_ranges}
+            print("overlapping")
+            print(overlapping_schedule)
+
+            for day, time_slots in overlapping_schedule.items():
                 for time_slot in time_slots:
                     start_time, end_time = time_slot.split(' - ')
                     cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+            confirm = 1
+            cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+            print("nn") 
+            connection.commit()
+        elif job_time[2] == "Flexible":
+            H = job_time[3] 
+            job_period = timedelta(hours=H)
+            occupied_ranges = {}
+            total_hours = sum(
+                [
+                    (datetime.strptime(end_time, "%I:%M %p") - datetime.strptime(start_time, "%I:%M %p"))
+                    for schedule in student_schedule.values()
+                    for time_range in schedule
+                    for start_time, end_time in [time_range.split(" - ")]
+                    if start_time and end_time
+                ],
+                timedelta(),
+            )
 
-                
+            if job_period > total_hours:
+                confirm2 = 2
+                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm2,notify_id,student_id))
+                print("nn")
+                print("There is a conflict: Job period is greater than total student schedule hours.")
+                connection.commit()
+                return "There is a conflict: Job period is greater than total student schedule hours.",200
+                 
+            else:
+                remaining_hours = job_period
+                assigned_hours = timedelta()
+
+                for day, schedule in student_schedule.items():
+                    for time_range in schedule:
+                        student_start_time, student_end_time = time_range.split(" - ")
+                        student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
+                        student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
+
+                        occupied_period = student_end_datetime - student_start_datetime
+                        if assigned_hours >= job_period:
+                            break
+
+                        if occupied_period <= remaining_hours:
+                            if day not in occupied_ranges:
+                                occupied_ranges[day] = []
+                            occupied_ranges[day].append(f"{student_start_time.upper()} - {student_end_time.upper()}")
+                            assigned_hours += occupied_period
+                            remaining_hours -= occupied_period  # Subtract the assigned period from remaining_hours
+                        else:
+                            if day not in occupied_ranges:
+                                occupied_ranges[day] = []
+                            occupied_ranges[day].append(f"{student_start_time.upper()} - {student_start_datetime + remaining_hours:%I:%M %p}")
+                            assigned_hours += remaining_hours
+                            remaining_hours = timedelta(hours=0)  # Set remaining_hours to 0 to break the loop
+                            break
+
+                # Assign additional time ranges to complete the job period if necessary
+                if assigned_hours < job_period and remaining_hours > timedelta(hours=0):
+                    for day, schedule in student_schedule.items():
+                        for time_range in schedule:
+                            if assigned_hours >= job_period:
+                                break
+                                
+                            student_start_time, student_end_time = time_range.split(" - ")
+                            student_start_datetime = datetime.strptime(student_start_time, "%I:%M %p")
+                            student_end_datetime = datetime.strptime(student_end_time, "%I:%M %p")
+                            
+                            occupied_period = student_end_datetime - student_start_datetime
+                            if occupied_period > remaining_hours:
+                                if day not in occupied_ranges:
+                                    occupied_ranges[day] = []
+                                occupied_ranges[day].append(f"{student_start_time.upper()} - {student_start_datetime + remaining_hours:%I:%M %p}")
+                                assigned_hours += remaining_hours
+                                remaining_hours = timedelta(hours=0)
+                                break
+                            elif occupied_period > timedelta(hours=0):
+                                if day not in occupied_ranges:
+                                    occupied_ranges[day] = []
+                                occupied_ranges[day].append(f"{student_start_time.upper()} - {student_end_time.upper()}")
+                                assigned_hours += occupied_period
+                                remaining_hours -= occupied_period
+
+                # Print the occupied_ranges dictionary
+                print("overlapping2")
+                print(H)
+                print(occupied_ranges)
+                for day, time_slots in occupied_ranges.items():
+                    for time_slot in time_slots:
+                        start_time, end_time = time_slot.split(' - ')
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+                confirm = 1
+                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+                print("nn")
+                connection.commit() 
+                    
     connection.commit()
     connection.close()
+
+def remaining_time_ranges(student_id, job_id):
+
+    connection = sqlite3.connect("users_database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
+    job_time = cursor.fetchone()
+    
+    cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
+    students_time = cursor.fetchall()
+    print("problem")
+    print(students_time[0])
+    # Retrieve the student_schedule and job_schedule data from your backend
+    students_schedule = makedicforStudents2(students_time)  # Replace with your actual logic to fetch student schedule
+    job_schedule = makedicforjob(job_time[4:])
+    
+
+    remaining_time_ranges = {}
+
+    for day, student_times in students_schedule.items():
+        if day in job_schedule:
+            job_times = job_schedule[day]
+
+            if student_times and job_times:
+                remaining_time_ranges[day] = []
+                for student_time in student_times:
+                    student_start, student_end = student_time.split(' - ')
+                    student_start_time = datetime.strptime(student_start, '%I:%M %p')
+                    student_end_time = datetime.strptime(student_end, '%I:%M %p')
+                    
+                    for job_time in job_times:
+                        job_start, job_end = job_time.split(' - ')
+                        job_start_time = datetime.strptime(job_start, '%I:%M %p')
+                        job_end_time = datetime.strptime(job_end, '%I:%M %p')
+                        
+                        if (
+                            student_start_time >= job_end_time or
+                            student_end_time <= job_start_time
+                        ):
+                            remaining_time_ranges[day].append(student_time)
+                        else:
+                            if student_start_time < job_start_time:
+                                remaining_start_time = student_start_time
+                                remaining_end_time = job_start_time
+                                
+                                if remaining_start_time < remaining_end_time:
+                                    remaining_time_range = f"{remaining_start_time.strftime('%I:%M %p')} - {remaining_end_time.strftime('%I:%M %p')}"
+                                    remaining_time_ranges[day].append(remaining_time_range)
+                            
+                            if student_end_time > job_end_time:
+                                remaining_start_time = job_end_time
+                                remaining_end_time = student_end_time
+                                
+                                if remaining_start_time < remaining_end_time:
+                                    remaining_time_range = f"{remaining_start_time.strftime('%I:%M %p')} - {remaining_end_time.strftime('%I:%M %p')}"
+                                    remaining_time_ranges[day].append(remaining_time_range)
+            elif student_times:
+                remaining_time_ranges[day] = student_times
+            else:
+                remaining_time_ranges[day] = []
+        else:
+            remaining_time_ranges[day] = []
+
+    # Remove the original student schedule
+    for day in remaining_time_ranges:
+        remaining_time_ranges[day] = list(set(remaining_time_ranges[day]) - set(students_schedule[day]))
+        if len(job_schedule[day]) == 0:
+            remaining_time_ranges[day] = students_schedule[day]
+
+    print("Remaining Time Ranges:")
+    if any(remaining_time_ranges.values()):
+        print(remaining_time_ranges)
+        return remaining_time_ranges
+    else:
+        print("No remaining time ranges.")
+        return "there is a conflict and No remaining time ranges", 200
 
 
 def makedicforStudents2(students_time) :
