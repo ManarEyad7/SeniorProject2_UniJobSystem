@@ -1367,7 +1367,7 @@ def get_Unstaisfied_recommendations(job_id):
 
         return render_template('recommendations2.html', recommendations=unsatisfied_recommendations, job_id=job_id, job_title=job_title , user=user)
 
-def get_candidate_info(candidate_id):
+def get_candidate_info(candidate_id,job_id):
     try:
         conn = sqlite3.connect('users_database.db')
         cursor = conn.cursor()
@@ -1375,19 +1375,77 @@ def get_candidate_info(candidate_id):
         # Fetch candidate data
         cursor.execute("SELECT * FROM seekers_form WHERE user_id=?", (candidate_id,))
         candidate_data = cursor.fetchone()
-
+        print("candidate_data")
+        print(candidate_data)
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         # Fetch email
         cursor.execute("SELECT email FROM users WHERE id=?", (candidate_id,))
         email = cursor.fetchone()
+        
+        cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
+        job_time = cursor.fetchone()
+
+        cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id=?", (candidate_id,))
+        students_time = cursor.fetchall()
 
         # Fetch CV information
         cursor.execute("SELECT file_id, filename, data FROM files WHERE user_id=?", (candidate_id,))
         file = cursor.fetchone()
+        students_schedule = makedicforStudents(students_time)
+        print(students_schedule,"students_schedulestudents_schedulestudents_schedule")
+        print(type(students_schedule))
+        if job_time[2] == 'Fixed':
+            # Create a dictionary for the job schedule
+            job_schedule = makedicforjob(job_time[4:])
+            # print(job_time[4:])
+
+            # Create a dictionary for the students' schedules
+            # Calculate alignment scores with overlaps for all students
+            alignment_scores = calculate_alignment_scores_with_overlaps(students_schedule, job_schedule)
+            # calculate_alignment_score_with_overlaps
+
+            result_dict = {}
+
+            # Store alignment scores and overlaps for each student in the dictionary
+            for student, scores in alignment_scores.items():
+                student_dict = {}
+                if isinstance(scores, dict):
+                    day_overlaps_dict = {}
+                    for day, day_overlaps in scores.items():
+                        overlap_list = []
+                        for overlap in day_overlaps:
+                            overlap_start = overlap[0]
+                            overlap_end = overlap[1]
+                            overlap_str = f"Start: {overlap_start // 60:02d}:{overlap_start % 60:02d} AM/PM - End: {overlap_end // 60:02d}:{overlap_end % 60:02d} AM/PM"
+                            overlap_list.append(overlap_str)
+                        day_overlaps_dict[day] = overlap_list
+                    student_dict['Overlaps'] = day_overlaps_dict
+                else:
+                    score_hours = scores // 60
+                    score_minutes = scores % 60
+                    student_dict['Alignment Score'] = f"{score_hours} hours and {score_minutes} minutes"
+                result_dict[student] = student_dict
+            result_tuple = tuple((student, scores) for student, scores in result_dict.items())
+        elif job_time[2] == 'Flexible':
+            tuple_representation = []
+
+            for student, schedule in students_schedule.items():
+                daily_slots = {}  # Collect daily time slots for each student
+
+                for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday']:
+                    time_ranges = schedule.get(day, [])
+                    daily_slots[day] = ', '.join(time_ranges) if time_ranges else 'No available time in this day'
+
+                # Flatten the daily_slots dictionary into a list of tuples
+                for day, time_range in daily_slots.items():
+                    tuple_representation.append((student, day, time_range))
+
+
 
         if candidate_data:
             return {
                 
-                            'id': candidate_data[2],
+            'id': candidate_data[2],
             'name': candidate_data[3],
             'major': candidate_data[5],
             'phone': candidate_data[4],
@@ -1398,8 +1456,11 @@ def get_candidate_info(candidate_id):
             'languages': candidate_data[9],
             'availability': candidate_data[10],
             'work_preference': candidate_data[27],
+            'overlapping_info': result_tuple  if job_time[2] == 'Fixed' else None,
+            'timed': tuple_representation if job_time[2] == 'Flexible' else None,
 
-                'cv': file[0] if file else None  # Return CV if available, else None
+            'cv': file[0] if file else None  # Return CV if available, else None
+
             }
         else:
             return {}  # Return an empty dictionary if no data found
@@ -1410,15 +1471,15 @@ def get_candidate_info(candidate_id):
     finally:
         conn.close()
 
-@app.route('/get_candidate/<int:candidate_id>')
-def get_candidate(candidate_id):
-    candidate_info = get_candidate_info(candidate_id)
-    print(candidate_id)
+@app.route('/get_candidate/<int:candidate_id>/<int:job_id>')
+def get_candidate(candidate_id,job_id):
+    candidate_info = get_candidate_info(candidate_id,job_id)
+    print(candidate_info)
     if candidate_info:
         return jsonify(candidate_info)
     else:
         return jsonify(error='Candidate not found'), 404
-    
+       
 @app.route('/get_job_info/<int:id>')
 def get_job_info(id):
     try:
