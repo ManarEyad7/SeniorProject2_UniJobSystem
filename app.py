@@ -1638,7 +1638,6 @@ def confirm_notification(student_id,notify_id):
     except sqlite3.Error as e:
         print(f"An error occurred2: {e}")
     
-    
     return redirect(url_for('student'))
 
 def student_job(student_id,job_id):
