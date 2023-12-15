@@ -1269,17 +1269,25 @@ def get_recommendations(job_id):
             score = similarity_scores[i][0]  # Get the similarity score for the seeker
             score = score * 100
             info = seekers_info_dict.get(seeker_id)
-            recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info})
+            print(info[2])
+                # Add code to get job status based on job_id and student_id
+            cursor.execute("SELECT confirm FROM notifications WHERE id_job = ? AND student_id = ?", (job_id, info[2]))
+            job_status = cursor.fetchone()
+            print("job_status",job_status)
+            if job_status:
+                job_status = job_status[0]
+            else:
+                job_status = "Not send"  # Set a default status if there is no record in job_applications
+
+            recommended_seekers.append({'seeker': seeker, 'score': score, 'name': info, 'job_status': job_status})
+
         
-        cursor.execute("SELECT * FROM notifications WHERE id_job = ? ", (job_id,))
-        notifications = cursor.fetchall()
-        print("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-        print(recommended_seekers)
-        print(notifications)
+        #cursor.execute("SELECT * FROM notifications WHERE id_job = ? ", (job_id,))
+        #notifications = cursor.fetchall()
         cursor.close()
         conn.close()
 
-        return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id, job_title=job_title , user=user, notifications=notifications)
+        return render_template('recommendations.html', recommendations=recommended_seekers, job_id=job_id, job_title=job_title , user=user)
 
 def check(s,e):
     return "Flase"

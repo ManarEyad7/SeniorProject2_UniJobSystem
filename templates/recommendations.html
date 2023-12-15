@@ -896,19 +896,25 @@ position: relative;
 
 
 
-
-                                                        {% if notifications[7]==1 and notifications[1]==
-                                                        recommendation['name'][2] %}
+                                                        {% if recommendation['job_status'] ==1 %}
                                                         <div class="badge badge-success">Confirmed</div>
+                                                        {% endif %}
 
-                                                        {% elif notifications[7]==2 and notifications[1]==
-                                                        recommendation['name'][2]%}
+                                                        {% if recommendation['job_status'] == 2%}
                                                         <div class="badge badge-danger">Rejected</div>
+                                                        {% endif %}
 
-                                                        {% elif notifications[7]==0 and notifications[1]==
-                                                        recommendation['name'][2] %}
+                                                        {% if recommendation['job_status'] == 0 %}
                                                         <div class="badge badge-warning">Underproccess</div>
-                                                        {% else %}
+                                                        {% endif %}
+                                                        {% if recommendation['job_status'] == 3 %}
+
+                                                        <div class="badge" style="background-color:#c4c4c4;">Ignored
+                                                        </div>
+                                                        {% endif %}
+
+                                                        {% if recommendation['job_status'] == "Not send" %}
+
                                                         <div class="badge" style="background-color:#F5F7FF;">Not Sent
                                                         </div>
                                                         {% endif %}
@@ -1432,7 +1438,7 @@ position: relative;
                     alert('Cannot send notification. Maximum positions filled.');
                 } else if (response.status === 400) {
                     alert('Cannot send notification. The student has already received a notification for this job.');
-                }else {
+                } else {
                     alert('Failed to send notification. Please try again.');
                 }
             })
