@@ -1431,7 +1431,7 @@ position: relative;
                 } else if (response.status === 300) {
                     alert('Cannot send notification. Maximum positions filled.');
                 } else if (response.status === 400) {
-                    alert('Cannot send notification. It has been sent to the student before.');
+                    alert('Cannot send notification. The student has already received a notification for this job.');
                 }else {
                     alert('Failed to send notification. Please try again.');
                 }

@@ -1597,8 +1597,8 @@ def notify(student_id,job_id):
 
             # Check if the notification is sent already to the student
             if (already_sent1 + already_sent2) > 0:
-                print("Notification cannot be sent. It has been sent to the student before.")
-                return "Notification cannot be sent. It has been sent to the student before.", 400
+                print("Cannot send notification. The student has already received a notification for this job.")
+                return "Cannot send notification. The student has already received a notification for this job.", 400
             
 
             # Check if the current number of positions filled exceeds the maximum available positions
