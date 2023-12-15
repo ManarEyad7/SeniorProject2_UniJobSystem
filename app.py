@@ -1799,25 +1799,33 @@ def generate_schedule(student_id, job_id,notify_id):
             # Filter out overlapping ranges where start time and end time are equal
             overlapping_schedule = {day: overlapping_ranges for day, overlapping_ranges in overlapping_schedule.items() if overlapping_ranges}
             print("overlapping")
-            print(overlapping_schedule)
+            #print(overlapping_schedule)
+            if any(overlapping_schedule.values()):
+                # Get the current date
+                start_date = date.today()
+                job_duration = int(job_duration)
+                num_days = weeks_to_days(job_duration)
+                num_days = int(num_days)
 
-            # Get the current date
-            start_date = date.today()
-            job_duration = int(job_duration)
-            num_days = weeks_to_days(job_duration)
-            num_days = int(num_days)
-
-            # Calculate the end date as job duration after the current date
-            end_date = start_date + timedelta(days=num_days)
-       
-            for day, time_slots in overlapping_schedule.items():
-                for time_slot in time_slots:
-                    start_time, end_time = time_slot.split(' - ')
-                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id,job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date,end_date))
-            confirm = 1
-            cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
-            print("nn")
-            connection.commit()
+                # Calculate the end date as job duration after the current date
+                end_date = start_date + timedelta(days=num_days)
+        
+                for day, time_slots in overlapping_schedule.items():
+                    for time_slot in time_slots:
+                        start_time, end_time = time_slot.split(' - ')
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id,job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date,end_date))
+                confirm = 1
+                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+                print("nn")
+                connection.commit()
+                print(overlapping_schedule)
+            else:
+                confirm2 = 2
+                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm2,notify_id,student_id))  
+                print("No occupied ranges.")
+                flash("there is a conflict, No available time ranges to be occupied or no overlapping in time ranges", 'error')
+                connection.commit()
+                return redirect(url_for("student")) 
 
         elif job_time[2] == "Flexible":
             H = job_time[3] 
@@ -1837,7 +1845,6 @@ def generate_schedule(student_id, job_id,notify_id):
             if job_period > total_hours:
                 confirm2 = 2
                 cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm2,notify_id,student_id))
-                print("nn") 
                 print("There is a conflict: Job period is greater than total student schedule hours.")
                 connection.commit()
                 flash("There is a conflict: Job period is greater than total student schedule hours.", 'error')
@@ -1900,25 +1907,35 @@ def generate_schedule(student_id, job_id,notify_id):
                 # Print the occupied_ranges dictionary
                 print("overlapping2.1")
                 print(H)
-                print(occupied_ranges)
-                # Get the current date
-                start_date1 = date.today()
-                job_duration = int(job_duration)
-                num_days1 = weeks_to_days(job_duration)
-                num_days1 = int(num_days1)
+                if any(occupied_ranges.values()):   
+                    print(H)
+                    print(occupied_ranges)
+                    # Get the current date
+                    start_date1 = date.today()
+                    job_duration = int(job_duration)
+                    num_days1 = weeks_to_days(job_duration)
+                    num_days1 = int(num_days1)
 
-                # Calculate the end date as job duration after the current date
-                end_date1 = start_date + timedelta(days=num_days1)
+                    # Calculate the end date as job duration after the current date
+                    end_date1 = start_date1 + timedelta(days=num_days1)
+                    
+                    for day, time_slots in occupied_ranges.items():
+                        for time_slot in time_slots:
+                            start_time, end_time = time_slot.split(' - ')
+                            cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date1,end_date1))
                 
-                for day, time_slots in occupied_ranges.items():
-                    for time_slot in time_slots:
-                        start_time, end_time = time_slot.split(' - ')
-                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date1,end_date1))
-            
-                confirm = 1
-                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
-                print("nn") 
-                connection.commit()       
+                    confirm = 1
+                    cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+                    print("nn") 
+                    connection.commit()
+                else:
+                    print("No occupied ranges.")
+                    flash("there is a conflict, No available time ranges to be occupied", 'error')
+                    confirm2 = 2
+                    cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm2,notify_id,student_id))
+    
+                    connection.commit()
+                    return redirect(url_for("student"))       
 
     else:
         if job_time[2] == "Fixed":
@@ -1951,25 +1968,35 @@ def generate_schedule(student_id, job_id,notify_id):
             # Filter out overlapping ranges where start time and end time are equal
             overlapping_schedule = {day: overlapping_ranges for day, overlapping_ranges in overlapping_schedule.items() if overlapping_ranges}
             print("overlapping")
-            print(overlapping_schedule)
+            if any(overlapping_schedule.values()):
+                print(overlapping_schedule)
+                # Get the current date
+                start_date2 = date.today()
+                job_duration = int(job_duration)
+                num_days2 = weeks_to_days(job_duration)
+                num_days2 = int(num_days2)
 
-            # Get the current date
-            start_date2 = date.today()
-            job_duration = int(job_duration)
-            num_days2 = weeks_to_days(job_duration)
-            num_days2 = int(num_days2)
+                # Calculate the end date as job duration after the current date
+                end_date2 = start_date2 + timedelta(days=num_days2)
 
-            # Calculate the end date as job duration after the current date
-            end_date2 = start_date + timedelta(days=num_days2)
+                for day, time_slots in overlapping_schedule.items():
+                    for time_slot in time_slots:
+                        start_time, end_time = time_slot.split(' - ')
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date2,end_date2))
+                confirm = 1
+                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+                print("nn") 
+                connection.commit()
 
-            for day, time_slots in overlapping_schedule.items():
-                for time_slot in time_slots:
-                    start_time, end_time = time_slot.split(' - ')
-                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date2,end_date2))
-            confirm = 1
-            cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
-            print("nn") 
-            connection.commit()
+            
+            else:
+                confirm2 = 2
+                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm2,notify_id,student_id)) 
+                connection.commit()
+                print("No remaining time ranges.")
+                flash("there is a conflict, No available time ranges to be occupied or No overlapping in time ranges", 'error')
+                return redirect(url_for("student"))
+        
         elif job_time[2] == "Flexible":
             H = job_time[3] 
             job_period = timedelta(hours=H)
@@ -2052,24 +2079,36 @@ def generate_schedule(student_id, job_id,notify_id):
                 # Print the occupied_ranges dictionary
                 print("overlapping2.2")
                 print(H)
-                print(occupied_ranges)
+                if any(occupied_ranges.values()):
+                    print(occupied_ranges)
 
-                # Get the current date
-                start_date3 = date.today()
-                job_duration = int(job_duration)
-                num_days3 = weeks_to_days(job_duration)
-                num_days3 = int(num_days3)
-                # Calculate the end date as job duration after the current date
-                end_date3 = start_date3 + timedelta(days=num_days3)
+                    # Get the current date
+                    start_date3 = date.today()
+                    job_duration = int(job_duration)
+                    num_days3 = weeks_to_days(job_duration)
+                    num_days3 = int(num_days3)
+                    # Calculate the end date as job duration after the current date
+                    end_date3 = start_date3 + timedelta(days=num_days3)
 
-                for day, time_slots in occupied_ranges.items():
-                    for time_slot in time_slots:
-                        start_time, end_time = time_slot.split(' - ')
-                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date3,end_date3))
-                confirm = 1
-                cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
-                print("nn")
-                connection.commit() 
+                    for day, time_slots in occupied_ranges.items():
+                        for time_slot in time_slots:
+                            start_time, end_time = time_slot.split(' - ')
+                            cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date3,end_date3))
+                    confirm = 1
+                    cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
+                    print("nn")
+                    connection.commit()
+
+                    
+                else:
+                    confirm2 = 2
+                    cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm2,notify_id,student_id))
+                    print("nn")
+                    connection.commit()
+                    print("No occupied ranges.")
+                    flash("there is a conflict, No available time ranges to be occupied", 'error')
+                    return redirect(url_for("student")) 
+
                     
     connection.commit()
     connection.close()
