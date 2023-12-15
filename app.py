@@ -1887,7 +1887,7 @@ def generate_schedule(student_id, job_id,notify_id):
             for day, time_slots in overlapping_schedule.items():
                 for time_slot in time_slots:
                     start_time, end_time = time_slot.split(' - ')
-                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id, job_title))
             confirm = 1
             cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
             print("nn") 
@@ -1976,7 +1976,7 @@ def generate_schedule(student_id, job_id,notify_id):
                 for day, time_slots in occupied_ranges.items():
                     for time_slot in time_slots:
                         start_time, end_time = time_slot.split(' - ')
-                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id, job_title))
                 confirm = 1
                 cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
                 print("nn")
