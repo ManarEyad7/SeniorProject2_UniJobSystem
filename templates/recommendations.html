@@ -1430,7 +1430,9 @@ position: relative;
                     closeCandidateInfo(); // Close the candidate info form after sending the notification
                 } else if (response.status === 300) {
                     alert('Cannot send notification. Maximum positions filled.');
-                } else {
+                } else if (response.status === 400) {
+                    alert('Cannot send notification. It has been sent to the student before.');
+                }else {
                     alert('Failed to send notification. Please try again.');
                 }
             })

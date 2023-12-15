@@ -1576,7 +1576,6 @@ def notify(student_id,job_id):
             # Get the current date
             current_date = date.today()
             
-
             # Calculate the end date as three days after the current date
             end_date = current_date + timedelta(days=3)
 
@@ -1588,8 +1587,22 @@ def notify(student_id,job_id):
             cursor.execute("SELECT COUNT(*) FROM notifications WHERE id_job = ?", (job_id,))
             current_positions_filled = cursor.fetchone()[0]
 
+            cursor.execute("SELECT COUNT(DISTINCT student_id) FROM schedule WHERE job_id = ?", (job_id,))
+            current_positions_filled2 = cursor.fetchone()[0]
+
+            cursor.execute("SELECT COUNT(*) FROM notifications WHERE id_job = ? AND student_id = ?", (job_id, student_id))
+            already_sent1 = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM schedule WHERE job_id = ? AND student_id = ?", (job_id, student_id))
+            already_sent2 = cursor.fetchone()[0]
+
+            # Check if the notification is sent already to the student
+            if (already_sent1 + already_sent2) > 0:
+                print("Notification cannot be sent. It has been sent to the student before.")
+                return "Notification cannot be sent. It has been sent to the student before.", 400
+            
+
             # Check if the current number of positions filled exceeds the maximum available positions
-            if current_positions_filled >= user[2]:
+            if (current_positions_filled + current_positions_filled2) >= user[2]:
                 print("Cannot send notification. Maximum positions filled.")
                 return "Cannot send notification. Maximum positions filled.", 300
             
