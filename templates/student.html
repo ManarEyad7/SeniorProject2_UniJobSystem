@@ -1788,6 +1788,7 @@ background-color: rgba(75, 73, 172, 0.2);
                             <div class="tab-pane fade " id="pills-home" role="tabpanel"
                                 aria-labelledby="pills-home-tab">
 
+
                                 <div class="notification-content text-center" style="padding-top: 0rem;">
                                     <div class="notification-content text-center" style="padding-top: 0rem">
                                         {% if seekerForms %}
@@ -1812,14 +1813,15 @@ background-color: rgba(75, 73, 172, 0.2);
                                                     <tr class="student-row" data-recommendation="{{ notification[2]}}">
                                                         <td>{{notification[3]|title}}</td>
                                                         <td>{{notification[5]}} Week</td>
-                                                        <td>{{notification[6]|title}}</td> 
+                                                        <td>{{notification[6]|title}}</td>
                                                         <td>{{notification[10]}}</td>
                                                         <td class="button-container">
                                                             <form method="GET"
                                                                 action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}"
                                                                 style="display: inline-block;">
-                                                                <button type="submit" class="confirm" id="confirmButton">Confirm</button> 
-                                                            </form> 
+                                                                <button type="submit" class="confirm"
+                                                                    id="confirmButton">Confirm</button>
+                                                            </form>
                                                             <div id="notification" style="display: none;">
                                                                 <p id="notification-message"></p>
                                                                 <button id="closeButton">Close</button>
@@ -1861,13 +1863,32 @@ background-color: rgba(75, 73, 172, 0.2);
                                         {% endif %}
                                     </div>
                                 </div>
+
+                                
                             </div>
                             <!-- 2nd card -->
                             <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
                                 aria-labelledby="pills-profile-tab">
 
+                            
+
                                 <div class="schedule-content" style="margin-top: 2rem;">
-      
+                                    
+                                    <center>
+                                        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                                        {% if errors %}
+                                        <div class="error alert-danger" style = "height: 0.7cm; width: 14cm;">
+    
+                                            <ul>
+                                                {%- for msg in errors %}
+                                                <strong>{{ msg }}</strong>
+                                                <a class="close" href="#" onclick=delete_flash(this)>x</a>
+                                                {% endfor -%}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+                                        {% endwith %}
+                                    </center>
                                     {% if schedule %}
 
                                     <table class="timeline-table">
@@ -1949,6 +1970,7 @@ background-color: rgba(75, 73, 172, 0.2);
                                     {% else %}
                                     <p style="text-align:center; margin-top: 5rem;">No schedule data available.</p>
                                     {% endif %}
+                                    
 
 
 
@@ -2122,7 +2144,7 @@ background-color: rgba(75, 73, 172, 0.2);
                         </div>
                     </div>
                 </div>
-       <!--          
+                <!--          
                 <div class="row mt-5">
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
@@ -2415,8 +2437,8 @@ background-color: rgba(75, 73, 172, 0.2);
 
                             <div style="margin-top: 10px;"></div>
 
-                            
-                            
+
+
                             <div class="sub-section"
                                 style="display: flex; justify-content: center; align-items: center;">
                                 <button class="btn btn-primary btn-rounded" style="margin-top: 2%;"
@@ -2712,6 +2734,13 @@ background-color: rgba(75, 73, 172, 0.2);
         });
 </script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    function delete_flash(flash) {
+        $(flash).parent().remove()
+    }
+</script>
+
 <script>
     /*   // Function to show the form content
        function showForm() {
@@ -2824,7 +2853,7 @@ background-color: rgba(75, 73, 172, 0.2);
                     // Add more job details as needed
                     // Update the job details card/section with the fetched data
                     document.getElementById('job-title').textContent = data.title.charAt(0).toUpperCase() + data.title.slice(1);
-                    
+
                     document.getElementById('job_description').textContent = data.job_description;
                     document.getElementById('major').textContent = data.major;
                     document.getElementById('skills').textContent = data.skills;

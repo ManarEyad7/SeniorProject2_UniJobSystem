@@ -424,8 +424,25 @@ def employee():
             # Count jobs where positions equal the number of confirmed users 
             count_matching_jobs = sum(1 for job in jobs if job[9] == job[16])
 
+            #check before display
+            # Get the current date
+            current_date = date.today() 
+            confirm = 0
+            cursor.execute("SELECT end_date FROM notifications WHERE confirm = ?", (confirm,))
+            rows = cursor.fetchall()
+            confirm3 = 3
+            # Iterate through each row
+            for row in rows:
+                end_date = datetime.strptime(row[0], "%Y-%m-%d").date()
+    
+                if end_date <= current_date:
+                    # Delete the row where end_date has passed
+                    #cursor.execute("DELETE FROM notifications WHERE end_date = ?", (row[0],))
+                    cursor.execute("UPDATE notifications SET confirm = '{}' WHERE end_date ='{}'".format(confirm3,row[0]))
+            
 
 
+            connection.commit()
             connection.close()
             return render_template('employee.html', jobs=jobs, user=user , filled_jobs = count_matching_jobs)
 
@@ -458,16 +475,17 @@ def student():
             # Get the current date
             current_date = date.today() 
             confirm = 0
-            cursor.execute("SELECT end_date FROM notifications ")
+            cursor.execute("SELECT end_date FROM notifications WHERE confirm = ?", (confirm,))
             rows = cursor.fetchall()
-
+            confirm3 = 3
             # Iterate through each row
             for row in rows:
                 end_date = datetime.strptime(row[0], "%Y-%m-%d").date()
     
                 if end_date <= current_date:
                     # Delete the row where end_date has passed
-                    cursor.execute("DELETE FROM notifications WHERE end_date = ?", (row[0],))
+                    #cursor.execute("DELETE FROM notifications WHERE end_date = ?", (row[0],))
+                    cursor.execute("UPDATE notifications SET confirm = '{}' WHERE end_date ='{}'".format(confirm3,row[0]))
             
             #cursor.execute("SELECT * FROM notifications WHERE student_id = ? AND confirm = ?", (user_id,confirm))
             #notifications = cursor.fetchall()
@@ -493,28 +511,26 @@ def student():
             #print("2")
             #cursor.execute("SELECT * FROM job_times  WHERE time_id = ?", (job_id,))
             #job_times = cursor.fetchall()
+            
+            #check before display
+            
+            cursor.execute("SELECT end_date FROM schedule")
+            rows2 = cursor.fetchall()
+            # Iterate through each row
+            for row in rows2:
+                end_date = datetime.strptime(row[0], "%Y-%m-%d").date()
+    
+                if end_date <= current_date:
+                    # Delete the row where end_date has passed
+                    cursor.execute("DELETE FROM schedule WHERE end_date = ?", (row[0],))
+                    
+
+
             cursor.execute("SELECT * FROM schedule WHERE student_id = ?", (user_id,))
             schedule = cursor.fetchall()
             #print("3")
             #print("33")
-            '''
-            select_query = SELECT day, student_name, job_start, job_end, student_start, student_end FROM schedule 
-            cursor.execute(select_query)
-            rows2 = cursor.fetchall()
-
-            table_data = []
-            for row in rows2:
-                day, student_name, job_start, job_end, student_start, student_end = row
-                table_data.append({
-                    'day': day,
-                    'student_name': student_name,
-                    'job_start': job_start,
-                    'job_end': job_end,
-                    'student_start': student_start,
-                    'student_end': student_end
-                    })
             
-            '''
 
             print("schedule",schedule)
             
@@ -1563,7 +1579,7 @@ def notify(student_id,job_id):
             
 
             # Calculate the end date as three days after the current date
-            end_date = current_date + timedelta(days=1)
+            end_date = current_date + timedelta(days=3)
 
             #student_id = request.form['student-id']
             cursor.execute("SELECT job_title, job_duration,positions_available, work_location FROM job_posts WHERE job_id = ?", (job_id,))
@@ -1588,13 +1604,16 @@ def notify(student_id,job_id):
             cursor.execute("SELECT end_date FROM notifications ")
             rows  = cursor.fetchall()
             print(notify)
+            confirm3 = 3
             for row in rows:
                 # Convert the notify[0] value to a date object
                 notify_date = datetime.strptime(row[0], "%Y-%m-%d").date()
                 print(notify_date)
                 if current_date >= notify_date:
                     # Delete notifications where end_date has passed
-                    cursor.execute("DELETE FROM notifications WHERE end_date = ?", (row[0],))
+                    #cursor.execute("DELETE FROM notifications WHERE end_date = ?", (row[0],))
+                    cursor.execute("UPDATE notifications SET confirm = '{}' WHERE end_date ='{}'".format(confirm3,row[0]))
+        
                     
             
             connection.commit()
@@ -1690,6 +1709,12 @@ def reject_notification(student_id,notify_id):
 
     return redirect(url_for('student'))
 
+
+def weeks_to_days(weeks):
+    days = weeks * 7
+    return days
+
+
 from datetime import datetime, timedelta
 def generate_schedule(student_id, job_id,notify_id):
 
@@ -1703,6 +1728,10 @@ def generate_schedule(student_id, job_id,notify_id):
     job_title = cursor.fetchone()
     job_title = job_title[0]
     print('job_title',job_title[0])
+
+    cursor.execute("SELECT job_duration FROM job_posts WHERE job_id = ?", (job_id,))
+    job_duration = cursor.fetchone()
+    job_duration = job_duration[0]
 
     cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
     students_time = cursor.fetchall()
@@ -1752,10 +1781,19 @@ def generate_schedule(student_id, job_id,notify_id):
             print("overlapping")
             print(overlapping_schedule)
 
+            # Get the current date
+            start_date = date.today()
+            job_duration = int(job_duration)
+            num_days = weeks_to_days(job_duration)
+            num_days = int(num_days)
+
+            # Calculate the end date as job duration after the current date
+            end_date = start_date + timedelta(days=num_days)
+       
             for day, time_slots in overlapping_schedule.items():
                 for time_slot in time_slots:
                     start_time, end_time = time_slot.split(' - ')
-                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id,job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title))
+                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id,job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date,end_date))
             confirm = 1
             cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
             print("nn")
@@ -1782,7 +1820,9 @@ def generate_schedule(student_id, job_id,notify_id):
                 print("nn") 
                 print("There is a conflict: Job period is greater than total student schedule hours.")
                 connection.commit()
-                return "There is a conflict: Job period is greater than total student schedule hours." , 200
+                flash("There is a conflict: Job period is greater than total student schedule hours.", 'error')
+                return redirect(url_for("student"))
+                
             else:
                 remaining_hours = job_period
                 assigned_hours = timedelta()
@@ -1841,11 +1881,20 @@ def generate_schedule(student_id, job_id,notify_id):
                 print("overlapping2.1")
                 print(H)
                 print(occupied_ranges)
+                # Get the current date
+                start_date1 = date.today()
+                job_duration = int(job_duration)
+                num_days1 = weeks_to_days(job_duration)
+                num_days1 = int(num_days1)
+
+                # Calculate the end date as job duration after the current date
+                end_date1 = start_date + timedelta(days=num_days1)
+                
                 for day, time_slots in occupied_ranges.items():
                     for time_slot in time_slots:
                         start_time, end_time = time_slot.split(' - ')
-                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id, job_title))
-
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date1,end_date1))
+            
                 confirm = 1
                 cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
                 print("nn") 
@@ -1884,10 +1933,19 @@ def generate_schedule(student_id, job_id,notify_id):
             print("overlapping")
             print(overlapping_schedule)
 
+            # Get the current date
+            start_date2 = date.today()
+            job_duration = int(job_duration)
+            num_days2 = weeks_to_days(job_duration)
+            num_days2 = int(num_days2)
+
+            # Calculate the end date as job duration after the current date
+            end_date2 = start_date + timedelta(days=num_days2)
+
             for day, time_slots in overlapping_schedule.items():
                 for time_slot in time_slots:
                     start_time, end_time = time_slot.split(' - ')
-                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id, job_title))
+                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date2,end_date2))
             confirm = 1
             cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
             print("nn") 
@@ -1913,7 +1971,9 @@ def generate_schedule(student_id, job_id,notify_id):
                 print("nn")
                 print("There is a conflict: Job period is greater than total student schedule hours.")
                 connection.commit()
-                return "There is a conflict: Job period is greater than total student schedule hours.",200
+                flash("There is a conflict: Job period is greater than total student schedule hours.", 'error')
+                return redirect(url_for("student"))
+              
                  
             else:
                 remaining_hours = job_period
@@ -1973,10 +2033,19 @@ def generate_schedule(student_id, job_id,notify_id):
                 print("overlapping2.2")
                 print(H)
                 print(occupied_ranges)
+
+                # Get the current date
+                start_date3 = date.today()
+                job_duration = int(job_duration)
+                num_days3 = weeks_to_days(job_duration)
+                num_days3 = int(num_days3)
+                # Calculate the end date as job duration after the current date
+                end_date3 = start_date3 + timedelta(days=num_days3)
+
                 for day, time_slots in occupied_ranges.items():
                     for time_slot in time_slots:
                         start_time, end_time = time_slot.split(' - ')
-                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id, job_title))
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title,start_date,end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title,start_date3,end_date3))
                 confirm = 1
                 cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
                 print("nn")
@@ -2061,7 +2130,8 @@ def remaining_time_ranges(student_id, job_id):
         return remaining_time_ranges
     else:
         print("No remaining time ranges.")
-        return "there is a conflict and No remaining time ranges", 200
+        flash("there is a conflict and No remaining time ranges", 'error')
+        return redirect(url_for("student"))
 
 def makedicforSchedule(schedule_list):
 # Initialize an empty dictionary to store the transformed schedule

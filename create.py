@@ -4,7 +4,7 @@ connection = sqlite3.connect("users_database.db")
 cursor = connection.cursor()
 #cursor.execute("""DROP TABLE schedule""")
 
-cursor.execute("CREATE TABLE IF NOT EXISTS schedule (schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,day TEXT, start_time TEXT, end_time TEXT,student_id INTEGER,job_id INTEGER, FOREIGN KEY (student_id) REFERENCES users(id),FOREIGN KEY (job_id) REFERENCES job_posts(job_id))")
+cursor.execute("CREATE TABLE IF NOT EXISTS schedule (schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,day TEXT, start_time TEXT, end_time TEXT,student_id INTEGER,job_id INTEGER,job_title TEXT, start_date DATE, end_date DATE,FOREIGN KEY (student_id) REFERENCES users(id),FOREIGN KEY (job_id) REFERENCES job_posts(job_id), FOREIGN KEY (job_title) REFERENCES job_posts(job_title))")
 '''
 create_table_query = 
 CREATE TABLE IF NOT EXISTS schedule (
