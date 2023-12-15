@@ -1620,26 +1620,23 @@ def confirm_notification(student_id,notify_id):
     #job_id = cursor.fetchone()
     job_id_tuple = cursor.fetchone()
     job_id = job_id_tuple[0] if job_id_tuple else None
-    print(job_id)
+   # print(job_id)
     
-    print("r")
+   # print("r")
     try:
 
-        print("i")
+        #print("i")
         
         generate_schedule(student_id,job_id,notify_id)
-        print("tt")
+       # print("tt")
                   
-        print("t")
+       # print("t")
         connection.commit()
         connection.close()
 
                
     except sqlite3.Error as e:
         print(f"An error occurred2: {e}")
-        #flash("An error occurred while fetching the job posts. Please try again.", 'error')
-        #return redirect(url_for('index'))
-    
     
     return redirect(url_for('student'))
 
@@ -1701,7 +1698,12 @@ def generate_schedule(student_id, job_id,notify_id):
 
     cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
     job_time = cursor.fetchone()
-    
+
+    cursor.execute("SELECT job_title FROM job_posts WHERE job_id = ?", (job_id,))
+    job_title = cursor.fetchone()
+    job_title = job_title[0]
+    print('job_title',job_title[0])
+
     cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
     students_time = cursor.fetchall()
     print("problem")
@@ -1753,7 +1755,7 @@ def generate_schedule(student_id, job_id,notify_id):
             for day, time_slots in overlapping_schedule.items():
                 for time_slot in time_slots:
                     start_time, end_time = time_slot.split(' - ')
-                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id,job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id,job_title))
             confirm = 1
             cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
             print("nn")
@@ -1836,13 +1838,14 @@ def generate_schedule(student_id, job_id,notify_id):
                                 remaining_hours -= occupied_period
 
                 # Print the occupied_ranges dictionary
-                print("overlapping2")
+                print("overlapping2.1")
                 print(H)
                 print(occupied_ranges)
                 for day, time_slots in occupied_ranges.items():
                     for time_slot in time_slots:
                         start_time, end_time = time_slot.split(' - ')
-                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id, job_title))
+
                 confirm = 1
                 cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
                 print("nn") 
@@ -1884,7 +1887,7 @@ def generate_schedule(student_id, job_id,notify_id):
             for day, time_slots in overlapping_schedule.items():
                 for time_slot in time_slots:
                     start_time, end_time = time_slot.split(' - ')
-                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+                    cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id, job_title))
             confirm = 1
             cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
             print("nn") 
@@ -1967,13 +1970,13 @@ def generate_schedule(student_id, job_id,notify_id):
                                 remaining_hours -= occupied_period
 
                 # Print the occupied_ranges dictionary
-                print("overlapping2")
+                print("overlapping2.2")
                 print(H)
                 print(occupied_ranges)
                 for day, time_slots in occupied_ranges.items():
                     for time_slot in time_slots:
                         start_time, end_time = time_slot.split(' - ')
-                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id) VALUES (?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id))
+                        cursor.execute("INSERT INTO schedule (day,start_time, end_time, student_id, job_id, job_title) VALUES (?, ?, ?, ?, ?, ?)", (day, start_time, end_time,student_id,job_id, job_title))
                 confirm = 1
                 cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm,notify_id,student_id))
                 print("nn")
@@ -1987,23 +1990,24 @@ def remaining_time_ranges(student_id, job_id):
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (job_id,))
-    job_time = cursor.fetchone()
+    cursor.execute("SELECT day, start_time, end_time FROM schedule WHERE student_id = ?", (student_id,))
+    schedule_list = cursor.fetchone()
     
     cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
     students_time = cursor.fetchall()
-    print("problem")
-    print(students_time[0])
+    #print("problem")
+    #print(students_time[0])
     # Retrieve the student_schedule and job_schedule data from your backend
     students_schedule = makedicforStudents2(students_time)  # Replace with your actual logic to fetch student schedule
-    job_schedule = makedicforjob(job_time[4:])
-    
+    schedule_time = makedicforSchedule(schedule_list)
+    #print('schedule_list',schedule_list)
+    #print(schedule_time)
 
     remaining_time_ranges = {}
 
     for day, student_times in students_schedule.items():
-        if day in job_schedule:
-            job_times = job_schedule[day]
+        if day in schedule_time:
+            job_times = schedule_time[day]
 
             if student_times and job_times:
                 remaining_time_ranges[day] = []
@@ -2048,7 +2052,7 @@ def remaining_time_ranges(student_id, job_id):
     # Remove the original student schedule
     for day in remaining_time_ranges:
         remaining_time_ranges[day] = list(set(remaining_time_ranges[day]) - set(students_schedule[day]))
-        if len(job_schedule[day]) == 0:
+        if len(schedule_time[day]) == 0:
             remaining_time_ranges[day] = students_schedule[day]
 
     print("Remaining Time Ranges:")
@@ -2059,6 +2063,27 @@ def remaining_time_ranges(student_id, job_id):
         print("No remaining time ranges.")
         return "there is a conflict and No remaining time ranges", 200
 
+def makedicforSchedule(schedule_list):
+# Initialize an empty dictionary to store the transformed schedule
+    transformed_schedule = {}
+
+    # Iterate over the days of the week
+    for day in ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday']:
+        # Check if the day exists in the schedule_list
+        if day in schedule_list:
+            # Find the index of the day in the schedule_list
+            index = schedule_list.index(day)
+            
+            # Extract the timeslot for the day from the schedule_list
+            timeslot = schedule_list[index + 1] + ' - ' + schedule_list[index + 2]
+            
+            # Add the day and timeslot to the transformed schedule dictionary
+            transformed_schedule[day] = [timeslot]
+        else:
+            # If the day does not exist in the schedule_list, add an empty list to the transformed schedule dictionary
+            transformed_schedule[day] = []
+    
+    return transformed_schedule
 
 def makedicforStudents2(students_time) :
     # Create a dictionary to store the student schedules

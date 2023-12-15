@@ -1812,15 +1812,18 @@ background-color: rgba(75, 73, 172, 0.2);
                                                     <tr class="student-row" data-recommendation="{{ notification[2]}}">
                                                         <td>{{notification[3]|title}}</td>
                                                         <td>{{notification[5]}} Week</td>
-                                                        <td>{{notification[6]|title}}</td>
+                                                        <td>{{notification[6]|title}}</td> 
                                                         <td>{{notification[10]}}</td>
                                                         <td class="button-container">
                                                             <form method="GET"
                                                                 action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}"
                                                                 style="display: inline-block;">
-                                                                <button type="submit" class="confirm"
-                                                                    id="confirmButton">Confirm</button>
-                                                            </form>
+                                                                <button type="submit" class="confirm" id="confirmButton">Confirm</button> 
+                                                            </form> 
+                                                            <div id="notification" style="display: none;">
+                                                                <p id="notification-message"></p>
+                                                                <button id="closeButton">Close</button>
+                                                            </div>
                                                             <form method="GET"
                                                                 action="{{ url_for('reject_notification', student_id=user[0], notify_id=notification[0]) }}"
                                                                 style="display: inline-block;">
@@ -1864,140 +1867,7 @@ background-color: rgba(75, 73, 172, 0.2);
                                 aria-labelledby="pills-profile-tab">
 
                                 <div class="schedule-content" style="margin-top: 2rem;">
-                                    <!--<
-                                                                        <table class="timeline-table">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th></th>
-                                                                                    <th>Sunday</th>
-                                                                                    <th>Monday</th>
-                                                                                    <th>Tuesday</th>
-                                                                                    <th>Wednesday</th>
-                                                                                    <th>Thursday</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                    
-                                                                                <tr>
-                                                                                    <th>08:00 am</th>
-                                    
-                                                                                    <td class="timeline-item">1</td>
-                                                                                    <td class="timeline-item">2</td>
-                                                                                    <td class="timeline-item">3</td>
-                                                                                    <td class="timeline-item">4</td>
-                                                                                    <td class="timeline-item">5</td>
-                                    
-                                    
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>09:00 am</th>
-                                    
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                    
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>10:00 am</th>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                </tr>
-                                    
-                                                                                <tr>
-                                                                                    <th>11:00 am</th>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>12:00 pm</th>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>01:00 pm</th>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>02:00 pm</th>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>03:00 pm</th>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>04:00 pm</th>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th>05:00 pm</th>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                    <td class="timeline-item"></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                    
-                                    >-->
-                                    <!-- 
-                                    
-                                                                        {% if schedule %}
-                                                                        <table>
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th>Time</th>
-                                                                                    <th>Sunday</th>
-                                                                                    <th>Monday</th>
-                                                                                    <th>Tuesday</th>
-                                                                                    <th>Wednesday</th>
-                                                                                    <th>Thursday </th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                {% for schedule1 in schedule %}
-                                                                                <tr> 
-                                                                                    <td class="time">8:00</td>
-                                                                                    {% for day in range(5) %}
-                                                                                    <td class =" {% if day == 'Tuesday' and time == '10:00 am' %} highlight {% endif %}">
-                                    
-                                                                                    </td>
-                                                                                    
-                                                                                    {% endfor %}
-                                                                                </tr>
-                                                                                {% endfor %}
-                                                                        {% endif %}
-                                    
-                                    -->
-
+      
                                     {% if schedule %}
 
                                     <table class="timeline-table">
@@ -2070,7 +1940,6 @@ background-color: rgba(75, 73, 172, 0.2);
                                                                         {% endif %}
                                                                         {% endif %}
                                                                         {% endfor %}
-
                                                 </td>
                                                 {% endfor %}
                                             </tr>
@@ -2253,6 +2122,7 @@ background-color: rgba(75, 73, 172, 0.2);
                         </div>
                     </div>
                 </div>
+       <!--          
                 <div class="row mt-5">
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
@@ -2336,7 +2206,7 @@ background-color: rgba(75, 73, 172, 0.2);
                                                         <form method="GET"
                                                             action="{{ url_for('confirm_notification', student_id=user[0], notify_id=notification[0]) }}">
                                                             <td class="button-container">
-                                                                <button type="submit" class="confirm">Confirm</button>
+                                                                <button id="confirm-button" type="submit" class="confirm">Confirm</button>
                                                                 <form method="GET"
                                                                     action="{{ url_for('reject_notification', student_id=user[0], notify_id=notification[0]) }}">
                                                                     <button type="submit" class="reject">reject</button>
@@ -2348,7 +2218,6 @@ background-color: rgba(75, 73, 172, 0.2);
                                                     {% endfor %}
 
 
-                                                    <!-- Add more rows as needed -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -2376,140 +2245,7 @@ background-color: rgba(75, 73, 172, 0.2);
 
 
                                 <div class="schedule-content">
-                                    <!--<
-                                    <table class="timeline-table">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Sunday</th>
-                                                <th>Monday</th>
-                                                <th>Tuesday</th>
-                                                <th>Wednesday</th>
-                                                <th>Thursday</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <th>08:00 am</th>
-
-                                                <td class="timeline-item">1</td>
-                                                <td class="timeline-item">2</td>
-                                                <td class="timeline-item">3</td>
-                                                <td class="timeline-item">4</td>
-                                                <td class="timeline-item">5</td>
-
-
-                                            </tr>
-                                            <tr>
-                                                <th>09:00 am</th>
-
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-
-                                            </tr>
-                                            <tr>
-                                                <th>10:00 am</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                            </tr>
-
-                                            <tr>
-                                                <th>11:00 am</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>12:00 pm</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>01:00 pm</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>02:00 pm</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>03:00 pm</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>04:00 pm</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                            </tr>
-                                            <tr>
-                                                <th>05:00 pm</th>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                                <td class="timeline-item"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
->-->
-                                    <!-- 
-
-                                    {% if schedule %}
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Time</th>
-                                                <th>Sunday</th>
-                                                <th>Monday</th>
-                                                <th>Tuesday</th>
-                                                <th>Wednesday</th>
-                                                <th>Thursday </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for schedule1 in schedule %}
-                                            <tr> 
-                                                <td class="time">8:00</td>
-                                                {% for day in range(5) %}
-                                                <td class =" {% if day == 'Tuesday' and time == '10:00 am' %} highlight {% endif %}">
-
-                                                </td>
-                                                
-                                                {% endfor %}
-                                            </tr>
-                                            {% endfor %}
-                                    {% endif %}
-
--->
-
+                  
                                     {% if schedule %}
 
                                     <table class="timeline-table">
@@ -2597,168 +2333,6 @@ background-color: rgba(75, 73, 172, 0.2);
 
                                     <hr>
 
-                                    <!-- Table 2 
-                                    {% if schedule %}
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Time</th>
-                                                <th>Sunday</th>
-                                                <th>Monday</th>
-                                                <th>Tuesday</th>
-                                                <th>Wednesday</th>
-                                                <th>Thursday </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for schedule1 in schedule  %} 
-                                            <tr>
-                                                <td class="time">08:00 am</td>
-                                                <td class="{% if schedule1[1] == 'Sunday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
-                                                    {% if schedule1[1] == 'Sunday' and schedule1[2] == '08:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td> 
-                                                <td class="{% if schedule1[1] == 'Monday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
-                                                    {% if schedule1[1] == 'Monday' and schedule1[2] == '08:00 AM' %}
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td> 
-                                                <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}"></td>
-                                                    {% if schedule1[1] == 'Tuesday' and schedule1[2] == '08:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                                <td class="{% if schedule1[1] == 'Wednesday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}">
-                                                    {% if schedule1[1] == 'Wednesday' and schedule1[2] == '08:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                                <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '08:00 AM' %}highlight{% endif %}"></td>
-                                                    {% if schedule1[1] == 'Thursday' and schedule1[2] == '08:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                                
-                                            </tr>
-                                            <tr>
-                                                <td class="time">09:00 am</td>
-                                                <td class="{% if schedule1[1] == 'Sunday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
-                                                    {% if schedule1[1] == 'Sunday' and schedule1[2] == '09:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td> 
-                                                <td class="{% if schedule1[1] == 'Monday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
-                                                    {% if schedule1[1] == 'Monday' and schedule1[2] == '09:00 AM' %}
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td> 
-                                                <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}"></td>
-                                                    {% if schedule1[1] == 'Tuesday' and schedule1[2] == '09:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                                <td class="{% if schedule1[1] == 'Wednesday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}">
-                                                    {% if schedule1[1] == 'Wednesday' and schedule1[2] == '09:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                                <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '09:00 AM' %}highlight{% endif %}"></td>
-                                                    {% if schedule1[1] == 'Thursday' and schedule1[2] == '09:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            <tr> 
-                                                
-                                                <td class="time">10:00 am</td>
-                                                <td>1</td>
-                                                <td></td>                                                    
-                                                <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '10:00 AM' %}highlight{% endif %}"></td>
-                                                {% if schedule1[1] == 'Tuesday' and schedule1[2] == '10:00 AM' %} 
-                                                    {{ schedule1[6] }}
-                                                {% endif %}
-                                                </td> 
-                                                <td></td>
-                                                <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '10:00 AM' %}highlight{% endif %}"></td>
-                                                    {% if schedule1[1] == 'Thursday' and schedule1[2] == '10:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="time">11:00 am</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="{% if schedule1[1] == 'Tuesday' and schedule1[2] == '11:00 AM' %}highlight{% endif %}"></td>
-                                                    {% if schedule1[1] == 'Tuesday' and schedule1[2] == '11:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                                <td></td>
-                                                <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '11:00 AM' %}highlight{% endif %}"></td>
-                                                    {% if schedule1[1] == 'Thursday' and schedule1[2] == '11:00 AM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="time">12:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="{% if schedule1[1] == 'Thursday' and schedule1[2] == '12:00 PM' %}highlight{% endif %}"></td>
-                                                    {% if schedule1[1] == 'Thursday' and schedule1[2] == '12:00 PM' %} 
-                                                        {{ schedule1[6] }}
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="time">01:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="time">02:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="time">03:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="time">04:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="time">05:00 pm</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            {% endfor %} 
-                                        </tbody>
-                                    </table>
-                                    {% endif %}
-                                    -->
                                 </div>
                                 <hr>
 
@@ -2766,7 +2340,7 @@ background-color: rgba(75, 73, 172, 0.2);
                         </div>
                     </div>
                 </div>
-
+-->
             </div>
 
             <div class="card" id="student-info-form" style="display: none; ">
@@ -3054,6 +2628,8 @@ background-color: rgba(75, 73, 172, 0.2);
 
 
 </body>
+
+
 
 
 <script>
