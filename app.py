@@ -1536,7 +1536,6 @@ def get_job_info(id):
         cursor.execute("SELECT * FROM job_times WHERE time_id = ?", (id,))
         job_time = cursor.fetchone()
 
-        print(job[5])
         connection.close()
 
         if job is None:
