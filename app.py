@@ -1584,22 +1584,22 @@ def notify(student_id,job_id):
             user = cursor.fetchone()
            
             # Get the current number of positions filled for the job
-            cursor.execute("SELECT COUNT(*) FROM notifications WHERE id_job = ?", (job_id,))
+            cursor.execute("SELECT COUNT(*) FROM notifications WHERE id_job = ? AND confirm = ?", (job_id,0))
             current_positions_filled = cursor.fetchone()[0]
 
             cursor.execute("SELECT COUNT(DISTINCT student_id) FROM schedule WHERE job_id = ?", (job_id,))
             current_positions_filled2 = cursor.fetchone()[0]
 
-            cursor.execute("SELECT COUNT(*) FROM notifications WHERE id_job = ? AND student_id = ?", (job_id, student_id))
+            cursor.execute("SELECT COUNT(*) FROM notifications WHERE id_job = ? AND student_id = ? ", (job_id, student_id))
             already_sent1 = cursor.fetchone()[0]
-            cursor.execute("SELECT COUNT(*) FROM schedule WHERE job_id = ? AND student_id = ?", (job_id, student_id))
+            cursor.execute("SELECT COUNT(*) FROM schedule WHERE job_id = ? AND student_id = ? ", (job_id, student_id))
             already_sent2 = cursor.fetchone()[0]
 
             # Check if the notification is sent already to the student
             if (already_sent1 + already_sent2) > 0:
                 print("Cannot send notification. The student has already received a notification for this job.")
                 return "Cannot send notification. The student has already received a notification for this job.", 400
-            
+            print('positions_filled ',current_positions_filled ,'+', current_positions_filled2)
 
             # Check if the current number of positions filled exceeds the maximum available positions
             if (current_positions_filled + current_positions_filled2) >= user[2]:
