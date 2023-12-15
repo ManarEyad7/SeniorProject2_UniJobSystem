@@ -178,10 +178,17 @@ column_names = [column[1] for column in columns]
 
 if 'job' in column_names:
     # If the column exists, drop it
-    cursor.execute('ALTER TABLE job_posts DROP COLUMN job')
+    cursor.execute('ALTER TABLE job_posts ADD COLUMN job')
 
 
 # Close the connection
 '''
+
+cursor.execute("PRAGMA table_info(job_posts)")
+columns = cursor.fetchall()
+column_names = [column[1] for column in columns]
+if 'job_description' not in column_names:
+    # If the column doesn't exist, add it
+    cursor.execute('ALTER TABLE job_posts ADD COLUMN job_description TEXT')
 
 connection.commit()
