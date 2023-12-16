@@ -1767,7 +1767,7 @@ def generate_schedule(student_id, job_id,notify_id):
     print(job_id2)
 
     if schedule:
-        
+        print("xxxxxxxxx")
         remaining_time_range = remaining_time_ranges(student_id, job_id2)
         if job_time[2] == "Fixed":
 
@@ -1831,6 +1831,18 @@ def generate_schedule(student_id, job_id,notify_id):
             H = job_time[3] 
             job_period = timedelta(hours=H)
             occupied_ranges = {}
+            #print('remaining_time_range',remaining_time_range.status_code)
+
+            if remaining_time_range is not None and not isinstance(remaining_time_range, dict):
+                if remaining_time_range.status_code == 302:
+                    confirm2 = 2
+                    cursor.execute("UPDATE notifications SET confirm = '{}' WHERE notification_id = '{}' AND student_id = '{}'".format(confirm2,notify_id,student_id))
+                    print("There is a conflict: Job period is greater than total student schedule hours.")
+                    connection.commit()
+                    flash("There is a conflict: Job period is greater than total student schedule hours.", 'error')
+                    return redirect(url_for("student"))
+            
+            print("\n\n\n\n\nnjjnjnjnjnjnjnjnjn\n\n\n\n\n\n")
             total_hours = sum(
                 [
                     (datetime.strptime(end_time, "%I:%M %p") - datetime.strptime(start_time, "%I:%M %p"))
@@ -2113,23 +2125,26 @@ def generate_schedule(student_id, job_id,notify_id):
     connection.commit()
     connection.close()
 
+
 def remaining_time_ranges(student_id, job_id):
 
     connection = sqlite3.connect("users_database.db")
     cursor = connection.cursor()
 
     cursor.execute("SELECT day, start_time, end_time FROM schedule WHERE student_id = ?", (student_id,))
-    schedule_list = cursor.fetchone()
+    schedule_list = cursor.fetchall()
     
     cursor.execute("SELECT id, sunday_periods, sunday_start_interval, sunday_end_interval, monday_periods, monday_start_interval, monday_end_interval, tuesdayـperiods, tuesday_start_interval, tuesday_end_interval, wednesday_periods, wednesday_start_interval, wednesday_end_interval, thursday_periods, thursday_start_interval, thursday_end_interval FROM seekers_form WHERE user_id = ?", (student_id,))
     students_time = cursor.fetchall()
-    #print("problem")
-    #print(students_time[0])
+    print("\n\n\nproblem")
+    print(students_time[0])
     # Retrieve the student_schedule and job_schedule data from your backend
     students_schedule = makedicforStudents2(students_time)  # Replace with your actual logic to fetch student schedule
+    if (type(schedule_list) == list):
+        schedule_list = [item for sublist in schedule_list for item in sublist]
     schedule_time = makedicforSchedule(schedule_list)
-    #print('schedule_list',schedule_list)
-    #print(schedule_time)
+    print('schedule_list',schedule_list)
+    print(schedule_time,'\n\n\n')
 
     remaining_time_ranges = {}
 
@@ -2189,7 +2204,7 @@ def remaining_time_ranges(student_id, job_id):
         return remaining_time_ranges
     else:
         print("No remaining time ranges.")
-        flash("there is a conflict and No remaining time ranges", 'error')
+        #flash("there is a conflict and No remaining time ranges", 'error')
         return redirect(url_for("student"))
 
 def makedicforSchedule(schedule_list):
