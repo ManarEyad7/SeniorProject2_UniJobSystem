@@ -487,7 +487,11 @@ position: relative;
         position: relative;
         /* Set the position of the body element to relative */
     }
+    body {
+            background-color: #F5F7FF;
 
+            /* This ensures the page has at least the height of the viewport */
+        }
     /*
 .content-wrapper::before {
   content: "";
@@ -1495,18 +1499,20 @@ position: relative;
                                 </div>
                             </div>
                             <div class="main ">
+                                <h2>fff</h2>
                                 <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
                                     <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
                                     <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                                 </svg>
-
+    
                                 <div class="text congrats">
                                     <h2>Congratulations!</h2>
                                     <h4 style="margin: 1rem; color: #676767;">Your job is posted</h4>
-
-
+    
+                            
                                 </div>
                             </div>
+    
 
 
 
@@ -1979,6 +1985,7 @@ position: relative;
         updateform();
         progress_forward();
         contentchange();
+
     });
 
 
